@@ -1,10 +1,15 @@
+/* eslint-disable react/no-unknown-property */
 import Container from "react-bootstrap/Container"
 import "./auth.css"
+import Treemas from "../../images/logo-treemas.png"
 
 const LoginPage = () => {
     return <Container fluid>
-        <div className="login__container">
-            <div className="left__container">
+        <div className="login__container row">
+            <div className="left__container col-sm-12 col-md-12 col-lg-6">
+                <div className="logo">
+                    <img src={Treemas} alt="logo" />
+                </div>
                 <div className="login__form">
                     <div className="login__form__header">
                         <h1>Login</h1>
@@ -19,9 +24,10 @@ const LoginPage = () => {
                     </form>
                 </div>
             </div>
-            <div className="right__container">
+            <div className="right__container col-sm-12 col-md-12 col-lg-6">
                 <div class="login__image__description">
-                    <h1>Welcome to <span>Treemas</span></h1>
+                    <h1>Welcome to</h1> 
+                    <p class="treemas">Treemas</p>
                     <p>Login to access your account</p>
                 </div>
                 <svg class="svg1" viewBox="0 0 763 616" fill="none" xmlns="http://www.w3.org/2000/svg">

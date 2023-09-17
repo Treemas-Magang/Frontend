@@ -31,6 +31,14 @@ p {
     flex-direction: column;
     position: relative;
     z-index: 2;
+    height: 100%;
+}
+
+.logo {
+    justify-self: flex-start;
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
 .login__form {
@@ -39,6 +47,7 @@ p {
     gap: 2rem;
     max-width: 100%;
     padding: 2rem;
+    flex: 2;
 }
 
 .login__form__header {
@@ -128,6 +137,9 @@ input {
     background-color: var(--purple);
     position: relative;
     display: flex;
+    height: 100%;
+    align-items: flex-start;
+    flex-direction: column; /* Mengatur child menjadi kolom */
 }
 
 
@@ -136,10 +148,9 @@ input {
     flex-direction: column;
     align-items: flex-start;
     z-index: 999;
-    align-self: center;
-    position: absolute;
-    top: 50px;
-    margin: 0 4rem;
+    flex: 1; /* Mengambil seluruh tinggi parent */
+    width: 100%; 
+    padding: 4rem 4rem;
 }
 
 .login__image__description h1 {
@@ -147,15 +158,16 @@ input {
     font-size: 2.8rem;
     font-style: normal;
     font-weight: 700;
-    line-height: 70px; /* 87.5% */ 
+    line-height: 1.2; /* 87.5% */ 
+    width: 100%;
 }
 
-.login__image__description span {
+.treemas {
     color: #EEE;
     font-size: 2.8rem;
     font-style: normal;
     font-weight: 400;
-    line-height: 70px;
+    line-height: 1.2;
 }
 
 .svg1 {
@@ -197,3 +209,23 @@ input {
     flex-shrink: 0;
     transform: rotate(100.894deg);
 }
+
+/* Media query untuk ukuran layar max hp (smartphone) */
+@media (max-width: 767px) {
+    /* Gaya CSS khusus untuk ukuran layar max hp */
+    /* Misalnya, mengubah ukuran font atau mengubah tata letak untuk ukuran layar kecil */
+    .login__container {
+        width: 80vw;
+        height: 80vh;
+    }
+  }
+  
+  /* Media query untuk ukuran layar max tablet */
+  @media (max-width: 1300px) {
+    /* Gaya CSS khusus untuk ukuran layar max tablet */
+    /* Misalnya, mengubah tata letak atau ukuran font untuk ukuran layar tablet */
+    .login__container {
+        width: 80vw;
+        height: 80vh;
+    }
+  }
