@@ -51,7 +51,7 @@ const App = () => {
   };
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Hello</Text>
+      <Text>ayam</Text>
       {idDevice && <Text>Device ID: {idDevice}</Text>}
       {isAppVersion && <Text>App Version: {isAppVersion}</Text>}
       <Dropdown />
