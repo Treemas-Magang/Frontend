@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 
-const Kalender = () => {
+const Kalender = props => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   const minDate = new Date(); // Hari ini
@@ -11,8 +11,9 @@ const Kalender = () => {
   maxDate.setFullYear(maxDate.getFullYear(), 11, 31);
   const startDate = selectedStartDate ? selectedStartDate.toString() : '';
   const endDate = selectedEndDate ? selectedEndDate.toString() : '';
-console.log(startDate);
-console.log(endDate)
+  const hari = ['sen', 'sel', 'rab', 'kam', 'jum', 'sab', 'min'];
+  console.log(startDate);
+  console.log(endDate);
   const onDateChange = (date, type) => {
     if (type === 'END_DATE') {
       setSelectedEndDate(date);
@@ -29,10 +30,17 @@ console.log(endDate)
         allowRangeSelection={true}
         minDate={minDate}
         maxDate={maxDate}
-        todayBackgroundColor="#000000"
-        selectedDayColor="#730e6"
-        selectedDayTextColor="#FFFFFF"
+        todayBackgroundColor="green"
+        selectedDayColor="blue"
+        selectedDayTextColor="#ffffff"
         onDateChange={onDateChange}
+        nextTitle="selanjutnya"
+        previousTitle="sebelumnya"
+        maxRangeDuration={12}
+        weekdays={hari}
+        showDayStragglers={true}
+        scrollable={true}
+        width={300}
       />
 
       <View>
@@ -45,8 +53,7 @@ console.log(endDate)
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'pink',
     marginTop: 100,
     // position: 'absolute'
   },
