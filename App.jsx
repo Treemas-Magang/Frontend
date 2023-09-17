@@ -2,8 +2,8 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import Dropdown from './src/components/atom/Dropdown';
-import Kalender from './src/components/atom/Kalender';
+import Dropdown from './src/components/atoms/Dropdown';
+import Kalender from './src/components/atoms/Kalender';
 
 // Fungsi custom untuk mendapatkan ID perangkat
 const getIdDevice = async () => {
