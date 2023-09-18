@@ -1,0 +1,30 @@
+.dashboard__container {
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+.content__container {
+    width: 85%;
+    background-color: var(--purple);
+}
+
+/* Media query untuk ukuran layar max hp (smartphone) */
+@media (max-width: 767px) {
+    /* Gaya CSS khusus untuk ukuran layar max hp */
+    /* Misalnya, mengubah ukuran font atau mengubah tata letak untuk ukuran layar kecil */
+    .sidebar__container {
+        display: none;
+    }
+    .content__container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1300px) {
+    .login__container {
+        width: 80vw;
+        height: 80vh;
+    }
+}

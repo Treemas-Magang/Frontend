@@ -221,10 +221,7 @@ input {
     }
   }
   
-  /* Media query untuk ukuran layar max tablet */
   @media (max-width: 1300px) {
-    /* Gaya CSS khusus untuk ukuran layar max tablet */
-    /* Misalnya, mengubah tata letak atau ukuran font untuk ukuran layar tablet */
     .login__container {
         width: 80vw;
         height: 80vh;

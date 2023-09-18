@@ -1,11 +1,12 @@
 import "./dashboard.css"
-
-// function Dashboard () {
-//     return <h1>Ini Dashboard</h1>
-// }
+import Sidebar from "../../components/Sidebar/Sidebar"
+import Content from "../../components/Content/Content"
 
 const Dashboard = () => {
-    return <h1 class="text">Ini Dashboard</h1>
+    return <div className="dashboard__container">
+    <Sidebar />
+    <Content />
+    </div> 
 }
 
 export default Dashboard
