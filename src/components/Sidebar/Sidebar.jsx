@@ -2,6 +2,7 @@ import "./sidebar.css"
 import Logo from "../../images/logo-treemas.png"
 import { Link } from "react-router-dom"
 import { useState } from "react"
+import DropdownMenu from "../DropdownMenu/DropdownMenu"
 
 const Sidebar = () => {
    
@@ -34,6 +35,14 @@ const Sidebar = () => {
             <ul>
                 <li>Detail Data</li>
                 <li onClick={() => handleClick("absen")}>Absen<i className={itemsState.absen? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
+                {itemsState.absen && (
+                    <>
+                        <DropdownMenu text="Hai"/>
+                        <DropdownMenu text="Hai"/>
+                        <DropdownMenu text="Hai"/>
+                    </>
+                )}
+                
                 <li onClick={() => handleClick("management")}>Management<i className={itemsState.management? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
                 <li>Manual Service</li>
                 <li onClick={() => handleClick("masterData")}>Master Data<i className={itemsState.masterData? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>

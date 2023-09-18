@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom"
+
 const DropdownMenu = (props) => {
     return <li className="dropdown__item">
-        <a href="">{props.text}</a>
+        <Link to="">{props.text}</Link>
     </li>
 }
 
