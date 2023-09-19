@@ -1,7 +1,10 @@
 import "./cutiform.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataCutiForm = () => {
-    return <h1>Form Cuti</h1>
+    return <div className="cutiform_container"> 
+    <Sidebar/>
+    </div>
 }
 
 export default MasterDataCutiForm

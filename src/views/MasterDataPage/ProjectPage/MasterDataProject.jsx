@@ -1,7 +1,10 @@
 import "./project.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataProject = () => {
-    return <h1>Project</h1>
+    return <div className="project__container">
+        <Sidebar/>
+    </div>
 }
 
 export default MasterDataProject

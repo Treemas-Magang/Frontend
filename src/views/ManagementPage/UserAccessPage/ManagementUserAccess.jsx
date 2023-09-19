@@ -1,7 +1,10 @@
 import "./useraccess.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const ManagementUserAccess = () => {
-    return <h1> ini UserAccess</h1>
+    return <div className="useraccess__container">
+        <Sidebar/>
+    </div>
 }
 
 export default ManagementUserAccess

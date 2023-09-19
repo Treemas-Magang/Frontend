@@ -1,7 +1,10 @@
 import  "./karyawanform.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataKaryawanForm = () => {
-    return <h1> Form Karyawan</h1>
+    return <div className="karyawanform_container">
+        <Sidebar/>
+    </div>
 }
 
 export default MasterDataKaryawanForm

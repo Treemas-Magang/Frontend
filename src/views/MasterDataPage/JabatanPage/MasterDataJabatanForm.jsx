@@ -1,7 +1,10 @@
 import "./jabatanform.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataJabatanForm = () => {
-    return <h1>Form Jabatan</h1>
+    return <div className="jabatanform">
+        <Sidebar/>
+    </div>
 }
 
 export default MasterDataJabatanForm

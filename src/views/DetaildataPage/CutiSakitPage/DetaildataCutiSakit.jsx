@@ -1,7 +1,10 @@
 import "./cutisakit.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const DetaildataCutiSakit = () => {
-    return <h1>Ini Cuti-Sakit</h1>
+    return <div className="cutisakit__container">
+      <Sidebar/>
+    </div>
 
 }
 

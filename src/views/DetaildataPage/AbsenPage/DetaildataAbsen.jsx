@@ -1,7 +1,11 @@
 import "./absen.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
+
 
 const DetaildataAbsen = () => {
-    return <h1>Ini Absen</h1>
+    return <div className="absen__container">
+        <Sidebar />
+    </div>
 }
 
 export default DetaildataAbsen

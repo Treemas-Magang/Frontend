@@ -1,7 +1,10 @@
 import "./summary.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const ReportDataSummary = () => {
-    return <h1>Summary</h1>
+    return <div className="summary__container">
+        <Sidebar/>
+    </div>
 }
 
 export default ReportDataSummary

@@ -1,7 +1,10 @@
 import "./detail.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const ReportDataDetail = () => {
-    return <h1>Detail</h1>
+    return <div className="detail__container">
+        <Sidebar/>
+    </div>
 }
 
 export default ReportDataDetail

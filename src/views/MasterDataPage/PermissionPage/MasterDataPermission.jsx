@@ -1,7 +1,10 @@
 import "./permission.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataPermission = () =>{
-    return <h1>Permission</h1>
+    return <div className="permission__container">
+        <Sidebar/>
+    </div>
 }
 
 export default MasterDataPermission

@@ -1,7 +1,10 @@
 import "./projectform.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataProjectForm = () => {
-    return <h1>Form Project</h1>
+    return <div className="projectform__container">
+        <Sidebar/>
+    </div>
 }
 
 export default MasterDataProjectForm

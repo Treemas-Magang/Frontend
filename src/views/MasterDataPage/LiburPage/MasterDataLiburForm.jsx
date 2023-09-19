@@ -1,7 +1,10 @@
 import "./liburform.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataLiburForm = () => {
-    return <h1>Form Libur</h1>
+    return <div className="liburform__container">
+        <Sidebar/>
+    </div>
 }
 
 export default MasterDataLiburForm

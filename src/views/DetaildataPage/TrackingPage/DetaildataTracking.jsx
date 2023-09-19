@@ -1,7 +1,10 @@
 import "./tracking.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const DetaildataTracking = () => {
-    return <h1> Ini Tracking </h1>
+    return <div className="tracking__container">
+        <Sidebar/>
+    </div>
 }
 
 export default DetaildataTracking

@@ -1,7 +1,10 @@
 import "./jabatan.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataJabatan = () => {
-    return <h1>Jabatan</h1>
+    return <div className="jabatan_container">
+        <Sidebar/>
+        </div>
 }
 
 export default MasterDataJabatan

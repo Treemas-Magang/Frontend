@@ -1,7 +1,10 @@
 import "./general.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const ParameterGeneral = () => {
-    return <h1>General</h1>
+    return <div className="general__container">
+        <Sidebar/>
+    </div>
 }
 
 export default ParameterGeneral

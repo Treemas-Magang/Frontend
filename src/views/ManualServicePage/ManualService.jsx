@@ -1,7 +1,9 @@
 import "./manualservice.css"
+import Sidebar from "../../components/Sidebar/Sidebar"
 
 const ManualService = () => {
-    return <h1> Manual Service </h1>
+    return <div className="manualservice__container">
+        <Sidebar/>
+    </div>
 }
-
 export default ManualService 

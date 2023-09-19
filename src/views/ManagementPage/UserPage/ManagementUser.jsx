@@ -1,7 +1,10 @@
 import "./user.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const ManagementUser = () => {
-    return <h1> ini User </h1>
+    return <div className="userpage___container">
+        <Sidebar/>
+    </div>
 }
 
 export default ManagementUser
