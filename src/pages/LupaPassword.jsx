@@ -11,18 +11,17 @@ import CustomTextInput from '../components/atoms/CustomTextInput';
 import {getDataFromSession} from '../utils/getDataSession';
 import ButtonAction from '../components/atoms/ButtonAction';
 import {Color} from '../utils/color';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faFingerprint} from '@fortawesome/free-solid-svg-icons';
 const LoginScreen = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [form, setForm] = useState({
-    nik: '',
-    password: '',
+    email: '',
+    konfirmasiEmail: '',
   });
 
   getDataFromSession('appVersion')
     .then(apkVersion => {
       if (apkVersion !== null) {
+        console.log('Data dari sesi:', apkVersion);
         setAppVersion(apkVersion);
       } else {
         console.log('Data tidak ditemukan di sesi.');
@@ -42,8 +41,8 @@ const LoginScreen = ({navigation}) => {
   const sendData = () => {
     console.log('kirim data : ', form);
   };
-  const moveToLupaPaaword = () => {
-    navigation.navigate('lupaPassword');
+  const moveToLogin = () => {
+    navigation.navigate('login');
   };
   return (
     <KeyboardAvoidingView
@@ -56,36 +55,28 @@ const LoginScreen = ({navigation}) => {
         />
         <View style={{position: 'relative', gap: 15}}>
           <CustomTextInput
-            label="NIK"
-            value={form.nik}
-            onTextChange={value => onChangeText(value, 'nik')}
-            secureTextEntry={false}
-            keyboardType={'numeric'}
-            maxLength={10}
+            label="Email"
+            value={form.email}
+            onTextChange={value => onChangeText(value, 'email')}
           />
           <CustomTextInput
-            label="Password"
-            type="password"
-            value={form.password}
-            onTextChange={value => onChangeText(value, 'password')}
-            maxLength={10}
+            label="Konfirmasi Email"
+            secureTextEntry={true}
+            value={form.konfirmasiEmail}
+            onTextChange={value => onChangeText(value, 'konfirmasiEmail')}
           />
-          <View style={{flexDirection: 'row', gap: 20}}>
-            <ButtonAction onPress={() => sendData()} title="Login" />
-            <TouchableOpacity>
-              {/* <Image source={require('../assets/vector/fingerprint.png')} /> */}
-              <FontAwesomeIcon
-                icon={faFingerprint}
-                color={Color.primary}
-                size={50}
-              />
-            </TouchableOpacity>
+          <View style={{alignItems: 'center'}}>
+            <ButtonAction onPress={() => sendData()} title="kirim" />
           </View>
-          <TouchableOpacity style={{alignItems: 'center', marginTop: 21}}>
+          <TouchableOpacity
+            style={{
+              alignItems: 'center',
+              marginTop: 21,
+            }}>
             <Text
               style={{fontWeight: 'bold', fontSize: 14}}
-              onPress={() => moveToLupaPaaword()}>
-              Lupa Password?
+              onPress={() => moveToLogin()}>
+              Kembali
             </Text>
           </TouchableOpacity>
         </View>
@@ -109,9 +100,9 @@ const LoginScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
     flex: 1,
     alignItems: 'center',
-    position: 'relative',
     backgroundColor: Color.background,
   },
   textInfo: {

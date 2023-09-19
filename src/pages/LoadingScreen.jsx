@@ -3,6 +3,8 @@ import {ActivityIndicator, Image, StyleSheet, View} from 'react-native';
 import getIdDevice from '../utils/getIdDevice';
 import getAppVersion from '../utils/getAppVersion';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Color} from '../utils/color';
+import {err} from 'react-native-svg/lib/typescript/xml';
 
 const LoadingScreen = ({navigation}) => {
   const [isIdDevice, setIsIdDevice] = useState('');
@@ -13,6 +15,14 @@ const LoadingScreen = ({navigation}) => {
     getIdDevice().then(device => {
       if (device !== null) {
         setIsIdDevice(device);
+
+        AsyncStorage.setItem('IdDevice', device)
+          .then(() => {
+            console.log('data id device berhasil disimpan di session', device);
+          })
+          .catch(error => {
+            console.log('gagal menyimpan id device di session', error);
+          });
       }
     });
 
@@ -23,7 +33,10 @@ const LoadingScreen = ({navigation}) => {
         // Simpan isAppVersion ke AsyncStorage di sini
         AsyncStorage.setItem('appVersion', appVersion)
           .then(() => {
-            console.log('Data isAppVersion berhasil disimpan di sesi.');
+            console.log(
+              'Data isAppVersion berhasil disimpan di session',
+              appVersion,
+            );
           })
           .catch(error => {
             console.error('Gagal menyimpan data isAppVersion di sesi:', error);
@@ -46,7 +59,6 @@ const LoadingScreen = ({navigation}) => {
             });
           }, 1000);
         } else {
-          // Jika data tidak tersedia di AsyncStorage, tetap di halaman loading dan coba lagi
           setTimeout(() => {
             relogOtomatis();
           }, 1000);
@@ -58,13 +70,16 @@ const LoadingScreen = ({navigation}) => {
   }, [navigation]);
 
   const relogOtomatis = () => {
-    // Implementasi "relog otomatis" di sini
-    // Misalnya, Anda bisa mengarahkan pengguna ke halaman login secara otomatis
-    navigation.navigate('login'); // Gantilah 'login' dengan nama halaman login Anda
+    navigation.navigate('login');
   };
 
   return (
-    <View style={{flex: 1, alignItems: 'center'}}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: Color.background,
+      }}>
       <View style={[styles.container]}>
         <Image source={require('../assets/icons/logo.png')} />
       </View>
