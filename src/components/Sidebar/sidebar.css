@@ -1,48 +1,145 @@
 .sidebar__container {
-    width: 15%;
+    min-width: 220px;
+    max-width: 15%;
     height: 100vh;
     background-color: var(--almost-black);
     color: var(--unselected-icon);
     display: flex;
     flex-direction: column;
-    padding: 0 1.25rem;
+    overflow-y: scroll; /* Mengaktifkan scroll, tetapi sembunyikan scrollbar */
 }
 
+.sidebar__container::-webkit-scrollbar {
+    width: 0;
+}
+
+.sidebar__container::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.sidebar__container::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}
+
+
 .logo {
-    flex: 1;
+    height: 20vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0 1.25rem;
+
 }
 
 .logo img {
-    min-width: 100px;
+    width: 100%;
+    max-height: 100%; /* Agar logo tidak melebihi tinggi parent */
+
 }
 
 nav {
-    flex:3;
+    padding: 2rem 0;
+    height: 80vh;
 }
 
 nav ul {
-    padding: 0;
+    padding: 0 0 2rem 0;
     list-style-type: none;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    margin-top: 0;
 }
 
 .line {
     width: 100%;
     height: 1px;
     background-color: var(--unselected-icon);
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 ul li {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 0 1.25rem;
+    gap: 20px;
+    height: 56px;
+    position: relative;
+}
+
+ul li p {
+    color: var(--selected-text);
+    margin: auto 0;
+    width: 125px;
 }
 
 i {
     margin: auto 0;
     font-size: 0.875rem;
+}
+
+.dropdown__item {
+    padding: 0;
+}
+
+.dropdown__item a {
+    color: var(--selected-text);
+    text-decoration: none;
+    width: 100%;
+    padding: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.dropdown__item a:hover {
+    color: var(--selected-text);
+    cursor: grab;
+}
+
+.active{
+    position: absolute;
+    width: 3px;
+    left: -2px;
+    height: 60%;
+    background-color: #FFFFFF;
+}
+
+ul li .active {
+    display: block;
+}
+
+
+ul li .non_active {
+    display: none;
+}
+
+ul li:hover .non_active {
+    position: absolute;
+    width: 3px;
+    left: -2px;
+    height: 60%;
+    background-color: #FFFFFF;
+    display: block;
+}
+
+ul .color {
+    background-color: var(--selected-box);
+}
+
+ul .color:hover {
+    background-color: var(--selected-box);
+}
+
+ul .non_color:hover {
+    background-color: var(--selected-box);
+}
+
+
+/* Media query untuk ukuran layar max hp (smartphone) */
+@media (max-width: 800px) {
+    /* Gaya CSS khusus untuk ukuran layar max hp */
+    /* Misalnya, mengubah ukuran font atau mengubah tata letak untuk ukuran layar kecil */
+    .sidebar__container {
+        display: none;
+    }
 }

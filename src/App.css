@@ -9,7 +9,10 @@
     --purple: #925FE2;
     --button-purple:#9C6FE4; 
     --selected-icon: #DDE2FF;
+    --selected-text: #DDE2FF;
+    --selected-box: #9fa2b447;
     --unselected-icon: #9FA2B4;
+    --unselected-text: #a4a6b383;
   }
   
   a {
