@@ -1,7 +1,10 @@
 import "./karyawan.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataKaryawan = () => {
-    return <h1>Karyawan</h1>
+    return <div className="karyawan_container">
+        <Sidebar/>
+    </div>
 }
 
 export default MasterDataKaryawan

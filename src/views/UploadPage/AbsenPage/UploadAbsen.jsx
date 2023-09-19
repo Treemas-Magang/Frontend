@@ -1,7 +1,10 @@
 import "./absen.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const UploadAbsen = () => {
-    return <h1>Absen</h1>
+    return <div className="absen__container">
+        <Sidebar/>
+    </div>
 }
 
 export default UploadAbsen

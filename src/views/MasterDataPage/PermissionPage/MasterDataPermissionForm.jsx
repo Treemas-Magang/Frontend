@@ -1,7 +1,10 @@
 import "./permissionform.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataPermissionForm = () => {
-    return <h1>Form Permission</h1>
+    return <div className="permissionform__container">
+        <Sidebar/>
+    </div>
 }
 
 export default MasterDataPermissionForm

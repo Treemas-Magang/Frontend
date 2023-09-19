@@ -1,7 +1,10 @@
 import "./reimburseform.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const ParameterReimburseForm = () => {
-    return <h1>Form Reimburse</h1>
+    return <div className="reimburseform__container">
+        <Sidebar/>
+    </div>
 }
 
 export default ParameterReimburseForm

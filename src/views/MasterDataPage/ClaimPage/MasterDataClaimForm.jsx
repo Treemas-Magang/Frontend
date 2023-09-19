@@ -1,7 +1,10 @@
 import "./claimform.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataClaimForm = () => {
-    return<h1>Form Claim</h1>     
+    return <div className="claimform_container">
+        <Sidebar/>
+    </div>     
 }
 
 export default MasterDataClaimForm

@@ -1,7 +1,10 @@
 import "./announcement.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataAnnouncement = () => {
-    return <h1>Announcement</h1>
+    return <div className="announcement__container"> 
+    <Sidebar/>
+    </div>
 }
 
 export default MasterDataAnnouncement

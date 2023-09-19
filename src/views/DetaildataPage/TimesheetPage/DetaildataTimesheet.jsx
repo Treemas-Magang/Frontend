@@ -1,7 +1,10 @@
 import "./timesheet.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const DetaildataTimesheet = () => {
-    return <h1> Ini Timesheet </h1>
+    return <div className="timesheet__container">
+        <Sidebar/>
+    </div>
 }
 
 export default DetaildataTimesheet

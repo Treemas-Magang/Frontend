@@ -1,7 +1,10 @@
 import "./libur.css"
+import Sidebar from "../../../components/Sidebar/Sidebar"
 
 const MasterDataLibur = () => {
-    return <h1>Libur</h1>
+    return <div className="libur_container">
+        <Sidebar/>
+    </div>
 }
 
 export default MasterDataLibur
