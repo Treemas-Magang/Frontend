@@ -1,10 +1,10 @@
-import { useState } from 'react'
+/* eslint-disable no-unused-vars */
 import {
   BrowserRouter,
-  Navigate,
   Routes,
   Route
 } from "react-router-dom"
+
 
 // Views
 import LoginPage from './views/LoginPage/LoginPage'

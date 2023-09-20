@@ -5,7 +5,7 @@ import Content from "../../../components/Content/Content"
 const ReportDataClaim = () => {
     return <div className="claim__container">
         <Sidebar/>
-        <Content navbarText="ReportData / Claim" informationText="Claim"/>
+        <Content navbarText="Report Data / Claim" informationText="Claim"/>
     </div>
 }
 

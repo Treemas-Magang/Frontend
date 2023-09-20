@@ -5,7 +5,7 @@ import Content from "../../../components/Content/Content"
 const MasterDataKaryawanForm = () => {
     return <div className="karyawanform__container">
         <Sidebar/>
-        <Content navbarText="MasterData / KaryawanForm" informationText="KaryawanForm"/>
+        <Content navbarText="Master Data / KaryawanForm" informationText="KaryawanForm"/>
     </div>
 }
 

@@ -5,7 +5,7 @@ import Content from "../../../components/Content/Content"
 const UploadAbsen = () => {
     return <div className="absen__container">
         <Sidebar/>
-        <Content navbarText="UploadPage / Absen" informationText="Absen"/>
+        <Content navbarText="Upload / Absen" informationText="Absen"/>
     </div>
 }
 

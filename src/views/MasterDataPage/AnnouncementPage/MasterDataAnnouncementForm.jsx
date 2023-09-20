@@ -1,11 +1,11 @@
 import "./announcementform.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
-import { Context } from "react";
+import Content from "../../../components/Content/Content";
 
 const MasterDataAnnouncementForm = () => {
   return <div className="announcementform__container">
     <Sidebar/>
-    <Content navbarText="MasterData / AnnouncementForm" informationText="AnnouncementForm"/>
+    <Content navbarText="Master Data / AnnouncementForm" informationText="AnnouncementForm"/>
     </div>
 };
 

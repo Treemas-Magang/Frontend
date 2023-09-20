@@ -5,7 +5,7 @@ import Content from "../../../components/Content/Content"
 const MasterDataCutiForm = () => {
     return <div className="cutiform__container"> 
     <Sidebar/>
-    <Content navbarText="MasterData / Cuti" informationText="Cuti"/>
+    <Content navbarText="Master Data / Cuti" informationText="Cuti"/>
     </div>
 }
 

@@ -5,7 +5,7 @@ import Content from "../../../components/Content/Content"
 const MasterDataPermission = () =>{
     return <div className="permission__container">
         <Sidebar/>
-        <Content navbarText="MasterData / Permission" informationText="Permission"/>
+        <Content navbarText="Master Data / Permission" informationText="Permission"/>
     </div>
 }
 
