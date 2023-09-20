@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     fontSize: 9,
     fontWeight: 'bold',
     textTransform: 'uppercase',
+    fontFamily: 'Poppins',
   },
   textInfo: {
     fontSize: 16,
