@@ -74,7 +74,11 @@ const LoginScreen = ({navigation}) => {
               marginTop: 21,
             }}>
             <Text
-              style={{fontWeight: 'bold', fontSize: 14}}
+              style={{
+                fontSize: 14,
+                fontFamily: 'Poppins-SemiBold',
+                color: Color.black,
+              }}
               onPress={() => moveToLogin()}>
               Kembali
             </Text>

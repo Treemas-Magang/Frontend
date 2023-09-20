@@ -5,43 +5,28 @@ import {Color} from '../utils/color';
 import StatistikTahunIni from '../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../components/atoms/ButtonLogout';
 import IconMenu from '../components/atoms/IconMenu';
+import MenuUtama from '../components/organisms/MenuUtama';
+import DataPribadi from '../components/molecules/DataPribadi';
 
 const Dashboard = () => {
   return (
     <View style={{alignItems: 'center', backgroundColor: Color.primary}}>
       <ButtonLogout />
+      <View
+        style={{
+          position: 'absolute',
+          top: 80,
+          width: 310,
+        }}>
+        <DataPribadi />
+      </View>
       <View style={styles.containerInfo}>
-        <Text
-          style={{
-            position: 'absolute',
-            top: 10,
-            fontSize: 16,
-            fontFamily: 'Poppins-Bold',
-            color: Color.text,
-          }}>
-          Statistik Tahun ini
-        </Text>
+        <Text style={styles.judulSection}>Statistik Tahun ini</Text>
         <StatistikTahunIni />
       </View>
       <View style={styles.containerMenu}>
-        <View style={styles.wrapperIconMenu}>
-          <IconMenu
-            image={require('../assets/vector/hide.png')}
-            title="satuan"
-          />
-          <IconMenu
-            image={require('../assets/vector/hide.png')}
-            title="satuan"
-          />
-          <IconMenu
-            image={require('../assets/vector/hide.png')}
-            title="satuan"
-          />
-          <IconMenu
-            image={require('../assets/vector/hide.png')}
-            title="satuan"
-          />
-        </View>
+        <Text style={styles.judulSection}>menu utama</Text>
+        <MenuUtama />
       </View>
     </View>
   );
@@ -70,12 +55,13 @@ const styles = StyleSheet.create({
     height: '100%',
     position: 'relative',
   },
-  wrapperIconMenu: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    width: 360,
-    gap: 78,
-    justifyContent: 'center',
-    marginVertical: 40,
+
+  judulSection: {
+    position: 'absolute',
+    top: 10,
+    fontSize: 16,
+    fontFamily: 'Poppins-Bold',
+    color: Color.text,
+    textTransform: 'uppercase',
   },
 });

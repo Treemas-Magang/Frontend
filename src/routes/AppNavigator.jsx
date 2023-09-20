@@ -23,7 +23,7 @@ function App() {
       screenOptions={{
         animation: 'slide_from_right', // Atur efek slide dari kanan
       }}
-      initialRouteName="dashboard">
+      initialRouteName="login">
       {screens.map((screen, index) => (
         <Stack.Screen
           key={index}

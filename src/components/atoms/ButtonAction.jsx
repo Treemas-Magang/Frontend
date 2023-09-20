@@ -25,5 +25,7 @@ const styles = StyleSheet.create({
     color: '#F2FCFC',
     fontSize: 22,
     textTransform: 'uppercase',
+    width: '100%',
+    textAlign: 'center',
   },
 });

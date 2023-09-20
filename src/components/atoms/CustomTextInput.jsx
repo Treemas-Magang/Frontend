@@ -15,7 +15,7 @@ import {faEye, faEyeSlash} from '@fortawesome/free-regular-svg-icons';
 const CustomTextInput = ({label, onTextChange, ...rest}) => {
   const [isInputActive, setInputActive] = useState(false);
   const [textInputValue, setTextInputValue] = useState('');
-  const [hidePassword, setHidePassword] = useState(false);
+  const [hidePassword, setHidePassword] = useState(true);
 
   const handleTextInputFocus = () => {
     setInputActive(true);
@@ -79,12 +79,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderBottomColor: Color.primary,
     borderBottomWidth: 1,
+    color: Color.text,
+    paddingBottom: -10,
   },
   label: {
     position: 'absolute',
     top: 11,
     left: 9,
-    fontSize: 22,
+    fontSize: 19,
+    fontFamily: 'Poppins-Thin',
+    color: Color.text,
+    zIndex: -1,
   },
   toggle: {
     position: 'absolute',

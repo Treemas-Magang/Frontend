@@ -1,12 +1,21 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
+import {Color} from '../../utils/color';
 
 const IconMenu = ({image, title}) => {
   return (
-    <View style={styles.boxImage}>
+    <TouchableOpacity style={styles.boxImage}>
       <Image source={image} style={styles.image} />
-      <Text style={{fontFamily: 'Poppins-SemiBold'}}>{title}</Text>
-    </View>
+      <Text
+        style={{
+          fontFamily: 'Poppins-SemiBold',
+          color: Color.text,
+          fontSize: 12,
+          textTransform: 'uppercase',
+        }}>
+        {title}
+      </Text>
+    </TouchableOpacity>
   );
 };
 
@@ -16,6 +25,7 @@ const styles = StyleSheet.create({
   image: {
     width: 70,
     height: 70,
+    marginBottom: 5,
   },
   boxImage: {
     alignItems: 'center',

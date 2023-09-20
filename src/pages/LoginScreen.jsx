@@ -71,7 +71,7 @@ const LoginScreen = ({navigation}) => {
             maxLength={10}
           />
           <View style={{flexDirection: 'row', gap: 20}}>
-            <ButtonAction onPress={() => sendData()} title="Login" />
+            <ButtonAction onPress={() => sendData()} title="login" />
             <TouchableOpacity>
               {/* <Image source={require('../assets/vector/fingerprint.png')} /> */}
               <FontAwesomeIcon
@@ -83,7 +83,11 @@ const LoginScreen = ({navigation}) => {
           </View>
           <TouchableOpacity style={{alignItems: 'center', marginTop: 21}}>
             <Text
-              style={{fontWeight: 'bold', fontSize: 14}}
+              style={{
+                fontSize: 14,
+                fontFamily: 'Poppins-SemiBold',
+                color: Color.black,
+              }}
               onPress={() => moveToLupaPaaword()}>
               Lupa Password?
             </Text>

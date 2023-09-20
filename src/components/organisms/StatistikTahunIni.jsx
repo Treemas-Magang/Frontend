@@ -9,7 +9,7 @@ const StatistikTahunIni = () => {
       <CardInfo color={Color.cardMasuk} title="masuk" cardInfo="4" />
       <CardInfo
         color={Color.cardTelatMasuk}
-        title="tidak masuk"
+        title="telat masuk"
         cardInfo="11"
       />
       <CardInfo

@@ -44,6 +44,7 @@ const ButtonLogout = () => {
                 marginHorizontal: 20,
                 fontWeight: 'bold',
                 color: Color.background,
+                width: '100%',
               }}>
               LOGOUT
             </Text>
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     height: 40,
-    backgroundColor: 'red',
+    backgroundColor: Color.red,
     width: 43,
     justifyContent: 'center',
     alignItems: 'center',
