@@ -7,12 +7,16 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginScreen from '../pages/LoginScreen';
 import LupaPassword from '../pages/LupaPassword';
 import Dashboard from '../pages/Dashboard';
+import ListPengumuman from '../components/organisms/ListPengumuman';
+import DetailPengumuman from '../components/organisms/DetailPengumuman';
 
 const screens = [
   {name: 'loading', component: LoadingScreen},
   {name: 'login', component: LoginScreen},
   {name: 'lupaPassword', component: LupaPassword},
   {name: 'dashboard', component: Dashboard},
+  {name: 'listPengumuman', component: ListPengumuman},
+  {name: 'detailPengumuman', component: DetailPengumuman},
 ];
 
 const Stack = createNativeStackNavigator();
@@ -22,8 +26,7 @@ function App() {
     <Stack.Navigator
       screenOptions={{
         animation: 'slide_from_right', // Atur efek slide dari kanan
-      }}
-      initialRouteName="dashboard">
+      }}>
       {screens.map((screen, index) => (
         <Stack.Screen
           key={index}
