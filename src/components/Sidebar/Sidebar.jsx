@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import "./sidebar.css"
 import Logo from "../../images/logo-treemas.png"
 import { Link } from "react-router-dom"
 import { useState } from "react"
-import DropdownMenu from "../DropdownMenu/DropdownMenu"
+import DropdownMenu from "./DropdownMenu/DropdownMenu"
 
 const Sidebar = () => {
    

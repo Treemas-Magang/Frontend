@@ -4,8 +4,8 @@ import Content from "../../components/Content/Content"
 
 const Dashboard = () => {
     return <div className="dashboard__container">
-    <Sidebar />
-    <Content />
+        <Sidebar />
+        <Content navbarText="Master Data / Announcement" informationText="Announcement"/>
     </div> 
 }
 

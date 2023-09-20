@@ -3,8 +3,6 @@
     flex-direction: row;
 }
 
-
-
 .content__container {
     width: 85%;
     background-color: var(--purple);

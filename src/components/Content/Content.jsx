@@ -1,8 +1,14 @@
+/* eslint-disable react/prop-types */
 import "./content.css"
+import Information from "./Information/Information"
+import Input from "./Input/Input"
+import Navbar from "./Navbar/Navbar"
 
-const Content = () => {
+const Content = (props) => {
     return <div className="content__container">
-        <h1>Ini Content</h1>
+        <Navbar navbarText={props.navbarText} />
+        <Input text={props.text}/>
+        <Information informationText={props.informationText}/>
     </div>
 }
 
