@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
-import CardNotif from '../molecules/CardNotif';
 import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
 
-const ListPengumuman = () => {
+const DetailTimesheetUpdate = () => {
   return (
     <View
       style={{backgroundColor: Color.primary, flex: 1, position: 'relative'}}>
@@ -11,37 +11,27 @@ const ListPengumuman = () => {
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <Text style={styles.Judul}>PENGUMUMAN</Text>
-      <View style={styles.backgroundCardNotif}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-        </ScrollView>
+      <Text style={styles.Judul}>DETAIL TIMESHEET</Text>
+      <View style={styles.backgroundCardTimesheet}>
+        <View>
+          <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+            Hari
+          </Text>
+          <Text>08-11-2021</Text>
+        </View>
       </View>
     </View>
   );
 };
 
-export default ListPengumuman;
+export default DetailTimesheetUpdate;
 
 const styles = StyleSheet.create({
-  backgroundCardNotif: {
+  backgroundCardTimesheet: {
     backgroundColor: Color.background,
     paddingTop: 50,
-    alignItems: 'center',
+    paddingHorizontal: 29,
     flex: 1,
-    flexDirection: 'column',
-    gap: 10,
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
     marginTop: -50,

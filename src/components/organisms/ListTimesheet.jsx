@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
-import CardNotif from '../molecules/CardNotif';
+import CardTimesheet from '../molecules/CardTimesheet';
 import {Color} from '../../utils/color';
 
-const ListPengumuman = () => {
+const ListTimesheet = () => {
   return (
     <View
       style={{backgroundColor: Color.primary, flex: 1, position: 'relative'}}>
@@ -11,31 +11,31 @@ const ListPengumuman = () => {
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <Text style={styles.Judul}>PENGUMUMAN</Text>
-      <View style={styles.backgroundCardNotif}>
+      <Text style={styles.Judul}>TIMESHEET</Text>
+      <View style={styles.backgroundCardTimesheet}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
+          <CardTimesheet />
+          <CardTimesheet />
+          <CardTimesheet />
+          <CardTimesheet />
+          <CardTimesheet />
+          <CardTimesheet />
+          <CardTimesheet />
         </ScrollView>
+        <View style={styles.catatanKerja}>
+          <Text style={{fontFamily: 'Poppins-LightItalic'}}>
+            Total Jam Reguler
+          </Text>
+        </View>
       </View>
     </View>
   );
 };
 
-export default ListPengumuman;
+export default ListTimesheet;
 
 const styles = StyleSheet.create({
-  backgroundCardNotif: {
+  backgroundCardTimesheet: {
     backgroundColor: Color.background,
     paddingTop: 50,
     alignItems: 'center',
@@ -58,5 +58,13 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     zIndex: -1,
+  },
+  catatanKerja: {
+    backgroundColor: Color.background,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: Color.black,
+    padding: 50,
+    margin: 8,
   },
 });

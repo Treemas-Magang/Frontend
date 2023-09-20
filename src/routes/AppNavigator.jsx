@@ -10,6 +10,8 @@ import Dashboard from '../pages/Dashboard';
 import ListPengumuman from '../components/organisms/ListPengumuman';
 import DetailPengumuman from '../components/organisms/DetailPengumuman';
 import NotifPengumuman from '../pages/NotifPengumuman';
+import ListTimesheet from '../components/organisms/ListTimesheet';
+import DetailTimesheetUpdate from '../components/organisms/DetailTimesheetUpdate';
 
 const screens = [
   {name: 'loading', component: LoadingScreen},
@@ -19,6 +21,8 @@ const screens = [
   {name: 'listPengumuman', component: ListPengumuman},
   {name: 'detailPengumuman', component: DetailPengumuman},
   {name: 'notifPengumuman', component: NotifPengumuman},
+  {name: 'listTimesheet', component: ListTimesheet},
+  {name: 'detailTimesheetUpdate', component: DetailTimesheetUpdate},
 ];
 
 const Stack = createNativeStackNavigator();
@@ -29,7 +33,7 @@ function App() {
       screenOptions={{
         animation: 'slide_from_right', // Atur efek slide dari kanan
       }}
-      initialRouteName="notifPengumuman">
+      initialRouteName="detailTimesheetUpdate">
       {screens.map((screen, index) => (
         <Stack.Screen
           key={index}
