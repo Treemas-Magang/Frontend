@@ -1,15 +1,15 @@
-import {StyleSheet, Text, View, ScrollView,Image} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
 import React from 'react';
 import CardNotif from '../molecules/CardNotif';
 import {Color} from '../../utils/color';
 
-
 const ListPengumuman = () => {
   return (
-    <View style={{backgroundColor: Color.primary, flex: 1, position:'relative'}}>
+    <View
+      style={{backgroundColor: Color.primary, flex: 1, position: 'relative'}}>
       <Image
         style={styles.VectorAtas}
-        source={require('../../assets/vector/VectorAtas.png')} 
+        source={require('../../assets/vector/VectorAtas.png')}
       />
       <Text style={styles.Judul}>PENGUMUMAN</Text>
       <View style={styles.backgroundCardNotif}>
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     gap: 10,
-    borderRadius: 35,
+    borderTopEndRadius: 35,
+    borderTopStartRadius: 35,
   },
   Judul: {
     textAlign: 'center',

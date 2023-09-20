@@ -9,6 +9,7 @@ import LupaPassword from '../pages/LupaPassword';
 import Dashboard from '../pages/Dashboard';
 import ListPengumuman from '../components/organisms/ListPengumuman';
 import DetailPengumuman from '../components/organisms/DetailPengumuman';
+import NotifPengumuman from '../pages/NotifPengumuman';
 
 const screens = [
   {name: 'loading', component: LoadingScreen},
@@ -17,6 +18,7 @@ const screens = [
   {name: 'dashboard', component: Dashboard},
   {name: 'listPengumuman', component: ListPengumuman},
   {name: 'detailPengumuman', component: DetailPengumuman},
+  {name: 'notifPengumuman', component: NotifPengumuman},
 ];
 
 const Stack = createNativeStackNavigator();
@@ -27,7 +29,7 @@ function App() {
       screenOptions={{
         animation: 'slide_from_right', // Atur efek slide dari kanan
       }}
-      initialRouteName="dashboard">
+      initialRouteName="notifPengumuman">
       {screens.map((screen, index) => (
         <Stack.Screen
           key={index}
