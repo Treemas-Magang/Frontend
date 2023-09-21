@@ -3,7 +3,7 @@ import Sidebar from "../../../components/Sidebar/Sidebar"
 import Content from "../../../components/Content/Content"
 
 const ManagementUserMember = () => {
-    return <div className="usermember_container">
+    return <div className="usermember__container">
         <Sidebar/>
         <Content navbarText="Management / UserAccess" informationText="UserAccess"/>
     </div>

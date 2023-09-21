@@ -1,9 +1,11 @@
 import "./karyawan.css"
 import Sidebar from "../../../components/Sidebar/Sidebar"
+import Content from "../../../components/Content/Content"
 
 const MasterDataKaryawan = () => {
-    return <div className="karyawan_container">
+    return <div className="karyawan__container">
         <Sidebar/>
+        <Content navbarText="MasterData / Karyawan" informationText="Karyawan"/>
     </div>
 }
 
