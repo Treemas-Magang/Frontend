@@ -9,7 +9,7 @@ const IconMenu = ({image, title}) => {
       <Text
         style={{
           fontFamily: 'Poppins-SemiBold',
-          color: Color.text,
+          color: Color.blue,
           fontSize: 12,
           textTransform: 'uppercase',
         }}>

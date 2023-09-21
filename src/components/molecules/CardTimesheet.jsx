@@ -46,7 +46,7 @@ export default CardTimesheet;
 
 const styles = StyleSheet.create({
   CardTimesheetStyle: {
-    backgroundColor: Color.primary,
+    backgroundColor: Color.green,
     width: 320,
     height: 204,
     borderRadius: 5,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   CardDalemTimesheetStyle: {
-    backgroundColor: Color.background,
+    backgroundColor: Color.white,
     width: 260,
     height: 149,
     borderRadius: 5,

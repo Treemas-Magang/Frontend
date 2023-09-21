@@ -31,7 +31,7 @@ export default CardNotif;
 
 const styles = StyleSheet.create({
   CardNotifStyle: {
-    backgroundColor: Color.primary,
+    backgroundColor: Color.green,
     width: 320,
     height: 80,
     borderRadius: 5,

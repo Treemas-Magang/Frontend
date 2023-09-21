@@ -33,7 +33,7 @@ const ButtonLogout = () => {
             <FontAwesomeIcon
               icon={!isOpenLogout ? faAnglesLeft : faAnglesRight}
               size={25}
-              color={Color.background}
+              color={Color.white}
             />
           </TouchableOpacity>
           {!isOpenLogout ? (
@@ -43,7 +43,7 @@ const ButtonLogout = () => {
               style={{
                 marginHorizontal: 20,
                 fontWeight: 'bold',
-                color: Color.background,
+                color: Color.white,
                 width: '100%',
               }}>
               LOGOUT

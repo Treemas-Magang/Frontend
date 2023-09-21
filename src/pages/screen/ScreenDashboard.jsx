@@ -1,16 +1,15 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {Color} from '../utils/color';
-import StatistikTahunIni from '../components/organisms/StatistikTahunIni';
-import ButtonLogout from '../components/atoms/ButtonLogout';
-import IconMenu from '../components/atoms/IconMenu';
-import MenuUtama from '../components/organisms/MenuUtama';
-import DataPribadi from '../components/molecules/DataPribadi';
+import {Color} from '../../utils/color';
+import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
+import ButtonLogout from '../../components/atoms/ButtonLogout';
+import MenuUtama from '../../components/organisms/MenuUtama';
+import DataPribadi from '../../components/molecules/DataPribadi';
 
-const Dashboard = () => {
+const ScreenDashboard = () => {
   return (
-    <View style={{alignItems: 'center', backgroundColor: Color.primary}}>
+    <View style={{alignItems: 'center', backgroundColor: Color.green}}>
       <ButtonLogout />
       <View
         style={{
@@ -31,11 +30,11 @@ const Dashboard = () => {
     </View>
   );
 };
-export default Dashboard;
+export default ScreenDashboard;
 
 const styles = StyleSheet.create({
   containerInfo: {
-    backgroundColor: Color.background,
+    backgroundColor: Color.white,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
     marginTop: -30,
   },
   containerMenu: {
-    backgroundColor: Color.primary,
+    backgroundColor: Color.green,
     width: '100%',
     borderTopStartRadius: 35,
     borderTopEndRadius: 35,
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
     top: 10,
     fontSize: 16,
     fontFamily: 'Poppins-Bold',
-    color: Color.text,
+    color: Color.blue,
     textTransform: 'uppercase',
   },
 });

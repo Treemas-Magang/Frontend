@@ -4,8 +4,7 @@ import {Color} from '../../utils/color';
 
 const DetailPengumuman = () => {
   return (
-    <View
-      style={{backgroundColor: Color.primary, flex: 1, position: 'relative'}}>
+    <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <Text style={styles.Judul}>PENGUMUMAN</Text>
       <Image
         style={styles.VectorAtas}
@@ -18,7 +17,7 @@ const DetailPengumuman = () => {
               fontFamily: 'Poppins-SemiBold',
               fontSize: 18,
               textAlign: 'center',
-              color: Color.text,
+              color: Color.blue,
             }}>
             Jam Kerja Selama Ramadhan
           </Text>
@@ -84,16 +83,17 @@ const styles = StyleSheet.create({
     marginVertical: 80,
     fontFamily: 'Poppins-SemiBold',
     fontSize: 26,
-    color: Color.text,
+    color: Color.blue,
   },
   backgroundCardNotif: {
-    backgroundColor: Color.background,
+    backgroundColor: Color.white,
     paddingTop: 50,
     alignItems: 'center',
     flex: 1,
     flexDirection: 'column',
     gap: 8,
-    borderRadius: 35,
+    borderTopEndRadius: 35,
+    borderTopStartRadius: 35,
   },
   VectorAtas: {
     position: 'absolute',

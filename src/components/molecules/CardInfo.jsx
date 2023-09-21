@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
     fontSize: 9,
     textTransform: 'uppercase',
     fontFamily: 'Poppins-SemiBold',
-    color: Color.text,
+    color: Color.blue,
   },
   textInfo: {
     fontSize: 16,
     textTransform: 'uppercase',
     fontFamily: 'Poppins-SemiBold',
-    color: Color.background,
+    color: Color.white,
   },
 });

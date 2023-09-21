@@ -19,7 +19,7 @@ const DataPribadi = () => {
         style={{
           width: 83,
           height: 83,
-          backgroundColor: 'blue',
+          backgroundColor: Color.blue,
           borderRadius: 100,
         }}></View>
     </View>
@@ -32,12 +32,12 @@ const styles = StyleSheet.create({
   textNama: {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 14,
-    color: Color.text,
+    color: Color.blue,
     textTransform: 'uppercase',
   },
   textNik: {
     fontFamily: 'Poppins-Regular',
     fontSize: 14,
-    color: Color.text,
+    color: Color.blue,
   },
 });

@@ -62,7 +62,7 @@ const CustomTextInput = ({label, onTextChange, ...rest}) => {
           <FontAwesomeIcon
             icon={hidePassword ? faEyeSlash : faEye}
             size={40}
-            color={hidePassword ? 'gray' : Color.primary}
+            color={hidePassword ? 'gray' : Color.green}
           />
         </TouchableOpacity>
       ) : (
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     width: 275,
     height: 50,
     paddingHorizontal: 10,
-    borderBottomColor: Color.primary,
+    borderBottomColor: Color.green,
     borderBottomWidth: 1,
     color: Color.text,
     paddingBottom: -10,
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     left: 9,
     fontSize: 19,
     fontFamily: 'Poppins-Thin',
-    color: Color.text,
+    color: Color.blue,
     zIndex: -1,
   },
   toggle: {

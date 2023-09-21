@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-import CustomTextInput from '../components/atoms/CustomTextInput';
-import {getDataFromSession} from '../utils/getDataSession';
-import ButtonAction from '../components/atoms/ButtonAction';
-import {Color} from '../utils/color';
+import CustomTextInput from '../../components/atoms/CustomTextInput';
+import {getDataFromSession} from '../../utils/getDataSession';
+import ButtonAction from '../../components/atoms/ButtonAction';
+import {Color} from '../../utils/color';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFingerprint} from '@fortawesome/free-solid-svg-icons';
-const LoginScreen = ({navigation}) => {
+const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [form, setForm] = useState({
     nik: '',
@@ -51,7 +51,7 @@ const LoginScreen = ({navigation}) => {
       behavior={Platform.OS === 'android' ? 'padding' : 'height'}>
       <View style={styles.wrapper}>
         <Image
-          source={require('../assets/icons/logo.png')}
+          source={require('../../assets/icons/logo.png')}
           style={{marginBottom: 100}}
         />
         <View style={{position: 'relative', gap: 15}}>
@@ -76,7 +76,7 @@ const LoginScreen = ({navigation}) => {
               {/* <Image source={require('../assets/vector/fingerprint.png')} /> */}
               <FontAwesomeIcon
                 icon={faFingerprint}
-                color={Color.primary}
+                color={Color.green}
                 size={50}
               />
             </TouchableOpacity>
@@ -101,11 +101,11 @@ const LoginScreen = ({navigation}) => {
       </View>
       <Image
         style={styles.vectorKiri}
-        source={require('../assets/vector/VectorKiri.png')}
+        source={require('../../assets/vector/VectorKiri.png')}
       />
       <Image
         style={styles.vectorKanan}
-        source={require('../assets/vector/VectorKanan.png')}
+        source={require('../../assets/vector/VectorKanan.png')}
       />
     </KeyboardAvoidingView>
   );
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     position: 'relative',
-    backgroundColor: Color.background,
+    backgroundColor: Color.white,
   },
   textInfo: {
     textAlign: 'center',
@@ -140,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default ScreenLogin;

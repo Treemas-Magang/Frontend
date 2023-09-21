@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-import CustomTextInput from '../components/atoms/CustomTextInput';
-import {getDataFromSession} from '../utils/getDataSession';
-import ButtonAction from '../components/atoms/ButtonAction';
-import {Color} from '../utils/color';
-const LoginScreen = ({navigation}) => {
+import CustomTextInput from '../../components/atoms/CustomTextInput';
+import {getDataFromSession} from '../../utils/getDataSession';
+import ButtonAction from '../../components/atoms/ButtonAction';
+import {Color} from '../../utils/color';
+const ScreenLupaPassword = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [form, setForm] = useState({
     email: '',
@@ -50,7 +50,7 @@ const LoginScreen = ({navigation}) => {
       behavior={Platform.OS === 'android' ? 'padding' : 'height'}>
       <View style={styles.wrapper}>
         <Image
-          source={require('../assets/icons/logo.png')}
+          source={require('../../assets/icons/logo.png')}
           style={{marginBottom: 100}}
         />
         <View style={{position: 'relative', gap: 15}}>
@@ -92,11 +92,11 @@ const LoginScreen = ({navigation}) => {
       </View>
       <Image
         style={styles.vectorKiri}
-        source={require('../assets/vector/VectorKiri.png')}
+        source={require('../../assets/vector/VectorKiri.png')}
       />
       <Image
         style={styles.vectorKanan}
-        source={require('../assets/vector/VectorKanan.png')}
+        source={require('../../assets/vector/VectorKanan.png')}
       />
     </KeyboardAvoidingView>
   );
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     flex: 1,
     alignItems: 'center',
-    backgroundColor: Color.background,
+    backgroundColor: Color.white,
   },
   textInfo: {
     textAlign: 'center',
@@ -131,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default ScreenLupaPassword;

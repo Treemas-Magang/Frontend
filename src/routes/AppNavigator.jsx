@@ -2,29 +2,29 @@
 // In App.js in a new project
 
 import React from 'react';
-import LoadingScreen from '../pages/LoadingScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoginScreen from '../pages/LoginScreen';
-import LupaPassword from '../pages/LupaPassword';
-import Dashboard from '../pages/Dashboard';
-import ListPengumuman from '../components/organisms/ListPengumuman';
-import DetailPengumuman from '../components/organisms/DetailPengumuman';
-import NotifPengumuman from '../pages/NotifPengumuman';
 import ListTimesheet from '../components/organisms/ListTimesheet';
 import DetailTimesheetUpdate from '../components/organisms/DetailTimesheetUpdate';
-
+import {
+  ScreenDashboard,
+  ScreenDetailPengumuman,
+  ScreenLogin,
+  ScreenLupaPassword,
+  ScreenNotifPengumuman,
+  ScreenSplash,
+} from '../pages/index';
 const screens = [
-  {name: 'loading', component: LoadingScreen},
-  {name: 'login', component: LoginScreen},
-  {name: 'lupaPassword', component: LupaPassword},
-  {name: 'dashboard', component: Dashboard},
-  {name: 'listPengumuman', component: ListPengumuman},
-  {name: 'detailPengumuman', component: DetailPengumuman},
-  {name: 'notifPengumuman', component: NotifPengumuman},
+  {name: 'splash', component: ScreenSplash},
+  {name: 'login', component: ScreenLogin},
+  {name: 'lupaPassword', component: ScreenLupaPassword},
+  {name: 'dashboard', component: ScreenDashboard},
+  {name: 'detailPengumuman', component: ScreenDetailPengumuman},
+  {name: 'notifPengumuman', component: ScreenNotifPengumuman},
   {name: 'listTimesheet', component: ListTimesheet},
   {name: 'detailTimesheetUpdate', component: DetailTimesheetUpdate},
 ];
 
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
       screenOptions={{
         animation: 'slide_from_right', // Atur efek slide dari kanan
       }}
-      initialRouteName="detailTimesheetUpdate">
+      initialRouteName={routeName}>
       {screens.map((screen, index) => (
         <Stack.Screen
           key={index}

@@ -16,13 +16,13 @@ const styles = StyleSheet.create({
   button: {
     width: 200,
     height: 50,
-    backgroundColor: Color.primary,
+    backgroundColor: Color.green,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
   },
   text: {
-    color: '#F2FCFC',
+    color: Color.white,
     fontSize: 22,
     textTransform: 'uppercase',
     width: '100%',

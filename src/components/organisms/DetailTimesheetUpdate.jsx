@@ -5,8 +5,7 @@ import {text} from '../../utils/text';
 
 const DetailTimesheetUpdate = () => {
   return (
-    <View
-      style={{backgroundColor: Color.primary, flex: 1, position: 'relative'}}>
+    <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <Image
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
@@ -28,7 +27,7 @@ export default DetailTimesheetUpdate;
 
 const styles = StyleSheet.create({
   backgroundCardTimesheet: {
-    backgroundColor: Color.background,
+    backgroundColor: Color.white,
     paddingTop: 50,
     paddingHorizontal: 29,
     flex: 1,
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
     marginVertical: 112,
     fontFamily: 'Poppins-SemiBold',
     fontSize: 26,
-    color: Color.text,
+    color: Color.blue,
   },
   VectorAtas: {
     position: 'absolute',
