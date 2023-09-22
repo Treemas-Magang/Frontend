@@ -2,13 +2,8 @@ import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
-import ButtonAction from '../atoms/ButtonAction';
 
-const DetailTimesheetUpdate = ({navigation}) => {
-  const moveToUpdateTimesheet = () => {
-    // navigation.navigate('formUpdateTimesheet');
-    console.log('Tombol berhasil ditekan');
-  };
+const DetailTimesheet = () => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <Image
@@ -84,23 +79,17 @@ const DetailTimesheetUpdate = ({navigation}) => {
             <Text style={{fontFamily: text.light}}>7</Text>
           </View>
         </ScrollView>
-        <View style={styles.catatanKerja}>
-          <ButtonAction
-            onPress={() => moveToUpdateTimesheet()}
-            title="UPDATE"
-          />
-        </View>
       </View>
     </View>
   );
 };
 
-export default DetailTimesheetUpdate;
+export default DetailTimesheet;
 
 const styles = StyleSheet.create({
   backgroundCardTimesheet: {
     backgroundColor: Color.white,
-    paddingTop: 50,
+    paddingTop: 20,
     paddingHorizontal: 29,
     flex: 1,
     borderTopEndRadius: 35,
@@ -119,11 +108,5 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     zIndex: -1,
-  },
-  catatanKerja: {
-    backgroundColor: Color.white,
-    padding: 20,
-    margin: 8,
-    alignItems: 'center',
   },
 });

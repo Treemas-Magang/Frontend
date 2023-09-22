@@ -3,7 +3,7 @@ import React from 'react';
 import CardUpdateTimesheet from '../molecules/CardUpdateTimesheet';
 import {Color} from '../../utils/color';
 
-const UpdateTimesheet = () => {
+const FormUpdateTimesheet = () => {
   return (
     <View style={styles.BackgroundUpdateTimesheet}>
       <CardUpdateTimesheet />
@@ -11,7 +11,7 @@ const UpdateTimesheet = () => {
   );
 };
 
-export default UpdateTimesheet;
+export default FormUpdateTimesheet;
 
 const styles = StyleSheet.create({
   BackgroundUpdateTimesheet: {

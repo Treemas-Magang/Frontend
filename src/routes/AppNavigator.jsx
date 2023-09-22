@@ -14,7 +14,8 @@ import {
   ScreenSplash,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
-import UpdateTimesheet from '../components/organisms/UpdateTimesheet';
+import DetailTimesheet from '../components/organisms/DetailTimesheet';
+import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 const screens = [
   {name: 'splash', component: ScreenSplash},
   {name: 'login', component: ScreenLogin},
@@ -25,10 +26,11 @@ const screens = [
   {name: 'listTimesheet', component: ListTimesheet},
   {name: 'detailTimesheetUpdate', component: DetailTimesheetUpdate},
   {name: 'cardUpdateTimesheet', component: CardUpdateTimesheet},
-  {name: 'updateTimesheet', component: UpdateTimesheet},
+  {name: 'formUpdateTimesheet', component: FormUpdateTimesheet},
+  {name: 'detailTimesheet', component: DetailTimesheet},
 ];
 
-const routeName = 'updateTimesheet';
+const routeName = 'detailTimesheet';
 const Stack = createNativeStackNavigator();
 
 function App() {
