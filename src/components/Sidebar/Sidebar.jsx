@@ -60,14 +60,25 @@ const Sidebar = ({children}) => {
         parameter: false,
         reportData: false,
         upload: false,
+        logout: false,
     })
 
     const handleDropdown = (itemName) => {
-        setIsParent((prevState) => ({
-            // prevState = { absen: false, management: false, masterData: false }
-            ...prevState,
-            [itemName]: !prevState[itemName]
-        }))
+      setIsParent((prevState) => {
+        const updatedState = { ...prevState };
+        
+        // Matikan semua parent kategori selain yang diklik
+        for (const key in updatedState) {
+            if (key !== itemName) {
+                updatedState[key] = false;
+            }
+        }
+
+        // Aktifkan atau nonaktifkan parent yang diklik
+        updatedState[itemName] = !prevState[itemName];
+
+        return updatedState;
+    });
     }
 
     const [activeItem, setActiveItem] = useState(null)
@@ -82,40 +93,39 @@ const Sidebar = ({children}) => {
               newState.detailData[key] = false;
             }
           }
-
-          if (sectionName === "management") {
+          else if (sectionName === "management") {
             for (const key in newState.management) {
               newState.management[key] = false;
             }
           }
-
-          if (sectionName === "manualService") {
+          else if (sectionName === "manualService") {
             for (const key in newState.manualService) {
               newState.manualService[key] = false;
             }
           }
-
-          if (sectionName === "masterData") {
+          else if (sectionName === "masterData") {
             for (const key in newState.masterData) {
               newState.masterData[key] = false;
             }
           }
-
-          if (sectionName === "parameter") {
+          else if (sectionName === "parameter") {
             for (const key in newState.parameter) {
               newState.parameter[key] = false;
             }
           }
-
-          if (sectionName === "reportData") {
+          else if (sectionName === "reportData") {
             for (const key in newState.reportData) {
               newState.reportData[key] = false;
             }
           }
-
-          if (sectionName === "upload") {
+          else if (sectionName === "upload") {
             for (const key in newState.upload) {
               newState.upload[key] = false;
+            }
+          }
+          else if (sectionName === "logout") {
+            for (const key in newState.logout) {
+              newState.logout[key] = false;
             }
           }
 
@@ -156,19 +166,19 @@ const Sidebar = ({children}) => {
                         </>
                     )}
 
-                    <li className={isParent.manualService ? "color" : "non_color"} onClick={() => handleDropdown("manualService")}><div className={isParent.manualService ? "active" : "non_active"}></div><p>Manual Service</p></li>
+                    <DropdownMenu onClick={() => handleDropdown("manualService")} link="/manual-service" text="Manual Service" isActive={isParent.manualService}/>
                     <li className={isParent.masterData ? "color" : "non_color"} onClick={() => handleDropdown("masterData")}><div className={isParent.masterData
                          ? "active" : "non_active"}></div><p>Master Data</p><i className={isParent.masterData? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
                     {isParent.masterData && (
                         <>
-                            <DropdownMenu onClick={() => handleClick("masterdata","announcement")} link="/master-data/announcement-view" text="Announcement" isActive={itemsState.masterData.announcement}/>
-                            <DropdownMenu onClick={() => handleClick("masterdata","claim")} link="/master-data/claim-view" text="Claim" isActive={itemsState.masterData.claim}/>
-                            <DropdownMenu onClick={() => handleClick("masterdata","cuti")} link="/master-data/cuti-view" text="Cuti" isActive={itemsState.masterData.cuti}/>
-                            <DropdownMenu onClick={() => handleClick("masterdata","jabatan")} link="/master-data/jabatan-view" text="Jabatan" isActive={itemsState.masterData.jabatan}/>
-                            <DropdownMenu onClick={() => handleClick("masterdata","karyawan")} link="/master-data/karyawan-view" text="Karyawan" isActive={itemsState.masterData.karyawan}/>
-                            <DropdownMenu onClick={() => handleClick("masterdata","libur")} link="/master-data/libur-view" text="Libur" isActive={itemsState.masterData.libur}/>
-                            <DropdownMenu onClick={() => handleClick("masterdata","permission")} link="/master-data/permission-view" text="Permission" isActive={itemsState.masterData.permission}/>
-                            <DropdownMenu onClick={() => handleClick("masterdata","project")} link="/master-data/project-view" text="Project" isActive={itemsState.masterData.project}/>
+                            <DropdownMenu onClick={() => handleClick("masterData","announcement")} link="/master-data/announcement-view" text="Announcement" isActive={itemsState.masterData.announcement}/>
+                            <DropdownMenu onClick={() => handleClick("masterData","claim")} link="/master-data/claim-view" text="Claim" isActive={itemsState.masterData.claim}/>
+                            <DropdownMenu onClick={() => handleClick("masterData","cuti")} link="/master-data/cuti-view" text="Cuti" isActive={itemsState.masterData.cuti}/>
+                            <DropdownMenu onClick={() => handleClick("masterData","jabatan")} link="/master-data/jabatan-view" text="Jabatan" isActive={itemsState.masterData.jabatan}/>
+                            <DropdownMenu onClick={() => handleClick("masterData","karyawan")} link="/master-data/karyawan-view" text="Karyawan" isActive={itemsState.masterData.karyawan}/>
+                            <DropdownMenu onClick={() => handleClick("masterData","libur")} link="/master-data/libur-view" text="Libur" isActive={itemsState.masterData.libur}/>
+                            <DropdownMenu onClick={() => handleClick("masterData","permission")} link="/master-data/permission-view" text="Permission" isActive={itemsState.masterData.permission}/>
+                            <DropdownMenu onClick={() => handleClick("masterData","project")} link="/master-data/project-view" text="Project" isActive={itemsState.masterData.project}/>
                         </>
                     )}
 
@@ -199,7 +209,7 @@ const Sidebar = ({children}) => {
                     )}
 
                     <div className="line"></div>
-                    <li>Logout</li>
+                    <DropdownMenu onClick={() => handleDropdown("upload", "apk")} link="/logout" text="Logout" isActive={itemsState.logout}/>
                 </ul>
             </nav>
 
