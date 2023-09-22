@@ -4,7 +4,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ListTimesheet from '../components/organisms/ListTimesheet';
-import DetailTimesheetUpdate from '../components/organisms/DetailTimesheetUpdate';
 import {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -12,9 +11,9 @@ import {
   ScreenLupaPassword,
   ScreenNotifPengumuman,
   ScreenSplash,
+  ScreenDetailTimesheet,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
-import DetailTimesheet from '../components/organisms/DetailTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 const screens = [
   {name: 'splash', component: ScreenSplash},
@@ -24,10 +23,9 @@ const screens = [
   {name: 'detailPengumuman', component: ScreenDetailPengumuman},
   {name: 'notifPengumuman', component: ScreenNotifPengumuman},
   {name: 'listTimesheet', component: ListTimesheet},
-  {name: 'detailTimesheetUpdate', component: DetailTimesheetUpdate},
+  {name: 'detailTimesheet', component: ScreenDetailTimesheet},
   {name: 'cardUpdateTimesheet', component: CardUpdateTimesheet},
   {name: 'formUpdateTimesheet', component: FormUpdateTimesheet},
-  {name: 'detailTimesheet', component: DetailTimesheet},
 ];
 
 const routeName = 'detailTimesheet';

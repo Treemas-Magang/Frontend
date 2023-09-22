@@ -4,6 +4,7 @@ import ScreenLogin from './screen/ScreenLogin';
 import ScreenLupaPassword from './screen/ScreenLupaPassword';
 import ScreenNotifPengumuman from './screen/ScreenNotifPengumuman';
 import ScreenSplash from './screen/ScreenSplash';
+import ScreenDetailTimesheet from './screen/ScreenDetailTimesheet';
 
 export {
   ScreenDashboard,
@@ -12,4 +13,5 @@ export {
   ScreenLupaPassword,
   ScreenNotifPengumuman,
   ScreenSplash,
+  ScreenDetailTimesheet,
 };
