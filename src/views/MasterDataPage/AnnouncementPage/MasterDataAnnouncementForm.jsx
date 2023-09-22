@@ -1,11 +1,9 @@
 import "./announcementform.css";
-import Sidebar from "../../../components/Sidebar/Sidebar";
 import Content from "../../../components/Content/Content";
 
 const MasterDataAnnouncementForm = () => {
   return <div className="announcementform__container">
-    <Sidebar/>
-    <Content navbarText="Master Data / AnnouncementForm" informationText="AnnouncementForm"/>
+    <Content navbarText="Master Data / Announcement Form" informationText="Announcement Add"/>
     </div>
 };
 

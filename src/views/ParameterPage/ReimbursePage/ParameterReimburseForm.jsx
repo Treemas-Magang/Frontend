@@ -1,11 +1,9 @@
 import "./reimburseform.css"
-import Sidebar from "../../../components/Sidebar/Sidebar"
 import Content from "../../../components/Content/Content"
 
 const ParameterReimburseForm = () => {
     return <div className="reimburseform__container">
-        <Sidebar/>
-        <Content navbarText="Parameter / ReimburseForm" informationText="ReimburseForm"/>
+        <Content navbarText="Parameter / Reimburse Form" informationText="Reimburse Add"/>
     </div>
 }
 

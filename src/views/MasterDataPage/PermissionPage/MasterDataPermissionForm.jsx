@@ -1,9 +1,8 @@
 import "./permissionform.css"
-import Sidebar from "../../../components/Sidebar/Sidebar"
-
+import Content from "../../../components/Content/Content"
 const MasterDataPermissionForm = () => {
     return <div className="permissionform__container">
-        <Sidebar/>
+        <Content navbarText="Master Data / Permission Form" informationText="Permission Add"/>
     </div>
 }
 

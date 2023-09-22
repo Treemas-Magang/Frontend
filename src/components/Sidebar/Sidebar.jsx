@@ -5,8 +5,6 @@ import Logo from "../../images/logo-treemas.png"
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import DropdownMenu from "./DropdownMenu/DropdownMenu"
-import { FaBars, FaCommentAlt, FaRegChartBar, FaShoppingBag, FaTh, FaThList, FaUserAlt } from "react-icons/fa"
-
 
 const Sidebar = ({children}) => {
 
@@ -84,7 +82,43 @@ const Sidebar = ({children}) => {
               newState.detailData[key] = false;
             }
           }
-      
+
+          if (sectionName === "management") {
+            for (const key in newState.management) {
+              newState.management[key] = false;
+            }
+          }
+
+          if (sectionName === "manualService") {
+            for (const key in newState.manualService) {
+              newState.manualService[key] = false;
+            }
+          }
+
+          if (sectionName === "masterData") {
+            for (const key in newState.masterData) {
+              newState.masterData[key] = false;
+            }
+          }
+
+          if (sectionName === "parameter") {
+            for (const key in newState.parameter) {
+              newState.parameter[key] = false;
+            }
+          }
+
+          if (sectionName === "reportData") {
+            for (const key in newState.reportData) {
+              newState.reportData[key] = false;
+            }
+          }
+
+          if (sectionName === "upload") {
+            for (const key in newState.upload) {
+              newState.upload[key] = false;
+            }
+          }
+
           // Toggle the clicked section
           newState[sectionName][itemName] = !prevState[sectionName][itemName];
       
@@ -113,53 +147,54 @@ const Sidebar = ({children}) => {
                         </>
                     )}
                     
-                    <li className={itemsState.management ? "color" : "non_color"} onClick={() => handleClick("management")}><div className={itemsState.management ? "active" : "non_active"}></div><p>Management</p><i className={itemsState.management? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
-                    {itemsState.management && (
+                    <li className={isParent.management ? "color" : "non_color"} onClick={() => handleDropdown("management")}><div className={isParent.management ? "active" : "non_active"}></div><p>Management</p><i className={isParent.management? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
+                    {isParent.management && (
                         <>
-                            <DropdownMenu onClick={() => handleClick("user")} link="/management/user-view" text="User" isActive={itemsState.user}/>
-                            <DropdownMenu onClick={() => handleClick("userAccess")} link="/management/user-access-view" text="User Access" isActive={itemsState.userAccess}/>
-                            <DropdownMenu onClick={() => handleClick("userMember")} link="/management/user-member-view" text="User Member" isActive={itemsState.userMember}/>
+                            <DropdownMenu onClick={() => handleClick("management","user")} link="/management/user-view" text="User" isActive={itemsState.management.user}/>
+                            <DropdownMenu onClick={() => handleClick("management","userAccess")} link="/management/user-access-view" text="User Access" isActive={itemsState.management.userAccess}/>
+                            <DropdownMenu onClick={() => handleClick("management","userMember")} link="/management/user-member-view" text="User Member" isActive={itemsState.management.userMember}/>
                         </>
                     )}
 
-                    <li className={itemsState.manualService ? "color" : "non_color"} onClick={() => handleClick("masterData")}><div className={itemsState.manualService ? "active" : "non_active"}></div><p>Manual Service</p></li>
-                    <li className={itemsState.masterData ? "color" : "non_color"} onClick={() => handleClick("masterData")}><div className={itemsState.masterData ? "active" : "non_active"}></div><p>Master Data</p><i className={itemsState.masterData? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
-                    {itemsState.masterData && (
+                    <li className={isParent.manualService ? "color" : "non_color"} onClick={() => handleDropdown("manualService")}><div className={isParent.manualService ? "active" : "non_active"}></div><p>Manual Service</p></li>
+                    <li className={isParent.masterData ? "color" : "non_color"} onClick={() => handleDropdown("masterData")}><div className={isParent.masterData
+                         ? "active" : "non_active"}></div><p>Master Data</p><i className={isParent.masterData? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
+                    {isParent.masterData && (
                         <>
-                            <DropdownMenu onClick={() => handleClick("announcement")} link="/master-data/announcement-view" text="Announcement" isActive={itemsState.announcement}/>
-                            <DropdownMenu onClick={() => handleClick("claim")} link="/master-data/claim-view" text="Claim" isActive={itemsState.claim}/>
-                            <DropdownMenu onClick={() => handleClick("cuti")} link="/master-data/cuti-view" text="Cuti" isActive={itemsState.cuti}/>
-                            <DropdownMenu onClick={() => handleClick("jabatan")} link="/master-data/jabatan-view" text="Jabatan" isActive={itemsState.jabatan}/>
-                            <DropdownMenu onClick={() => handleClick("karyawan")} link="/master-data/karyawan-view" text="Karyawan" isActive={itemsState.karyawan}/>
-                            <DropdownMenu onClick={() => handleClick("libur")} link="/master-data/libur-view" text="Libur" isActive={itemsState.libur}/>
-                            <DropdownMenu onClick={() => handleClick("permission")} link="/master-data/permission-view" text="Permission" isActive={itemsState.permission}/>
-                            <DropdownMenu onClick={() => handleClick("project")} link="/master-data/project-view" text="Project" isActive={itemsState.project}/>
+                            <DropdownMenu onClick={() => handleClick("masterdata","announcement")} link="/master-data/announcement-view" text="Announcement" isActive={itemsState.masterData.announcement}/>
+                            <DropdownMenu onClick={() => handleClick("masterdata","claim")} link="/master-data/claim-view" text="Claim" isActive={itemsState.masterData.claim}/>
+                            <DropdownMenu onClick={() => handleClick("masterdata","cuti")} link="/master-data/cuti-view" text="Cuti" isActive={itemsState.masterData.cuti}/>
+                            <DropdownMenu onClick={() => handleClick("masterdata","jabatan")} link="/master-data/jabatan-view" text="Jabatan" isActive={itemsState.masterData.jabatan}/>
+                            <DropdownMenu onClick={() => handleClick("masterdata","karyawan")} link="/master-data/karyawan-view" text="Karyawan" isActive={itemsState.masterData.karyawan}/>
+                            <DropdownMenu onClick={() => handleClick("masterdata","libur")} link="/master-data/libur-view" text="Libur" isActive={itemsState.masterData.libur}/>
+                            <DropdownMenu onClick={() => handleClick("masterdata","permission")} link="/master-data/permission-view" text="Permission" isActive={itemsState.masterData.permission}/>
+                            <DropdownMenu onClick={() => handleClick("masterdata","project")} link="/master-data/project-view" text="Project" isActive={itemsState.masterData.project}/>
                         </>
                     )}
 
-                    <li className={itemsState.parameter ? "color" : "non_color"} onClick={() => handleClick("parameter")}><div className={itemsState.parameter ? "active" : "non_active"}></div><p>Parameter</p><i className={itemsState.parameter? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
-                    {itemsState.parameter && (
+                    <li className={isParent.parameter ? "color" : "non_color"} onClick={() => handleDropdown("parameter")}><div className={isParent.parameter ? "active" : "non_active"}></div><p>Parameter</p><i className={isParent.parameter? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
+                    {isParent.parameter && (
                         <>
                         
-                            <DropdownMenu onClick={() => handleClick("general")} link="/parameter/general-view" text="General" isActive={itemsState.general}/>
-                            <DropdownMenu onClick={() => handleClick("reimburseP")} link="/parameter/reimburse-view" text="Reimburse" isActive={itemsState.reimburseP}/>
+                            <DropdownMenu onClick={() => handleClick("parameter","general")} link="/parameter/general-view" text="General" isActive={itemsState.parameter.general}/>
+                            <DropdownMenu onClick={() => handleClick("parameter","reimburseP")} link="/parameter/reimburse-view" text="Reimburse" isActive={itemsState.parameter.reimburseP}/>
                         </>
                     )}
 
-                    <li className={itemsState.reportData ? "color" : "non_color"} onClick={() => handleClick("reportData")}><div className={itemsState.reportData ? "active" : "non_active"}></div><p>Report Data</p><i className={itemsState.reportData? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
-                    {itemsState.reportData && (
+                    <li className={isParent.reportData ? "color" : "non_color"} onClick={() => handleDropdown("reportData")}><div className={isParent.reportData ? "active" : "non_active"}></div><p>Report Data</p><i className={isParent.reportData? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
+                    {isParent.reportData && (
                         <>
-                            <DropdownMenu onClick={() => handleClick("claimR")} link="/ReportData/claim" text="Claim" isActive={itemsState.claimR}/>
-                            <DropdownMenu onClick={() => handleClick("detail")} link="/ReportData/detail" text="Detail" isActive={itemsState.detail}/>
-                            <DropdownMenu onClick={() => handleClick("summary")} link="/ReportData/summary" text="Summary" isActive={itemsState.summary}/>
+                            <DropdownMenu onClick={() => handleClick("reportData","claimR")} link="/ReportData/claim" text="Claim" isActive={itemsState.reportData.claimR}/>
+                            <DropdownMenu onClick={() => handleClick("reportData","detail")} link="/ReportData/detail" text="Detail" isActive={itemsState.reportData.detail}/>
+                            <DropdownMenu onClick={() => handleClick("reportData","summary")} link="/ReportData/summary" text="Summary" isActive={itemsState.reportData.summary}/>
                         </>
                     )}
 
-                    <li className={itemsState.upload ? "color" : "non_color"} onClick={() => handleClick("upload")}><div className={itemsState.upload ? "active" : "non_active"}></div><p>Upload</p><i className={itemsState.upload? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
-                    {itemsState.upload && (
+                    <li className={isParent.upload ? "color" : "non_color"} onClick={() => handleDropdown("upload")}><div className={isParent.upload ? "active" : "non_active"}></div><p>Upload</p><i className={isParent.upload? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down"}/></li>
+                    {isParent.upload && (
                         <>
-                            <DropdownMenu onClick={() => handleClick("absenU")} link="/Upload/absen" text="Absen" isActive={itemsState.absenU}/>
-                            <DropdownMenu onClick={() => handleClick("apk")} link="/Upload/apk" text="Apk" isActive={itemsState.apk}/>
+                            <DropdownMenu onClick={() => handleClick("upload", "absenU")} link="/Upload/absen" text="Absen" isActive={itemsState.upload.absenU}/>
+                            <DropdownMenu onClick={() => handleClick("upload", "apk")} link="/Upload/apk" text="Apk" isActive={itemsState.upload.apk}/>
                         </>
                     )}
 
