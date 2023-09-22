@@ -95,8 +95,8 @@ const ScreenLogin = ({navigation}) => {
         </View>
         <View style={{marginTop: 150}}>
           <Text style={styles.textInfo}>Mobile Absensi Karyawan</Text>
-          <Text style={[styles.textInfo]}>Version : {appVersion}</Text>
-          <Text style={[styles.textInfo]}>&copy;2023 PT TREEMAS</Text>
+          <Text style={styles.textInfo}>Version : {appVersion}</Text>
+          <Text style={styles.textInfo}>&copy;2023 PT TREEMAS</Text>
         </View>
       </View>
       <Image
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
   },
   textInfo: {
     textAlign: 'center',
+    color: Color.black,
   },
   wrapper: {
     flex: 1,
