@@ -13,6 +13,8 @@ import {
   ScreenNotifPengumuman,
   ScreenSplash,
 } from '../pages/index';
+import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
+import UpdateTimesheet from '../components/organisms/UpdateTimesheet';
 const screens = [
   {name: 'splash', component: ScreenSplash},
   {name: 'login', component: ScreenLogin},
@@ -22,9 +24,11 @@ const screens = [
   {name: 'notifPengumuman', component: ScreenNotifPengumuman},
   {name: 'listTimesheet', component: ListTimesheet},
   {name: 'detailTimesheetUpdate', component: DetailTimesheetUpdate},
+  {name: 'cardUpdateTimesheet', component: CardUpdateTimesheet},
+  {name: 'updateTimesheet', component: UpdateTimesheet},
 ];
 
-const routeName = 'detailTimesheetUpdate';
+const routeName = 'updateTimesheet';
 const Stack = createNativeStackNavigator();
 
 function App() {
