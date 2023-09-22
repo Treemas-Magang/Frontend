@@ -24,7 +24,7 @@ const screens = [
   {name: 'detailTimesheetUpdate', component: DetailTimesheetUpdate},
 ];
 
-const routeName = 'splash';
+const routeName = 'detailTimesheetUpdate';
 const Stack = createNativeStackNavigator();
 
 function App() {

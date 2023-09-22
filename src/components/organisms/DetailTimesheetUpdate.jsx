@@ -1,9 +1,14 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
+import ButtonAction from '../atoms/ButtonAction';
 
-const DetailTimesheetUpdate = () => {
+const DetailTimesheetUpdate = ({navigation}) => {
+  const moveToUpdateTimesheet = () => {
+    // navigation.navigate('formUpdateTimesheet');
+    console.log('Tombol berhasil ditekan');
+  };
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <Image
@@ -12,11 +17,103 @@ const DetailTimesheetUpdate = () => {
       />
       <Text style={styles.Judul}>DETAIL TIMESHEET</Text>
       <View style={styles.backgroundCardTimesheet}>
-        <View>
-          <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
-            Hari
-          </Text>
-          <Text>08-11-2021</Text>
+        <ScrollView showsVerticalScrollIndicator={true}>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Hari
+            </Text>
+            <Text>Senin</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Tanggal
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Lokasi
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Keterangan
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Jam Masuk
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Jam Keluar
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Reguler Hours
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Overtime
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Total Jam Kerja
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Total Jam Kerja
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Total Jam Kerja
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Total Jam Kerja
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Total Jam Kerja
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Total Jam Kerja
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+          <View>
+            <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+              Total Jam Kerja
+            </Text>
+            <Text>08-11-2021</Text>
+          </View>
+        </ScrollView>
+        <View style={styles.catatanKerja}>
+          <ButtonAction
+            onPress={() => moveToUpdateTimesheet()}
+            title="Update"
+          />
         </View>
       </View>
     </View>
@@ -47,5 +144,11 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     zIndex: -1,
+  },
+  catatanKerja: {
+    backgroundColor: Color.white,
+    padding: 20,
+    margin: 8,
+    alignItems: 'center',
   },
 });
