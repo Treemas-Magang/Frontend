@@ -11,10 +11,13 @@
     display: flex;
     flex-direction: column;
     overflow-y: scroll; /* Mengaktifkan scroll, tetapi sembunyikan scrollbar */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer dan Microsoft Edge */
 }
 
 .sidebar__container::-webkit-scrollbar {
     width: 0;
+    background-color: transparent;
 }
 
 .sidebar__container::-webkit-scrollbar-track {

@@ -66,23 +66,31 @@ const Sidebar = ({children}) => {
     const handleDropdown = (itemName) => {
       setIsParent((prevState) => {
         const updatedState = { ...prevState };
-        
+    
         // Matikan semua parent kategori selain yang diklik
         for (const key in updatedState) {
-            if (key !== itemName) {
-                updatedState[key] = false;
-            }
+          if (key !== itemName) {
+            updatedState[key] = false;
+          }
         }
-
+    
         // Aktifkan atau nonaktifkan parent yang diklik
         updatedState[itemName] = !prevState[itemName];
-
+    
+        // Atur nilai anak-anak untuk semua objek menjadi false
+        const updatedItemsState = { ...itemsState };
+        for (const key in updatedItemsState) {
+          updatedItemsState[key] = {};
+          for (const childKey in updatedItemsState[key]) {
+            updatedItemsState[key][childKey] = false;
+          }
+        }
+        setItemsState(updatedItemsState);
+    
         return updatedState;
-    });
-    }
-
-    const [activeItem, setActiveItem] = useState(null)
-
+      });
+    };
+    
     const handleClick = (sectionName, itemName) => {
         setItemsState((prevState) => {
           const newState = { ...prevState };
