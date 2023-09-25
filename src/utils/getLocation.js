@@ -1,7 +1,8 @@
 import Geolocation from '@react-native-community/geolocation';
-import {Linking} from 'react-native';
-const enableGPS = () => {
-  Linking.openSettings();
+import {Alert, BackHandler} from 'react-native';
+import RNRestart from 'react-native-restart';
+const exit = () => {
+  BackHandler.exitApp();
 };
 
 const getLocation = () => {
@@ -14,12 +15,20 @@ const getLocation = () => {
         },
         error => {
           if (error.code === 2) {
-            // Kode 2 berarti "No location provider available", yang berarti GPS dinonaktifkan
             console.log('GPS dinonaktifkan');
-            enableGPS(); // Buka pengaturan GPS
+            Alert.alert(
+              'GPS Dinonaktifkan',
+              'Mohon aktifkan GPS untuk menggunakan aplikasi.',
+              [{text: 'OK', onPress: () => exit()}],
+            );
           }
           if (error.code === 3) {
             console.log('terlalu lama mencari lokasi');
+            Alert.alert(
+              'Terlalu Lama Mencari Lokasi',
+              'Coba lagi nanti atau periksa koneksi GPS Anda.',
+              [{text: 'OK', onPress: () => RNRestart.Restart()}],
+            );
           } else {
             console.error('Kesalahan saat mengambil lokasi:', error);
           }

@@ -16,15 +16,8 @@ import {setFormTimesheet} from '../../redux';
 const CardUpdateTimesheet = () => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.TimesheetReducer);
-  // const [form, setForm] = useState({
-  //   keterangan: '',
-  // });
 
   const onChangeText = (value, inputType) => {
-    // setForm({
-    //   ...form,
-    //   [input]: value,
-    // });
     dispatch(setFormTimesheet(inputType, value));
   };
 

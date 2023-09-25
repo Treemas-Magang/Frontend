@@ -6,16 +6,16 @@ import getLocation from '../../utils/getLocation';
 import requestLocationPermission from '../../utils/permissionService';
 import {useDispatch, useSelector} from 'react-redux';
 import {setLocation} from '../../redux';
-
+import Geolocation from '@react-native-community/geolocation';
 const ScreenSplash = ({navigation}) => {
   const dispatch = useDispatch();
   const {location} = useSelector(state => state.SplashReducer);
-  const [isIdDevice, setIsIdDevice] = useState('');
-  const [isAppVersion, setIsAppVersion] = useState('');
-  // const [location, setLocation] = useState(null); // Inisialisasi state location dengan null
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    Geolocation.setRNConfiguration({
+      skipPermissionRequests: true, // Anda perlu mengurus izin sendiri
+      authorizationLevel: 'whenInUse', // Izin yang diperlukan saat aplikasi aktif
+    });
     const fetchData = async () => {
       // ...
 
