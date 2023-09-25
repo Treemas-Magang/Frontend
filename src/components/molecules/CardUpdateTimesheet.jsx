@@ -28,7 +28,10 @@ const CardUpdateTimesheet = () => {
   };
 
   return (
-    <KeyboardAvoidingView behavior="height" style={styles.container}>
+    <KeyboardAvoidingView
+      behavior="position"
+      keyboardVerticalOffset={-500}
+      style={styles.container}>
       <View style={styles.CardUpdateTimesheet}>
         <Text
           style={{fontFamily: text.semiBold, color: Color.blue, fontSize: 24}}>
@@ -66,8 +69,10 @@ const styles = StyleSheet.create({
   },
   VectorBawah: {
     position: 'absolute',
-    bottom: -60,
+    bottom: -300,
+    left: -36,
     zIndex: -1,
+    width: '100%',
   },
   container: {
     flex: 1,

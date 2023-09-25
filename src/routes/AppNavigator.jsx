@@ -28,7 +28,7 @@ const screens = [
   {name: 'formUpdateTimesheet', component: FormUpdateTimesheet},
 ];
 
-const routeName = 'detailTimesheet';
+const routeName = 'formUpdateTimesheet';
 const Stack = createNativeStackNavigator();
 
 function App() {
