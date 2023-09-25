@@ -4,11 +4,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Color} from '../../utils/color';
 import getLocation from '../../utils/getLocation';
 import requestLocationPermission from '../../utils/permissionService';
+import {useDispatch, useSelector} from 'react-redux';
+import {setLocation} from '../../redux';
 
 const ScreenSplash = ({navigation}) => {
+  const dispatch = useDispatch();
+  const {location} = useSelector(state => state.SplashReducer);
   const [isIdDevice, setIsIdDevice] = useState('');
   const [isAppVersion, setIsAppVersion] = useState('');
-  const [location, setLocation] = useState(null); // Inisialisasi state location dengan null
+  // const [location, setLocation] = useState(null); // Inisialisasi state location dengan null
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -23,8 +27,14 @@ const ScreenSplash = ({navigation}) => {
           const locationData = await getLocation();
           console.log('Lokasi berhasil diambil:', locationData);
 
-          // Set nilai lokasi ke dalam state
-          setLocation(locationData);
+          // Set nilai lokasi ke dalam reducer
+          dispatch(
+            setLocation(
+              locationData.latitude,
+              locationData.longitude,
+              locationData.accuracy,
+            ),
+          );
         } catch (error) {
           console.error('Kesalahan saat mengambil lokasi:', error);
         }
@@ -44,12 +54,6 @@ const ScreenSplash = ({navigation}) => {
               index: 0,
               routes: [{name: 'login'}],
             });
-            const latitude = location.latitude;
-            const longitude = location.longitude;
-            const accuracy = location.accuracy;
-            console.log('ini location dari state latitude', latitude);
-            console.log('ini location dari state longitude', longitude);
-            console.log('ini location dari state accuracy', accuracy);
           }
         })
         .catch(error => {

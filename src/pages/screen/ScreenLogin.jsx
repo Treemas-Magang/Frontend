@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -15,14 +15,14 @@ import ButtonAction from '../../components/atoms/ButtonAction';
 import {Color} from '../../utils/color';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFingerprint} from '@fortawesome/free-solid-svg-icons';
+import {useSelector, useDispatch} from 'react-redux';
+import {setForm} from '../../redux';
 
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
-  const [form, setForm] = useState({
-    nik: '',
-    password: '',
-  });
-
+  const {form} = useSelector(state => state.LoginReducer);
+  const {location} = useSelector(state => state.SplashReducer);
+  const dispatch = useDispatch();
   getDataFromSession('appVersion')
     .then(apkVersion => {
       if (apkVersion !== null) {
@@ -35,19 +35,16 @@ const ScreenLogin = ({navigation}) => {
       console.error('Terjadi kesalahan:', error);
     });
 
-  const onChangeText = (value, index) => {
-    setForm({
-      ...form,
-      [index]: value,
-    });
+  const onChangeText = (value, inputType) => {
+    dispatch(setForm(inputType, value));
   };
   const sendData = () => {
     console.log('kirim data : ', form);
+    console.log('location reducer: ', location);
   };
   const moveToLupaPassword = () => {
     navigation.navigate('lupaPassword');
   };
-
   return (
     <KeyboardAvoidingView style={{flex: 1, backgroundColor: 'blue'}}>
       <ScrollView

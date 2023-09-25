@@ -10,17 +10,22 @@ import CustomTextInput from '../atoms/CustomTextInput';
 import ButtonAction from '../../components/atoms/ButtonAction';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
+import {useSelector, useDispatch} from 'react-redux';
+import {setFormTimesheet} from '../../redux';
 
 const CardUpdateTimesheet = () => {
-  const [form, setForm] = useState({
-    keterangan: '',
-  });
+  const dispatch = useDispatch();
+  const {form} = useSelector(state => state.TimesheetReducer);
+  // const [form, setForm] = useState({
+  //   keterangan: '',
+  // });
 
-  const onChangeText = (value, index) => {
-    setForm({
-      ...form,
-      [index]: value,
-    });
+  const onChangeText = (value, inputType) => {
+    // setForm({
+    //   ...form,
+    //   [input]: value,
+    // });
+    dispatch(setFormTimesheet(inputType, value));
   };
 
   const sendData = () => {
