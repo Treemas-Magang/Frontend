@@ -12,6 +12,7 @@ import {
   ScreenNotifPengumuman,
   ScreenSplash,
   ScreenDetailTimesheet,
+  ScreenGagalSidikJari,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -26,9 +27,10 @@ const screens = [
   {name: 'detailTimesheet', component: ScreenDetailTimesheet},
   {name: 'cardUpdateTimesheet', component: CardUpdateTimesheet},
   {name: 'formUpdateTimesheet', component: FormUpdateTimesheet},
+  {name: 'gagalSidikJari', component: ScreenGagalSidikJari},
 ];
 
-const routeName = 'splash';
+const routeName = 'login';
 const Stack = createNativeStackNavigator();
 
 function App() {

@@ -73,10 +73,24 @@ const TimesheetReducer = (state = initialStateTimesheet, action) => {
     return state
 }
 
+const initialStateCheckBiometricType = {
+    biometricType: null
+}
+const CheckBiometricTypeReducer = (state = initialStateCheckBiometricType, action) => {
+    if (action.type === 'SET_BIOMETRIC_TYPE') {
+        return{
+            ...state,
+            biometricType: action.biometricType
+        }
+    }
+    return state
+}
+
 const reducer = combineReducers({
     LoginReducer,
     SplashReducer,
-    TimesheetReducer
+    TimesheetReducer,
+    CheckBiometricTypeReducer
 })
 
 export default reducer;

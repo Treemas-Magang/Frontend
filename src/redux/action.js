@@ -13,3 +13,6 @@ export const setAppVersion = (version) => {
 export const setFormTimesheet = (inputType, value) => {
     return{type: 'SET_FORM_UPDATE_TIMESHEET', inputType: inputType, inputValue: value}
 }
+export const setBiometricType =  value => {
+    return{type: 'SET_BIOMETRIC_TYPE', biometricType: value}
+}
