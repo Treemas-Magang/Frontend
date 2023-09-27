@@ -1,4 +1,4 @@
-import {StyleSheet, View, Image, KeyboardAvoidingView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import CardUpdateTimesheet from '../molecules/CardUpdateTimesheet';
 import {Color} from '../../utils/color';

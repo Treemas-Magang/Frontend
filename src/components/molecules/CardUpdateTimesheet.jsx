@@ -5,7 +5,7 @@ import {
   KeyboardAvoidingView,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import CustomTextInput from '../atoms/CustomTextInput';
 import ButtonAction from '../../components/atoms/ButtonAction';
 import {Color} from '../../utils/color';
@@ -30,9 +30,17 @@ const CardUpdateTimesheet = () => {
       behavior="position"
       keyboardVerticalOffset={-500}
       style={styles.container}>
+      <Image
+        style={styles.VectorAtasKebalik}
+        source={require('../../assets/vector/VectorAtasKebalik.png')}
+      />
       <View style={styles.CardUpdateTimesheet}>
         <Text
-          style={{fontFamily: text.semiBold, color: Color.blue, fontSize: 24}}>
+          style={{
+            fontFamily: text.semiBold,
+            color: Color.blue,
+            fontSize: 24,
+          }}>
           08-11-2021
         </Text>
         <CustomTextInput
@@ -40,7 +48,6 @@ const CardUpdateTimesheet = () => {
           value={form.keterangan}
           onTextChange={value => onChangeText(value, 'keterangan')}
           secureTextEntry={false}
-          maxLength={10}
         />
         <ButtonAction onPress={() => sendData()} title="UPDATE" />
       </View>
@@ -68,6 +75,13 @@ const styles = StyleSheet.create({
   VectorBawah: {
     position: 'absolute',
     bottom: -300,
+    left: -36,
+    zIndex: -1,
+    width: '100%',
+  },
+  VectorAtasKebalik: {
+    position: 'absolute',
+    top: -240,
     left: -36,
     zIndex: -1,
     width: '100%',
