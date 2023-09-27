@@ -1,25 +1,32 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import IconMenu from '../atoms/IconMenu';
 
-const MenuUtama = () => {
+const MenuUtama = ({navigation}) => {
+  const handleMenu = namaMenu => {
+    navigation.navigate(namaMenu);
+  };
   return (
     <View style={styles.wrapperIconMenu}>
       <IconMenu
         image={require('../../assets/vector/schedule.png')}
         title="Kehadiran"
+        onPress={() => handleMenu('Schedule')}
       />
       <IconMenu
         image={require('../../assets/vector/rekap.png')}
         title="rekap"
+        onPress={() => handleMenu('Rekap')}
       />
       <IconMenu
         image={require('../../assets/vector/folders.png')}
         title="form"
+        onPress={() => handleMenu('Folder')}
       />
       <IconMenu
         image={require('../../assets/vector/announcement.png')}
         title="pengumuman"
+        onPress={() => handleMenu('dashboardNotif')}
       />
     </View>
   );

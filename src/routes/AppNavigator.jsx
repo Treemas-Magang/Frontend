@@ -16,6 +16,7 @@ import {
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
+import ScreenDashboardNotif from '../pages/screen/ScreenDashboardNotif';
 const screens = [
   {name: 'splash', component: ScreenSplash},
   {name: 'login', component: ScreenLogin},
@@ -28,9 +29,10 @@ const screens = [
   {name: 'cardUpdateTimesheet', component: CardUpdateTimesheet},
   {name: 'formUpdateTimesheet', component: FormUpdateTimesheet},
   {name: 'gagalSidikJari', component: ScreenGagalSidikJari},
+  {name: 'dashboardNotif', component: ScreenDashboardNotif},
 ];
 
-const routeName = 'login';
+const routeName = 'dashboardNotif';
 const Stack = createNativeStackNavigator();
 
 function App() {
