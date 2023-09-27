@@ -7,7 +7,7 @@ import ButtonLogout from '../../components/atoms/ButtonLogout';
 import DataPribadi from '../../components/molecules/DataPribadi';
 import MenuPengumuman from '../../components/organisms/MenuPengumuman';
 
-const ScreenDashboardNotif = ({}) => {
+const ScreenDashboardNotif = ({navigation}) => {
   return (
     <View style={{alignItems: 'center', backgroundColor: Color.green}}>
       <ButtonLogout />
@@ -25,7 +25,7 @@ const ScreenDashboardNotif = ({}) => {
       </View>
       <View style={styles.containerMenu}>
         <Text style={styles.judulSection}>menu utama</Text>
-        <MenuPengumuman />
+        <MenuPengumuman navigation={navigation} />
       </View>
     </View>
   );

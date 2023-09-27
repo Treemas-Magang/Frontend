@@ -60,7 +60,7 @@ const screens = [
   },
 ];
 
-const routeName = 'dashboardNotif';
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {

@@ -23,7 +23,7 @@ const MenuUtama = ({navigation}) => {
       <IconMenu
         image={require('../../assets/vector/announcement.png')}
         title="pengumuman"
-        onPress={() => moveTo('notifPengumuman')}
+        onPress={() => moveTo('dashboardNotif')}
       />
     </View>
   );
