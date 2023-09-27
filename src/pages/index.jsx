@@ -5,7 +5,7 @@ import ScreenLupaPassword from './screen/ScreenLupaPassword';
 import ScreenNotifPengumuman from './screen/ScreenNotifPengumuman';
 import ScreenSplash from './screen/ScreenSplash';
 import ScreenDetailTimesheet from './screen/ScreenDetailTimesheet';
-
+import ScreenGagalSidikJari from './screen/ScreenGagalSidikJari';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -14,4 +14,5 @@ export {
   ScreenNotifPengumuman,
   ScreenSplash,
   ScreenDetailTimesheet,
+  ScreenGagalSidikJari,
 };

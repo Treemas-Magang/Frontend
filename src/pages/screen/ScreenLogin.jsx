@@ -17,23 +17,32 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFingerprint} from '@fortawesome/free-solid-svg-icons';
 import {useSelector, useDispatch} from 'react-redux';
 import {setForm} from '../../redux';
+import {checkBiometryType} from '../../utils/checkBiometricType';
+import ReactNativeBiometrics from 'react-native-biometrics';
 
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
+  const [scanCount, setScanCount] = useState(0);
+  const maxScanCount = 3;
   const {form} = useSelector(state => state.LoginReducer);
   const {location} = useSelector(state => state.SplashReducer);
+  const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
-  getDataFromSession('appVersion')
-    .then(apkVersion => {
-      if (apkVersion !== null) {
-        setAppVersion(apkVersion);
-      } else {
-        console.log('Data tidak ditemukan di sesi.');
-      }
-    })
-    .catch(error => {
-      console.error('Terjadi kesalahan:', error);
-    });
+  useEffect(() => {
+    checkBiometryType(dispatch);
+
+    getDataFromSession('appVersion')
+      .then(apkVersion => {
+        if (apkVersion !== null) {
+          setAppVersion(apkVersion);
+        } else {
+          console.log('Data tidak ditemukan di sesi.');
+        }
+      })
+      .catch(error => {
+        console.error('Terjadi kesalahan dalam getDataFromSession:', error);
+      });
+  }, [biometricType]);
 
   const onChangeText = (value, inputType) => {
     dispatch(setForm(inputType, value));
@@ -44,6 +53,40 @@ const ScreenLogin = ({navigation}) => {
   };
   const moveToLupaPassword = () => {
     navigation.navigate('lupaPassword');
+  };
+  console.log(scanCount);
+  const rnBiometrics = new ReactNativeBiometrics();
+  const handleFingerprint = async () => {
+    try {
+      const result = await rnBiometrics.simplePrompt({
+        promptMessage: 'Gunakan sidik jari untuk login',
+        cancelButtonText: 'Batal',
+      });
+
+      if (result.success) {
+        // Pemindaian berhasil
+        console.log('Otentikasi berhasil');
+        navigation.navigate('dashboard');
+      }
+      if (result.error) {
+        // Pemindaian gagal
+        console.log('Otentikasi gagal');
+
+        // Update jumlah pemindaian yang gagal
+        setScanCount(scanCount + 1);
+
+        // Cek apakah sudah mencapai batas jumlah pemindaian yang gagal
+        if (scanCount >= maxScanCount) {
+          console.log(
+            'Anda telah mencapai batas jumlah pemindaian yang gagal.',
+          );
+          navigation.navigate('gagalSidikJari');
+          // Lakukan tindakan jika jumlah pemindaian yang gagal mencapai batas
+        }
+      }
+    } catch (error) {
+      console.error('Terjadi kesalahan dalam otentikasi sidik jari:', error);
+    }
   };
   return (
     <KeyboardAvoidingView style={{flex: 1, backgroundColor: 'blue'}}>
@@ -73,7 +116,7 @@ const ScreenLogin = ({navigation}) => {
             />
             <View style={{flexDirection: 'row', gap: 20}}>
               <ButtonAction onPress={() => sendData()} title="login" />
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => handleFingerprint()}>
                 <FontAwesomeIcon
                   icon={faFingerprint}
                   color={Color.green}
