@@ -2,7 +2,10 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import IconMenu from '../atoms/IconMenu';
 
-const MenuUtama = () => {
+const MenuUtama = ({navigation}) => {
+  const moveTo = tujuan => {
+    navigation.navigate(tujuan);
+  };
   return (
     <View style={styles.wrapperIconMenu}>
       <IconMenu
@@ -20,6 +23,7 @@ const MenuUtama = () => {
       <IconMenu
         image={require('../../assets/vector/announcement.png')}
         title="pengumuman"
+        onPress={() => moveTo('notifPengumuman')}
       />
     </View>
   );

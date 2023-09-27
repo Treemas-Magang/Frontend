@@ -17,20 +17,44 @@ import {
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 const screens = [
-  {name: 'splash', component: ScreenSplash},
-  {name: 'login', component: ScreenLogin},
-  {name: 'lupaPassword', component: ScreenLupaPassword},
-  {name: 'dashboard', component: ScreenDashboard},
-  {name: 'detailPengumuman', component: ScreenDetailPengumuman},
-  {name: 'notifPengumuman', component: ScreenNotifPengumuman},
-  {name: 'listTimesheet', component: ListTimesheet},
-  {name: 'detailTimesheet', component: ScreenDetailTimesheet},
-  {name: 'cardUpdateTimesheet', component: CardUpdateTimesheet},
-  {name: 'formUpdateTimesheet', component: FormUpdateTimesheet},
-  {name: 'gagalSidikJari', component: ScreenGagalSidikJari},
+  {name: 'splash', component: ScreenSplash, gestureEnabled: false},
+  {name: 'login', component: ScreenLogin, gestureEnabled: false},
+  {name: 'lupaPassword', component: ScreenLupaPassword, gestureEnabled: true},
+  {name: 'dashboard', component: ScreenDashboard, gestureEnabled: false},
+  {
+    name: 'detailPengumuman',
+    component: ScreenDetailPengumuman,
+    gestureEnabled: true,
+  },
+  {
+    name: 'notifPengumuman',
+    component: ScreenNotifPengumuman,
+    gestureEnabled: true,
+  },
+  {name: 'listTimesheet', component: ListTimesheet, gestureEnabled: true},
+  {
+    name: 'detailTimesheet',
+    component: ScreenDetailTimesheet,
+    gestureEnabled: true,
+  },
+  {
+    name: 'cardUpdateTimesheet',
+    component: CardUpdateTimesheet,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formUpdateTimesheet',
+    component: FormUpdateTimesheet,
+    gestureEnabled: true,
+  },
+  {
+    name: 'gagalSidikJari',
+    component: ScreenGagalSidikJari,
+    gestureEnabled: false,
+  },
 ];
 
-const routeName = 'login';
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -47,6 +71,7 @@ function App() {
           component={screen.component}
           options={{
             headerShown: false,
+            gestureEnabled: screen.gestureEnabled,
           }}
         />
       ))}

@@ -9,4 +9,5 @@ const getAppVersion = async () => {
   }
 };
 
+
 export default getAppVersion;

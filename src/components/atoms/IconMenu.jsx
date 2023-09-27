@@ -2,9 +2,9 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 
-const IconMenu = ({image, title}) => {
+const IconMenu = ({image, title, onPress}) => {
   return (
-    <TouchableOpacity style={styles.boxImage}>
+    <TouchableOpacity style={styles.boxImage} onPress={onPress}>
       <Image source={image} style={styles.image} />
       <Text
         style={{
