@@ -7,7 +7,7 @@ import ButtonLogout from '../../components/atoms/ButtonLogout';
 import MenuUtama from '../../components/organisms/MenuUtama';
 import DataPribadi from '../../components/molecules/DataPribadi';
 
-const ScreenDashboard = () => {
+const ScreenDashboard = ({navigation}) => {
   return (
     <View style={{alignItems: 'center', backgroundColor: Color.green}}>
       <ButtonLogout />
@@ -25,7 +25,7 @@ const ScreenDashboard = () => {
       </View>
       <View style={styles.containerMenu}>
         <Text style={styles.judulSection}>menu utama</Text>
-        <MenuUtama />
+        <MenuUtama navigation={navigation} />
       </View>
     </View>
   );

@@ -65,15 +65,15 @@ const ScreenLogin = ({navigation}) => {
       if (result.success) {
         // Pemindaian berhasil
         console.log('Otentikasi berhasil');
+        setScanCount(0);
+
         navigation.navigate('dashboard');
-      }
-      if (result.error) {
+      } else if (result.error) {
         // Pemindaian gagal
         console.log('Otentikasi gagal');
 
         // Update jumlah pemindaian yang gagal
         setScanCount(scanCount + 1);
-
         // Cek apakah sudah mencapai batas jumlah pemindaian yang gagal
         if (scanCount >= maxScanCount) {
           console.log(
