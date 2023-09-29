@@ -2,7 +2,7 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Color} from '../../utils/color';
 import Axios from 'axios';
@@ -13,38 +13,25 @@ import DataPribadi from '../../components/molecules/DataPribadi';
 import {setDataUserAPI, fetchDataUserError} from '../../redux';
 
 const ScreenDashboard = ({navigation}) => {
+const [data, setData] = useState([])
   const dispatch = useDispatch();
-  const {data, error} = useSelector(state => state.userReducer);
-  const baseUrl = 'http://192.168.93:3004';
+  // const {data, error} = useSelector(state => state.userReducer);
+  console.log(data)
+  // console.log('redux',error)
+  const baseUrl = 'http://10.0.2.2:3004';
   useEffect(() => {
-    // Axios.get(`${baseUrl}/user`)
-    //   .then((result) => {
-    //     const responseAPI = result.data;
-    //     dispatch(setDataUserAPI(responseAPI));
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     dispatch(fetchDataUserError(error.message));
-    //   });
-    fetch(`${baseUrl}/user`)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json(); // Mengembalikan promise dengan data JSON
-  })
-  .then((data) => {
-    // Handle response data here
-    console.log(data);
-  })
-  .catch((error) => {
-    // Handle error here
-    console.error('Error:', error);
-  });
-
-  }, [baseUrl]);
-  console.log(data);
-  console.log(error);
+    Axios.get(`${baseUrl}/user/`)
+      .then(result => {
+        const responseAPI = result;
+        console.log('responseAPI')
+        // dispatch(setDataUserAPI(responseAPI));
+        setData(responseAPI)
+      })
+      .catch((error) => {
+        console.log(error);
+        // dispatch(fetchDataUserError('error'));
+      });
+  }, [setData]);
   return (
     <View style={{alignItems: 'center', backgroundColor: Color.green}}>
       <ButtonLogout navigation={navigation} />

@@ -1,7 +1,10 @@
-import { applyMiddleware, legacy_createStore as createStore } from "redux"
+/* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
+/* eslint-disable semi */
+/* eslint-disable eol-last */
+import { legacy_createStore as createStore } from "redux"
 import reducer from "./reducer"
-import thunk from "redux-thunk"
 
-const store = createStore(reducer, applyMiddleware(thunk))
+const store = createStore(reducer)
 
 export default store

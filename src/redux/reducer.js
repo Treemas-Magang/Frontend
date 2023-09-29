@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable eol-last */
 /* eslint-disable keyword-spacing */
 /* eslint-disable quotes */
 /* eslint-disable semi */
@@ -60,7 +61,7 @@ const SplashReducer = (state = initialStateSplash, action) => {
     }
     return state
 }
-const initialStateTimesheet ={
+const initialStateTimesheet = {
     form: {
         keterangan: ''
     }

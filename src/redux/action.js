@@ -2,7 +2,6 @@
 /* eslint-disable eol-last */
 /* eslint-disable keyword-spacing */
 /* eslint-disable semi */
-import axios from 'axios';
 export const setForm = (inputType, value) =>{
     return{type: 'SET_FORM', inputType: inputType, inputValue: value}
 }
