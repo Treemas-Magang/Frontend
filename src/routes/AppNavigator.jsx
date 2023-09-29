@@ -17,6 +17,8 @@ import {
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 import ScreenDashboardNotif from '../pages/screen/ScreenDashboardNotif';
+import ScreenDashboardRekap from '../pages/screen/ScreenDashboardRekap';
+import ScreenDashboardForm from '../pages/screen/ScreenDashboardForm';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -56,6 +58,16 @@ const screens = [
   {
     name: 'dashboardNotif',
     component: ScreenDashboardNotif,
+    gestureEnabled: true,
+  },
+  {
+    name: 'dashboardRekap',
+    component: ScreenDashboardRekap,
+    gestureEnabled: true,
+  },
+  {
+    name: 'dashboardForm',
+    component: ScreenDashboardForm,
     gestureEnabled: true,
   },
 ];
