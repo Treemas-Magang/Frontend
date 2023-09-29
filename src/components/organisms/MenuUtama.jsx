@@ -15,10 +15,12 @@ const MenuUtama = ({navigation}) => {
       <IconMenu
         image={require('../../assets/vector/rekap.png')}
         title="rekap"
+        onPress={() => moveTo('dashboardRekap')}
       />
       <IconMenu
         image={require('../../assets/vector/folders.png')}
         title="form"
+        onPress={() => moveTo('dashboardForm')}
       />
       <IconMenu
         image={require('../../assets/vector/announcement.png')}
