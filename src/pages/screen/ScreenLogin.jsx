@@ -1,3 +1,6 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -67,7 +70,7 @@ const ScreenLogin = ({navigation}) => {
         console.log('Otentikasi berhasil');
         setScanCount(0);
 
-        navigation.navigate('dashboard');
+        navigation.replace('dashboard');
       } else if (result.error) {
         // Pemindaian gagal
         console.log('Otentikasi gagal');
@@ -79,12 +82,11 @@ const ScreenLogin = ({navigation}) => {
           console.log(
             'Anda telah mencapai batas jumlah pemindaian yang gagal.',
           );
-          navigation.navigate('gagalSidikJari');
           // Lakukan tindakan jika jumlah pemindaian yang gagal mencapai batas
         }
       }
     } catch (error) {
-      console.error('Terjadi kesalahan dalam otentikasi sidik jari:', error);
+      navigation.navigate('gagalSidikJari');
     }
   };
   return (

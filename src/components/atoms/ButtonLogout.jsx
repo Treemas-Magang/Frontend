@@ -1,10 +1,12 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
 import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 
-const ButtonLogout = () => {
+const ButtonLogout = ({navigation}) => {
   const [isOpenLogout, setIsOpenLogout] = useState(false);
 
   const openLogout = () => {
@@ -39,6 +41,7 @@ const ButtonLogout = () => {
           {!isOpenLogout ? (
             ''
           ) : (
+            <TouchableOpacity onPress={() => navigation.replace('login')}>
             <Text
               style={{
                 marginHorizontal: 20,
@@ -48,6 +51,7 @@ const ButtonLogout = () => {
               }}>
               LOGOUT
             </Text>
+            </TouchableOpacity>
           )}
         </View>
       </View>

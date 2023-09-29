@@ -1,16 +1,53 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable semi */
+/* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Color} from '../../utils/color';
+import Axios from 'axios';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
 import MenuUtama from '../../components/organisms/MenuUtama';
 import DataPribadi from '../../components/molecules/DataPribadi';
+import {setDataUserAPI, fetchDataUserError} from '../../redux';
 
 const ScreenDashboard = ({navigation}) => {
+  const dispatch = useDispatch();
+  const {data, error} = useSelector(state => state.userReducer);
+  const baseUrl = 'http://192.168.93:3004';
+  useEffect(() => {
+    // Axios.get(`${baseUrl}/user`)
+    //   .then((result) => {
+    //     const responseAPI = result.data;
+    //     dispatch(setDataUserAPI(responseAPI));
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     dispatch(fetchDataUserError(error.message));
+    //   });
+    fetch(`${baseUrl}/user`)
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json(); // Mengembalikan promise dengan data JSON
+  })
+  .then((data) => {
+    // Handle response data here
+    console.log(data);
+  })
+  .catch((error) => {
+    // Handle error here
+    console.error('Error:', error);
+  });
+
+  }, [baseUrl]);
+  console.log(data);
+  console.log(error);
   return (
     <View style={{alignItems: 'center', backgroundColor: Color.green}}>
-      <ButtonLogout />
+      <ButtonLogout navigation={navigation} />
       <View
         style={{
           position: 'absolute',
