@@ -1,3 +1,8 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable keyword-spacing */
+/* eslint-disable quotes */
+/* eslint-disable semi */
+/* eslint-disable comma-dangle */
 import { combineReducers } from "redux";
 
 const initialStateLogin = {
@@ -86,11 +91,35 @@ const CheckBiometricTypeReducer = (state = initialStateCheckBiometricType, actio
     return state
 }
 
+const initialStateUser = {
+    data: [],
+    error: null
+}
+
+const userReducer = (state = initialStateUser, action) => {
+    switch (action.type) {
+        case 'FATCH_DATA_USER_SUCCESS':
+            return{
+                ...state,
+                data: action.payload
+            }
+        case 'FETCH_DATA_USER_FAILURE':
+            return {
+                ...state,
+                data: [],
+                error: action.payload,
+            };
+        default:
+            return state
+    }
+}
+
 const reducer = combineReducers({
     LoginReducer,
     SplashReducer,
     TimesheetReducer,
-    CheckBiometricTypeReducer
+    CheckBiometricTypeReducer,
+    userReducer
 })
 
 export default reducer;

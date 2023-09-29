@@ -1,10 +1,11 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import IconMenu from '../atoms/IconMenu';
 
 const MenuPengumuman = ({navigation}) => {
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
+  const moveTo = screen => {
+    navigation.navigate(screen);
   };
   return (
     <View style={styles.wrapperIconMenu}>

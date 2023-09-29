@@ -1,4 +1,7 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-native/no-inline-styles */
+import React, {useEffect} from 'react';
 import {ActivityIndicator, Image, StyleSheet, View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Color} from '../../utils/color';
