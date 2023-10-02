@@ -86,7 +86,7 @@ const screens = [
   },
 ];
 
-const routeName = 'pilihProject';
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {
