@@ -1,12 +1,65 @@
 .dashboard__container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     height: 100%;
+    background-color: #925FE2;
+    justify-content: space-between;
 }
 
-.content__container {
-    width: 85%;
-    background-color: var(--purple);
+.grafik__data__kehadiran h1{
+    color: var(--Putih, #FFF);
+    font-size: 1.75rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.3px;
+    display: inline;
+    font-family: 'Mulish', sans-serif;
+    
+}
+
+.keterangan h1{
+    font-size: 1rem;
+    color: #1C1D21;
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+}
+
+
+.keterangan {
+    background: var(--purple);
+    border-radius: 8px 8px;
+    min-height: 100px;
+    margin: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content:space-between;
+    
+}
+
+.box {
+    background-color: #FFF;
+    flex: 1;
+    border-radius: 5%;
+
+}
+
+
+
+.grafik__data__member {
+    color:  #1C1D21;
+    margin-top: 5rem;
+    font-size: 1.75rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.3px;
+    font-family: 'Mulish', sans-serif;
+}
+
+.data__member h1 {
+
 }
 
 /* Media query untuk ukuran layar max hp (smartphone) */
