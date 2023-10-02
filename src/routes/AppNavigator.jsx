@@ -19,6 +19,10 @@ import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 import ScreenDashboardNotif from '../pages/screen/ScreenDashboardNotif';
 import ScreenDashboardRekap from '../pages/screen/ScreenDashboardRekap';
 import ScreenDashboardForm from '../pages/screen/ScreenDashboardForm';
+import PilihProject from '../components/organisms/PilihProject';
+import CardPilihProject from '../components/molecules/CardPilihProject';
+import ScreenPilihProject from '../pages/screen/ScreenPilihProject';
+import ScreenPilihAbsenProject from '../pages/screen/ScreenPilihAbsenProject';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -70,9 +74,19 @@ const screens = [
     component: ScreenDashboardForm,
     gestureEnabled: true,
   },
+  {
+    name: 'pilihProject',
+    component: ScreenPilihProject,
+    gestureEnabled: true,
+  },
+  {
+    name: 'pilihAbsenProject',
+    component: ScreenPilihAbsenProject,
+    gestureEnabled: true,
+  },
 ];
 
-const routeName = 'splash';
+const routeName = 'pilihProject';
 const Stack = createNativeStackNavigator();
 
 function App() {
