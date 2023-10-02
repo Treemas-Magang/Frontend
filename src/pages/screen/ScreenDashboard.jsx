@@ -12,26 +12,28 @@ import MenuUtama from '../../components/organisms/MenuUtama';
 import DataPribadi from '../../components/molecules/DataPribadi';
 import {setDataUserAPI, fetchDataUserError} from '../../redux';
 
+const dataUser = [{
+    nik: 12981291829,
+    nama_karyawan: 'rizki aja rizki ajarizki aja rizki aja aja ajaaja dfsdf sdfsf dsfsfs dsf dsf',
+}]
 const ScreenDashboard = ({navigation}) => {
-const [data, setData] = useState([])
-  const dispatch = useDispatch();
-  // const {data, error} = useSelector(state => state.userReducer);
-  console.log(data)
-  // console.log('redux',error)
-  const baseUrl = 'http://10.0.2.2:3004';
+const [isNik, setIsNik] = useState('')
+const [isNama_karyawan, setIsNamaKaryawan] = useState('')
+ const dispatch = useDispatch();
+const {data} = useSelector((state) => state.userReducer);
   useEffect(() => {
-    Axios.get(`${baseUrl}/user/`)
-      .then(result => {
-        const responseAPI = result;
-        console.log('responseAPI')
-        // dispatch(setDataUserAPI(responseAPI));
-        setData(responseAPI)
-      })
-      .catch((error) => {
-        console.log(error);
-        // dispatch(fetchDataUserError('error'));
-      });
-  }, [setData]);
+    // Dispatch the action to set dataUser in Redux store
+    dispatch(setDataUserAPI(dataUser));
+  }, []);
+
+  useEffect(() => {
+  // Pastikan data sudah tersedia sebelum mengaksesnya
+  if (data && data.length > 0) {
+    const { nik, nama_karyawan } = data[0];
+    setIsNik(nik)
+    setIsNamaKaryawan(nama_karyawan)
+  }
+}, [data]);
   return (
     <View style={{alignItems: 'center', backgroundColor: Color.green}}>
       <ButtonLogout navigation={navigation} />
@@ -41,7 +43,7 @@ const [data, setData] = useState([])
           top: 80,
           width: 310,
         }}>
-        <DataPribadi />
+        <DataPribadi nama_karyawan={isNama_karyawan} nik={isNik} />
       </View>
       <View style={styles.containerInfo}>
         <Text style={styles.judulSection}>Statistik Tahun ini</Text>

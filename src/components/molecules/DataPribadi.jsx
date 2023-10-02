@@ -1,8 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable quotes */
+/* eslint-disable no-unused-vars */
+/* eslint-disable semi */
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Color} from '../../utils/color';
 
-const DataPribadi = () => {
+const DataPribadi = ({nik, nama_karyawan}) => {
   return (
     <View
       style={{
@@ -12,8 +19,8 @@ const DataPribadi = () => {
         alignItems: 'center',
       }}>
       <View>
-        <Text style={styles.textNama}>Rizki febriansyah</Text>
-        <Text style={styles.textNik}>832372823</Text>
+        <Text style={styles.textNama}>{nama_karyawan}</Text>
+        <Text style={styles.textNik}>{nik}</Text>
       </View>
       <View
         style={{
@@ -34,6 +41,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Color.blue,
     textTransform: 'uppercase',
+    width: 200
   },
   textNik: {
     fontFamily: 'Poppins-Regular',

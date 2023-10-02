@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
 import React from 'react';
 import CardNotif from '../molecules/CardNotif';

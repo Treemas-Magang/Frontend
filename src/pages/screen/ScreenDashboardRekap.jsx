@@ -7,38 +7,39 @@ import ButtonLogout from '../../components/atoms/ButtonLogout';
 import DataPribadi from '../../components/molecules/DataPribadi';
 import MenuRekap from '../../components/organisms/MenuRekap';
 
-const ScreenDashboardRekap = ({navigation}) => {
+const ScreenDashboardRekap = ({ navigation }) => {
   return (
-    <View style={{alignItems: 'center', backgroundColor: Color.green}}>
-      <ButtonLogout />
-      <View
-        style={{
-          position: 'absolute',
-          top: 80,
-          width: 310,
-        }}>
-        <DataPribadi />
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <View style={{ alignItems: 'center', backgroundColor: Color.green, minHeight: '100%' }}>
+        <ButtonLogout navigation={navigation} />
+        <View style={{ position: 'absolute', top: 80, width: 310 }}>
+          <DataPribadi />
+        </View>
+        <View style={styles.containerInfo}>
+          <Text style={styles.judulSection}>Statistik Tahun ini</Text>
+          <StatistikTahunIni />
+        </View>
+        <View style={styles.containerMenu}>
+          <Text style={styles.judulSection}>menu utama</Text>
+          <MenuRekap navigation={navigation} />
+        </View>
       </View>
-      <View style={styles.containerInfo}>
-        <Text style={styles.judulSection}>Statistik Tahun ini</Text>
-        <StatistikTahunIni />
-      </View>
-      <View style={styles.containerMenu}>
-        <Text style={styles.judulSection}>menu utama</Text>
-        <MenuRekap navigation={navigation} />
-      </View>
-    </View>
+    </ScrollView>
   );
 };
+
 export default ScreenDashboardRekap;
 
 const styles = StyleSheet.create({
+  scrollViewContent: {
+    flexGrow: 1,
+  },
   containerInfo: {
     backgroundColor: Color.white,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 300,
+    minHeight: 300, // Adjust this height as needed
     borderTopStartRadius: 35,
     borderTopEndRadius: 35,
     position: 'relative',
@@ -51,10 +52,9 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 35,
     alignItems: 'center',
     marginTop: -50,
-    height: '100%',
+    minHeight: '100%', // Adjust this height as needed
     position: 'relative',
   },
-
   judulSection: {
     position: 'absolute',
     top: 10,

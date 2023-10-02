@@ -93,27 +93,42 @@ const CheckBiometricTypeReducer = (state = initialStateCheckBiometricType, actio
 }
 
 const initialStateUser = {
-    data: [],
-    error: null
-}
+  data: [],
+  error: null,
+};
 
 const userReducer = (state = initialStateUser, action) => {
-    switch (action.type) {
-        case 'FATCH_DATA_USER_SUCCESS':
-            return{
-                ...state,
-                data: action.payload
-            }
-        case 'FETCH_DATA_USER_FAILURE':
-            return {
-                ...state,
-                data: [],
-                error: action.payload,
-            };
-        default:
-            return state
-    }
-}
+  switch (action.type) {
+    case 'FETCH_DATA_USER_SUCCESS':
+      return {
+        ...state,
+        data: action.payload,
+        error: null,
+      };
+    case 'FETCH_DATA_USER_FAILURE':
+      return {
+        ...state,
+        data: [],
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+// const initialStateUser = {
+//     biometricType: null
+// }
+// const userReducer = (state = initialStateUser, action) => {
+//     if (action.type === 'SET_BIOMETRIC_TYPE') {
+//         return{
+//             ...state,
+//             biometricType: action.biometricType
+//         }
+//     }
+//     return state
+// }
+
 
 const reducer = combineReducers({
     LoginReducer,
