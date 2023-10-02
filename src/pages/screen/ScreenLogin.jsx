@@ -38,7 +38,7 @@ const ScreenLogin = ({navigation}) => {
         if (apkVersion !== null) {
           setAppVersion(apkVersion);
         } else {
-          console.log('Data tidak ditemukan di sesi.');
+          console.log('Data tidak ditemukan di session.');
         }
       })
       .catch(error => {
@@ -56,7 +56,6 @@ const ScreenLogin = ({navigation}) => {
   const moveToLupaPassword = () => {
     navigation.navigate('lupaPassword');
   };
-  console.log(scanCount);
   const rnBiometrics = new ReactNativeBiometrics();
   const handleFingerprint = async () => {
     try {

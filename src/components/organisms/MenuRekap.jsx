@@ -1,13 +1,15 @@
-import {StyleSheet, View, ScrollView} from 'react-native';
+/* eslint-disable prettier/prettier */
+/* eslint-disable prettier/prettier */
+import { StyleSheet, View, ScrollView } from 'react-native';
 import React from 'react';
 import IconMenu from '../atoms/IconMenu';
 
-const MenuRekap = ({navigation}) => {
-  const moveTo = tujuan => {
+const MenuRekap = ({ navigation }) => {
+  const moveTo = (tujuan) => {
     navigation.navigate(tujuan);
   };
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <View style={styles.wrapperIconMenu}>
         <IconMenu
           image={require('../../assets/vector/Reimburse.png')}
@@ -42,6 +44,9 @@ const MenuRekap = ({navigation}) => {
 export default MenuRekap;
 
 const styles = StyleSheet.create({
+  scrollViewContent: {
+    flexGrow: 1,
+  },
   wrapperIconMenu: {
     flexDirection: 'row',
     flexWrap: 'wrap',

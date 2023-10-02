@@ -28,7 +28,7 @@ const ScreenSplash = ({navigation}) => {
         console.log('Izin lokasi diberikan.');
         try {
           const locationData = await getLocation();
-          console.log('Lokasi berhasil diambil:', locationData);
+          // console.log('Lokasi berhasil diambil:', locationData);
 
           // Set nilai lokasi ke dalam reducer
           dispatch(
