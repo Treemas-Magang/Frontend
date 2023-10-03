@@ -5,9 +5,8 @@ import {text} from '../../utils/text';
 import ButtonAction from '../atoms/ButtonAction';
 
 const DetailTimesheet = ({navigation}) => {
-  const moveToUpdateTimesheet = () => {
-    // navigation.navigate('formUpdateTimesheet');
-    console.log('Tombol berhasil ditekan');
+  const moveTo = tujuan => {
+    navigation.navigate(tujuan);
   };
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
@@ -86,7 +85,7 @@ const DetailTimesheet = ({navigation}) => {
         </ScrollView>
         <View style={styles.catatanKerja}>
           <ButtonAction
-            onPress={() => moveToUpdateTimesheet()}
+            onPress={() => moveTo('formUpdateTimesheet')}
             title="UPDATE"
           />
         </View>

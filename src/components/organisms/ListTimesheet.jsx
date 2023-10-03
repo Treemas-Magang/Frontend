@@ -3,7 +3,7 @@ import React from 'react';
 import CardTimesheet from '../molecules/CardTimesheet';
 import {Color} from '../../utils/color';
 
-const ListTimesheet = () => {
+const ListTimesheet = ({navigation}) => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <Image
@@ -13,13 +13,12 @@ const ListTimesheet = () => {
       <Text style={styles.Judul}>TIMESHEET</Text>
       <View style={styles.backgroundCardTimesheet}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <CardTimesheet />
-          <CardTimesheet />
-          <CardTimesheet />
-          <CardTimesheet />
-          <CardTimesheet />
-          <CardTimesheet />
-          <CardTimesheet />
+          <CardTimesheet navigation={navigation} />
+          <CardTimesheet navigation={navigation} />
+          <CardTimesheet navigation={navigation} />
+          <CardTimesheet navigation={navigation} />
+          <CardTimesheet navigation={navigation} />
+          <CardTimesheet navigation={navigation} />
         </ScrollView>
         <View style={styles.catatanKerja}>
           <Text style={{fontFamily: 'Poppins-LightItalic'}}>

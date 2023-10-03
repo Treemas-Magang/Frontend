@@ -24,7 +24,7 @@ const ScreenDashboardForm = ({navigation}) => {
         <StatistikTahunIni />
       </View>
       <View style={styles.containerMenu}>
-        <Text style={styles.judulSection}>menu utama</Text>
+        <Text style={styles.judulSection}>form</Text>
         <MenuForm navigation={navigation} />
       </View>
     </View>

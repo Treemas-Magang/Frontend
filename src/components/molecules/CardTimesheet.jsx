@@ -2,10 +2,15 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 
-const CardTimesheet = () => {
+const CardTimesheet = ({navigation}) => {
+  const moveTo = tujuan => {
+    navigation.navigate(tujuan);
+  };
   return (
     <View>
-      <TouchableOpacity style={styles.CardTimesheetStyle}>
+      <TouchableOpacity
+        style={styles.CardTimesheetStyle}
+        onPress={() => moveTo('detailTimesheet')}>
         <Text
           style={{
             fontFamily: 'Poppins-SemiBold',

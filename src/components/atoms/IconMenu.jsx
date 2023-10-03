@@ -12,6 +12,8 @@ const IconMenu = ({image, title, onPress}) => {
           color: Color.blue,
           fontSize: 12,
           textTransform: 'uppercase',
+          width: 90,
+          textAlign: 'center',
         }}>
         {title}
       </Text>

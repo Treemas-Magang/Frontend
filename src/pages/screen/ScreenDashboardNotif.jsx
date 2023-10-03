@@ -24,7 +24,7 @@ const ScreenDashboardNotif = ({navigation}) => {
         <StatistikTahunIni />
       </View>
       <View style={styles.containerMenu}>
-        <Text style={styles.judulSection}>menu utama</Text>
+        <Text style={styles.judulSection}>Notif</Text>
         <MenuPengumuman navigation={navigation} />
       </View>
     </View>

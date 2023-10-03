@@ -5,9 +5,9 @@ import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
 import DataPribadi from '../../components/molecules/DataPribadi';
-import MenuRekap from '../../components/organisms/MenuRekap';
+import MenuKehadiran from '../../components/organisms/MenuKehadiran';
 
-const ScreenDashboardRekap = ({navigation}) => {
+const ScreenDashboardKehadiran = ({navigation}) => {
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <View
@@ -25,15 +25,15 @@ const ScreenDashboardRekap = ({navigation}) => {
           <StatistikTahunIni />
         </View>
         <View style={styles.containerMenu}>
-          <Text style={styles.judulSection}>rekap</Text>
-          <MenuRekap navigation={navigation} />
+          <Text style={styles.judulSection}>Kehadiran</Text>
+          <MenuKehadiran navigation={navigation} />
         </View>
       </View>
     </ScrollView>
   );
 };
 
-export default ScreenDashboardRekap;
+export default ScreenDashboardKehadiran;
 
 const styles = StyleSheet.create({
   scrollViewContent: {

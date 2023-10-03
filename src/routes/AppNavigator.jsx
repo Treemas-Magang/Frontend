@@ -17,7 +17,8 @@ import {
   ScreenPilihProject,
   ScreenDashboardForm,
   ScreenDashboardNotif,
-  ScreenDashboardRekap
+  ScreenDashboardRekap,
+  ScreenDashboardKehadiran,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -82,11 +83,15 @@ const screens = [
     component: ScreenPilihAbsenProject,
     gestureEnabled: true,
   },
+  {
+    name: 'dashboardKehadiran',
+    component: ScreenDashboardKehadiran,
+    gestureEnabled: true,
+  },
 ];
 
 const routeName = 'splash';
 const Stack = createNativeStackNavigator();
-
 
 function App() {
   return (

@@ -11,6 +11,7 @@ const MenuUtama = ({navigation}) => {
       <IconMenu
         image={require('../../assets/vector/schedule.png')}
         title="Kehadiran"
+        onPress={() => moveTo('dashboardKehadiran')}
       />
       <IconMenu
         image={require('../../assets/vector/rekap.png')}

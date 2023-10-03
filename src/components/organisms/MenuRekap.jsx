@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
-import { StyleSheet, View, ScrollView } from 'react-native';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import React from 'react';
 import IconMenu from '../atoms/IconMenu';
 
-const MenuRekap = ({ navigation }) => {
-  const moveTo = (tujuan) => {
+const MenuRekap = ({navigation}) => {
+  const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
   return (
@@ -19,6 +19,7 @@ const MenuRekap = ({ navigation }) => {
         <IconMenu
           image={require('../../assets/vector/Timesheet.png')}
           title="Timesheet"
+          onPress={() => moveTo('listTimesheet')}
         />
         <IconMenu
           image={require('../../assets/vector/Absen.png')}
