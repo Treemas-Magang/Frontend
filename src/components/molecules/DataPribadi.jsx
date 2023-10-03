@@ -11,7 +11,7 @@ import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 
 const dataUser = [{
-    nik: 12981291829,
+    nik: 1343431291829,
     nama_karyawan: 'rizki febriansyah',
 }]
 const DataPribadi = () => {
