@@ -20,7 +20,7 @@ const ScreenDashboardRekap = ({ navigation }) => {
           <StatistikTahunIni />
         </View>
         <View style={styles.containerMenu}>
-          <Text style={styles.judulSection}>menu utama</Text>
+          <Text style={styles.judulSection}>menu rekap</Text>
           <MenuRekap navigation={navigation} />
         </View>
       </View>

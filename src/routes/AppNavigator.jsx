@@ -13,16 +13,14 @@ import {
   ScreenSplash,
   ScreenDetailTimesheet,
   ScreenGagalSidikJari,
+  ScreenPilihAbsenProject,
+  ScreenPilihProject,
+  ScreenDashboardForm,
+  ScreenDashboardNotif,
+  ScreenDashboardRekap
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
-import ScreenDashboardNotif from '../pages/screen/ScreenDashboardNotif';
-import ScreenDashboardRekap from '../pages/screen/ScreenDashboardRekap';
-import ScreenDashboardForm from '../pages/screen/ScreenDashboardForm';
-import PilihProject from '../components/organisms/PilihProject';
-import CardPilihProject from '../components/molecules/CardPilihProject';
-import ScreenPilihProject from '../pages/screen/ScreenPilihProject';
-import ScreenPilihAbsenProject from '../pages/screen/ScreenPilihAbsenProject';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -88,6 +86,7 @@ const screens = [
 
 const routeName = 'splash';
 const Stack = createNativeStackNavigator();
+
 
 function App() {
   return (

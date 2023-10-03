@@ -2,38 +2,14 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import {Color} from '../../utils/color';
-import Axios from 'axios';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
 import MenuUtama from '../../components/organisms/MenuUtama';
 import DataPribadi from '../../components/molecules/DataPribadi';
-import {setDataUserAPI, fetchDataUserError} from '../../redux';
 
-const dataUser = [{
-    nik: 12981291829,
-    nama_karyawan: 'rizki aja rizki ajarizki aja rizki aja aja ajaaja dfsdf sdfsf dsfsfs dsf dsf',
-}]
 const ScreenDashboard = ({navigation}) => {
-const [isNik, setIsNik] = useState('')
-const [isNama_karyawan, setIsNamaKaryawan] = useState('')
- const dispatch = useDispatch();
-const {data} = useSelector((state) => state.userReducer);
-  useEffect(() => {
-    // Dispatch the action to set dataUser in Redux store
-    dispatch(setDataUserAPI(dataUser));
-  }, []);
 
-  useEffect(() => {
-  // Pastikan data sudah tersedia sebelum mengaksesnya
-  if (data && data.length > 0) {
-    const { nik, nama_karyawan } = data[0];
-    setIsNik(nik)
-    setIsNamaKaryawan(nama_karyawan)
-  }
-}, [data]);
   return (
     <View style={{alignItems: 'center', backgroundColor: Color.green}}>
       <ButtonLogout navigation={navigation} />
@@ -43,7 +19,7 @@ const {data} = useSelector((state) => state.userReducer);
           top: 80,
           width: 310,
         }}>
-        <DataPribadi nama_karyawan={isNama_karyawan} nik={isNik} />
+        <DataPribadi />
       </View>
       <View style={styles.containerInfo}>
         <Text style={styles.judulSection}>Statistik Tahun ini</Text>
