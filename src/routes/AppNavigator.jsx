@@ -22,6 +22,7 @@ import {
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
+import FormAbsensi from '../components/organisms/FormAbsensi';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -84,13 +85,18 @@ const screens = [
     gestureEnabled: true,
   },
   {
+    name: 'formAbsensi',
+    component: FormAbsensi,
+    gestureEnabled: true,
+  },
+  {
     name: 'dashboardKehadiran',
     component: ScreenDashboardKehadiran,
     gestureEnabled: true,
   },
 ];
 
-const routeName = 'splash';
+const routeName = 'formAbsensi';
 const Stack = createNativeStackNavigator();
 
 function App() {
