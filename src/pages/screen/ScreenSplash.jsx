@@ -10,15 +10,17 @@ import requestLocationPermission from '../../utils/permissionService';
 import {useDispatch, useSelector} from 'react-redux';
 import {setLocation} from '../../redux';
 import Geolocation from '@react-native-community/geolocation';
+import getAppVersion from '../../utils/getAppVersion';
 const ScreenSplash = ({navigation}) => {
   const dispatch = useDispatch();
   const {location} = useSelector(state => state.SplashReducer);
 
   useEffect(() => {
-    Geolocation.setRNConfiguration({
-      skipPermissionRequests: true, // Anda perlu mengurus izin sendiri
-      authorizationLevel: 'whenInUse', // Izin yang diperlukan saat aplikasi aktif
-    });
+    // Geolocation.setRNConfiguration({
+    //   skipPermissionRequests: true, // Anda perlu mengurus izin sendiri
+    //   authorizationLevel: 'whenInUse', // Izin yang diperlukan saat aplikasi aktif
+    // });
+    getAppVersion()
     const fetchData = async () => {
       // ...
 
@@ -28,7 +30,7 @@ const ScreenSplash = ({navigation}) => {
         console.log('Izin lokasi diberikan.');
         try {
           const locationData = await getLocation();
-          // console.log('Lokasi berhasil diambil:', locationData);
+          console.log('Lokasi berhasil diambil:', locationData);
 
           // Set nilai lokasi ke dalam reducer
           dispatch(
@@ -50,6 +52,7 @@ const ScreenSplash = ({navigation}) => {
       // Cek apakah data isAppVersion telah disimpan di AsyncStorage
       AsyncStorage.getItem('appVersion')
         .then(savedAppVersion => {
+          console.log('versi app : ',savedAppVersion)
           const shouldNavigate = savedAppVersion !== null;
           if (shouldNavigate && location !== null) {
             // Jika data tersedia di AsyncStorage dan location tidak null, lanjutkan ke halaman login
@@ -68,8 +71,8 @@ const ScreenSplash = ({navigation}) => {
     };
 
     fetchData();
-  }, [navigation, setLocation, location]);
-
+  }, [navigation, dispatch]);
+  console.log('dari redux: ',location)
   return (
     <View
       style={{

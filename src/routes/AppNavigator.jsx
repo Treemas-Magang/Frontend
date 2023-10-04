@@ -23,7 +23,6 @@ import {
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
-import FormAbsensi from '../components/organisms/FormAbsensi';
 import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
