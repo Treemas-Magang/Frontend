@@ -7,4 +7,5 @@
     padding: 3rem 2rem;
     width: 100%;
     gap: 1rem;
+    background-color: var(--purple);
 }

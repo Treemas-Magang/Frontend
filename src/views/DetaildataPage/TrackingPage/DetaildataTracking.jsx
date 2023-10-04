@@ -3,7 +3,7 @@ import Content from "../../../components/Content/Content"
 
 const DetaildataTracking = () => {
     return <div className="tracking__container">
-        <Content navbarText="Master Data / Tracking" informationText="Tracking"/>
+        <Content navbarText="Detail Data / Tracking" informationText="Tracking"/>
     </div>
 }
 

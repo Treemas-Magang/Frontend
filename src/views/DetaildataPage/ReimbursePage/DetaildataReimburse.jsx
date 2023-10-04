@@ -3,7 +3,7 @@ import Content from "../../../components/Content/Content"
 
 const DetaildataReimburse = () => {
     return <div className="reimburse__container">
-        <Content navbarText="Master Data / Reimburse" informationText="Reimburse"/>
+        <Content navbarText="Detail Data / Reimburse" informationText="Reimburse"/>
     </div>
 }
 
