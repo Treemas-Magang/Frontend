@@ -2,19 +2,107 @@
 // In App.js in a new project
 
 import React from 'react';
-import LoadingScreen from '../pages/LoadingScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoginScreen from '../pages/LoginScreen';
-import LupaPassword from '../pages/LupaPassword';
-import Dashboard from '../pages/Dashboard';
-
+import ListTimesheet from '../components/organisms/ListTimesheet';
+import {
+  ScreenDashboard,
+  ScreenDetailPengumuman,
+  ScreenLogin,
+  ScreenLupaPassword,
+  ScreenNotifPengumuman,
+  ScreenSplash,
+  ScreenDetailTimesheet,
+  ScreenGagalSidikJari,
+  ScreenPilihAbsenProject,
+  ScreenPilihProject,
+  ScreenDashboardForm,
+  ScreenDashboardNotif,
+  ScreenDashboardRekap,
+  ScreenDashboardKehadiran,
+  ScreenFormAbsensi,
+} from '../pages/index';
+import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
+import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
+import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
 const screens = [
-  {name: 'loading', component: LoadingScreen},
-  {name: 'login', component: LoginScreen},
-  {name: 'lupaPassword', component: LupaPassword},
-  {name: 'dashboard', component: Dashboard},
+  {name: 'splash', component: ScreenSplash, gestureEnabled: false},
+  {name: 'login', component: ScreenLogin, gestureEnabled: false},
+  {name: 'lupaPassword', component: ScreenLupaPassword, gestureEnabled: true},
+  {name: 'dashboard', component: ScreenDashboard, gestureEnabled: false},
+  {
+    name: 'detailPengumuman',
+    component: ScreenDetailPengumuman,
+    gestureEnabled: true,
+  },
+  {
+    name: 'notifPengumuman',
+    component: ScreenNotifPengumuman,
+    gestureEnabled: true,
+  },
+  {name: 'listTimesheet', component: ListTimesheet, gestureEnabled: true},
+  {
+    name: 'detailTimesheet',
+    component: ScreenDetailTimesheet,
+    gestureEnabled: true,
+  },
+  {
+    name: 'cardUpdateTimesheet',
+    component: CardUpdateTimesheet,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formUpdateTimesheet',
+    component: FormUpdateTimesheet,
+    gestureEnabled: true,
+  },
+  {
+    name: 'gagalSidikJari',
+    component: ScreenGagalSidikJari,
+    gestureEnabled: false,
+  },
+  {
+    name: 'dashboardNotif',
+    component: ScreenDashboardNotif,
+    gestureEnabled: true,
+  },
+  {
+    name: 'dashboardRekap',
+    component: ScreenDashboardRekap,
+    gestureEnabled: true,
+  },
+  {
+    name: 'dashboardForm',
+    component: ScreenDashboardForm,
+    gestureEnabled: true,
+  },
+  {
+    name: 'pilihProject',
+    component: ScreenPilihProject,
+    gestureEnabled: true,
+  },
+  {
+    name: 'pilihAbsenProject',
+    component: ScreenPilihAbsenProject,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formAbsensi',
+    component: ScreenFormAbsensi,
+    gestureEnabled: true,
+  },
+  {
+    name: 'dashboardKehadiran',
+    component: ScreenDashboardKehadiran,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formCatatanKerjaHariini',
+    component: FormCatatanKerjaHariini,
+    gestureEnabled: true,
+  },
 ];
 
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -23,7 +111,7 @@ function App() {
       screenOptions={{
         animation: 'slide_from_right', // Atur efek slide dari kanan
       }}
-      initialRouteName="dashboard">
+      initialRouteName={routeName}>
       {screens.map((screen, index) => (
         <Stack.Screen
           key={index}
@@ -31,6 +119,7 @@ function App() {
           component={screen.component}
           options={{
             headerShown: false,
+            gestureEnabled: screen.gestureEnabled,
           }}
         />
       ))}

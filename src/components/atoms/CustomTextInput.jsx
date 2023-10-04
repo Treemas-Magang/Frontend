@@ -11,11 +11,12 @@ import {
 import {Color} from '../../utils/color';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEye, faEyeSlash} from '@fortawesome/free-regular-svg-icons';
+import {text} from '../../utils/text';
 // Buat komponen TextInput kustom
 const CustomTextInput = ({label, onTextChange, ...rest}) => {
   const [isInputActive, setInputActive] = useState(false);
   const [textInputValue, setTextInputValue] = useState('');
-  const [hidePassword, setHidePassword] = useState(false);
+  const [hidePassword, setHidePassword] = useState(true);
 
   const handleTextInputFocus = () => {
     setInputActive(true);
@@ -62,7 +63,7 @@ const CustomTextInput = ({label, onTextChange, ...rest}) => {
           <FontAwesomeIcon
             icon={hidePassword ? faEyeSlash : faEye}
             size={40}
-            color={hidePassword ? 'gray' : Color.primary}
+            color={hidePassword ? 'gray' : Color.green}
           />
         </TouchableOpacity>
       ) : (
@@ -77,14 +78,19 @@ const styles = StyleSheet.create({
     width: 275,
     height: 50,
     paddingHorizontal: 10,
-    borderBottomColor: Color.primary,
+    borderBottomColor: Color.green,
     borderBottomWidth: 1,
+    color: Color.text,
+    paddingBottom: -10,
   },
   label: {
     position: 'absolute',
     top: 11,
     left: 9,
-    fontSize: 22,
+    fontSize: 19,
+    fontFamily: text.light,
+    color: Color.blue,
+    zIndex: -1,
   },
   toggle: {
     position: 'absolute',

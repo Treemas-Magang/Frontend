@@ -2,6 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {Color} from '../../utils/color';
 
 const CardInfo = ({color, title, cardInfo}) => {
   return (
@@ -34,12 +35,14 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 9,
-    fontWeight: 'bold',
     textTransform: 'uppercase',
+    fontFamily: 'Poppins-SemiBold',
+    color: Color.blue,
   },
   textInfo: {
     fontSize: 16,
-    fontWeight: 'bold',
     textTransform: 'uppercase',
+    fontFamily: 'Poppins-SemiBold',
+    color: Color.white,
   },
 });
