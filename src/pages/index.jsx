@@ -12,6 +12,7 @@ import ScreenDashboardForm from './screen/ScreenDashboardForm';
 import ScreenDashboardNotif from './screen/ScreenDashboardNotif';
 import ScreenDashboardRekap from './screen/ScreenDashboardRekap';
 import ScreenDashboardKehadiran from './screen/ScreenDashboardKehadiran';
+import ScreenFormAbsensi from './screen/ScreenFormAbsensi';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -27,4 +28,5 @@ export {
   ScreenDashboardNotif,
   ScreenDashboardRekap,
   ScreenDashboardKehadiran,
+  ScreenFormAbsensi,
 };

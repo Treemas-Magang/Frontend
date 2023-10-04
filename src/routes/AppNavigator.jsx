@@ -19,6 +19,7 @@ import {
   ScreenDashboardNotif,
   ScreenDashboardRekap,
   ScreenDashboardKehadiran,
+  ScreenFormAbsensi,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -87,7 +88,7 @@ const screens = [
   },
   {
     name: 'formAbsensi',
-    component: FormAbsensi,
+    component: ScreenFormAbsensi,
     gestureEnabled: true,
   },
   {
