@@ -23,6 +23,7 @@ import {
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 import FormAbsensi from '../components/organisms/FormAbsensi';
+import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -94,9 +95,14 @@ const screens = [
     component: ScreenDashboardKehadiran,
     gestureEnabled: true,
   },
+  {
+    name: 'formCatatanKerjaHariini',
+    component: FormCatatanKerjaHariini,
+    gestureEnabled: true,
+  },
 ];
 
-const routeName = 'formAbsensi';
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {

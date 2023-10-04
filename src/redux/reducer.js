@@ -129,13 +129,33 @@ const userReducer = (state = initialStateUser, action) => {
 //     return state
 // }
 
+const initialStateCatatanKerja = {
+    form: {
+        timesheet: '',
+        catatanPulangKerja: '',
+    }
+}
+const CatatanKerjaReducer = (state = initialStateCatatanKerja, action) => {
+    if (action.type === 'SET_FORM_CATATAN_KERJA') {
+        return{
+            ...state,
+            form: {
+                ...state.form,
+                [action.inputType]: action.inputValue
+            }
+        }
+    }
+    return state
+}
+
 
 const reducer = combineReducers({
     LoginReducer,
     SplashReducer,
     TimesheetReducer,
     CheckBiometricTypeReducer,
-    userReducer
+    userReducer,
+    CatatanKerjaReducer
 })
 
 export default reducer;
