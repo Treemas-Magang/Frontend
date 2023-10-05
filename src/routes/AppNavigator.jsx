@@ -108,7 +108,7 @@ const screens = [
   },
 ];
 
-const routeName = 'cekCuti';
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {
