@@ -1,11 +1,21 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
-import React from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import {StyleSheet, Text, View, ScrollView, Image, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 import CardCekCuti from '../molecules/CardCekCuti';
 import {text} from '../../utils/text';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import Kalender from '../molecules/Kalender';
 
 const ListCekCuti = () => {
+  const [showKalender, setShowKalender] = useState(false);
+
+  const handleCalender = () => {
+  setShowKalender(!showKalender);
+};
+console.log(showKalender)
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <Image
@@ -44,6 +54,10 @@ const ListCekCuti = () => {
           <CardCekCuti />
         </ScrollView>
       </View>
+      <TouchableOpacity  style={{position:'absolute', bottom: 30, right: 34}} onPress={handleCalender}>
+      <FontAwesomeIcon icon={faCalendarAlt} size={50} color={Color.blue} />
+      </TouchableOpacity>
+      {showKalender && <View style={{position:'absolute', bottom: 80, right: 34}}><Kalender /></View> }
     </View>
   );
 };
