@@ -24,6 +24,7 @@ import {
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
+import ScreenCekCuti from '../pages/screen/ScreenCekCuti';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -100,9 +101,14 @@ const screens = [
     component: FormCatatanKerjaHariini,
     gestureEnabled: true,
   },
+  {
+    name: 'cekCuti',
+    component: ScreenCekCuti,
+    gestureEnabled: true,
+  },
 ];
 
-const routeName = 'splash';
+const routeName = 'cekCuti';
 const Stack = createNativeStackNavigator();
 
 function App() {

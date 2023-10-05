@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
 import CardTimesheet from '../molecules/CardTimesheet';
 import {Color} from '../../utils/color';
-import { text } from '../../utils/text';
+import {text} from '../../utils/text';
 
 const ListTimesheet = ({navigation}) => {
   return (
@@ -24,22 +24,22 @@ const ListTimesheet = ({navigation}) => {
         </ScrollView>
         <View style={styles.catatanKerja}>
           <View style={{alignItems: 'center'}}>
-          <Text style={{fontFamily: 'Poppins-LightItalic'}}>
-            Total Jam Reguler
-          </Text>
-          <Text style={styles.textValue}>75 Jam</Text>
+            <Text style={{fontFamily: 'Poppins-LightItalic'}}>
+              Total Jam Reguler
+            </Text>
+            <Text style={styles.textValue}>75 Jam</Text>
           </View>
           <View style={{alignItems: 'center'}}>
-          <Text style={{fontFamily: 'Poppins-LightItalic'}}>
-            Total Lembur
-          </Text>
-          <Text style={styles.textValue}>75 Jam</Text>
+            <Text style={{fontFamily: 'Poppins-LightItalic'}}>
+              Total Lembur
+            </Text>
+            <Text style={styles.textValue}>75 Jam</Text>
           </View>
           <View style={{alignItems: 'center'}}>
-          <Text style={{fontFamily: text.boldItalic, color: Color.black}}>
-            Total Jam Kerja
-          </Text>
-          <Text style={styles.textValue}>75 Jam</Text>
+            <Text style={{fontFamily: text.boldItalic, color: Color.black}}>
+              Total Jam Kerja
+            </Text>
+            <Text style={styles.textValue}>75 Jam</Text>
           </View>
         </View>
       </View>
@@ -82,13 +82,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: Color.black,
-    width: 233,
-    margin: 8,
+    width: 280,
+    marginVertical: 20,
     padding: 10,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   textValue: {
     fontFamily: text.semiBold,
-    color: Color.black
-  }
+    color: Color.black,
+  },
 });
