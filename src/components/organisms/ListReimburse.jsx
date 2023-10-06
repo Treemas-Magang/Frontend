@@ -13,7 +13,7 @@ const ListReimburse = ({navigation}) => {
         source={require('../../assets/vector/VectorAtas.png')}
       />
       <Text style={styles.Judul}>Reimburse</Text>
-      <View style={styles.backgroundCardTimesheet}>
+      <View style={styles.backgroundCardReimburse}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <CardReimburse navigation={navigation} />
           <CardReimburse navigation={navigation} />
@@ -48,7 +48,7 @@ const ListReimburse = ({navigation}) => {
 export default ListReimburse;
 
 const styles = StyleSheet.create({
-  backgroundCardTimesheet: {
+  backgroundCardReimburse: {
     backgroundColor: Color.white,
     paddingTop: 50,
     alignItems: 'center',
