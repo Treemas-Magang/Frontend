@@ -20,6 +20,7 @@ import {
   ScreenDashboardRekap,
   ScreenDashboardKehadiran,
   ScreenFormAbsensi,
+  ScreenUpdateListProject,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -104,6 +105,11 @@ const screens = [
   {
     name: 'cekCuti',
     component: ScreenCekCuti,
+    gestureEnabled: true,
+  },
+  {
+    name: 'updateListProject',
+    component: ScreenUpdateListProject,
     gestureEnabled: true,
   },
 ];
