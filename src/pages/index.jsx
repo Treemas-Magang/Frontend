@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import ScreenDashboard from './screen/ScreenDashboard';
 import ScreenDetailPengumuman from './screen/ScreenDetailPengumuman';
 import ScreenLogin from './screen/ScreenLogin';
@@ -16,6 +17,7 @@ import ScreenFormAbsensi from './screen/ScreenFormAbsensi';
 import ScreenCekCuti from './screen/ScreenCekCuti';
 import ScreenDetailReimburse from './screen/ScreenDetailReimburse';
 import ScreenListReimburse from './screen/ScreenListReimburse';
+import ScreenUpdateListProject from './screen/ScreenUpdateListProject';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -35,4 +37,5 @@ export {
   ScreenCekCuti,
   ScreenDetailReimburse,
   ScreenListReimburse,
+  ScreenUpdateListProject
 };

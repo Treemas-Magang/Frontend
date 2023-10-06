@@ -23,6 +23,7 @@ import {
   ScreenCekCuti,
   ScreenDetailReimburse,
   ScreenListReimburse,
+  ScreenUpdateListProject,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -116,6 +117,11 @@ const screens = [
   {
     name: 'detailReimburse',
     component: ScreenDetailReimburse,
+    gestureEnabled: true,
+  },
+    {
+    name: 'updateListProject',
+    component: ScreenUpdateListProject,
     gestureEnabled: true,
   },
 ];

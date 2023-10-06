@@ -23,21 +23,25 @@ const ListReimburse = ({navigation}) => {
           <CardReimburse navigation={navigation} />
         </ScrollView>
         <View style={styles.catatanKerja}>
-          <View style={{alignItems: 'center'}}>
+          <View style={{alignItems: 'flex-start'}}>
+            <>
             <Text style={{fontFamily: 'Poppins-LightItalic'}}>Reimburse </Text>
-            <Text style={styles.textValue}>75 Jam</Text>
+            <Text style={styles.textValue}>Rp. 0</Text>
+            </>
+            <>
+            <Text style={{fontFamily: 'Poppins-LightItalic'}}>Data + Voice </Text>
+            <Text style={styles.textValue}>Rp. 150.000</Text>
+            </>
+            <>
+            <Text style={{fontFamily: 'Poppins-LightItalic'}}>Lain-lain </Text>
+            <Text style={styles.textValue}>Rp. 0</Text>
+            </>
           </View>
-          <View style={{alignItems: 'center'}}>
-            <Text style={{fontFamily: 'Poppins-LightItalic'}}>
-              Total Lembur
-            </Text>
-            <Text style={styles.textValue}>75 Jam</Text>
-          </View>
-          <View style={{alignItems: 'center'}}>
-            <Text style={{fontFamily: text.boldItalic, color: Color.black}}>
-              Total Jam Kerja
-            </Text>
-            <Text style={styles.textValue}>75 Jam</Text>
+          <View style={{justifyContent: 'flex-end'}}>
+            <>
+            <Text style={{fontFamily: 'Poppins-LightItalic'}}>Total </Text>
+            <Text style={[styles.textValue,{fontSize: 16}]}>Rp. 150.000</Text>
+            </>
           </View>
         </View>
       </View>
@@ -84,10 +88,11 @@ const styles = StyleSheet.create({
     width: 280,
     marginVertical: 20,
     padding: 10,
-    alignItems: 'center',
+    justifyContent:'space-evenly'
   },
   textValue: {
     fontFamily: text.semiBold,
     color: Color.black,
+    fontSize: 10
   },
 });

@@ -23,6 +23,7 @@ const MenuKehadiran = ({navigation}) => {
         <IconMenu
           image={require('../../assets/vector/updatelistproject.png')}
           title="Update List Project"
+          onPress={() => moveTo('updateListProject')}
         />
         <IconMenu
           image={require('../../assets/vector/listbelumpulang.png')}
