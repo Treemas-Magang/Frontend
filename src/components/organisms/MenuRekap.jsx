@@ -14,7 +14,7 @@ const MenuRekap = ({navigation}) => {
         <IconMenu
           image={require('../../assets/vector/Reimburse.png')}
           title="Reimburse"
-          onPress={() => moveTo('')}
+          onPress={() => moveTo('listReimburse')}
         />
         <IconMenu
           image={require('../../assets/vector/Timesheet.png')}

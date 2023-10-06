@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
 
 const CardTimesheet = ({navigation}) => {
   const moveTo = tujuan => {
@@ -11,14 +12,21 @@ const CardTimesheet = ({navigation}) => {
       <TouchableOpacity
         style={styles.CardTimesheetStyle}
         onPress={() => moveTo('detailTimesheet')}>
-        <Text
+        <View
           style={{
-            fontFamily: 'Poppins-SemiBold',
-            fontSize: 16,
-            color: Color.black,
+            width: '100%',
+            paddingLeft: 20,
           }}>
-          Senin 5 April
-        </Text>
+          <Text
+            style={{
+              fontFamily: text.semiBold,
+              marginHorizontal: 15,
+              color: Color.black,
+              paddingTop: 10,
+            }}>
+            Senin 5 April
+          </Text>
+        </View>
         <View style={styles.CardDalemTimesheetStyle}>
           <Text style={{fontFamily: 'Poppins-LightItalic', fontSize: 12}}>
             Penempatan

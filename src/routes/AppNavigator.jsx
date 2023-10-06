@@ -20,11 +20,13 @@ import {
   ScreenDashboardRekap,
   ScreenDashboardKehadiran,
   ScreenFormAbsensi,
+  ScreenCekCuti,
+  ScreenDetailReimburse,
+  ScreenListReimburse,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
-import ScreenCekCuti from '../pages/screen/ScreenCekCuti';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -104,6 +106,16 @@ const screens = [
   {
     name: 'cekCuti',
     component: ScreenCekCuti,
+    gestureEnabled: true,
+  },
+  {
+    name: 'listReimburse',
+    component: ScreenListReimburse,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailReimburse',
+    component: ScreenDetailReimburse,
     gestureEnabled: true,
   },
 ];
