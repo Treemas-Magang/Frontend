@@ -1,8 +1,8 @@
 import React from 'react';
 import DetailPengumuman from '../../components/organisms/DetailPengumuman';
 
-const ScreenDetailPengumuman = () => {
-  return <DetailPengumuman />;
+const ScreenDetailPengumuman = ({navigation}) => {
+  return <DetailPengumuman navigation={navigation} />;
 };
 
 export default ScreenDetailPengumuman;

@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 
-const DetailPengumuman = () => {
+const DetailPengumuman = ({navigation}) => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <Text style={styles.Judul}>PENGUMUMAN</Text>

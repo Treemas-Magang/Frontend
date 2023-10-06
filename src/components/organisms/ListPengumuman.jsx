@@ -4,7 +4,7 @@ import React from 'react';
 import CardNotif from '../molecules/CardNotif';
 import {Color} from '../../utils/color';
 
-const ListPengumuman = () => {
+const ListPengumuman = ({navigation}) => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <Image
@@ -14,18 +14,15 @@ const ListPengumuman = () => {
       <Text style={styles.Judul}>PENGUMUMAN</Text>
       <View style={styles.backgroundCardNotif}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
-          <CardNotif />
+          <CardNotif navigation={navigation} />
+          <CardNotif navigation={navigation} />
+          <CardNotif navigation={navigation} />
+          <CardNotif navigation={navigation} />
+          <CardNotif navigation={navigation} />
+          <CardNotif navigation={navigation} />
+          <CardNotif navigation={navigation} />
+          <CardNotif navigation={navigation} />
+          <CardNotif navigation={navigation} />
         </ScrollView>
       </View>
     </View>
