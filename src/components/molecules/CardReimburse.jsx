@@ -3,7 +3,14 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardReimburse = ({navigation}) => {
+const CardReimburse = ({
+  navigation,
+  tanggal,
+  totalJam,
+  overtime,
+  transport,
+  uangMakan,
+}) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
@@ -23,8 +30,9 @@ const CardReimburse = ({navigation}) => {
               marginHorizontal: 15,
               color: Color.black,
               paddingTop: 10,
+              textTransform: 'uppercase',
             }}>
-            Senin 5 April
+            {tanggal}
           </Text>
         </View>
         <View style={styles.CardDalemReimburseStyle}>
@@ -36,7 +44,9 @@ const CardReimburse = ({navigation}) => {
             }}>
             TOTAL JAM (jam)
           </Text>
-          <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 12}}>8</Text>
+          <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 12}}>
+            {totalJam}
+          </Text>
           <Text
             style={{
               fontFamily: 'Poppins-LightItalic',
@@ -44,7 +54,9 @@ const CardReimburse = ({navigation}) => {
             }}>
             OVERTIME (jam)
           </Text>
-          <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 12}}>8</Text>
+          <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 12}}>
+            {overtime}
+          </Text>
           <Text
             style={{
               fontFamily: 'Poppins-LightItalic',
@@ -52,7 +64,9 @@ const CardReimburse = ({navigation}) => {
             }}>
             Transport
           </Text>
-          <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 12}}>-</Text>
+          <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 12}}>
+            {transport}
+          </Text>
           <Text
             style={{
               fontFamily: 'Poppins-LightItalic',
@@ -60,7 +74,9 @@ const CardReimburse = ({navigation}) => {
             }}>
             Uang Makan
           </Text>
-          <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 12}}>-</Text>
+          <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 12}}>
+            {uangMakan}
+          </Text>
         </View>
       </TouchableOpacity>
     </View>

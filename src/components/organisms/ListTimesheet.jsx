@@ -1,42 +1,48 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import CardTimesheet from '../molecules/CardTimesheet';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 
 const ListTimesheet = ({navigation}) => {
-    const [timesheet, setTimesheet] = useState([
+  const [timesheet, setTimesheet] = useState([
     {
       tanggal: 'Selasa 05 April',
-      penempatan:'TREEMAS SOLUSI UTAMA',
-      lokasi:'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      penempatan: 'TREEMAS SOLUSI UTAMA',
+      lokasi:
+        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
     },
     {
       tanggal: 'Rabu 06 April',
-      penempatan:'TREEMAS SOLUSI UTAMA',
-      lokasi:'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      penempatan: 'TREEMAS SOLUSI UTAMA',
+      lokasi:
+        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
     },
     {
       tanggal: 'Kamis 07 April',
-      penempatan:'TREEMAS SOLUSI UTAMA',
-      lokasi:'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      penempatan: 'TREEMAS SOLUSI UTAMA',
+      lokasi:
+        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
     },
     {
       tanggal: 'Jumat 08 April',
-      penempatan:'TREEMAS SOLUSI UTAMA',
-      lokasi:'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      penempatan: 'TREEMAS SOLUSI UTAMA',
+      lokasi:
+        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
     },
     {
       tanggal: 'Senin 11 April',
-      penempatan:'TREEMAS SOLUSI UTAMA',
-      lokasi:'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      penempatan: 'TREEMAS SOLUSI UTAMA',
+      lokasi:
+        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
     },
     {
       tanggal: 'Selasa 12 April',
-      penempatan:'TREEMAS SOLUSI UTAMA',
-      lokasi:'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      penempatan: 'TREEMAS SOLUSI UTAMA',
+      lokasi:
+        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
     },
   ]);
   return (
@@ -52,13 +58,18 @@ const ListTimesheet = ({navigation}) => {
       <Text style={styles.Judul}>TIMESHEET</Text>
       <View style={styles.backgroundCardTimesheet}>
         <ScrollView showsVerticalScrollIndicator={false}>
-        {/* /////////////////////////////////////////////////////////////////// */}
+          {/* /////////////////////////////////////////////////////////////////// */}
           {timesheet.map((timesheet, index) => (
-        <View key={index} style={{flexDirection: 'column'}}>
-          <CardTimesheet navigation={navigation} lokasi={timesheet.lokasi} penempatan={timesheet.penempatan} tanggal={timesheet.tanggal} />
-        </View>
-        ))}
-      {/* /////////////////////////////////////////////////////////////////// */}
+            <View key={index} style={{flexDirection: 'column'}}>
+              <CardTimesheet
+                navigation={navigation}
+                lokasi={timesheet.lokasi}
+                penempatan={timesheet.penempatan}
+                tanggal={timesheet.tanggal}
+              />
+            </View>
+          ))}
+          {/* /////////////////////////////////////////////////////////////////// */}
         </ScrollView>
         <View style={styles.catatanKerja}>
           <View style={{alignItems: 'center'}}>
