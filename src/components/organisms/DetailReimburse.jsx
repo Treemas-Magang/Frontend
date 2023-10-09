@@ -2,6 +2,7 @@ import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
+import ButtonBack from '../atoms/ButtonBack';
 
 const DetailReimburse = ({navigation}) => {
   const moveTo = tujuan => {
@@ -9,6 +10,10 @@ const DetailReimburse = ({navigation}) => {
   };
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
+      <ButtonBack
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, left: 20}}
+      />
       <Image
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
