@@ -36,8 +36,8 @@ const Kalender = props => {
         // allowRangeSelection={true}
         minDate={minDate}
         maxDate={maxDate}
-        todayBackgroundColor="green"
-        selectedDayColor="blue"
+        todayBackgroundColor= {Color.green}
+        selectedDayColor={Color.blue}
         textStyle={text.regular}
         selectedDayTextColor="#ffffff"
         onDateChange={onDateChange}
@@ -55,7 +55,7 @@ const Kalender = props => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Color.cardTidakMasuk,
+    backgroundColor: Color.white,
     marginTop: 100,
     // position: 'absolute'
   },

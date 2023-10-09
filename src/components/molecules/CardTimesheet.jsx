@@ -1,9 +1,10 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardTimesheet = ({navigation}) => {
+const CardTimesheet = ({navigation, tanggal, penempatan, lokasi}) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
@@ -24,7 +25,7 @@ const CardTimesheet = ({navigation}) => {
               color: Color.black,
               paddingTop: 10,
             }}>
-            Senin 5 April
+            {tanggal}
           </Text>
         </View>
         <View style={styles.CardDalemTimesheetStyle}>
@@ -32,7 +33,7 @@ const CardTimesheet = ({navigation}) => {
             Penempatan
           </Text>
           <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 12}}>
-            TREEMAS SOLUSI UTAMA
+            {penempatan}
           </Text>
           <View style={{marginVertical: 5}}></View>
           <Text style={{fontFamily: 'Poppins-LightItalic', fontSize: 12}}>
@@ -46,8 +47,7 @@ const CardTimesheet = ({navigation}) => {
               textAlign: 'justify',
               color: Color.brown,
             }}>
-            jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-            Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
+            {lokasi}
           </Text>
         </View>
       </TouchableOpacity>
