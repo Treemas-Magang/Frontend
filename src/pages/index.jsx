@@ -18,6 +18,8 @@ import ScreenCekCuti from './screen/ScreenCekCuti';
 import ScreenDetailReimburse from './screen/ScreenDetailReimburse';
 import ScreenListReimburse from './screen/ScreenListReimburse';
 import ScreenUpdateListProject from './screen/ScreenUpdateListProject';
+import ScreenDetailAbsen from './screen/ScreenDetailAbsen';
+
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -37,5 +39,6 @@ export {
   ScreenCekCuti,
   ScreenDetailReimburse,
   ScreenListReimburse,
-  ScreenUpdateListProject
+  ScreenUpdateListProject,
+  ScreenDetailAbsen,
 };

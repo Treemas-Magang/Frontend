@@ -3,7 +3,7 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const DetailReimburse = ({navigation}) => {
+const DetailAbsen = ({navigation}) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
@@ -13,47 +13,62 @@ const DetailReimburse = ({navigation}) => {
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <Text style={styles.Judul}>Detail Reimburse</Text>
-      <View style={styles.backgroundCardReimburse}>
+      <Text style={styles.Judul}>DETAIL ABSEN</Text>
+      <View style={styles.backgroundCardAbsen}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View>
+            <Text style={styles.TextTitle}>Nik</Text>
+            <Text style={styles.TextDeskripsi}>2912312</Text>
+          </View>
+          <View>
+            <Text style={styles.TextTitle}>Nama</Text>
+            <Text style={styles.TextDeskripsi}>Azriel FachrulRezy</Text>
+          </View>
+          <View>
             <Text style={styles.TextTitle}>Hari</Text>
-            <Text style={styles.TextDeskripsi}>Rabu</Text>
+            <Text style={styles.TextDeskripsi}>Senin</Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Tanggal</Text>
             <Text style={styles.TextDeskripsi}>08-11-2021</Text>
           </View>
           <View>
-            <Text style={styles.TextTitle}>Flag Keterangan</Text>
-            <Text style={styles.TextDeskripsi}>-</Text>
+            <Text style={styles.TextTitle}>Fleg Keterangan</Text>
+            <Text style={styles.TextDeskripsi}>ABSEN</Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Project</Text>
             <Text style={styles.TextDeskripsi}>PT TREEMAS SOLUSI UTAMA</Text>
           </View>
           <View>
-            <Text style={styles.TextTitle}>Lokasi</Text>
+            <Text style={styles.TextTitle}>Jam Masuk</Text>
+            <Text style={styles.TextDeskripsi}>09:23:04</Text>
+          </View>
+          <View>
+            <Text style={styles.TextTitle}>Catatan Telat</Text>
+            <Text style={styles.TextDeskripsi}>BARU ABSEN MASUK</Text>
+          </View>
+          <View>
+            <Text style={styles.TextTitle}>Lokasi Masuk</Text>
             <Text style={{textAlign: 'justify'}}>
               jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
               Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
             </Text>
           </View>
           <View>
-            <Text style={styles.TextTitle}>Jam Masuk</Text>
-            <Text style={styles.TextDeskripsi}>09:23:04</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Jam Keluar</Text>
+            <Text style={styles.TextTitle}>Jam Pulang</Text>
             <Text style={styles.TextDeskripsi}>17:20:35</Text>
           </View>
           <View>
-            <Text style={styles.TextTitle}>Transport</Text>
-            <Text style={styles.TextDeskripsi}>0</Text>
+            <Text style={styles.TextTitle}>Catatan Pulang Cepat</Text>
+            <Text style={styles.TextDeskripsi}>Kegiatan Penting</Text>
           </View>
           <View>
-            <Text style={styles.TextTitle}>Uang Makan</Text>
-            <Text style={styles.TextDeskripsi}>0</Text>
+            <Text style={styles.TextTitle}>Lokasi Pulang</Text>
+            <Text style={{textAlign: 'justify', marginBottom: 25}}>
+              jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
+              Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
+            </Text>
           </View>
         </ScrollView>
       </View>
@@ -61,10 +76,10 @@ const DetailReimburse = ({navigation}) => {
   );
 };
 
-export default DetailReimburse;
+export default DetailAbsen;
 
 const styles = StyleSheet.create({
-  backgroundCardReimburse: {
+  backgroundCardAbsen: {
     backgroundColor: Color.white,
     paddingTop: 50,
     paddingHorizontal: 29,

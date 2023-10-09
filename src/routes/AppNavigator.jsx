@@ -24,6 +24,7 @@ import {
   ScreenDetailReimburse,
   ScreenListReimburse,
   ScreenUpdateListProject,
+  ScreenDetailAbsen,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -119,14 +120,19 @@ const screens = [
     component: ScreenDetailReimburse,
     gestureEnabled: true,
   },
-    {
+  {
     name: 'updateListProject',
     component: ScreenUpdateListProject,
     gestureEnabled: true,
   },
+  {
+    name: 'detailAbsen',
+    component: ScreenDetailAbsen,
+    gestureEnabled: true,
+  },
 ];
 
-const routeName = 'splash';
+const routeName = 'detailAbsen';
 const Stack = createNativeStackNavigator();
 
 function App() {

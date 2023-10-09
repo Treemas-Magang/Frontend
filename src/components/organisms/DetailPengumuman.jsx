@@ -10,7 +10,7 @@ const DetailPengumuman = ({navigation}) => {
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <View style={styles.backgroundCardNotif}>
+      <View style={styles.backgroundCardPengumuman}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text
             style={{
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     color: Color.blue,
   },
-  backgroundCardNotif: {
+  backgroundCardPengumuman: {
     backgroundColor: Color.white,
     paddingTop: 50,
     alignItems: 'center',

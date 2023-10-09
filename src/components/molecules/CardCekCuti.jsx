@@ -1,11 +1,11 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
 const CardCekCuti = () => {
   return (
-    <TouchableOpacity style={styles.CardNotifStyle}>
+    <View style={styles.CardNotifStyle}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Text
           style={{
@@ -38,7 +38,7 @@ const CardCekCuti = () => {
           Azriel FachrulRezy
         </Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
