@@ -32,16 +32,15 @@ const Dashboard = () => {
                         <div className="right">
                             <div><h2>Today</h2></div>
                             <div><h2>Yesterday</h2></div>
-                            </div>   
+                        </div>   
                                 
                 </div>
                     <div>
                         <h1>Grafik</h1>
                     </div>
-                    
+                    <div className="vertikal_line"></div>
             </div>
 
-            <div className="vertikal_line"></div>
 
             <div className="right__container__dashboard">
                 

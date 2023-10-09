@@ -1,14 +1,14 @@
 .dashboard__container {
     display: flex;
     flex-direction: column;
-    height: 100%;
     background-color: #925FE2;
     justify-content: space-between;
     padding: 3rem 2rem;
     gap : 5px;
-    /* ataskananbwhkiri */
-    /* atasbwh kirikanan */
-    /* atas kanan bawah kiri */
+    height: 100%;
+    overflow-y: scroll; /* Mengaktifkan scroll, tetapi sembunyikan scrollbar */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer dan Microsoft Edge */
 }
 
 
@@ -69,6 +69,7 @@
     display: flex;
     padding: 2rem;
     border-radius: 8px 8px;
+    gap: 1.5rem;
 }
 
 
@@ -89,7 +90,8 @@
     letter-spacing: 0.3px;
     gap: 10px;
     flex: 2;
-
+    position: relative;
+    
 }
 
 .left__container__dashboard h2{
@@ -110,7 +112,9 @@
 .right{
     display: flex;
     gap: 10px;
+    padding-right: 1.5rem;
 }
+
 
 
 .right__container__dashboard {
@@ -173,7 +177,9 @@
 
 .vertikal_line {
     border-right: 2px solid #DFE0EB;
-    height: 500px;
+    height: 100%;
+    position: absolute;
+    right: 0;
 }
 
 
