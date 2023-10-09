@@ -1,9 +1,9 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardCekCuti = () => {
+const CardCekCuti = ({nik, nama}) => {
   return (
     <View style={styles.CardNotifStyle}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -17,7 +17,7 @@ const CardCekCuti = () => {
         </Text>
         <Text
           style={{fontFamily: text.semiBold, fontSize: 12, color: Color.black}}>
-          1921321
+          {nik}
         </Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -35,7 +35,7 @@ const CardCekCuti = () => {
             fontSize: 12,
             color: Color.black,
           }}>
-          Azriel FachrulRezy
+          {nama}
         </Text>
       </View>
     </View>
