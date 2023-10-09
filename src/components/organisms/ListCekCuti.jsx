@@ -19,7 +19,7 @@ import ButtonBack from '../atoms/ButtonBack';
 
 const ListCekCuti = ({navigation}) => {
   const [showKalender, setShowKalender] = useState(false);
-  const [cekCuti, setcekCuti] = useState([
+  const [cekCutis, setcekCutis] = useState([
     {
       nik: '2010210',
       nama: 'Azriel FachrulRezy',
@@ -88,9 +88,11 @@ const ListCekCuti = ({navigation}) => {
             Sep 15 2023
           </Text>
         </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {cekCuti.map((cekCuti, index) => (
-            <CardCekCuti key={index} nik={cekCuti.nik} nama={cekCuti.nama} />
+        <ScrollView style={{maxHeight: 570}} showsVerticalScrollIndicator={false}>
+          {cekCutis.map((cekCuti, index) => (
+            <View key={index} style={{flexDirection: 'column'}}>
+              <CardCekCuti  nik={cekCuti.nik} nama={cekCuti.nama} />
+            </View>
           ))}
         </ScrollView>
       </View>
