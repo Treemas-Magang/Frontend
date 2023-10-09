@@ -1,9 +1,21 @@
 import "./tracking.css"
-import Content from "../../../components/Content/Content"
+import Search from "../../../components/Elements/Search/Search"
 
 const DetaildataTracking = () => {
     return <div className="tracking__container">
-        <Content navbarText="Detail Data / Tracking" informationText="Tracking"/>
+        <div className="content__container">
+            <Navbar navbarText="Detail Data / Tracking" />
+                <div className="input__container">
+                    <div className="left__container__input">
+                        <BoxInput placeholder="NIK"/>
+                    </div>
+
+                    <div className="right__container__input">
+                        <Search text="Tambah" className="add__button" />
+                    </div>
+                </div>
+            <Information informationText="Absen"/>
+        </div>
     </div>
 }
 

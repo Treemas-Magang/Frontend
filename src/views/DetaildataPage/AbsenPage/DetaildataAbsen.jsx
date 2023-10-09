@@ -12,7 +12,7 @@ const DetaildataAbsen = () => {
                 <div className="input__container">
                     <div className="left__container__input">
                         <BoxInput placeholder="Tanggal"/>
-                        <BoxInput placeholder="Nik"/>
+                        <BoxInput placeholder="NIK"/>
                         <BoxInput placeholder="Nama"/>
                         <DropdownMenu title="Pilih Status" />
                         <DropdownMenu title="Pilih Total Jam"/>
