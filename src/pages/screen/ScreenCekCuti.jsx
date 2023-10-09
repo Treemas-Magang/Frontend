@@ -1,8 +1,8 @@
 import React from 'react';
 import ListCekCuti from '../../components/organisms/ListCekCuti';
 
-const ScreenCekCuti = () => {
-  return <ListCekCuti />;
+const ScreenCekCuti = ({navigation}) => {
+  return <ListCekCuti navigation={navigation} />;
 };
 
 export default ScreenCekCuti;
