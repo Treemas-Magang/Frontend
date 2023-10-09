@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
-import {Button, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import CardListAbsen from '../molecules/CardListAbsen';
 import {Color} from '../../utils/color';
@@ -10,17 +10,20 @@ import ButtonBack from '../atoms/ButtonBack';
 const ListAbsen = ({navigation}) => {
   return (
     <View style={styles.background}>
-      <ButtonBack navigation={navigation} style={{position: 'absolute', top: 20, left: 20}} />
+      <ButtonBack
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, left: 20}}
+      />
       <View style={styles.wrapAbsen}>
         <Text style={styles.judul}>ABSEN</Text>
       </View>
       <View style={styles.wrapCardAbsen}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <CardListAbsen />
-          <CardListAbsen />
-          <CardListAbsen />
-          <CardListAbsen />
-          <CardListAbsen />
+          <CardListAbsen navigation={navigation} />
+          <CardListAbsen navigation={navigation} />
+          <CardListAbsen navigation={navigation} />
+          <CardListAbsen navigation={navigation} />
+          <CardListAbsen navigation={navigation} />
         </ScrollView>
       </View>
     </View>
@@ -39,7 +42,7 @@ const styles = StyleSheet.create({
   wrapAbsen: {
     flex: 2,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   wrapCardAbsen: {
     flex: 6,

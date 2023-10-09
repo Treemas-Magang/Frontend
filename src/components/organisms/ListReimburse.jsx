@@ -4,10 +4,15 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import CardReimburse from '../molecules/CardReimburse';
+import ButtonBack from '../atoms/ButtonBack';
 
 const ListReimburse = ({navigation}) => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
+      <ButtonBack
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, left: 20}}
+      />
       <Image
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
@@ -25,22 +30,30 @@ const ListReimburse = ({navigation}) => {
         <View style={styles.catatanKerja}>
           <View style={{alignItems: 'flex-start'}}>
             <>
-            <Text style={{fontFamily: 'Poppins-LightItalic'}}>Reimburse </Text>
-            <Text style={styles.textValue}>Rp. 0</Text>
+              <Text style={{fontFamily: 'Poppins-LightItalic'}}>
+                Reimburse{' '}
+              </Text>
+              <Text style={styles.textValue}>Rp. 0</Text>
             </>
             <>
-            <Text style={{fontFamily: 'Poppins-LightItalic'}}>Data + Voice </Text>
-            <Text style={styles.textValue}>Rp. 150.000</Text>
+              <Text style={{fontFamily: 'Poppins-LightItalic'}}>
+                Data + Voice{' '}
+              </Text>
+              <Text style={styles.textValue}>Rp. 150.000</Text>
             </>
             <>
-            <Text style={{fontFamily: 'Poppins-LightItalic'}}>Lain-lain </Text>
-            <Text style={styles.textValue}>Rp. 0</Text>
+              <Text style={{fontFamily: 'Poppins-LightItalic'}}>
+                Lain-lain{' '}
+              </Text>
+              <Text style={styles.textValue}>Rp. 0</Text>
             </>
           </View>
           <View style={{justifyContent: 'flex-end'}}>
             <>
-            <Text style={{fontFamily: 'Poppins-LightItalic'}}>Total </Text>
-            <Text style={[styles.textValue,{fontSize: 16}]}>Rp. 150.000</Text>
+              <Text style={{fontFamily: 'Poppins-LightItalic'}}>Total </Text>
+              <Text style={[styles.textValue, {fontSize: 16}]}>
+                Rp. 150.000
+              </Text>
             </>
           </View>
         </View>
@@ -88,11 +101,11 @@ const styles = StyleSheet.create({
     width: 280,
     marginVertical: 20,
     padding: 10,
-    justifyContent:'space-evenly'
+    justifyContent: 'space-evenly',
   },
   textValue: {
     fontFamily: text.semiBold,
     color: Color.black,
-    fontSize: 10
+    fontSize: 10,
   },
 });

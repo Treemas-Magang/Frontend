@@ -4,10 +4,15 @@ import React from 'react';
 import CardTimesheet from '../molecules/CardTimesheet';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
+import ButtonBack from '../atoms/ButtonBack';
 
 const ListTimesheet = ({navigation}) => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
+      <ButtonBack
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, left: 20}}
+      />
       <Image
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}

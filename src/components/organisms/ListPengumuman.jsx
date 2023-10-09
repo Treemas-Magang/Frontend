@@ -3,10 +3,15 @@ import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
 import React from 'react';
 import CardNotif from '../molecules/CardNotif';
 import {Color} from '../../utils/color';
+import ButtonBack from '../atoms/ButtonBack';
 
 const ListPengumuman = ({navigation}) => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
+      <ButtonBack
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, left: 20}}
+      />
       <Image
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
