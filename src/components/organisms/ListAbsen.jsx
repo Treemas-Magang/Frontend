@@ -19,9 +19,7 @@ const ListAbsen = ({navigation}) => {
       </View>
       <View style={styles.wrapCardAbsen}>
         <View style={styles.wrapStatus}>
-          <View
-            style={styles.simbolStatus}
-          />
+          <View style={styles.simbolStatus} />
           <Text>Sakit/Izin</Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -72,12 +70,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'absolute',
     top: 20,
-    right: 35,
+    right: 45,
   },
-  simbolStatus:{
+  simbolStatus: {
     width: 15,
     height: 15,
     backgroundColor: Color.cardSakit,
     borderRadius: 15,
-  }
+  },
 });

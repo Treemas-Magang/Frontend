@@ -42,7 +42,7 @@ export default CardListAbsen;
 const styles = StyleSheet.create({
   card: {
     width: 320,
-    minHeight: 198,
+    paddingVertical: 20,
     backgroundColor: Color.green,
     alignItems: 'center',
     justifyContent: 'center',
