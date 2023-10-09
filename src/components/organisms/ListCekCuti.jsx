@@ -19,6 +19,40 @@ import ButtonBack from '../atoms/ButtonBack';
 
 const ListCekCuti = ({navigation}) => {
   const [showKalender, setShowKalender] = useState(false);
+  const [cekCuti, setcekCuti] = useState([
+    {
+      nik: '2010210',
+      nama: 'Azriel FachrulRezy',
+    },
+    {
+      nik: '2012412',
+      nama: 'Rizki',
+    },
+    {
+      nik: '213114',
+      nama: 'Andi',
+    },
+    {
+      nik: '214122',
+      nama: 'Aliy',
+    },
+    {
+      nik: '213445',
+      nama: 'Diva',
+    },
+    {
+      nik: '34223',
+      nama: 'asda',
+    },
+    {
+      nik: '342113',
+      nama: 'dsfas',
+    },
+    {
+      nik: '13221',
+      nama: 'qwrwq',
+    },
+  ]);
 
   const handleCalender = () => {
     setShowKalender(!showKalender);
@@ -55,15 +89,9 @@ const ListCekCuti = ({navigation}) => {
           </Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <CardCekCuti />
-          <CardCekCuti />
-          <CardCekCuti />
-          <CardCekCuti />
-          <CardCekCuti />
-          <CardCekCuti />
-          <CardCekCuti />
-          <CardCekCuti />
-          <CardCekCuti />
+          {cekCuti.map((cekCuti, index) => (
+            <CardCekCuti key={index} nik={cekCuti.nik} nama={cekCuti.nama} />
+          ))}
         </ScrollView>
       </View>
       <TouchableOpacity
