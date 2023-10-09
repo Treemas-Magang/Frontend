@@ -18,6 +18,12 @@ const ListAbsen = ({navigation}) => {
         <Text style={styles.judul}>ABSEN</Text>
       </View>
       <View style={styles.wrapCardAbsen}>
+        <View style={styles.wrapStatus}>
+          <View
+            style={styles.simbolStatus}
+          />
+          <Text>Sakit/Izin</Text>
+        </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <CardListAbsen />
           <CardListAbsen />
@@ -53,10 +59,25 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
+    position: 'relative',
   },
   judul: {
     fontFamily: text.semiBold,
     fontSize: 26,
     color: Color.blue,
   },
+  wrapStatus: {
+    flexDirection: 'row',
+    gap: 5,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 20,
+    right: 35,
+  },
+  simbolStatus:{
+    width: 15,
+    height: 15,
+    backgroundColor: Color.cardSakit,
+    borderRadius: 15,
+  }
 });
