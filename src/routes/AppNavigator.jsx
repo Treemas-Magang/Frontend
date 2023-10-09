@@ -24,6 +24,7 @@ import {
   ScreenDetailReimburse,
   ScreenListReimburse,
   ScreenUpdateListProject,
+  ScreenListAbsen,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -119,9 +120,14 @@ const screens = [
     component: ScreenDetailReimburse,
     gestureEnabled: true,
   },
-    {
+  {
     name: 'updateListProject',
     component: ScreenUpdateListProject,
+    gestureEnabled: true,
+  },
+  {
+    name: 'listAbsen',
+    component: ScreenListAbsen,
     gestureEnabled: true,
   },
 ];

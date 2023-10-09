@@ -1,4 +1,7 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-undef */
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
