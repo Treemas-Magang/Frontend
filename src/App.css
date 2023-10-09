@@ -27,5 +27,14 @@
 
   main {
     height: 100%;
+    width: 100%;
   }
 
+  .content__container {
+    display: flex;
+    flex-direction: column;
+    padding: 3rem 2rem;
+    width: 100%;
+    gap: 1rem;
+    background-color: var(--purple);
+}

@@ -7,6 +7,8 @@
 .left__container__navbar {
     color: var(--Putih, #FFF);
     flex: 1;
+    display: flex;
+
 }
 
 .left__container__navbar h1 {
@@ -18,6 +20,7 @@
     letter-spacing: 0.3px;
     display: inline;
     font-family: 'Mulish', sans-serif;
+    margin: auto 0;
 }
 
 .right__container__navbar {

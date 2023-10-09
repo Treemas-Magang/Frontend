@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import "./navbar.css"
 import Profile from "../../../images/m header.png"
-
+import Search from "../../Elements/Search/Search"
 
 const Navbar = (props) => {
     return <div className="navbar__container">
@@ -11,6 +11,7 @@ const Navbar = (props) => {
         </div>
 
         <div className="right__container__navbar">
+            <Search />
             <p>Jones Ferdinand</p>
             <img src={Profile} alt="" />
         </div>
