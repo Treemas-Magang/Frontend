@@ -26,7 +26,7 @@ const DetaildataAbsen = () => {
                 <div className="input__container">
                     <div className="left__container__input">
                         <BoxInput placeholder="Tanggal"/>
-                        <BoxInput placeholder="Nik"/>
+                        <BoxInput placeholder="NIK"/>
                         <BoxInput placeholder="Nama"/>
                         <DropdownMenu onDropdownChange={handleStatus} items={["Cuti", "Other", "Sakit", "WFH"]} title={status} />
                         <DropdownMenu onDropdownChange={handleJam} items={["Lembur", "Tidak Lembur"]} title={jam}/>

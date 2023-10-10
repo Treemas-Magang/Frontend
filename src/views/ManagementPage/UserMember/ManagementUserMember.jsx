@@ -1,9 +1,21 @@
 import "./usermember.css"
-import Content from "../../../components/Content/Content"
+import DropdownMenu from "../../../components/Elements/DropdownMenu/DropdownMenu"
+import Navbar from "../../../components/Content/Navbar/Navbar"
+import Information from "../../../components/Content/Information/Information"
+
 
 const ManagementUserMember = () => {
     return <div className="usermember__container">
-        <Content navbarText="Management / User Member" informationText="User Member"/>
+        <div className="content__container">
+            <Navbar navbarText="ManagementUserMember / User-Member" />
+              
+            <div className="left__container__input">
+                <DropdownMenu title="Karyawan" />
+            </div>
+            
+            <Information informationText="User Member"/>
+        </div>
+
     </div>
 }
 
