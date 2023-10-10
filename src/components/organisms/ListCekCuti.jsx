@@ -59,7 +59,7 @@ const ListCekCuti = ({navigation}) => {
   };
   console.log(showKalender);
   return (
-    <View style={{backgroundColor: Color.green, width:'100%', height:'100%', position: 'relative'}}>
+    <View style={styles.background}>
       <ButtonBack
         navigation={navigation}
         style={{position: 'absolute', top: 20, left: 20}}
@@ -68,25 +68,13 @@ const ListCekCuti = ({navigation}) => {
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <Text style={styles.Judul}>CEK CUTI</Text>
+      <View style={styles.wrapCekCuti}>
+        <Text style={styles.judul}>CEK CUTI</Text>
+      </View>
       <View style={styles.backgroundCardCekCuti}>
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '100%',
-            paddingLeft: 20,
-          }}>
-          <Text
-            style={{
-              fontFamily: text.semiBold,
-              marginHorizontal: 20,
-              color: Color.black,
-            }}>
-            Tanggal
-          </Text>
-          <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
-            Sep 15 2023
-          </Text>
+      <View style={styles.wrapStatus}>
+          <Text>Tanggal</Text>
+          <Text>sep</Text>
         </View>
         <ScrollView style={{maxHeight: 570}} showsVerticalScrollIndicator={false}>
           {cekCutis.map((cekCuti, index) => (
@@ -113,19 +101,30 @@ const ListCekCuti = ({navigation}) => {
 export default ListCekCuti;
 
 const styles = StyleSheet.create({
-  backgroundCardCekCuti: {
-    backgroundColor: Color.white,
-    paddingTop: 50,
-    alignItems: 'center',
-    gap: 10,
-    borderTopEndRadius: 35,
-    borderTopStartRadius: 35,
-    marginTop: -50,
+  background: {
+    backgroundColor: Color.green,
+    height: '100%',
+    width: '100%',
+    position: 'relative',
   },
-  Judul: {
-    textAlign: 'center',
-    marginVertical: 112,
-    fontFamily: 'Poppins-SemiBold',
+  wrapCekCuti: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  backgroundCardCekCuti: {
+      flex: 6,
+    backgroundColor: Color.white,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 50,
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    position: 'relative',
+  },
+  judul: {
+    fontFamily: text.semiBold,
     fontSize: 26,
     color: Color.blue,
   },
@@ -147,5 +146,13 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     padding: 10,
     alignItems: 'center',
+  },
+  wrapStatus: {
+    flexDirection: 'row',
+    gap: 5,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 20,
+    right: 45,
   },
 });

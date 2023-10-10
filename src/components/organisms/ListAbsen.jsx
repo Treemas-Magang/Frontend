@@ -1,13 +1,55 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import CardListAbsen from '../molecules/CardListAbsen';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 
 const ListAbsen = ({navigation}) => {
+  const [dataAbsens, setDataAbsens] = useState([
+    {
+      tanggal_absen: 'Selasa 27 April',
+      jam_masuk: '09:45',
+      lokasi_masuk: 'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      jam_pulang: '09:45',
+      lokasi_pulang: 'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      status: 'sakit',
+    },
+    {
+      tanggal_absen: 'Selasa 27 April',
+      jam_masuk: '09:45',
+      lokasi_masuk: 'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      jam_pulang: '09:45',
+      lokasi_pulang: 'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      status: 'sakit',
+    },
+    {
+      tanggal_absen: 'Selasa 27 April',
+      jam_masuk: '09:45',
+      lokasi_masuk: 'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      jam_pulang: '09:45',
+      lokasi_pulang: 'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      status: 'sakit',
+    },
+    {
+      tanggal_absen: 'Selasa 27 April',
+      jam_masuk: '09:45',
+      lokasi_masuk: 'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      jam_pulang: '09:45',
+      lokasi_pulang: 'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      status: 'sakit',
+    },
+    {
+      tanggal_absen: 'Selasa 27 April',
+      jam_masuk: '09:45',
+      lokasi_masuk: 'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      jam_pulang: '09:45',
+      lokasi_pulang: 'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      status: 'sakit',
+    },
+  ])
   return (
     <View style={styles.background}>
       <ButtonBack
@@ -23,11 +65,13 @@ const ListAbsen = ({navigation}) => {
           <Text>Sakit/Izin</Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <CardListAbsen navigation={navigation} />
-          <CardListAbsen navigation={navigation} />
-          <CardListAbsen navigation={navigation} />
-          <CardListAbsen navigation={navigation} />
-          <CardListAbsen navigation={navigation} />
+        {
+          dataAbsens.map((dataAbsen, index) =>(
+            <View key={index} style={{flexDirection: 'column'}}>
+              <CardListAbsen jam_masuk={dataAbsen.jam_masuk} jam_pulang={dataAbsen.jam_pulang} lokasi_masuk={dataAbsen.lokasi_masuk} lokasi_pulang={dataAbsen.lokasi_pulang} />
+            </View>
+          ))
+        } 
         </ScrollView>
       </View>
     </View>

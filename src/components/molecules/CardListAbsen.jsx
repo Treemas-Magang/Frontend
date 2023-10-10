@@ -6,7 +6,7 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardListAbsen = ({navigation}) => {
+const CardListAbsen = ({navigation, jam_masuk, lokasi_masuk, jam_pulang, lokasi_pulang}) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
