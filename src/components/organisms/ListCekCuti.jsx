@@ -59,7 +59,7 @@ const ListCekCuti = ({navigation}) => {
   };
   console.log(showKalender);
   return (
-    <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
+    <View style={{backgroundColor: Color.green, width:'100%', height:'100%', position: 'relative'}}>
       <ButtonBack
         navigation={navigation}
         style={{position: 'absolute', top: 20, left: 20}}
