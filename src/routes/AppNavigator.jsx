@@ -27,6 +27,7 @@ import {
   ScreenListAbsen,
   ScreenDetailAbsen,
   ScreenRekapSakit,
+  ScreenFormCuti,
   ScreenRekapCuti,
   ScreenFormClaim,
 } from '../pages/index';
@@ -142,6 +143,11 @@ const screens = [
   {
     name: 'rekapSakit',
     component: ScreenRekapSakit,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formCuti',
+    component: ScreenFormCuti,
     gestureEnabled: true,
   },
   {

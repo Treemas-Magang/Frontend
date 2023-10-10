@@ -12,6 +12,7 @@ const initialStateLogin = {
     form:{
         nik: '',
         password: '',
+        deviceId: '',
     }
 }
 const LoginReducer = (state = initialStateLogin, action) => {

@@ -50,8 +50,8 @@ const CardRekapSakit = () => {
         <FontAwesomeIcon icon={faImage} size={50} color={Color.white} />
         <Text style={styles.statusText} >DISETUJUI</Text>
     </View>
-  </View> 
-  )
+  </View>
+  );
 };
 
 export default CardRekapSakit;
