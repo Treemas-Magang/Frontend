@@ -27,11 +27,12 @@ import {
   ScreenListAbsen,
   ScreenDetailAbsen,
   ScreenRekapSakit,
+  ScreenRekapCuti,
+  ScreenFormClaim,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
-import CardRekapCuti from '../components/molecules/CardRekapCuti';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -143,9 +144,19 @@ const screens = [
     component: ScreenRekapSakit,
     gestureEnabled: true,
   },
+  {
+    name: 'rekapCuti',
+    component: ScreenRekapCuti,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formClaim',
+    component: ScreenFormClaim,
+    gestureEnabled: true,
+  },
 ];
 
-const routeName = 'rekapCuti';
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {

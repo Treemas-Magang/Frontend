@@ -21,7 +21,7 @@ const MenuForm = ({navigation}) => {
       <IconMenu
         image={require('../../assets/vector/Claim.png')}
         title="Claim"
-        onPress={() => moveTo('')}
+        onPress={() => moveTo('formClaim')}
       />
       <View style={{width: 70, height: 70, marginBottom: 5}} />
     </View>

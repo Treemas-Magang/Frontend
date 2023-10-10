@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
 import React from 'react';
 import CardRekapSakit from '../molecules/CardRekapSakit';
 import ButtonBack from '../atoms/ButtonBack';
-import { Color } from '../../utils/color';
-import { text } from '../../utils/text';
+import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
 
 const ListRekapSakit = ({navigation}) => {
   return (
@@ -14,17 +14,21 @@ const ListRekapSakit = ({navigation}) => {
         style={{position: 'absolute', top: 20, left: 20}}
       />
       <View style={styles.wrapKeteranganSakit}>
+        <Image
+          style={styles.VectorAtasKanan}
+          source={require('../../assets/vector/VectorKananAtas.png')}
+        />
         <Text style={styles.judul}>KETERANGAN SAKIT</Text>
       </View>
       <View style={styles.wrapCardRekapSakit}>
         <ScrollView showsVerticalScrollIndicator={false}>
-        <CardRekapSakit />
-        <CardRekapSakit />
-        <CardRekapSakit />
-        <CardRekapSakit />
-        <CardRekapSakit />
-        <CardRekapSakit />
-        <CardRekapSakit />
+          <CardRekapSakit />
+          <CardRekapSakit />
+          <CardRekapSakit />
+          <CardRekapSakit />
+          <CardRekapSakit />
+          <CardRekapSakit />
+          <CardRekapSakit />
         </ScrollView>
       </View>
     </View>
@@ -74,5 +78,11 @@ const styles = StyleSheet.create({
     height: 15,
     backgroundColor: Color.cardSakit,
     borderRadius: 15,
+  },
+  VectorAtasKanan: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: -1,
   },
 });
