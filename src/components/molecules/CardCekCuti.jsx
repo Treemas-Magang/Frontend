@@ -5,7 +5,7 @@ import {text} from '../../utils/text';
 
 const CardCekCuti = ({nik, nama}) => {
   return (
-    <View style={styles.CardNotifStyle}>
+    <View style={styles.CardCekCutiStyle}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Text
           style={{
@@ -45,7 +45,7 @@ const CardCekCuti = ({nik, nama}) => {
 export default CardCekCuti;
 
 const styles = StyleSheet.create({
-  CardNotifStyle: {
+  CardCekCutiStyle: {
     backgroundColor: Color.green,
     width: 320,
     height: 80,
@@ -53,10 +53,5 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     justifyContent: 'center',
     paddingHorizontal: 20,
-  },
-  Image: {
-    width: 70,
-    height: 70,
-    marginHorizontal: 15,
   },
 });
