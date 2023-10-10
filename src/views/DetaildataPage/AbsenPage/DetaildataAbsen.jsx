@@ -1,11 +1,25 @@
+/* eslint-disable no-unused-vars */
 import "./absen.css"
 import Information from "../../../components/Content/Information/Information"
 import BoxInput from "../../../components/Elements/BoxInput/BoxInput"
 import Navbar from "../../../components/Content/Navbar/Navbar"
 import Button from "../../../components/Elements/Buttons/Button"
 import DropdownMenu from "../../../components/Elements/DropdownMenu/DropdownMenu"
+import { useState } from "react"
 
 const DetaildataAbsen = () => {
+    const [status, setStatus] = useState("Pilih Status")
+    const [jam, setJam] = useState("Pilih Total Jam")
+
+    const handleStatus = (selectedItem) => {
+        setStatus(selectedItem)
+    }
+
+    const handleJam = (selectedItem) => {
+        setJam(selectedItem)
+    }
+
+
     return <div className="absen__container">
         <div className="content__container">
             <Navbar navbarText="Detail Data / Absen" />
@@ -14,19 +28,17 @@ const DetaildataAbsen = () => {
                         <BoxInput placeholder="Tanggal"/>
                         <BoxInput placeholder="Nik"/>
                         <BoxInput placeholder="Nama"/>
-                        <DropdownMenu title="Pilih Status" />
-                        <DropdownMenu title="Pilih Total Jam"/>
+                        <DropdownMenu onDropdownChange={handleStatus} items={["Cuti", "Other", "Sakit", "WFH"]} title={status} />
+                        <DropdownMenu onDropdownChange={handleJam} items={["Lembur", "Tidak Lembur"]} title={jam}/>
                         <DropdownMenu title="Pilih Project"/>
-
                     </div>
                     <div className="right__container__input">
                         <Button text="Tambah" className="add__button" />
                     </div>
                 </div>
-            <Information informationText="Absen"/>
+            <Information informationText="Absen" showDropdown={false}/>
         </div>
-
-        </div>
+    </div>
 
 }
 

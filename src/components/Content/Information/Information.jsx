@@ -6,7 +6,7 @@ import InformationBottom from "./information_bottom/InformationBottom"
 
 const Information = (props) => {
     return <div className="information__container">
-        <InformationTop informationText={props.informationText} />
+        <InformationTop informationText={props.informationText} dropdownTitle={props.dropdownTitle} showDropdown={props.showDropdown} items={props.items} onDropdownChange={props.onDropdownChange}/>
         <InformationMiddle />
         <InformationBottom />
     </div>

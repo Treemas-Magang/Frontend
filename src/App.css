@@ -13,6 +13,7 @@
     --selected-box: #9fa2b447;
     --unselected-icon: #9FA2B4;
     --unselected-text: #a4a6b383;
+    --gray-light: #C5C7CD;
   }
   
   a {
@@ -38,3 +39,17 @@
     gap: 1rem;
     background-color: var(--purple);
 }
+
+.left__container__input {
+  flex-wrap: wrap;
+}
+
+div .dropdown {
+  height: 100%;
+}
+
+.right__container__input button {
+  margin: 0;
+  height: 40px;
+}
+

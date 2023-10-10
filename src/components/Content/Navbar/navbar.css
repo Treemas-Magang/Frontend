@@ -38,3 +38,9 @@
 .right__container__navbar img {
     border-radius: 50%;
 }
+
+.vertikal__line {
+    background-color: var(--gray-light);
+    width: 1px;
+    height: 100%;
+}
