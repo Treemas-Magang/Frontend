@@ -20,7 +20,7 @@ import ScreenListReimburse from './screen/ScreenListReimburse';
 import ScreenUpdateListProject from './screen/ScreenUpdateListProject';
 import ScreenListAbsen from './screen/ScreenListAbsen';
 import ScreenDetailAbsen from './screen/ScreenDetailAbsen';
-
+import ScreenRekapSakit from './screen/ScreenRekapSakit';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -43,4 +43,5 @@ export {
   ScreenUpdateListProject,
   ScreenListAbsen,
   ScreenDetailAbsen,
+  ScreenRekapSakit,
 };
