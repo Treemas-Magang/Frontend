@@ -2,6 +2,8 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
+import { Color } from '../../utils/color';
+import { text } from '../../utils/text';
 
 const Kalender = props => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);
@@ -9,7 +11,11 @@ const Kalender = props => {
   const minDate = new Date(); // Hari ini
   const maxDate = new Date();
   maxDate.setFullYear(maxDate.getFullYear(), 11, 31);
-  const startDate = selectedStartDate ? selectedStartDate.toString() : '';
+  const rawDate =   selectedStartDate ? selectedStartDate.date() : '';
+  // const startDate = selectedStartDate ? selectedStartDate.date() : '';
+  const startDate = selectedStartDate
+  ? rawDate < 10 ?  `0${selectedStartDate.date()}/${selectedStartDate.month() + 1}/${selectedStartDate.year()}` : `${selectedStartDate.date()}/${selectedStartDate.month() + 1}/${selectedStartDate.year()}`
+  : '';
   const endDate = selectedEndDate ? selectedEndDate.toString() : '';
   const hari = ['sen', 'sel', 'rab', 'kam', 'jum', 'sab', 'min'];
   console.log(startDate);
@@ -27,11 +33,12 @@ const Kalender = props => {
     <View style={styles.container}>
       <CalendarPicker
         startFromMonday={true}
-        allowRangeSelection={true}
+        // allowRangeSelection={true}
         minDate={minDate}
         maxDate={maxDate}
-        todayBackgroundColor="green"
-        selectedDayColor="blue"
+        todayBackgroundColor= {Color.green}
+        selectedDayColor={Color.blue}
+        textStyle={text.regular}
         selectedDayTextColor="#ffffff"
         onDateChange={onDateChange}
         nextTitle="selanjutnya"
@@ -42,18 +49,13 @@ const Kalender = props => {
         scrollable={true}
         width={300}
       />
-
-      <View>
-        <Text>SELECTED START DATE: {startDate}</Text>
-        <Text>SELECTED END DATE: {endDate}</Text>
-      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'pink',
+    backgroundColor: Color.white,
     marginTop: 100,
     // position: 'absolute'
   },

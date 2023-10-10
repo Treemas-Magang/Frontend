@@ -14,7 +14,7 @@ const MenuRekap = ({navigation}) => {
         <IconMenu
           image={require('../../assets/vector/Reimburse.png')}
           title="Reimburse"
-          onPress={() => moveTo('')}
+          onPress={() => moveTo('listReimburse')}
         />
         <IconMenu
           image={require('../../assets/vector/Timesheet.png')}
@@ -24,14 +24,17 @@ const MenuRekap = ({navigation}) => {
         <IconMenu
           image={require('../../assets/vector/Absen.png')}
           title="Absen"
+          onPress={() => moveTo('listAbsen')}
         />
         <IconMenu
           image={require('../../assets/vector/Cuti.png')}
           title="Cuti"
+          onPress={() => moveTo('rekapCuti')}
         />
         <IconMenu
           image={require('../../assets/vector/Sakit.png')}
           title="Sakit"
+          onPress={() => moveTo('rekapSakit')}
         />
         <IconMenu
           image={require('../../assets/vector/Claim.png')}

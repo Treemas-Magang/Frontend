@@ -2,9 +2,14 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 
-const CardNotif = () => {
+const CardNotif = ({navigation}) => {
+  const moveTo = tujuan => {
+    navigation.navigate(tujuan);
+  };
   return (
-    <TouchableOpacity style={styles.CardNotifStyle}>
+    <TouchableOpacity
+      style={styles.CardNotifStyle}
+      onPress={() => moveTo('detailPengumuman')}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Image
           source={require('../../assets/icons/Pesan.png')}

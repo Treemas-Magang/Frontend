@@ -20,6 +20,16 @@ import {
   ScreenDashboardRekap,
   ScreenDashboardKehadiran,
   ScreenFormAbsensi,
+  ScreenCekCuti,
+  ScreenDetailReimburse,
+  ScreenListReimburse,
+  ScreenUpdateListProject,
+  ScreenListAbsen,
+  ScreenDetailAbsen,
+  ScreenRekapSakit,
+  ScreenFormCuti,
+  ScreenRekapCuti,
+  ScreenFormClaim,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -98,6 +108,56 @@ const screens = [
   {
     name: 'formCatatanKerjaHariini',
     component: FormCatatanKerjaHariini,
+    gestureEnabled: true,
+  },
+  {
+    name: 'cekCuti',
+    component: ScreenCekCuti,
+    gestureEnabled: true,
+  },
+  {
+    name: 'listReimburse',
+    component: ScreenListReimburse,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailReimburse',
+    component: ScreenDetailReimburse,
+    gestureEnabled: true,
+  },
+  {
+    name: 'updateListProject',
+    component: ScreenUpdateListProject,
+    gestureEnabled: true,
+  },
+  {
+    name: 'listAbsen',
+    component: ScreenListAbsen,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailAbsen',
+    component: ScreenDetailAbsen,
+    gestureEnabled: true,
+  },
+  {
+    name: 'rekapSakit',
+    component: ScreenRekapSakit,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formCuti',
+    component: ScreenFormCuti,
+    gestureEnabled: true,
+  },
+  {
+    name: 'rekapCuti',
+    component: ScreenRekapCuti,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formClaim',
+    component: ScreenFormClaim,
     gestureEnabled: true,
   },
 ];
