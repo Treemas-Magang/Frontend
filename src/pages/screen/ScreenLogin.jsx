@@ -21,9 +21,11 @@ import {useSelector, useDispatch} from 'react-redux';
 import {setForm} from '../../redux';
 import {checkBiometryType} from '../../utils/checkBiometricType';
 import ReactNativeBiometrics from 'react-native-biometrics';
-
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
+  const [deviceId, setDeviceId] = useState('');
   const [scanCount, setScanCount] = useState(0);
   const maxScanCount = 3;
   const {form} = useSelector(state => state.LoginReducer);
@@ -32,6 +34,18 @@ const ScreenLogin = ({navigation}) => {
   const dispatch = useDispatch();
   useEffect(() => {
     checkBiometryType(dispatch);
+    getDataFromSession('deviceId')
+    .then(idDevice => {
+        if (idDevice !== null) {
+          setDeviceId(idDevice);
+          dispatch(setForm('deviceId', idDevice));
+        } else {
+          console.log('Data tidak ditemukan di session.');
+        }
+      })
+      .catch(error => {
+        console.error('Terjadi kesalahan dalam getDataFromSession:', error);
+      });
 
     getDataFromSession('appVersion')
       .then(apkVersion => {
@@ -44,14 +58,19 @@ const ScreenLogin = ({navigation}) => {
       .catch(error => {
         console.error('Terjadi kesalahan dalam getDataFromSession:', error);
       });
-  }, [biometricType]);
-
+  }, [biometricType, dispatch]);
   const onChangeText = (value, inputType) => {
     dispatch(setForm(inputType, value));
   };
-  const sendData = () => {
-    console.log('kirim data : ', form);
-    console.log('location reducer: ', location);
+  const sendData = async () => {
+    // console.log('kirim data : ', form);
+    // console.log('location reducer: ', location);
+    const response = await axios.post('http://192.168.10.31:8081/api/login', form);
+    // console.log(response.data.data);
+    const dataLogin = response.data.data;
+    const [{token}] = dataLogin
+    console.log(token)
+    await AsyncStorage.setItem('token', token);
   };
   const moveToLupaPassword = () => {
     navigation.navigate('lupaPassword');
@@ -88,6 +107,7 @@ const ScreenLogin = ({navigation}) => {
       navigation.navigate('gagalSidikJari');
     }
   };
+  
   return (
     <KeyboardAvoidingView style={{flex: 1, backgroundColor: 'blue'}}>
       <ScrollView

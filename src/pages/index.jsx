@@ -21,6 +21,7 @@ import ScreenUpdateListProject from './screen/ScreenUpdateListProject';
 import ScreenListAbsen from './screen/ScreenListAbsen';
 import ScreenDetailAbsen from './screen/ScreenDetailAbsen';
 import ScreenRekapSakit from './screen/ScreenRekapSakit';
+import ScreenFormCuti from './screen/ScreenFormCuti';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -44,4 +45,5 @@ export {
   ScreenListAbsen,
   ScreenDetailAbsen,
   ScreenRekapSakit,
+  ScreenFormCuti,
 };

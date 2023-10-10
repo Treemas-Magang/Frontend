@@ -27,6 +27,7 @@ import {
   ScreenListAbsen,
   ScreenDetailAbsen,
   ScreenRekapSakit,
+  ScreenFormCuti,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -140,6 +141,11 @@ const screens = [
   {
     name: 'rekapSakit',
     component: ScreenRekapSakit,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formCuti',
+    component: ScreenFormCuti,
     gestureEnabled: true,
   },
 ];

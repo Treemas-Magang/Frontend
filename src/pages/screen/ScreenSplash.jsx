@@ -11,6 +11,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setLocation} from '../../redux';
 import Geolocation from '@react-native-community/geolocation';
 import getAppVersion from '../../utils/getAppVersion';
+import getIdDevice from '../../utils/getIdDevice';
 const ScreenSplash = ({navigation}) => {
   const dispatch = useDispatch();
   const {location} = useSelector(state => state.SplashReducer);
@@ -21,6 +22,7 @@ const ScreenSplash = ({navigation}) => {
     //   authorizationLevel: 'whenInUse', // Izin yang diperlukan saat aplikasi aktif
     // });
     getAppVersion()
+    getIdDevice()
     const fetchData = async () => {
       // ...
 

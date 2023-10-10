@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import IconMenu from '../atoms/IconMenu';
@@ -11,7 +12,7 @@ const MenuForm = ({navigation}) => {
       <IconMenu
         image={require('../../assets/vector/Cuti.png')}
         title="Cuti"
-        onPress={() => moveTo('')}
+        onPress={() => moveTo('formCuti')}
       />
       <IconMenu
         image={require('../../assets/vector/Sakit.png')}
