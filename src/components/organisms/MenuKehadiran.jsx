@@ -32,6 +32,7 @@ const MenuKehadiran = ({navigation}) => {
         <IconMenu
           image={require('../../assets/vector/Cuti.png')}
           title="Cuti"
+          onPress={() => moveTo('cekCuti')}
         />
         <View style={{width: 70, height: 70, marginBottom: 5}} />
       </View>

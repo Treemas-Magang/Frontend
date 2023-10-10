@@ -30,6 +30,7 @@ import {
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
+import CardRekapCuti from '../components/molecules/CardRekapCuti';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -138,7 +139,7 @@ const screens = [
   },
 ];
 
-const routeName = 'splash';
+const routeName = 'rekapCuti';
 const Stack = createNativeStackNavigator();
 
 function App() {

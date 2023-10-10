@@ -72,14 +72,20 @@ const ListCekCuti = ({navigation}) => {
         <Text style={styles.judul}>CEK CUTI</Text>
       </View>
       <View style={styles.backgroundCardCekCuti}>
-      <View style={styles.wrapStatus}>
-          <Text>Tanggal</Text>
-          <Text>sep</Text>
+        <View style={styles.wrapTanggal}>
+          <Text style={{fontFamily: text.semiBold, color: Color.black}}>
+            Tanggal
+          </Text>
+          <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+            September 15 2023
+          </Text>
         </View>
-        <ScrollView style={{maxHeight: 570}} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          style={{maxHeight: 570}}
+          showsVerticalScrollIndicator={false}>
           {cekCutis.map((cekCuti, index) => (
             <View key={index} style={{flexDirection: 'column'}}>
-              <CardCekCuti  nik={cekCuti.nik} nama={cekCuti.nama} />
+              <CardCekCuti nik={cekCuti.nik} nama={cekCuti.nama} />
             </View>
           ))}
         </ScrollView>
@@ -113,7 +119,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   backgroundCardCekCuti: {
-      flex: 6,
+    flex: 6,
     backgroundColor: Color.white,
     width: '100%',
     justifyContent: 'center',
@@ -147,12 +153,12 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
   },
-  wrapStatus: {
+  wrapTanggal: {
     flexDirection: 'row',
-    gap: 5,
+    gap: 14,
     justifyContent: 'center',
     position: 'absolute',
     top: 20,
-    right: 45,
+    left: 45,
   },
 });
