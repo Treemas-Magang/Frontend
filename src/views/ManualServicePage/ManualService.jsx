@@ -1,9 +1,21 @@
 import "./manualservice.css"
-import Content from "../../components/Content/Content"
+
+import Navbar from "../../components/Content/Navbar/Navbar"
+import Information from "../../components/Content/Information/Information"
 
 const ManualService = () => {
     return <div className="manualservice__container">
-        <Content navbarText="ManualService" informationText="ManualService"/>
+        <div className="content__container">
+            <Navbar navbarText="Manual Service" />
+                <div className="input__container">
+                    <div className="left__container__input">
+
+                    </div>
+                    <div className="right__container__input">
+                    </div>
+                </div>
+            <Information informationText="Manual Service" showDropdown={false}/>
+        </div>
     </div>
 }
 export default ManualService 

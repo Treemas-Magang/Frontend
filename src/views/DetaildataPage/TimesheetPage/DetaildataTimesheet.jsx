@@ -26,7 +26,7 @@ const DetaildataTimesheet = () => {
         boxInputComponent = (
         <div className="input__container">
         <div className="left__container__input">
-            <BoxInput placeholder="Tanggal Reimburse"/>
+            <BoxInput placeholder="Tanggal"/>
             <Button text="Pencarian" className="search__button" />
 
         </div>
@@ -38,7 +38,7 @@ const DetaildataTimesheet = () => {
         boxInputComponent = (
             <div className="input__container">
                     <div className="left__container__input">
-                        <BoxInput placeholder="Tanggal Reimburse"/>
+                        <BoxInput placeholder="Tanggal"/>
                         <BoxInput placeholder="NIK"/>
                         <BoxInput placeholder="Nama Karyawan"/>
                         <DropdownMenu title={totalJamText} items={["Lembur", "Tidak Lembur"]} onDropdownChange={handleTotalJam}/>
