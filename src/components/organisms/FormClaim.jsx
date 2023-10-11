@@ -12,12 +12,14 @@ import ButtonGalery from '../atoms/ButtonGalery';
 import ButtonAction from '../atoms/ButtonAction';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCamera} from '@fortawesome/free-solid-svg-icons';
+import Dropdown from '../atoms/Dropdown';
 
 const FormClaim = () => {
   const [capturedImage, setCapturedImage] = useState(null);
   return (
     <View style={styles.congtainerForm}>
       <Text style={styles.textJudul}>form claim</Text>
+      <Dropdown nama_dropdown="Type" />
       <CustomTextInput label="Keterangan" secureTextEntry={false} />
       <CustomTextInput label="Nominal" secureTextEntry={false} />
       <View style={styles.kotakPreviewKosong}>

@@ -3,10 +3,10 @@
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
-import { Color } from '../../utils/color';
-import { text } from '../../utils/text';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faCaretDown} from '@fortawesome/free-solid-svg-icons';
 const Dropdown = ({nama_dropdown}) => {
   const [dataJenisCuti, setDataJenisCuti] = useState('');
   const countries = ['Egypt', 'Canada', 'Australia', 'Ireland'];
@@ -30,11 +30,10 @@ const Dropdown = ({nama_dropdown}) => {
         buttonStyle={styles.buttonStyle}
         defaultButtonText={nama_dropdown}
         buttonTextStyle={styles.buttonTextStyle}
-        dropdownIconPosition='right'
-        renderDropdownIcon={()=>(
+        dropdownIconPosition="right"
+        renderDropdownIcon={() => (
           <FontAwesomeIcon icon={faCaretDown} size={30} color={Color.green} />
-        )
-        }
+        )}
         dropdownStyle={styles.dropdown}
         rowTextStyle={styles.rowTextStyle}
       />
@@ -44,25 +43,25 @@ const Dropdown = ({nama_dropdown}) => {
 };
 export default Dropdown;
 const styles = StyleSheet.create({
-  buttonStyle:{
+  buttonStyle: {
     borderBottomWidth: 1,
     borderColor: Color.green,
     backgroundColor: 'transparent',
     width: 275,
   },
-  buttonTextStyle:{
+  buttonTextStyle: {
     textAlign: 'left',
-    color: Color.black,
-    fontSize: 16,
-    fontFamily: text.regular,
+    color: Color.blue,
+    fontSize: 19,
+    fontFamily: text.light,
   },
-  dropdown:{
+  dropdown: {
     backgroundColor: Color.green,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
-  rowTextStyle:{
+  rowTextStyle: {
     color: Color.white,
-    textAlign: 'left'
-  }
+    textAlign: 'left',
+  },
 });
