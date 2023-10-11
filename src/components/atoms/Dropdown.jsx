@@ -1,9 +1,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
-const Dropdown = () => {
+import { Color } from '../../utils/color';
+import { text } from '../../utils/text';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+const Dropdown = ({nama_dropdown}) => {
   const [dataJenisCuti, setDataJenisCuti] = useState('');
   const countries = ['Egypt', 'Canada', 'Australia', 'Ireland'];
   return (
@@ -23,8 +27,42 @@ const Dropdown = () => {
           // if data array is an array of objects then return item.property to represent item in dropdown
           return item;
         }}
+        buttonStyle={styles.buttonStyle}
+        defaultButtonText={nama_dropdown}
+        buttonTextStyle={styles.buttonTextStyle}
+        dropdownIconPosition='right'
+        renderDropdownIcon={()=>(
+          <FontAwesomeIcon icon={faCaretDown} size={30} color={Color.green} />
+        )
+        }
+        dropdownStyle={styles.dropdown}
+        rowTextStyle={styles.rowTextStyle}
       />
+      {/* <FontAwesomeIcon icon={faCaretDown} size={30} color={Color.green} style={{position:'absolute', top: 10, right: 5, zIndex:-1}} /> */}
     </View>
   );
 };
 export default Dropdown;
+const styles = StyleSheet.create({
+  buttonStyle:{
+    borderBottomWidth: 1,
+    borderColor: Color.green,
+    backgroundColor: 'transparent',
+    width: 275,
+  },
+  buttonTextStyle:{
+    textAlign: 'left',
+    color: Color.black,
+    fontSize: 16,
+    fontFamily: text.regular,
+  },
+  dropdown:{
+    backgroundColor: Color.green,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+  rowTextStyle:{
+    color: Color.white,
+    textAlign: 'left'
+  }
+});
