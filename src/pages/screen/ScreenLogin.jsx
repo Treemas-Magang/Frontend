@@ -39,6 +39,7 @@ const ScreenLogin = ({navigation}) => {
         if (idDevice !== null) {
           setDeviceId(idDevice);
           dispatch(setForm('deviceId', idDevice));
+          // dispatch(setForm('deviceId', idDevice));
         } else {
           console.log('Data tidak ditemukan di session.');
         }
@@ -63,15 +64,25 @@ const ScreenLogin = ({navigation}) => {
     dispatch(setForm(inputType, value));
   };
   const sendData = async () => {
-    // console.log('kirim data : ', form);
-    // console.log('location reducer: ', location);
+  try {
     const response = await axios.post('http://192.168.10.31:8081/api/login', form);
-    // console.log(response.data.data);
     const dataLogin = response.data.data;
-    const [{token}] = dataLogin
-    console.log(token)
-    await AsyncStorage.setItem('token', token);
-  };
+
+    if (Array.isArray(dataLogin) && dataLogin.length > 0) {
+      const [{ token }] = dataLogin;
+      console.log(token);
+      console.log(response.data.message);
+      // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
+      await AsyncStorage.setItem('token', token);
+      navigation.replace('dashboard');
+    } else {
+      console.log(response.data.message);
+    }
+  } catch (error) {
+    console.error('Terjadi kesalahan:', error);
+  }
+};
+
   const moveToLupaPassword = () => {
     navigation.navigate('lupaPassword');
   };

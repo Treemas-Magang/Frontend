@@ -1,15 +1,16 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
+
 import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
 import MenuUtama from '../../components/organisms/MenuUtama';
 import DataPribadi from '../../components/molecules/DataPribadi';
-
 const ScreenDashboard = ({navigation}) => {
-
+  
   return (
     <View style={{alignItems: 'center', backgroundColor: Color.green}}>
       <ButtonLogout navigation={navigation} />

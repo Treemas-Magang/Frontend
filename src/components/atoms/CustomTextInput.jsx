@@ -13,9 +13,9 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEye, faEyeSlash} from '@fortawesome/free-regular-svg-icons';
 import {text} from '../../utils/text';
 // Buat komponen TextInput kustom
-const CustomTextInput = ({label, onTextChange, ...rest}) => {
+const CustomTextInput = ({label, value, onTextChange, ...rest}) => {
   const [isInputActive, setInputActive] = useState(false);
-  const [textInputValue, setTextInputValue] = useState('');
+  const [textInputValue, setTextInputValue] = useState(value);
   const [hidePassword, setHidePassword] = useState(true);
 
   const handleTextInputFocus = () => {

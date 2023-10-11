@@ -37,6 +37,7 @@ const Dropdown = ({nama_dropdown}) => {
         }
         dropdownStyle={styles.dropdown}
         rowTextStyle={styles.rowTextStyle}
+        selectedRowTextStyle='red'
       />
       {/* <FontAwesomeIcon icon={faCaretDown} size={30} color={Color.green} style={{position:'absolute', top: 10, right: 5, zIndex:-1}} /> */}
     </View>
