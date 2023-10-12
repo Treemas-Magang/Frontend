@@ -44,3 +44,25 @@
     width: 1px;
     height: 100%;
 }
+
+.right__container__navbar .dropdown {
+    background-color: transparent;
+    border: transparent;
+}
+
+.right__container__navbar #dropdown-basic {
+    background-color: transparent;
+    border: transparent;
+}
+
+.right__container__navbar .dropdown-toggle::after {
+    display: none;
+}
+
+#dropdown__item__navbar:hover {
+    color: black;
+}
+
+#dropdown__item__navbar {
+    color: white;
+}

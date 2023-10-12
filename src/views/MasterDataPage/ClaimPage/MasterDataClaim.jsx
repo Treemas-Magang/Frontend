@@ -5,6 +5,8 @@ import BoxInput from "../../../components/Elements/BoxInput/BoxInput"
 import Button from "../../../components/Elements/Buttons/Button"
 
 const MasterDataClaim = () => {
+    const infoTopFields = ["ID", "Keterangan", "Nominal", "Action"]
+
     return <div className="claim__container">
         <div className="content__container">
             <Navbar navbarText="Master Data / Claim" />
@@ -17,7 +19,7 @@ const MasterDataClaim = () => {
                         <Button text="Tambah" className="add__button" />
                     </div>
                 </div>
-            <Information informationText="Claim" showDropdown={false}/>
+            <Information informationText="Claim" showDropdown={false} fields={infoTopFields} />
         </div>
     </div>
 }

@@ -10,7 +10,8 @@ import DropdownMenu from "../../../components/Elements/DropdownMenu/DropdownMenu
 const DetaildataTimesheet = () => {
     const dropdownItems = ["Data Diri", "Data Member"];
     const [ informationText, setInformationText] = useState("Data Diri");
-    const [totalJamText, setTotalJamText] = useState("Pilih Total Jam")
+    const [totalJamText, setTotalJamText] = useState("Pilih Total Jam");
+    const infoTopFields = ["NIK", "Nama Karyawan", "Hari", "Tanggal", "Project", "Jam Masuk", "Jam Pulang", "Total Jam Kerja", "Overtime", "Catatan"];
 
     const handleDropdownChange = (selectedItem) => {
         setInformationText(selectedItem);
@@ -56,7 +57,7 @@ const DetaildataTimesheet = () => {
         <div className="content__container">
             <Navbar navbarText="Detail Data / Timesheet" />
                 {boxInputComponent}
-            <Information onDropdownChange={handleDropdownChange} informationText={informationText} showDropdown={true} dropdownTitle={informationText} items={dropdownItems}/>
+            <Information onDropdownChange={handleDropdownChange} informationText={informationText} showDropdown={true} dropdownTitle={informationText} items={dropdownItems} fields={infoTopFields}/>
         </div>
     </div>
 }

@@ -8,6 +8,7 @@ import DropdownMenu from "../../../components/Elements/DropdownMenu/DropdownMenu
 const ManagementUserAccess = () => {
     const dropdownItems = ["Karyawan", "HRD", "Atasan", "Jabatan", "Monitoring"]
     const [ jabatan, setJabatan ] = useState("Pilih Jabatan")
+    const infoTopFields = ["Button","Menu", "Sub Menu"]
 
     const handleJabatan = (selectedItem) => {
         setJabatan(selectedItem)
@@ -23,7 +24,7 @@ const ManagementUserAccess = () => {
                     <div className="right__container__input">
                     </div>
                 </div>
-            <Information informationText="Data User Access" showDropdown={false}/>
+            <Information informationText="Data User Access" showDropdown={false} fields={infoTopFields}/>
         </div>
     </div>
 }

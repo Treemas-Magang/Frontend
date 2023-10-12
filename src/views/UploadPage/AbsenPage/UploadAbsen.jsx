@@ -7,6 +7,8 @@ import Form from 'react-bootstrap/Form';
 
 
 const UploadAbsen = () => {
+    const infoTopFields = ["NIK", "Nama Lengkap", "Tanggal", "Project", "Status"]
+
     return <div className="absen__container">
         <div className="content__container">
             <Navbar navbarText="Upload / Absen" />
@@ -29,7 +31,7 @@ const UploadAbsen = () => {
                         <Button text="Unduh" className="add__button" />
                     </div>
                 </div>
-            <Information informationText="Absen" showDropdown={false}/>
+            <Information informationText="Absen" showDropdown={false} fields={infoTopFields}/>
         </div>
     </div>
 }

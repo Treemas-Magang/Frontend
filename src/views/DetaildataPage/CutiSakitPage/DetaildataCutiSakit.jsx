@@ -10,6 +10,8 @@ import { useState } from "react"
 const DetaildataCutiSakit = () => {
     const dropdownItems = ["Cuti", "Sakit"];
     const [ informationText, setInformationText] = useState("Cuti");
+    const infoTopFields = ["NIK", "Nama Karyawan", "Tgl. Pengajuan", "Tgl. Cuti", "Tgl. Selesai", "Tgl. Masuk", "Jml. Cuti", "Keperluan Cuti", "Status", "Status Oleh", "Tgl. Status"]
+
 
     const handleDropdownChange = (selectedItem) => {
         setInformationText(selectedItem);
@@ -29,7 +31,7 @@ const DetaildataCutiSakit = () => {
                     <div className="right__container__input">
                     </div>
                 </div>
-            <Information onDropdownChange={handleDropdownChange} informationText={informationText} showDropdown={true} dropdownTitle={informationText} items={dropdownItems}/>
+            <Information onDropdownChange={handleDropdownChange} informationText={informationText} showDropdown={true} dropdownTitle={informationText} items={dropdownItems} fields={infoTopFields}/>
         </div>
     </div>
 }

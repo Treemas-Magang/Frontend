@@ -5,6 +5,8 @@ import BoxInput from "../../../components/Elements/BoxInput/BoxInput"
 import Button from "../../../components/Elements/Buttons/Button"
 
 const ReportDataClaim = () => {
+    const infoTopFields = ["NIK", "Nama Karyawan", "Tanggal", "Nominal", "Keterangan", "Tipe"]
+
     return <div className="claim__container">
         <div className="content__container">
             <Navbar navbarText="Report Data / Claim" />
@@ -17,7 +19,7 @@ const ReportDataClaim = () => {
                     <div className="right__container__input">
                     </div>
                 </div>
-            <Information informationText="Claim" showDropdown={false}/>
+            <Information informationText="Claim" showDropdown={false} fields={infoTopFields}/>
         </div>
     </div>
 }

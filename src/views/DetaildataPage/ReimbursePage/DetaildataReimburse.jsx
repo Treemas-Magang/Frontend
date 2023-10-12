@@ -9,6 +9,7 @@ import DropdownMenu from "../../../components/Elements/DropdownMenu/DropdownMenu
 
 const DetaildataReimburse = () => {
     const dropdownItems = ["Data Diri", "Data Member"];
+    const infoTopFields = ["NIK", "Nama Karyawan", "Hari", "Tanggal", "Project", "Jam Masuk", "Jam Pulang", "Uang Makan", "Transport"]
     const [ informationText, setInformationText] = useState("Data Diri");
     const [totalJamText, setTotalJamText] = useState("Pilih Total Jam")
 
@@ -58,7 +59,7 @@ const DetaildataReimburse = () => {
         <div className="content__container">
             <Navbar navbarText="Detail Data / Reimburse" />
                 {boxInputComponent}
-            <Information onDropdownChange={handleDropdownChange} informationText={informationText} showDropdown={true} dropdownTitle={informationText} items={dropdownItems}/>
+            <Information onDropdownChange={handleDropdownChange} informationText={informationText} showDropdown={true} dropdownTitle={informationText} items={dropdownItems} fields={infoTopFields}/>
         </div>
     </div>
 }

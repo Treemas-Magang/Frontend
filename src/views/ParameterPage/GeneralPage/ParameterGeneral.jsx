@@ -5,6 +5,8 @@ import BoxInput from "../../../components/Elements/BoxInput/BoxInput"
 import Button from "../../../components/Elements/Buttons/Button"
 
 const ParameterGeneral = () => {
+    const infoTopFields = ["ID", "Keterangan", "Tipe Data", "Value", "Action"]
+
     return <div className="general__container">
         <div className="content__container">
             <Navbar navbarText="Parameter / General" />
@@ -16,7 +18,7 @@ const ParameterGeneral = () => {
                     <div className="right__container__input">
                     </div>
                 </div>
-            <Information informationText="General" showDropdown={false}/>
+            <Information informationText="General" showDropdown={false} fields={infoTopFields}/>
         </div>
     </div>
 }

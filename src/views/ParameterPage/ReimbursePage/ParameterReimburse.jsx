@@ -5,6 +5,8 @@ import BoxInput from "../../../components/Elements/BoxInput/BoxInput"
 import Button from "../../../components/Elements/Buttons/Button"
 
 const ParameterReimburse = () => {
+    const infoTopFields = ["ID", "Name", "Nominal", "Note", "Action"]
+
     return <div className="reimburse__container">
         <div className="content__container">
             <Navbar navbarText="Parameter / Reimburse" />
@@ -16,7 +18,7 @@ const ParameterReimburse = () => {
                     <div className="right__container__input">
                     </div>
                 </div>
-            <Information informationText="Reimburse" showDropdown={false}/>
+            <Information informationText="Reimburse" showDropdown={false} fields={infoTopFields}/>
         </div>
     </div>
 }

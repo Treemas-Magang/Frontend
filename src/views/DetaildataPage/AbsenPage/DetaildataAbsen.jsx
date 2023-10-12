@@ -10,6 +10,8 @@ import { useState } from "react"
 const DetaildataAbsen = () => {
     const [status, setStatus] = useState("Pilih Status")
     const [jam, setJam] = useState("Pilih Total Jam")
+    const infoTopFields = ["NIK", "Nama Karyawan", "Tanggal", "Project", "Lokasi Masuk", "Jam Masuk", "Lokasi Pulang", "Jam Pulang", "Catatan Terlambat", "Total Jam Kerja"]
+
 
     const handleStatus = (selectedItem) => {
         setStatus(selectedItem)
@@ -36,7 +38,7 @@ const DetaildataAbsen = () => {
                         <Button text="Tambah" className="add__button" />
                     </div>
                 </div>
-            <Information informationText="Absen" showDropdown={false}/>
+            <Information informationText="Absen" showDropdown={false} fields={infoTopFields}/>
         </div>
     </div>
 

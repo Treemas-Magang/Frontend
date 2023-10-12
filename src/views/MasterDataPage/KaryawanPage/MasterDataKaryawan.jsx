@@ -5,6 +5,8 @@ import BoxInput from "../../../components/Elements/BoxInput/BoxInput"
 import Button from "../../../components/Elements/Buttons/Button"
 
 const MasterDataKaryawan = () => {
+    const infoTopFields = ["NIK", "Nama Karyawan", "Email", "No. Hp.", "No. Rekening"]
+
     return <div className="karyawan__container">
         <div className="content__container">
             <Navbar navbarText="Master Data / Karyawan" />
@@ -17,7 +19,7 @@ const MasterDataKaryawan = () => {
                         <Button text="Tambah" className="add__button" />
                     </div>
                 </div>
-            <Information informationText="Karyawan" showDropdown={false}/>
+            <Information informationText="Karyawan" showDropdown={false} fields={infoTopFields}/>
         </div>
     </div>
 }

@@ -5,6 +5,8 @@ import BoxInput from "../../../components/Elements/BoxInput/BoxInput"
 import Button from "../../../components/Elements/Buttons/Button"
 
 const ManagementUser = () => {
+    const infoTopFields = ["ID Pengguna", "Nama Karyawan", "Terakhir Login", "Login", "Terkunci"]
+
     return <div className="userpage__container">
         <div className="content__container">
             <Navbar navbarText="Detail Data / Absen" />
@@ -16,7 +18,7 @@ const ManagementUser = () => {
                     <div className="right__container__input">
                     </div>
                 </div>
-            <Information informationText="Data User" showDropdown={false}/>
+            <Information informationText="Data User" showDropdown={false} fields={infoTopFields}/>
         </div>
     </div>
 }

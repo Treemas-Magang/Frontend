@@ -3,10 +3,13 @@ import "./dashboard.css"
 import Navbar from "../../components/Content/Navbar/Navbar.jsx"
 import Information from "../../components/Content/Information/Information"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useState } from "react";
 
 
 const Dashboard = () => {
+
     const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const infoTopFields = ["NIK", "Nama Karyawan", "Masuk", "Terlambat", "Absen", "Cuti", "Sakit"]
 
     const date = new Date();
     let currentDay= String(date.getDate()).padStart(2, '0');
@@ -112,7 +115,7 @@ const Dashboard = () => {
 
         </div>
 
-        <Information informationText="Data Member" />
+        <Information informationText="Data Member" fields={infoTopFields}/>
         
     </div> 
 }

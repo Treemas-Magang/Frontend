@@ -8,6 +8,8 @@ import { useState } from "react"
 const ManagementUserMember = () => {
     const dropdownItems = ["110621 - WIRA HADINATA"]
     const [ userData, setUserData ] = useState("Pilih User")
+    const infoTopFields = ["Button", "NIK", "Nama Karyawan"]
+
 
     const handleUserData = (selectedItem) => {
         setUserData(selectedItem)
@@ -22,7 +24,7 @@ const ManagementUserMember = () => {
                     <div className="right__container__input">
                     </div>
                 </div>
-            <Information informationText="Data User Member" showDropdown={false}/>
+            <Information informationText="Data User Member" showDropdown={false} fields={infoTopFields}/>
         </div>
     </div>
 }

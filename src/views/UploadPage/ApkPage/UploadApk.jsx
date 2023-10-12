@@ -7,20 +7,19 @@ import Form from 'react-bootstrap/Form';
 const UploadApk = () => {
     return <div className="apk__container">
         <div className="content__container">
-            <Navbar navbarText="Upload / Absen" />
+            <Navbar navbarText="Upload / Apk" />
                 <div className="input__container">
                     <div className="left__container__input__apk">
                             <Form.Group controlId="formFile">
-                                <Form.Label>File Xlsx</Form.Label>
+                                <Form.Label>File .apk</Form.Label>
                                 <Form.Control type="file" />
                             </Form.Group>
-                            
                             <Button text="Submit" className="add__button" />                      
                     </div>
                     <div className="right__container__input">
                     </div>
                 </div>
-            <Information informationText="Absen" showDropdown={false}/>
+            <Information informationText="Apk" showDropdown={false}/>
         </div>
     </div>
 }

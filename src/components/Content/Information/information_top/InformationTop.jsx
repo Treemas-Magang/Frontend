@@ -29,12 +29,9 @@ const InformationTop = (props) => {
         </div>
         <div className="information__top__bottom">
             <div className="information__top__bottom__fields">
-                <p>ID</p>
-                <p>Nama Karyawan</p>
-                <p>Tanggal</p>
-                <p>Nominal</p>
-                <p>Keterangan</p>
-                <p>Absen</p>
+                {props.fields && props.fields.map((field, index) => (
+                    <p key={index}>{field}</p>
+                ))}
             </div>
             <div className="horizontal__line"></div>
         </div>
