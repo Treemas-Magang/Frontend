@@ -148,6 +148,30 @@ const CatatanKerjaReducer = (state = initialStateCatatanKerja, action) => {
     }
     return state
 }
+const initialStateFormCuti = {
+    form: {
+        nik: '',
+        jenis_cuti: '',
+        tanggal_cuti: '',
+        tanggal_selesai: '',
+        tanggal_masuk: '',
+        jml_cuti: '',
+        keperluan_cuti: '',
+        alamat_cuti: ''
+    }
+}
+const FormCutiReducer = (state = initialStateFormCuti, action) => {
+    if (action.type === 'SET_FORM_CUTI') {
+        return{
+            ...state,
+            form: {
+                ...state.form,
+                [action.inputType]: action.inputValue
+            }
+        }
+    }
+    return state
+}
 
 
 const reducer = combineReducers({
@@ -156,7 +180,8 @@ const reducer = combineReducers({
     TimesheetReducer,
     CheckBiometricTypeReducer,
     userReducer,
-    CatatanKerjaReducer
+    CatatanKerjaReducer,
+    FormCutiReducer,
 })
 
 export default reducer;

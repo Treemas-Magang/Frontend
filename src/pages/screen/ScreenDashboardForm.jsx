@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
@@ -9,7 +9,8 @@ import MenuForm from '../../components/organisms/MenuForm';
 
 const ScreenDashboardForm = ({navigation}) => {
   return (
-    <View style={{alignItems: 'center', backgroundColor: Color.green}}>
+    <ScrollView>
+      <View style={{alignItems: 'center', backgroundColor: Color.green}}>
       <ButtonLogout />
       <View
         style={{
@@ -28,6 +29,7 @@ const ScreenDashboardForm = ({navigation}) => {
         <MenuForm navigation={navigation} />
       </View>
     </View>
+    </ScrollView>
   );
 };
 export default ScreenDashboardForm;
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 35,
     alignItems: 'center',
     marginTop: -50,
-    height: '100%',
+    height: 422,
     position: 'relative',
   },
 

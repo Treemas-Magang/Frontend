@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Geolocation from '@react-native-community/geolocation';
 import {Alert, BackHandler} from 'react-native';
 import RNRestart from 'react-native-restart';

@@ -2,7 +2,7 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
@@ -12,25 +12,27 @@ import DataPribadi from '../../components/molecules/DataPribadi';
 const ScreenDashboard = ({navigation}) => {
   
   return (
-    <View style={{alignItems: 'center', backgroundColor: Color.green}}>
-      <ButtonLogout navigation={navigation} />
-      <View
-        style={{
-          position: 'absolute',
-          top: 80,
-          width: 310,
-        }}>
-        <DataPribadi />
+    <ScrollView>
+      <View style={{alignItems: 'center', backgroundColor: Color.green}}>
+        <ButtonLogout navigation={navigation} />
+        <View
+          style={{
+            position: 'absolute',
+            top: 80,
+            width: 310,
+          }}>
+          <DataPribadi />
+        </View>
+        <View style={styles.containerInfo}>
+          <Text style={styles.judulSection}>Statistik Tahun ini</Text>
+          <StatistikTahunIni />
+        </View>
+        <View style={styles.containerMenu}>
+          <Text style={styles.judulSection}>menu utama</Text>
+          <MenuUtama navigation={navigation} />
+        </View>
       </View>
-      <View style={styles.containerInfo}>
-        <Text style={styles.judulSection}>Statistik Tahun ini</Text>
-        <StatistikTahunIni />
-      </View>
-      <View style={styles.containerMenu}>
-        <Text style={styles.judulSection}>menu utama</Text>
-        <MenuUtama navigation={navigation} />
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 export default ScreenDashboard;
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 35,
     alignItems: 'center',
     marginTop: -50,
-    height: '100%',
+    height: 422,
     position: 'relative',
   },
 

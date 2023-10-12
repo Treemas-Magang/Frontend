@@ -45,3 +45,6 @@ export const fetchDataUserError = (error) => {
 export const setFormCatatanKerja = (inputType, value) => {
     return{type: 'SET_FORM_CATATAN_KERJA', inputType: inputType, inputValue: value}
 }
+export const setFormCuti = (inputType, value) => {
+    return{type: 'SET_FORM_CUTI', inputType: inputType, inputValue: value}
+}

@@ -104,21 +104,18 @@ const ScreenLogin = ({navigation}) => {
         // Pemindaian gagal
         console.log('Otentikasi gagal');
 
-        // Update jumlah pemindaian yang gagal
         setScanCount(scanCount + 1);
-        // Cek apakah sudah mencapai batas jumlah pemindaian yang gagal
         if (scanCount >= maxScanCount) {
           console.log(
             'Anda telah mencapai batas jumlah pemindaian yang gagal.',
           );
-          // Lakukan tindakan jika jumlah pemindaian yang gagal mencapai batas
         }
       }
     } catch (error) {
       navigation.navigate('gagalSidikJari');
     }
   };
-  
+
   return (
     <KeyboardAvoidingView style={{flex: 1, backgroundColor: 'blue'}}>
       <ScrollView

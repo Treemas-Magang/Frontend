@@ -88,6 +88,7 @@ while (true) {
       });
     }
 }
+
 const hari = ['sen', 'sel', 'rab', 'kam', 'jum', 'sab', 'min'];
 
 
