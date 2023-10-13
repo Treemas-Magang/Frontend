@@ -1,20 +1,27 @@
+/* eslint-disable prettier/prettier */
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 
-const CardNotif = ({navigation}) => {
+const CardNotif = ({navigation, open}) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
   return (
     <TouchableOpacity
-      style={styles.CardNotifStyle}
+      style={[styles.CardNotifStyle, open ? {backgroundColor: Color.cardTidakMasuk} : {backgroundColor: Color.green} ]}
       onPress={() => moveTo('detailPengumuman')}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image
+      {
+        open ? (<Image
+          source={require('../../assets/icons/PesanTerbuka.png')}
+          style={styles.Image}
+        />):(<Image
           source={require('../../assets/icons/Pesan.png')}
           style={styles.Image}
-        />
+        />)
+      }
+        
         <View>
           <Text style={{fontFamily: 'Poppins-ExtraLightItalic', fontSize: 10}}>
             20 MEI 2023
@@ -36,7 +43,6 @@ export default CardNotif;
 
 const styles = StyleSheet.create({
   CardNotifStyle: {
-    backgroundColor: Color.green,
     width: 320,
     height: 80,
     borderRadius: 5,

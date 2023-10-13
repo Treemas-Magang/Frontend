@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import CardNotif from '../molecules/CardNotif';
 import {Color} from '../../utils/color';
 import ButtonBack from '../atoms/ButtonBack';
 
 const ListPengumuman = ({navigation}) => {
+  const [isOpen, setIsopen] = useState(true);
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack
@@ -19,7 +20,7 @@ const ListPengumuman = ({navigation}) => {
       <Text style={styles.Judul}>PENGUMUMAN</Text>
       <View style={styles.backgroundCardNotif}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <CardNotif navigation={navigation} />
+          <CardNotif open={isOpen} navigation={navigation} />
           <CardNotif navigation={navigation} />
           <CardNotif navigation={navigation} />
           <CardNotif navigation={navigation} />
