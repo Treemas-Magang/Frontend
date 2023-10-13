@@ -14,7 +14,7 @@ const MenuKehadiran = ({navigation}) => {
         <IconMenu
           image={require('../../assets/vector/kehadiran.png')}
           title="Absensi"
-          onPress={() => moveTo('formAbsensi')}
+          onPress={() => moveTo('pilihProject')}
         />
         <IconMenu
           image={require('../../assets/vector/member.png')}

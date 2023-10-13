@@ -3,10 +3,10 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import PilihAbsenProject from '../../components/organisms/PilihAbsenProject';
 
-const ScreenPilihAbsenProject = () => {
+const ScreenPilihAbsenProject = ({navigation}) => {
   return (
     <View style={styles.BackgroundPilihProject}>
-      <PilihAbsenProject />
+      <PilihAbsenProject navigation={navigation} />
       <Image
         style={styles.VectorBawah}
         source={require('../../assets/vector/VectorBawah.png')}

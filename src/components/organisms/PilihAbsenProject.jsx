@@ -3,7 +3,7 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import CardPilihAbsenProject from '../molecules/CardPilihAbsenProject';
 
-const PilihAbsenProject = () => {
+const PilihAbsenProject = ({navigation}) => {
   return (
     <View>
       <View style={styles.CardUpdateTimesheet}>
@@ -16,7 +16,7 @@ const PilihAbsenProject = () => {
           }}>
           MEMILIH LOKASI ABSENSI PROJECT
         </Text>
-        <CardPilihAbsenProject />
+        <CardPilihAbsenProject navigation={navigation} />
       </View>
     </View>
   );

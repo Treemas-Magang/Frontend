@@ -1,9 +1,11 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 import ButtonAction from '../../components/atoms/ButtonAction';
 import {Color} from '../../utils/color';
 import CardPilihProject from '../molecules/CardPilihProject';
+import {text} from '../../utils/text';
+import ButtonBack from '../atoms/ButtonBack';
 
 const PilihProject = ({navigation}) => {
   const moveTo = screen => {
@@ -12,9 +14,21 @@ const PilihProject = ({navigation}) => {
   return (
     <View>
       <View style={styles.CardUpdateTimesheet}>
+        <ButtonBack
+          navigation={navigation}
+          style={{
+            position: 'absolute',
+            top: -130,
+            left: -180,
+          }}
+        />
+        <Image
+          style={styles.VectorAtasKanan}
+          source={require('../../assets/vector/VectorKananAtas.png')}
+        />
         <Text
           style={{
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: text.semiBold,
             textTransform: 'uppercase',
             fontSize: 17,
             color: Color.blue,
@@ -43,5 +57,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 50,
+  },
+  VectorAtasKanan: {
+    position: 'absolute',
+    top: -100,
+    right: -40,
+    zIndex: -1,
   },
 });
