@@ -24,6 +24,7 @@ import ScreenRekapSakit from './screen/ScreenRekapSakit';
 import ScreenFormCuti from './screen/ScreenFormCuti';
 import ScreenRekapCuti from './screen/ScreenRekapCuti';
 import ScreenFormClaim from './screen/ScreenFormClaim';
+import ScreenListMembers from './screen/ScreenListMembers';
 import ScreenAbsenBelumPulang from './screen/ScreenAbsenBelumPulang';
 import ScreenFormAbsenBelumPulang from './screen/ScreenFormAbsenBelumPulang';
 export {
@@ -52,6 +53,7 @@ export {
   ScreenFormCuti,
   ScreenRekapCuti,
   ScreenFormClaim,
+  ScreenListMembers,
   ScreenAbsenBelumPulang,
   ScreenFormAbsenBelumPulang,
 };

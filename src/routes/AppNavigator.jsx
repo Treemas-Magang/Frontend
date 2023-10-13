@@ -30,6 +30,7 @@ import {
   ScreenFormCuti,
   ScreenRekapCuti,
   ScreenFormClaim,
+  ScreenListMembers,
   ScreenAbsenBelumPulang,
   ScreenFormAbsenBelumPulang,
 } from '../pages/index';
@@ -160,6 +161,11 @@ const screens = [
   {
     name: 'formClaim',
     component: ScreenFormClaim,
+    gestureEnabled: true,
+  },
+  {
+    name: 'listMembers',
+    component: ScreenListMembers,
     gestureEnabled: true,
   },
   {
