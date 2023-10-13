@@ -1,20 +1,28 @@
 /* eslint-disable prettier/prettier */
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import CardMember from '../molecules/CardMember';
 import { Color } from '../../utils/color';
 import { text } from '../../utils/text';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowDownShortWide } from '@fortawesome/free-solid-svg-icons';
+import DropdownList from '../atoms/DropdownList';
 
 const ListMembers = () => {
+  const [isDropdown, setIsDropdown] = useState(false)
+  const handleDropdown = () => {
+    setIsDropdown(!isDropdown);
+    console.log(isDropdown);
+  };
   return (
     <View style={styles.listMember}>
       <View style={{paddingVertical: 70}}>
-
       </View>
       <View style={styles.wrapListMember}>
-      <TouchableOpacity  style={styles.iconDrop}>
+      {
+        isDropdown ? (<DropdownList/>) : ''
+      }
+      <TouchableOpacity onPress={handleDropdown}  style={styles.iconDrop}>
         <FontAwesomeIcon icon={faArrowDownShortWide} size={30} color={Color.blue} />
       </TouchableOpacity>
       <View style={{alignItems: 'center'}}>
