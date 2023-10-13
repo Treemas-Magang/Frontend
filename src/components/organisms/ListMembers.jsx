@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import React, {useState} from 'react';
 import CardMember from '../molecules/CardMember';
 import { Color } from '../../utils/color';
@@ -9,55 +9,60 @@ import { faArrowDownShortWide } from '@fortawesome/free-solid-svg-icons';
 import DropdownList from '../atoms/DropdownList';
 
 const ListMembers = () => {
-  const [isDropdown, setIsDropdown] = useState(false)
+  const [isDropdown, setIsDropdown] = useState(false);
   const handleDropdown = () => {
     setIsDropdown(!isDropdown);
     console.log(isDropdown);
   };
+  const handleClickOutside = () => {
+      setIsDropdown(false);
+  };
   return (
-    <View style={styles.listMember}>
-      <View style={{paddingVertical: 70}}>
+    <TouchableWithoutFeedback onPress={handleClickOutside}>
+      <View style={styles.listMember}>
+        <View style={{paddingVertical: 70}}>
+        </View>
+        <View style={styles.wrapListMember}>
+        {
+          isDropdown ? (<DropdownList/>) : ''
+        }
+        <TouchableOpacity onPress={handleDropdown}  style={styles.iconDrop}>
+          <FontAwesomeIcon icon={faArrowDownShortWide} size={30} color={Color.blue} />
+        </TouchableOpacity>
+        <View style={{alignItems: 'center'}}>
+          <Text style={styles.judul}>MEMBER</Text>
+          <Text style={styles.judul}>MANDIRI</Text>
+        </View>
+        <View style={styles.wrapStatus}>
+          <View style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
+            <View style={[styles.simbolStatus, {backgroundColor: Color.cardMasuk}]} />
+            <Text>Hadir</Text>
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
+            <View style={[styles.simbolStatus, {backgroundColor: Color.cardCuti}]} />
+            <Text>Cuti</Text>
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
+            <View style={[styles.simbolStatus, {backgroundColor: Color.cardTidakMasuk}]} />
+            <Text>Tidak masuk</Text>
+          </View>
+          <View style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
+            <View style={[styles.simbolStatus, {backgroundColor: Color.cardSakit}]} />
+            <Text>Sakit/izin</Text>
+          </View>
+        </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={{gap: 20}}>
+            <CardMember />
+            <CardMember />
+            <CardMember />
+            <CardMember />
+            <CardMember />
+          </View>
+        </ScrollView>
+        </View>
       </View>
-      <View style={styles.wrapListMember}>
-      {
-        isDropdown ? (<DropdownList/>) : ''
-      }
-      <TouchableOpacity onPress={handleDropdown}  style={styles.iconDrop}>
-        <FontAwesomeIcon icon={faArrowDownShortWide} size={30} color={Color.blue} />
-      </TouchableOpacity>
-      <View style={{alignItems: 'center'}}>
-        <Text style={styles.judul}>MEMBER</Text>
-        <Text style={styles.judul}>MANDIRI</Text>
-      </View>
-      <View style={styles.wrapStatus}>
-        <View style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
-          <View style={[styles.simbolStatus, {backgroundColor: Color.cardMasuk}]} />
-          <Text>Hadir</Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
-          <View style={[styles.simbolStatus, {backgroundColor: Color.cardCuti}]} />
-          <Text>Cuti</Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
-          <View style={[styles.simbolStatus, {backgroundColor: Color.cardTidakMasuk}]} />
-          <Text>Tidak masuk</Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
-          <View style={[styles.simbolStatus, {backgroundColor: Color.cardSakit}]} />
-          <Text>Sakit/izin</Text>
-        </View>
-      </View>
-      <ScrollView>
-        <View style={{gap: 20}}>
-          <CardMember />
-          <CardMember />
-          <CardMember />
-          <CardMember />
-          <CardMember />
-        </View>
-      </ScrollView>
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
