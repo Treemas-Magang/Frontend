@@ -21,14 +21,11 @@ import {setFormCuti} from '../../redux';
 import FakeTextInput from '../atoms/FakeTextInput';
 
 const jenis_cuti = [
-  {id_cuti: "CD1", keterangan_cuti: 'cuti 1'},
-  {id_cuti: "CD2", keterangan_cuti: 'cuti 2'},
-  {id_cuti: "CD3", keterangan_cuti: 'cuti 3'},
-  {id_cuti: "CD4", keterangan_cuti: 'cuti 4'},
-
+  {id_cuti: 'CD1', keterangan_cuti: 'cuti 1'},
+  {id_cuti: 'CD2', keterangan_cuti: 'cuti 2'},
+  {id_cuti: 'CD3', keterangan_cuti: 'cuti 3'},
+  {id_cuti: 'CD4', keterangan_cuti: 'cuti 4'},
 ];
-
-
 
 const FormCuti = () => {
   const dispatch = useDispatch();
@@ -69,7 +66,7 @@ const FormCuti = () => {
   const onChangeText = (value, inputType) => {
     dispatch(setFormCuti(inputType, value));
   };
-    const sendData = () => {
+  const sendData = () => {
     console.log('kirim data : ', form);
   };
 
@@ -165,7 +162,11 @@ const FormCuti = () => {
               </Text>
             </View>
           </View>
-          <ButtonAction title="KIRIM" onPress={() => sendData()} style={{width: 269}} />
+          <ButtonAction
+            title="KIRIM"
+            onPress={() => sendData()}
+            style={{width: 269}}
+          />
         </View>
       </View>
     </View>

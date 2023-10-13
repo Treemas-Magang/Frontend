@@ -14,12 +14,19 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCamera} from '@fortawesome/free-solid-svg-icons';
 import Dropdown from '../atoms/Dropdown';
 
+const jenis_cuti = [
+  {id_cuti: 'CD1', keterangan_cuti: 'cuti 1'},
+  {id_cuti: 'CD2', keterangan_cuti: 'cuti 2'},
+  {id_cuti: 'CD3', keterangan_cuti: 'cuti 3'},
+  {id_cuti: 'CD4', keterangan_cuti: 'cuti 4'},
+];
+
 const FormClaim = () => {
   const [capturedImage, setCapturedImage] = useState(null);
   return (
     <View style={styles.congtainerForm}>
       <Text style={styles.textJudul}>form claim</Text>
-      <Dropdown nama_dropdown="Type" />
+      <Dropdown nama_dropdown="Type" jenis_cuti={jenis_cuti} />
       <CustomTextInput label="Keterangan" secureTextEntry={false} />
       <CustomTextInput label="Nominal" secureTextEntry={false} />
       <View style={styles.kotakPreviewKosong}>
