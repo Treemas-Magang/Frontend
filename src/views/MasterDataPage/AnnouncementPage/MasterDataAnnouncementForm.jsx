@@ -1,9 +1,8 @@
 import "./announcementform.css";
-import Content from "../../../components/Content/Content";
 
 const MasterDataAnnouncementForm = () => {
   return <div className="announcementform__container">
-    <Content navbarText="Master Data / Announcement Form" informationText="Announcement Add"/>
+      <h1>Ini Form Announcement</h1>
     </div>
 };
 

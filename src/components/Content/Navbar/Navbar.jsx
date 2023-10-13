@@ -32,6 +32,7 @@ const Navbar = (props) => {
                 </Dropdown.Menu>
             </Dropdown>
             {/* {
+                
                 openProfile && (
                     <DropdownProfile />
                 )
