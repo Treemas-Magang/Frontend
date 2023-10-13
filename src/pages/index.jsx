@@ -24,6 +24,7 @@ import ScreenRekapSakit from './screen/ScreenRekapSakit';
 import ScreenFormCuti from './screen/ScreenFormCuti';
 import ScreenRekapCuti from './screen/ScreenRekapCuti';
 import ScreenFormClaim from './screen/ScreenFormClaim';
+import ScreenListMembers from './screen/ScreenListMembers';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -50,4 +51,5 @@ export {
   ScreenFormCuti,
   ScreenRekapCuti,
   ScreenFormClaim,
+  ScreenListMembers,
 };

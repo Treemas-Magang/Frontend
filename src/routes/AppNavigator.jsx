@@ -30,6 +30,7 @@ import {
   ScreenFormCuti,
   ScreenRekapCuti,
   ScreenFormClaim,
+  ScreenListMembers,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -158,6 +159,11 @@ const screens = [
   {
     name: 'formClaim',
     component: ScreenFormClaim,
+    gestureEnabled: true,
+  },
+  {
+    name: 'listMembers',
+    component: ScreenListMembers,
     gestureEnabled: true,
   },
 ];
