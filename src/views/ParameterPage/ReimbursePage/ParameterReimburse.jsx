@@ -3,6 +3,7 @@ import Information from "../../../components/Content/Information/Information"
 import Navbar from "../../../components/Content/Navbar/Navbar"
 import BoxInput from "../../../components/Elements/BoxInput/BoxInput"
 import Button from "../../../components/Elements/Buttons/Button"
+import { Link } from "react-router-dom"
 
 const ParameterReimburse = () => {
     const infoTopFields = ["ID", "Name", "Nominal", "Note", "Action"]
@@ -16,6 +17,7 @@ const ParameterReimburse = () => {
                         <Button text="Pencarian" className="search__button" />
                     </div>
                     <div className="right__container__input">
+                    <Link to="/parameter/reimburse-form/edit" className="add__button">Tambah</Link>
                     </div>
                 </div>
             <Information informationText="Reimburse" showDropdown={false} fields={infoTopFields}/>

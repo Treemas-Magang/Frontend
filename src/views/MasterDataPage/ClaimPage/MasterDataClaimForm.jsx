@@ -1,9 +1,8 @@
 import "./claimform.css"
-import Content from "../../../components/Content/Content"
 
 const MasterDataClaimForm = () => {
     return <div className="claimform__container">
-        <Content navbarText="Master Data / Claim Form" informationText="Claim Add"/>
+        <h1>Ini form claim</h1>
     </div>     
 }
 

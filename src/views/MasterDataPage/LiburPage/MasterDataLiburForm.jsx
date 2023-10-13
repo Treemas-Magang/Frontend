@@ -1,9 +1,8 @@
 import "./liburform.css"
-import Content from "../../../components/Content/Content"
 
 const MasterDataLiburForm = () => {
     return <div className="liburform__container">
-        <Content navbarText="Master Data / LiburForm" informationText="LiburForm"/>
+        <h1>form libur</h1>
     </div>
 }
 

@@ -1,8 +1,8 @@
 import "./permissionform.css"
-import Content from "../../../components/Content/Content"
+
 const MasterDataPermissionForm = () => {
     return <div className="permissionform__container">
-        <Content navbarText="Master Data / Permission Form" informationText="Permission Add"/>
+        <h1>form permission</h1>
     </div>
 }
 
