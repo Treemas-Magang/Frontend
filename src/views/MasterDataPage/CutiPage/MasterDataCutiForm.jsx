@@ -1,9 +1,13 @@
 import "./cutiform.css"
-import Content from "../../../components/Content/Content"
+import FormPages from "../../../components/Content/FormPages/FormPages";
 
 const MasterDataCutiForm = () => {
+    const boxInput = ["ID", "Nominal"]
+    const textArea = ["Keterangan"]
     return <div className="cutiform__container"> 
-    <Content navbarText="Master Data / Cuti Form" informationText="Cuti Add"/>
+            <div className="content__container">
+            <FormPages formTitle="Cuti Form" boxInput={boxInput} textArea={textArea} showUpload={false} />
+        </div>
     </div>
 }
 
