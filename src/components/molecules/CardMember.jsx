@@ -1,29 +1,39 @@
 /* eslint-disable prettier/prettier */
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import { Color } from '../../utils/color';
-import { text } from '../../utils/text';
+import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
 
 const CardMember = ({navigation, status}) => {
+  let page = '';
   let background = styles.cardHadir;
   switch (status) {
     case 'sakit':
-      background = styles.cardSakit
+      background = styles.cardSakit;
+      page = 'detailMemberSakit';
       break;
     case 'cuti':
-      background = styles.cardCuti
+      background = styles.cardCuti;
+      page = 'detailMemberCuti';
       break;
     case 'tidakMasuk':
-      background = styles.cardTidakMasuk
+      background = styles.cardTidakMasuk;
+      page = 'detailMemberTidakMasuk';
       break;
     case 'hadir':
-      background = styles.cardHadir
+      background = styles.cardHadir;
+      page = 'detailMember';
       break;
     default:
       break;
   }
+  const moveTo = tujuan => {
+    navigation.navigate(tujuan);
+  };
   return (
-    <TouchableOpacity style={[styles.cardMember, background]}>
+    <TouchableOpacity
+      style={[styles.cardMember, background]}
+      onPress={() => moveTo(page)}>
       <View style={styles.dataMember}>
         <View style={styles.wrapData}>
           <Text style={styles.labelData}>Jam Masuk</Text>
@@ -51,47 +61,47 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
   },
-  cardSakit:{
+  cardSakit: {
     backgroundColor: Color.cardSakit,
   },
-  cardCuti:{
+  cardCuti: {
     backgroundColor: Color.cardCuti,
   },
-  cardHadir:{
+  cardHadir: {
     backgroundColor: Color.green,
   },
-  cardTidakMasuk:{
+  cardTidakMasuk: {
     backgroundColor: Color.cardTidakMasuk,
   },
-  dataMember:{
+  dataMember: {
     width: 255,
     backgroundColor: Color.white,
   },
-  wrapData:{
+  wrapData: {
     flexDirection: 'row',
     padding: 10,
   },
-  labelData:{
+  labelData: {
     width: 100,
     fontFamily: text.semiBold,
     fontSize: 12,
     color: Color.black,
   },
-  data:{
+  data: {
     paddingLeft: 10,
     fontFamily: text.lightItalic,
     fontSize: 12,
   },
-  titikDua:{
+  titikDua: {
     fontFamily: text.semiBold,
     fontSize: 12,
     color: Color.black,
   },
-  nama:{
+  nama: {
     fontFamily: text.semiBold,
     fontSize: 16,
-    color:Color.white,
+    color: Color.white,
     textTransform: 'uppercase',
     marginTop: 10,
-  }
+  },
 });

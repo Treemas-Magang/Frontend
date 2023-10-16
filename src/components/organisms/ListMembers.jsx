@@ -88,10 +88,10 @@ const ListMembers = ({navigation}) => {
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{gap: 20}}>
-              <CardMember status='sakit' />
-              <CardMember status='tidakMasuk' />
-              <CardMember status='hadir' />
-              <CardMember status='cuti' />
+              <CardMember status="sakit" navigation={navigation} />
+              <CardMember status="tidakMasuk" navigation={navigation} />
+              <CardMember status="hadir" navigation={navigation} />
+              <CardMember status="cuti" navigation={navigation} />
               <CardMember />
             </View>
           </ScrollView>

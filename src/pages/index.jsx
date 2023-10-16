@@ -32,6 +32,7 @@ import ScreenDetailMemberCuti from './screen/ScreenDetailMemberCuti';
 import ScreenDetailMemberSakit from './screen/ScreenDetailMemberSakit';
 import ScreenDetailMember from './screen/ScreenDetailMember';
 import ScreenFormSakit from './screen/ScreenFormSakit';
+import ScreenDetailMemberTidakMasuk from './screen/ScreenDetailTidakMasuk';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -66,4 +67,5 @@ export {
   ScreenDetailMemberSakit,
   ScreenDetailMember,
   ScreenFormSakit,
+  ScreenDetailMemberTidakMasuk,
 };

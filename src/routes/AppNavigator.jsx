@@ -38,6 +38,7 @@ import {
   ScreenDetailMemberSakit,
   ScreenDetailMember,
   ScreenFormSakit,
+  ScreenDetailMemberTidakMasuk,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -206,6 +207,11 @@ const screens = [
   {
     name: 'detailMember',
     component: ScreenDetailMember,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailMemberTidakMasuk',
+    component: ScreenDetailMemberTidakMasuk,
     gestureEnabled: true,
   },
 ];
