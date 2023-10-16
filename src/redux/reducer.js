@@ -172,7 +172,74 @@ const FormCutiReducer = (state = initialStateFormCuti, action) => {
     }
     return state
 }
+const initialStateFormSakit = {
+    form: {
+        nik: '',
+        tanggal_sakit: '',
+        tanggal_selesai: '',
+        tanggal_masuk: '',
+        jml_sakit: '',
+        alasan: '',
+        foto: {}
+    }
+}
+const FormSakitReducer = (state = initialStateFormSakit, action) => {
+    if (action.type === 'SET_FORM_SAKIT') {
+        return{
+            ...state,
+            form: {
+                ...state.form,
+                [action.inputType]: action.inputValue
+            },
+        }
+    }
+    return state
+}
 
+const initialStateAbsensi = {
+    form: {
+        nik: '',
+        lokasi_project: '',
+        waktu: '',
+        lokasi: '',
+        jarak: 0,
+        alasan_telat_masuk: '',
+        foto: {}
+    }
+}
+const FormAbsensiReducer = (state = initialStateAbsensi, action) => {
+    if (action.type === 'SET_FORM_ABSENSI') {
+        return{
+            ...state,
+            form: {
+                ...state.form,
+                [action.inputType]: action.inputValue
+            }
+        }
+    }
+    return state
+}
+const initialStateClaim = {
+    form: {
+        nik: '',
+        type: '',
+        keterangan: '',
+        nominal: 0,
+        foto: {}
+    }
+}
+const FormClaimReducer = (state = initialStateClaim, action) => {
+    if (action.type === 'SET_FORM_CLAIM') {
+        return{
+            ...state,
+            form: {
+                ...state.form,
+                [action.inputType]: action.inputValue
+            }
+        }
+    }
+    return state
+}
 
 const reducer = combineReducers({
     LoginReducer,
@@ -182,6 +249,9 @@ const reducer = combineReducers({
     userReducer,
     CatatanKerjaReducer,
     FormCutiReducer,
+    FormSakitReducer,
+    FormAbsensiReducer,
+    FormClaimReducer,
 })
 
 export default reducer;

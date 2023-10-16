@@ -25,14 +25,14 @@ const endDate = selectedEndDate ? formatDate(selectedEndDate) : '';
 const objStartDate = moment(startDate, 'YYYY-MM-DD').toDate();
 const objEndDate = moment(endDate, 'YYYY-MM-DD').toDate();
 
-console.log('tanggal awal cuti', startDate);
-console.log('tanggal selesai cuti', endDate);
+// console.log('tanggal awal cuti', startDate);
+// console.log('tanggal selesai cuti', endDate);
 
 if (!objStartDate || !objEndDate) {
   console.log('Format tanggal tidak valid');
 } else {
 
-  let jumlahCuti = 0;
+  let jumlahCutiAtauSakit = 0;
   let jumlahCutiBersama = 0;
   let jumlahTanggalMerah = 0;
   let currentDate = moment(objStartDate);
@@ -48,14 +48,14 @@ if (!objStartDate || !objEndDate) {
     }
     // Jika tidak termasuk dalam cuti bersama atau tanggal merah dan bukan hari Sabtu/Minggu
     else if (currentDate.day() !== 6 && currentDate.day() !== 0) {
-      jumlahCuti++;
+      jumlahCutiAtauSakit++;
     }
     currentDate.add(1, 'days');
   }
 
-  console.log('Jumlah cuti: ', jumlahCuti);
-  console.log('Jumlah cuti bersama: ', jumlahCutiBersama);
-  console.log('Jumlah tanggal merah: ', jumlahTanggalMerah);
+  // console.log('Jumlah cuti: ', jumlahCutiAtauSakit);
+  // console.log('Jumlah cuti bersama: ', jumlahCutiBersama);
+  // console.log('Jumlah tanggal merah: ', jumlahTanggalMerah);
 
   // Cari tanggal setelah endDate yang juga bukan termasuk dalam cuti bersama atau tanggal merah
 let nextDate = currentDate.clone();
@@ -78,7 +78,7 @@ while (true) {
 }
  if (props.onDataReady) {
       props.onDataReady({
-        jumlahCuti,
+        jumlahCutiAtauSakit,
         jumlahCutiBersama,
         jumlahTanggalMerah,
         tanggalMasuk,

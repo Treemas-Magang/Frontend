@@ -48,3 +48,12 @@ export const setFormCatatanKerja = (inputType, value) => {
 export const setFormCuti = (inputType, value) => {
     return{type: 'SET_FORM_CUTI', inputType: inputType, inputValue: value}
 }
+export const setFormSakit = (inputType, value) => {
+    return{type: 'SET_FORM_SAKIT', inputType: inputType, inputValue: value}
+}
+export const setFormAbsensi = (inputType, value) => {
+    return{type: 'SET_FORM_ABSENSI', inputType: inputType, inputValue: value}
+}
+export const setFormClaim = (inputType, value) => {
+    return{type: 'SET_FORM_CLAIM', inputType: inputType, inputValue: value}
+}

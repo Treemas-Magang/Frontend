@@ -17,7 +17,7 @@ const MenuForm = ({navigation}) => {
       <IconMenu
         image={require('../../assets/vector/Sakit.png')}
         title="Sakit"
-        onPress={() => moveTo('')}
+        onPress={() => moveTo('formSakit')}
       />
       <IconMenu
         image={require('../../assets/vector/Claim.png')}
