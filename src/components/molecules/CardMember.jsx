@@ -4,9 +4,26 @@ import React from 'react';
 import { Color } from '../../utils/color';
 import { text } from '../../utils/text';
 
-const CardMember = () => {
+const CardMember = ({navigation, status}) => {
+  let background = styles.cardHadir;
+  switch (status) {
+    case 'sakit':
+      background = styles.cardSakit
+      break;
+    case 'cuti':
+      background = styles.cardCuti
+      break;
+    case 'tidakMasuk':
+      background = styles.cardTidakMasuk
+      break;
+    case 'hadir':
+      background = styles.cardHadir
+      break;
+    default:
+      break;
+  }
   return (
-    <TouchableOpacity style={styles.cardMember}>
+    <TouchableOpacity style={[styles.cardMember, background]}>
       <View style={styles.dataMember}>
         <View style={styles.wrapData}>
           <Text style={styles.labelData}>Jam Masuk</Text>
@@ -29,11 +46,22 @@ export default CardMember;
 const styles = StyleSheet.create({
   cardMember: {
     width: 280,
-    backgroundColor: Color.green,
     padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
+  },
+  cardSakit:{
+    backgroundColor: Color.cardSakit,
+  },
+  cardCuti:{
+    backgroundColor: Color.cardCuti,
+  },
+  cardHadir:{
+    backgroundColor: Color.green,
+  },
+  cardTidakMasuk:{
+    backgroundColor: Color.cardTidakMasuk,
   },
   dataMember:{
     width: 255,

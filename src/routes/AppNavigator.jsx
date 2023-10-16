@@ -37,11 +37,11 @@ import {
   ScreenDetailMemberCuti,
   ScreenDetailMemberSakit,
   ScreenDetailMember,
+  ScreenFormSakit,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
-import ScreenFormSakit from '../pages/screen/ScreenFormSakit';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},

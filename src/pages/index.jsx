@@ -31,6 +31,7 @@ import ScreenListMemberProject from './screen/ScreenListMemberProject';
 import ScreenDetailMemberCuti from './screen/ScreenDetailMemberCuti';
 import ScreenDetailMemberSakit from './screen/ScreenDetailMemberSakit';
 import ScreenDetailMember from './screen/ScreenDetailMember';
+import ScreenFormSakit from './screen/ScreenFormSakit';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -64,4 +65,5 @@ export {
   ScreenDetailMemberCuti,
   ScreenDetailMemberSakit,
   ScreenDetailMember,
+  ScreenFormSakit,
 };
