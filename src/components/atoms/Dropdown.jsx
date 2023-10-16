@@ -7,7 +7,7 @@ import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCaretDown} from '@fortawesome/free-solid-svg-icons';
-const Dropdown = ({nama_dropdown, jenis_cuti}) => {
+const Dropdown = ({nama_dropdown, jenis_cuti, onSelect}) => {
   const countries = ['Egypt', 'Canada', 'Australia', 'Ireland'];
   const idCuti = jenis_cuti.map(item => item.id_cuti);
   const keteranganCuti = jenis_cuti.map(item => item.keterangan_cuti);
@@ -19,6 +19,7 @@ const Dropdown = ({nama_dropdown, jenis_cuti}) => {
       <SelectDropdown
         data={keteranganCuti}
         onSelect={(selectedItem, index) => {
+          onSelect(selectedItem)
           console.log(selectedItem, index);
         }}
         buttonTextAfterSelection={(selectedItem, index) => {
