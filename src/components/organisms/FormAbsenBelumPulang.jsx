@@ -13,7 +13,7 @@ const FormAbsenBelumPulang = () => {
   return (
     <View style={styles.formAbsenBelumPulang}>
       <View style={styles.cardFormAbsenBelumPulang}>
-        <Text style={styles.textJudul}>melakukan absensi</Text>
+        <Text style={styles.textJudul}>Absen Pulang</Text>
         <CustomTextInput
           label="Tanggal"
           secureTextEntry={false}

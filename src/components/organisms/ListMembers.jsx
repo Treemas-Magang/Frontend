@@ -1,65 +1,100 @@
 /* eslint-disable prettier/prettier */
-import { ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+  Image,
+} from 'react-native';
 import React, {useState} from 'react';
 import CardMember from '../molecules/CardMember';
-import { Color } from '../../utils/color';
-import { text } from '../../utils/text';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowDownShortWide } from '@fortawesome/free-solid-svg-icons';
+import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faArrowDownShortWide} from '@fortawesome/free-solid-svg-icons';
 import DropdownList from '../atoms/DropdownList';
+import ButtonBack from '../atoms/ButtonBack';
 
-const ListMembers = () => {
+const ListMembers = ({navigation}) => {
   const [isDropdown, setIsDropdown] = useState(false);
   const handleDropdown = () => {
     setIsDropdown(!isDropdown);
     console.log(isDropdown);
   };
   const handleClickOutside = () => {
-      setIsDropdown(false);
+    setIsDropdown(false);
   };
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.listMember}>
-        <View style={{paddingVertical: 70}}>
-        </View>
+        <ButtonBack
+          navigation={navigation}
+          style={{position: 'absolute', top: 20, left: 20}}
+        />
+        <Image
+          style={styles.VectorAtasKanan}
+          source={require('../../assets/vector/VectorKananAtas.png')}
+        />
+        <View style={{paddingVertical: 70}}></View>
         <View style={styles.wrapListMember}>
-        {
-          isDropdown ? (<DropdownList/>) : ''
-        }
-        <TouchableOpacity onPress={handleDropdown}  style={styles.iconDrop}>
-          <FontAwesomeIcon icon={faArrowDownShortWide} size={30} color={Color.blue} />
-        </TouchableOpacity>
-        <View style={{alignItems: 'center'}}>
-          <Text style={styles.judul}>MEMBER</Text>
-          <Text style={styles.judul}>MANDIRI</Text>
-        </View>
-        <View style={styles.wrapStatus}>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
-            <View style={[styles.simbolStatus, {backgroundColor: Color.cardMasuk}]} />
-            <Text>Hadir</Text>
+          {isDropdown ? <DropdownList /> : ''}
+          <TouchableOpacity onPress={handleDropdown} style={styles.iconDrop}>
+            <FontAwesomeIcon
+              icon={faArrowDownShortWide}
+              size={30}
+              color={Color.blue}
+            />
+          </TouchableOpacity>
+          <View style={{alignItems: 'center'}}>
+            <Text style={styles.judul}>MEMBER</Text>
+            <Text style={styles.judul}>MANDIRI</Text>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
-            <View style={[styles.simbolStatus, {backgroundColor: Color.cardCuti}]} />
-            <Text>Cuti</Text>
+          <View style={styles.wrapStatus}>
+            <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+              <View
+                style={[
+                  styles.simbolStatus,
+                  {backgroundColor: Color.cardMasuk},
+                ]}
+              />
+              <Text>Hadir</Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+              <View
+                style={[styles.simbolStatus, {backgroundColor: Color.cardCuti}]}
+              />
+              <Text>Cuti</Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+              <View
+                style={[
+                  styles.simbolStatus,
+                  {backgroundColor: Color.cardTidakMasuk},
+                ]}
+              />
+              <Text>Tidak masuk</Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+              <View
+                style={[
+                  styles.simbolStatus,
+                  {backgroundColor: Color.cardSakit},
+                ]}
+              />
+              <Text>Sakit/izin</Text>
+            </View>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
-            <View style={[styles.simbolStatus, {backgroundColor: Color.cardTidakMasuk}]} />
-            <Text>Tidak masuk</Text>
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
-            <View style={[styles.simbolStatus, {backgroundColor: Color.cardSakit}]} />
-            <Text>Sakit/izin</Text>
-          </View>
-        </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{gap: 20}}>
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-          </View>
-        </ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{gap: 20}}>
+              <CardMember />
+              <CardMember />
+              <CardMember />
+              <CardMember />
+              <CardMember />
+            </View>
+          </ScrollView>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -69,12 +104,12 @@ const ListMembers = () => {
 export default ListMembers;
 
 const styles = StyleSheet.create({
-  listMember:{
+  listMember: {
     backgroundColor: Color.green,
     width: '100%',
     height: '100%',
   },
-  wrapListMember:{
+  wrapListMember: {
     flex: 1,
     backgroundColor: Color.white,
     alignItems: 'center',
@@ -83,12 +118,12 @@ const styles = StyleSheet.create({
     position: 'relative',
     paddingVertical: 5,
   },
-  judul:{
+  judul: {
     fontFamily: text.semiBold,
     fontSize: 24,
     color: Color.blue,
   },
-  iconDrop:{
+  iconDrop: {
     position: 'absolute',
     left: 30,
     top: 25,
@@ -103,5 +138,11 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     borderRadius: 15,
+  },
+  VectorAtasKanan: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: -1,
   },
 });

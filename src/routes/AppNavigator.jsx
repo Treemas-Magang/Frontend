@@ -33,6 +33,10 @@ import {
   ScreenListMembers,
   ScreenAbsenBelumPulang,
   ScreenFormAbsenBelumPulang,
+  ScreenListMemberProject,
+  ScreenDetailMemberCuti,
+  ScreenDetailMemberSakit,
+  ScreenDetailMember,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -178,9 +182,29 @@ const screens = [
     component: ScreenFormAbsenBelumPulang,
     gestureEnabled: true,
   },
+  {
+    name: 'listMemberProject',
+    component: ScreenListMemberProject,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailMemberCuti',
+    component: ScreenDetailMemberCuti,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailMemberSakit',
+    component: ScreenDetailMemberSakit,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailMember',
+    component: ScreenDetailMember,
+    gestureEnabled: true,
+  },
 ];
 
-const routeName = 'splash';
+const routeName = 'detailMember';
 const Stack = createNativeStackNavigator();
 
 function App() {

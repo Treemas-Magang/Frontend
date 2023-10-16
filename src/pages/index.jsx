@@ -27,6 +27,10 @@ import ScreenFormClaim from './screen/ScreenFormClaim';
 import ScreenListMembers from './screen/ScreenListMembers';
 import ScreenAbsenBelumPulang from './screen/ScreenAbsenBelumPulang';
 import ScreenFormAbsenBelumPulang from './screen/ScreenFormAbsenBelumPulang';
+import ScreenListMemberProject from './screen/ScreenListMemberProject';
+import ScreenDetailMemberCuti from './screen/ScreenDetailMemberCuti';
+import ScreenDetailMemberSakit from './screen/ScreenDetailMemberSakit';
+import ScreenDetailMember from './screen/ScreenDetailMember';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -56,4 +60,8 @@ export {
   ScreenListMembers,
   ScreenAbsenBelumPulang,
   ScreenFormAbsenBelumPulang,
+  ScreenListMemberProject,
+  ScreenDetailMemberCuti,
+  ScreenDetailMemberSakit,
+  ScreenDetailMember,
 };
