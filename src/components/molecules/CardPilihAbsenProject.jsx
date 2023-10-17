@@ -2,6 +2,7 @@ import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
 
 const CardPilihAbsenProject = ({navigation}) => {
   const moveTo = tujuan => {
@@ -16,6 +17,10 @@ const CardPilihAbsenProject = ({navigation}) => {
           top: -250,
           left: -40,
         }}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: -260, right: -50}}
       />
       <Image
         style={styles.VectorAtasKanan}

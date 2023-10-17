@@ -5,6 +5,7 @@ import ButtonBack from '../atoms/ButtonBack';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import CardRekapCuti from '../molecules/CardRekapCuti';
+import ButtonHome from '../atoms/ButtonHome';
 
 const ListRekapCuti = ({navigation}) => {
   return (
@@ -12,6 +13,10 @@ const ListRekapCuti = ({navigation}) => {
       <ButtonBack
         navigation={navigation}
         style={{position: 'absolute', top: 20, left: 20}}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: 10, right: 10}}
       />
       <View style={styles.wrapKeteranganCuti}>
         <Image

@@ -6,6 +6,7 @@ import {Color} from '../../utils/color';
 import CardPilihProject from '../molecules/CardPilihProject';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
 
 const PilihProject = ({navigation}) => {
   const moveTo = screen => {
@@ -21,6 +22,10 @@ const PilihProject = ({navigation}) => {
             top: -130,
             left: -180,
           }}
+        />
+        <ButtonHome
+          navigation={navigation}
+          style={{position: 'absolute', top: -138, right: -180}}
         />
         <Image
           style={styles.VectorAtasKanan}

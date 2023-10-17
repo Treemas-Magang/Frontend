@@ -5,6 +5,7 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import FormAbsenBelumPulang from '../../components/organisms/FormAbsenBelumPulang';
 import ButtonBack from '../../components/atoms/ButtonBack';
+import ButtonHome from '../../components/atoms/ButtonHome';
 
 const ScreenFormAbsensi = ({navigation}) => {
   return (
@@ -17,6 +18,10 @@ const ScreenFormAbsensi = ({navigation}) => {
             top: 20,
             left: 20,
           }}
+        />
+        <ButtonHome
+          navigation={navigation}
+          style={{position: 'absolute', top: 10, right: 15}}
         />
         <Image
           style={styles.VectorAtasKanan}

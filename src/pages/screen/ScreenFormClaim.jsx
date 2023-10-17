@@ -5,6 +5,7 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import FormClaim from '../../components/organisms/FormClaim';
 import ButtonBack from '../../components/atoms/ButtonBack';
+import ButtonHome from '../../components/atoms/ButtonHome';
 
 const ScreenFormClaim = ({navigation}) => {
   return (
@@ -16,6 +17,10 @@ const ScreenFormClaim = ({navigation}) => {
           top: -120,
           left: -180,
         }}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: -130, right: -185}}
       />
       <Image
         style={styles.VectorAtasKanan}

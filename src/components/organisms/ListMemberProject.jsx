@@ -11,6 +11,7 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
 
 const ListMemberProject = ({navigation}) => {
   const moveTo = tujuan => {
@@ -21,6 +22,10 @@ const ListMemberProject = ({navigation}) => {
       <ButtonBack
         navigation={navigation}
         style={{position: 'absolute', top: 20, left: 20}}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: 10, right: 10}}
       />
       <Image
         style={styles.VectorAtasKanan}
