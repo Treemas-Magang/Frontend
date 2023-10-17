@@ -1,4 +1,4 @@
-import {StyleSheet, View, Image} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import PilihProject from '../../components/organisms/PilihProject';

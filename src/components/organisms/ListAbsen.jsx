@@ -6,6 +6,7 @@ import CardListAbsen from '../molecules/CardListAbsen';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
 
 const ListAbsen = ({navigation}) => {
   const [dataAbsens, setDataAbsens] = useState([
@@ -65,6 +66,10 @@ const ListAbsen = ({navigation}) => {
       <ButtonBack
         navigation={navigation}
         style={{position: 'absolute', top: 20, left: 20}}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, right: 20}}
       />
       <View style={styles.wrapAbsen}>
         <Image
