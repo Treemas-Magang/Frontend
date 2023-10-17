@@ -73,7 +73,7 @@ const ScreenSplash = ({navigation}) => {
     };
 
     fetchData();
-    checkMockLocation()
+    // checkMockLocation()
   }, [navigation, dispatch]);
   console.log('dari redux: ',location)
   return (
