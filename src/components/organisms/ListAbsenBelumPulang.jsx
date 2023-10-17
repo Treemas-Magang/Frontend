@@ -5,6 +5,7 @@ import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 import CardAbsenBelumPulang from '../molecules/CardAbsenBelumPulang';
+import ButtonHome from '../atoms/ButtonHome';
 
 const ListAbsenBelumPulang = ({navigation}) => {
   const [AbsenBelumPulang, setAbsenBelumPulang] = useState([
@@ -46,6 +47,10 @@ const ListAbsenBelumPulang = ({navigation}) => {
       <ButtonBack
         navigation={navigation}
         style={{position: 'absolute', top: 20, left: 20}}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, right: 20}}
       />
       <Image
         style={styles.VectorAtas}

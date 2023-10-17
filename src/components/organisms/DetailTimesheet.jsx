@@ -4,6 +4,7 @@ import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonAction from '../atoms/ButtonAction';
 import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
 
 const DetailTimesheet = ({navigation}) => {
   const moveTo = tujuan => {
@@ -14,6 +15,10 @@ const DetailTimesheet = ({navigation}) => {
       <ButtonBack
         navigation={navigation}
         style={{position: 'absolute', top: 20, left: 20}}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, right: 20}}
       />
       <Image
         style={styles.VectorAtas}

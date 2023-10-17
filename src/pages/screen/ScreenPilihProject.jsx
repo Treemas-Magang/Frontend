@@ -6,11 +6,9 @@ import PilihProject from '../../components/organisms/PilihProject';
 
 const ScreenPilihProject = ({navigation}) => {
   return (
-    <ScrollView>
     <View style={styles.BackgroundPilihProject}>
       <PilihProject navigation={navigation} />
     </View>
-    </ScrollView>
   );
 };
 
@@ -20,7 +18,6 @@ const styles = StyleSheet.create({
   BackgroundPilihProject: {
     backgroundColor: Color.green,
     flex: 1,
-    paddingVertical: 100,
     position: 'relative',
     justifyContent: 'center',
     alignItems: 'center',

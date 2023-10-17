@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import CardNotif from '../molecules/CardNotif';
 import {Color} from '../../utils/color';
 import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
 
 const ListPengumuman = ({navigation}) => {
   const [isOpen, setIsopen] = useState(true);
@@ -12,6 +13,10 @@ const ListPengumuman = ({navigation}) => {
       <ButtonBack
         navigation={navigation}
         style={{position: 'absolute', top: 20, left: 20}}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, right: 20}}
       />
       <Image
         style={styles.VectorAtas}

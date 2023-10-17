@@ -5,6 +5,7 @@ import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import CardReimburse from '../molecules/CardReimburse';
 import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
 
 const ListReimburse = ({navigation}) => {
   const [reimburse, setReimburse] = useState([
@@ -49,6 +50,10 @@ const ListReimburse = ({navigation}) => {
       <ButtonBack
         navigation={navigation}
         style={{position: 'absolute', top: 20, left: 20}}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, right: 20}}
       />
       <Image
         style={styles.VectorAtas}

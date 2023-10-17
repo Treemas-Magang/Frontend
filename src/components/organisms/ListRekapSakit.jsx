@@ -5,6 +5,7 @@ import CardRekapSakit from '../molecules/CardRekapSakit';
 import ButtonBack from '../atoms/ButtonBack';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
+import ButtonHome from '../atoms/ButtonHome';
 
 const ListRekapSakit = ({navigation}) => {
   return (
@@ -12,6 +13,10 @@ const ListRekapSakit = ({navigation}) => {
       <ButtonBack
         navigation={navigation}
         style={{position: 'absolute', top: 20, left: 20}}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: 10, right: 10}}
       />
       <View style={styles.wrapKeteranganSakit}>
         <Image

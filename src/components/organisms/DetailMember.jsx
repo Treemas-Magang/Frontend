@@ -12,6 +12,7 @@ import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faImage} from '@fortawesome/free-solid-svg-icons';
+import ButtonHome from '../atoms/ButtonHome';
 
 const DetailMember = ({navigation}) => {
   const [isWFH, setIsWFH] = useState(true);
@@ -23,6 +24,10 @@ const DetailMember = ({navigation}) => {
       <ButtonBack
         navigation={navigation}
         style={{position: 'absolute', top: 20, left: 20}}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, right: 20}}
       />
       <Image
         style={styles.VectorAtas}

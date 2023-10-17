@@ -16,6 +16,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
 import Kalender from '../molecules/Kalender';
 import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
 
 const ListCekCuti = ({navigation}) => {
   const [showKalender, setShowKalender] = useState(false);
@@ -63,6 +64,10 @@ const ListCekCuti = ({navigation}) => {
       <ButtonBack
         navigation={navigation}
         style={{position: 'absolute', top: 20, left: 20}}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, right: 20}}
       />
       <Image
         style={styles.VectorAtas}

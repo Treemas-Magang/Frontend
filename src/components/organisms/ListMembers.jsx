@@ -16,6 +16,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowDownShortWide} from '@fortawesome/free-solid-svg-icons';
 import DropdownList from '../atoms/DropdownList';
 import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
 
 const ListMembers = ({navigation}) => {
   const [isDropdown, setIsDropdown] = useState(false);
@@ -32,6 +33,10 @@ const ListMembers = ({navigation}) => {
         <ButtonBack
           navigation={navigation}
           style={{position: 'absolute', top: 20, left: 20}}
+        />
+        <ButtonHome
+          navigation={navigation}
+          style={{position: 'absolute', top: 10, right: 10}}
         />
         <Image
           style={styles.VectorAtasKanan}
