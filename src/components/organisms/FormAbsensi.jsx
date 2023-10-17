@@ -12,6 +12,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCamera} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormAbsensi} from '../../redux';
+import axios from 'axios';
 
 const FormAbsensi = () => {
   const dispatch = useDispatch();
@@ -36,21 +37,20 @@ const FormAbsensi = () => {
 // const kirimDataDanFotoKeAPI = async () => {
 //   try {
 //     const formData = new FormData();
-//     formData.append('nik', form.nik);
-//     formData.append('lokasi_project', form.lokasi_project);
-//     formData.append('waktu', form.waktu);
-//     formData.append('lokasi', form.lokasi);
-//     formData.append('jarak', form.jarak);
-//     formData.append('alasan_telat_masuk', form.alasan_telat_masuk);
-
-//     // Tambahkan foto ke FormData
+    // formData.append('nik', form.nik);
+    // formData.append('lokasi_project', form.lokasi_project);
+    // formData.append('waktu', form.waktu);
+    // formData.append('lokasi', form.lokasi);
+    // formData.append('jarak', form.jarak);
+    // formData.append('alasan_telat_masuk', form.alasan_telat_masuk);
+    // Tambahkan foto ke FormData
 //     formData.append('foto', {
 //       uri: form.foto.uri, // Lokasi file foto
 //       type: form.foto.type, // Tipe konten foto
 //       name: form.foto.fileName, // Nama file
 //     });
 
-//     const response = await axios.post('URL_API_ANDA', formData, {
+//     const response = await axios.post('http://192.168.10.31:8081/absen/absen-proof/?nik=999', formData, {
 //       headers: {
 //         'Content-Type': 'multipart/form-data',
 //       },

@@ -1,13 +1,29 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
 import DataPribadi from '../../components/molecules/DataPribadi';
 import MenuKehadiran from '../../components/organisms/MenuKehadiran';
+import { getDataFromSession } from '../../utils/getDataSession';
 
 const ScreenDashboardKehadiran = ({navigation}) => {
+  const [isToken, setIsToken] = useState()
+  console.log('ini token : ',isToken)
+  useEffect(() => {
+  getDataFromSession('token')
+      .then(token => {
+        if (token !== null) {
+          setIsToken(token);
+        } else {
+          console.log('Data tidak ditemukan di session.');
+        }
+      })
+      .catch(error => {
+        console.error('Terjadi kesalahan dalam getDataFromSession:', error);
+      });
+  }, [])
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <View

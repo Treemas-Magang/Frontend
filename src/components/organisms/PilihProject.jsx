@@ -19,7 +19,7 @@ const PilihProject = ({navigation}) => {
           style={{
             position: 'absolute',
             top: -130,
-            left: -180,
+            left: -160,
           }}
         />
         <Image
