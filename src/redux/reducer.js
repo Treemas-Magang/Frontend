@@ -241,6 +241,24 @@ const FormClaimReducer = (state = initialStateClaim, action) => {
     return state
 }
 
+const initialStateDetailApproval = {
+    form: {
+        catatanApproval: '',
+    }
+}
+const CatatanApprovalReducer = (state = initialStateDetailApproval, action) => {
+    if (action.type === 'SET_FORM_CATATAN_APPROVAL') {
+        return{
+            ...state,
+            form: {
+                ...state.form,
+                [action.inputType]: action.inputValue
+            }
+        }
+    }
+    return state
+}
+
 const reducer = combineReducers({
     LoginReducer,
     SplashReducer,
@@ -252,6 +270,7 @@ const reducer = combineReducers({
     FormSakitReducer,
     FormAbsensiReducer,
     FormClaimReducer,
+    CatatanApprovalReducer
 })
 
 export default reducer;
