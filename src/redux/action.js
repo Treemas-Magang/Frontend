@@ -57,3 +57,6 @@ export const setFormAbsensi = (inputType, value) => {
 export const setFormClaim = (inputType, value) => {
     return{type: 'SET_FORM_CLAIM', inputType: inputType, inputValue: value}
 }
+export const setFormApproval = (inputType, value) => {
+    return{type: 'SET_FORM_CATATAN_APPROVAL', inputType: inputType, inputValue: value}
+}

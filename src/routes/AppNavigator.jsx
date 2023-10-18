@@ -40,6 +40,7 @@ import {
   ScreenFormSakit,
   ScreenDetailMemberTidakMasuk,
   ScreenApproval,
+  ScreenDetailApproval,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -213,6 +214,11 @@ const screens = [
   {
     name: 'detailMemberTidakMasuk',
     component: ScreenDetailMemberTidakMasuk,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailApproval',
+    component: ScreenDetailApproval,
     gestureEnabled: true,
   },
   {

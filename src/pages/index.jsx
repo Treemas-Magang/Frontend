@@ -34,6 +34,7 @@ import ScreenDetailMember from './screen/ScreenDetailMember';
 import ScreenFormSakit from './screen/ScreenFormSakit';
 import ScreenDetailMemberTidakMasuk from './screen/ScreenDetailTidakMasuk';
 import ScreenApproval from './screen/ScreenApproval';
+import ScreenDetailApproval from './screen/ScreenDetailApproval';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -69,5 +70,6 @@ export {
   ScreenDetailMember,
   ScreenFormSakit,
   ScreenDetailMemberTidakMasuk,
+  ScreenDetailApproval,
   ScreenApproval,
 };
