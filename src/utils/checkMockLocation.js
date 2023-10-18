@@ -1,12 +1,24 @@
 /* eslint-disable prettier/prettier */
 import { isMockingLocation, MockLocationDetectorErrorCode, MockLocationDetectorError } from 'react-native-turbo-mock-location-detector';
-import { Alert } from 'react-native';
+import { Alert, BackHandler } from 'react-native';
+
+const exit = () => {
+  BackHandler.exitApp();
+};
 
 export const checkMockLocation = () => {
       isMockingLocation()
     .then(({ isLocationMocked }) => {
       // isLocationMocked: boolean
-      console.log('mock deteksi: ',isLocationMocked)
+      console.log('terdeteksi fake GPS : ',isLocationMocked)
+      if (isLocationMocked) {
+        Alert.alert(
+          'Peringatan',
+          'FAKE GPS TERDETEKSI TOLONG MATIKAN FAKE GPS ANDA !!!',
+            [{text: 'OK', onPress: () => exit()}],
+          { cancelable: false }
+        );
+      }
       // Hasil boolean untuk Android dan iOS >= 15.0
     })
     .catch((error) => {
