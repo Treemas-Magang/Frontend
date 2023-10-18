@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
@@ -8,7 +9,7 @@ const CardApproval = ({navigation}) => {
     navigation.navigate(tujuan);
   };
   return (
-    <TouchableOpacity style={styles.CardApprovalStyle}>
+    <TouchableOpacity onPress={() => moveTo('detailApproval')} style={styles.CardApprovalStyle}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Text
           style={{
@@ -68,7 +69,7 @@ export default CardApproval;
 const styles = StyleSheet.create({
   CardApprovalStyle: {
     backgroundColor: Color.green,
-    width: 320,
+    width: '100%',
     height: 80,
     borderRadius: 5,
     marginVertical: 10,

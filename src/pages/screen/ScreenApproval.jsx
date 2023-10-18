@@ -1,13 +1,12 @@
 /* eslint-disable prettier/prettier */
 import { View, Text } from 'react-native'
 import React from 'react'
-import KategoriApproval from '../../components/molecules/KategoriApproval';
 import ListApproval from '../../components/organisms/ListApproval';
 
-const ScreenApproval = () => {
+const ScreenApproval = ({navigation}) => {
   return (
     <View>
-      <ListApproval />
+      <ListApproval navigation={navigation} />
     </View>
   );
 };
