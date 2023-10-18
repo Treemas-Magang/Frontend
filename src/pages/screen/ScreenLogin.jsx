@@ -64,19 +64,20 @@ const ScreenLogin = ({navigation}) => {
     dispatch(setForm(inputType, value));
   };
   const sendData = async () => {
+    console.log('login form : ',form)
   try {
-    const response = await axios.post('http://192.168.10.31:8081/api/login', form);
+    const response = await axios.post('http://192.168.10.190:8081/api/auth/login', form);
     const dataLogin = response.data.data;
-
-    if (Array.isArray(dataLogin) && dataLogin.length > 0) {
+    // console.log(response.data.data);
+    if (response.status === 200) {
       const [{ token }] = dataLogin;
-      console.log(token);
+      console.log('token : ',token);
       console.log(response.data.message);
       // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
       await AsyncStorage.setItem('token', token);
       navigation.replace('dashboard');
     } else {
-      console.log(response.data.message);
+      console.log('message : ',response.data.message);
     }
   } catch (error) {
     console.error('Terjadi kesalahan:', error);

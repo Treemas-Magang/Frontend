@@ -17,6 +17,7 @@ const MenuPengumuman = ({navigation}) => {
       <IconMenu
         image={require('../../assets/vector/aprroval.png')}
         title="approval"
+        onPress={() => moveTo('approval')}
       />
     </View>
   );
