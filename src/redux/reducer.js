@@ -27,6 +27,27 @@ const LoginReducer = (state = initialStateLogin, action) => {
     }
     return state
 }
+const initialStateLoginFingerPrint = {
+    title: 'Login Page',
+    isLogin: true,
+    formLogin:{
+        nik: '',
+        password: '',
+        deviceId: '',
+    }
+}
+const LoginFingerPrintReducer = (state = initialStateLoginFingerPrint, action) => {
+    if(action.type === 'SET_FORM_LOGIN_FINGERPRINT'){
+        return{
+            ...state,
+            formLogin: {
+                ...state.formLogin,
+                [action.inputType]: action.inputValue
+            }
+        }
+    }
+    return state
+}
 
 const initialStateSplash = {
     location: {
@@ -270,7 +291,8 @@ const reducer = combineReducers({
     FormSakitReducer,
     FormAbsensiReducer,
     FormClaimReducer,
-    CatatanApprovalReducer
+    CatatanApprovalReducer,
+    LoginFingerPrintReducer,
 })
 
 export default reducer;

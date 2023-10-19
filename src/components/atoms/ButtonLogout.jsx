@@ -3,6 +3,7 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 
@@ -17,6 +18,18 @@ const ButtonLogout = ({navigation}) => {
     lebarAwal: 43,
     lebarAkhir: 133,
   };
+
+  const logout = () => {
+// Hapus token otentikasi dari AsyncStorage
+  AsyncStorage.removeItem('token')
+    .then(() => {
+      console.log('Token otentikasi berhasil dihapus.');
+       navigation.replace('login');
+    })
+    .catch(error => {
+      console.error('Terjadi kesalahan saat menghapus token otentikasi:', error);
+    });
+  }
   return (
     <View style={{height: 224, width: '100%', position: 'relative'}}>
       <View
@@ -41,7 +54,7 @@ const ButtonLogout = ({navigation}) => {
           {!isOpenLogout ? (
             ''
           ) : (
-            <TouchableOpacity onPress={() => navigation.replace('login')}>
+            <TouchableOpacity onPress={() => logout()}>
             <Text
               style={{
                 marginHorizontal: 20,
