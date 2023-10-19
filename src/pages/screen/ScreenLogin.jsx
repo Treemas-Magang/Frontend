@@ -18,18 +18,18 @@ import {Color} from '../../utils/color';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFingerprint} from '@fortawesome/free-solid-svg-icons';
 import {useSelector, useDispatch} from 'react-redux';
-import {setForm} from '../../redux';
+import {setForm, setFormLoginFingerPrint} from '../../redux';
 import {checkBiometryType} from '../../utils/checkBiometricType';
 import ReactNativeBiometrics from 'react-native-biometrics';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { LoginFingerprint } from '../../config/prosesLogin';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [deviceId, setDeviceId] = useState('');
-  const [scanCount, setScanCount] = useState(0);
-  const maxScanCount = 3;
   const {form} = useSelector(state => state.LoginReducer);
-  const {location} = useSelector(state => state.SplashReducer);
+  const {formLogin} = useSelector(state => state.LoginFingerPrintReducer)
+  // const {location} = useSelector(state => state.SplashReducer);
   const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -39,7 +39,7 @@ const ScreenLogin = ({navigation}) => {
         if (idDevice !== null) {
           setDeviceId(idDevice);
           dispatch(setForm('deviceId', idDevice));
-          // dispatch(setForm('deviceId', idDevice));
+          dispatch(setFormLoginFingerPrint('deviceId', idDevice));
         } else {
           console.log('Data tidak ditemukan di session.');
         }
@@ -59,22 +59,43 @@ const ScreenLogin = ({navigation}) => {
       .catch(error => {
         console.error('Terjadi kesalahan dalam getDataFromSession:', error);
       });
+    getDataFromSession('nik')
+      .then(nik => {
+        if (nik !== null) {
+          dispatch(setFormLoginFingerPrint('nik', nik))
+        } else {
+          console.log('nik tidak ditemukan di session.');
+        }
+      })
+      .catch(error => {
+        console.error('Terjadi kesalahan dalam getDataFromSession:', error);
+      });
+    getDataFromSession('password')
+      .then(password => {
+        if (password !== null) {
+          dispatch(setFormLoginFingerPrint('password', password))
+        } else {
+          console.log('pasword tidak ditemukan di session.');
+        }
+      })
+      .catch(error => {
+        console.error('Terjadi kesalahan dalam getDataFromSession:', error);
+      });
   }, [biometricType, dispatch]);
   const onChangeText = (value, inputType) => {
     dispatch(setForm(inputType, value));
   };
   const sendData = async () => {
-    console.log('login form : ',form)
   try {
     const response = await axios.post('http://192.168.10.190:8081/api/auth/login', form);
     const dataLogin = response.data.data;
-    // console.log(response.data.data);
-    if (response.status === 200) {
-      const [{ token }] = dataLogin;
-      console.log('token : ',token);
-      console.log(response.data.message);
+    if (dataLogin.token !== null) {
+      // const [{ token }] = dataLogin;
+      const token = dataLogin.token;
       // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
       await AsyncStorage.setItem('token', token);
+      await AsyncStorage.setItem('nik', form.nik);
+      await AsyncStorage.setItem('password', form.password);
       navigation.replace('dashboard');
     } else {
       console.log('message : ',response.data.message);
@@ -98,19 +119,30 @@ const ScreenLogin = ({navigation}) => {
       if (result.success) {
         // Pemindaian berhasil
         console.log('Otentikasi berhasil');
-        setScanCount(0);
+        ///////////////////////////////////////
+        // LoginFingerprint({navigation});
+        try {
+          const response = await axios.post('http://192.168.10.190:8081/api/auth/login', formLogin);
+          const dataLogin = response.data.data;
+          if (response.status === 200) {
+            // const [{ token }] = dataLogin;
+            const token = dataLogin.token;
+            // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
+            await AsyncStorage.setItem('token', token);
+            navigation.replace('dashboard');
+          } else {
+            console.log('message : ',response.data.message);
+          }
+        } catch (error) {
+          console.error('Terjadi kesalahan:', error);
+        }
 
-        navigation.replace('dashboard');
+        ///////////////////////////////////////
+        // navigation.replace('dashboard');
       } else if (result.error) {
         // Pemindaian gagal
         console.log('Otentikasi gagal');
 
-        setScanCount(scanCount + 1);
-        if (scanCount >= maxScanCount) {
-          console.log(
-            'Anda telah mencapai batas jumlah pemindaian yang gagal.',
-          );
-        }
       }
     } catch (error) {
       navigation.navigate('gagalSidikJari');
