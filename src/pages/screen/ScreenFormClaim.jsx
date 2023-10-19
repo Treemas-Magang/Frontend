@@ -9,25 +9,27 @@ import ButtonHome from '../../components/atoms/ButtonHome';
 
 const ScreenFormClaim = ({navigation}) => {
   return (
-    <View style={styles.wrapperForm}>
-      <ButtonBack
-        navigation={navigation}
-        style={{
-          position: 'absolute',
-          top: -120,
-          left: -180,
-        }}
-      />
-      <ButtonHome
-        navigation={navigation}
-        style={{position: 'absolute', top: -130, right: -185}}
-      />
-      <Image
-        style={styles.VectorAtasKanan}
-        source={require('../../assets/vector/VectorKananAtas.png')}
-      />
+    <View style={{height: '100%', backgroundColor: Color.green}}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <FormClaim />
+        <ButtonBack
+          navigation={navigation}
+          style={{
+            position: 'absolute',
+            top: 20,
+            left: 20,
+          }}
+        />
+        <ButtonHome
+          navigation={navigation}
+          style={{position: 'absolute', top: 10, right: 15}}
+        />
+        <Image
+          style={styles.VectorAtasKanan}
+          source={require('../../assets/vector/VectorKananAtas.png')}
+        />
+        <View style={styles.wrapperForm}>
+          <FormClaim />
+        </View>
       </ScrollView>
     </View>
   );
@@ -37,9 +39,8 @@ export default ScreenFormClaim;
 
 const styles = StyleSheet.create({
   wrapperForm: {
-    backgroundColor: Color.green,
     alignItems: 'center',
-    paddingTop: 140,
+    paddingTop: 120,
     width: '100%',
     height: '100%',
   },

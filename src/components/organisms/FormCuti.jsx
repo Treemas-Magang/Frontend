@@ -70,110 +70,118 @@ const FormCuti = () => {
   const sendData = () => {
     console.log('kirim data : ', form);
   };
-   const handleClickOutside = () => {
-      setShowKalender(false);
+  const handleClickOutside = () => {
+    setShowKalender(false);
   };
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
-    <View style={styles.formCuti}>
-      {showKalender && (
-        <View style={{position: 'absolute', top: 0, right: 55, zIndex: 2}}>
-          <KalenderRange onDataReady={handleDataReady} />
-        </View>
-      )}
-      <View style={styles.cardFormCuti}>
-        <Text style={styles.judul}>Form Cuti</Text>
-        <View style={styles.wrapInfoCuti}>
-          <CardInfo title="sisa cuti" color={Color.cardMasuk} cardInfo="11" />
-          <CardInfo
-            title="cuti bersama"
-            color={Color.cardTelatMasuk}
-            cardInfo="11"
-          />
-          <CardInfo
-            title="cuti penganti"
-            color={Color.cardPulangCepat}
-            cardInfo="11"
-          />
-        </View>
-        <View style={styles.wrapInputForm}>
-          <Dropdown nama_dropdown="jenis cuti" jenis_cuti={jenis_cuti} />
-          <View style={{position: 'relative'}}>
-            {/* <CustomTextInput
+      <View style={styles.formCuti}>
+        {showKalender && (
+          <View style={{position: 'absolute', top: 0, right: 55, zIndex: 2}}>
+            <KalenderRange onDataReady={handleDataReady} />
+          </View>
+        )}
+        <View style={styles.cardFormCuti}>
+          <Text style={styles.judul}>Form Cuti</Text>
+          <View style={styles.wrapInfoCuti}>
+            <CardInfo title="sisa cuti" color={Color.cardMasuk} cardInfo="11" />
+            <CardInfo
+              title="cuti bersama"
+              color={Color.cardTelatMasuk}
+              cardInfo="11"
+            />
+            <CardInfo
+              title="cuti penganti"
+              color={Color.cardPulangCepat}
+              cardInfo="11"
+            />
+          </View>
+          <View style={styles.wrapInputForm}>
+            <Dropdown nama_dropdown="Jenis cuti" jenis_cuti={jenis_cuti} />
+            <View style={{position: 'relative', gap: 10}}>
+              {/* <CustomTextInput
               label="tgl awal - akhir cuti"
               value={awalCuti === '' ? 'haha' : 'hehehe'}
               secureTextEntry={false}
             /> */}
-            <FakeTextInput
-              value={`${form.tanggal_cuti} - ${form.tanggal_selesai}`}
-              label="tgl awal - akhir cuti"
-            />
-            <TouchableOpacity
-              onPress={openKalender}
-              style={{
-                position: 'absolute',
-                top: 10,
-                right: 5,
-                paddingLeft: 250,
-                paddingVertical: 5,
-              }}>
-              <FontAwesomeIcon
-                icon={faCalendarDays}
-                size={25}
-                color={Color.green}
+              <FakeTextInput
+                value={`${form.tanggal_cuti} - ${form.tanggal_selesai}`}
+                label="Tgl Awal - Akhir Cuti"
               />
-            </TouchableOpacity>
-            {/* <CustomTextInput label="tgl masuk kerja" editable={false} /> */}
-            <FakeTextInput value={form.tanggal_masuk} label="tgl masuk kerja" />
-            <CustomTextInput
-              label="Keperluan cuti"
-              secureTextEntry={false}
-              value={form.keperluan_cuti}
-              onTextChange={value => onChangeText(value, 'keperluan_cuti')}
-            />
-            <CustomTextInput
-              label="alamat cuti"
-              secureTextEntry={false}
-              value={form.alamat_cuti}
-              onTextChange={value => onChangeText(value, 'alamat_cuti')}
+              <TouchableOpacity
+                onPress={openKalender}
+                style={{
+                  position: 'absolute',
+                  top: 10,
+                  right: 5,
+                  paddingLeft: 250,
+                  paddingVertical: 5,
+                }}>
+                <FontAwesomeIcon
+                  icon={faCalendarDays}
+                  size={25}
+                  color={Color.green}
+                />
+              </TouchableOpacity>
+              {/* <CustomTextInput label="tgl masuk kerja" editable={false} /> */}
+              <FakeTextInput
+                value={form.tanggal_masuk}
+                label="Tgl Masuk Kerja"
+              />
+              <CustomTextInput
+                label="Keperluan Cuti"
+                secureTextEntry={false}
+                value={form.keperluan_cuti}
+                onTextChange={value => onChangeText(value, 'keperluan_cuti')}
+              />
+
+              <CustomTextInput
+                label="Alamat Cuti"
+                secureTextEntry={false}
+                value={form.alamat_cuti}
+                onTextChange={value => onChangeText(value, 'alamat_cuti')}
+              />
+            </View>
+            <View style={styles.catatanCuti}>
+              <View style={{flexDirection: 'column'}}>
+                <Text style={styles.label}>Jumlah Cuti</Text>
+                <Text style={styles.textValue}>
+                  {data.jumlahCutiAtauSakit !== 0
+                    ? data.jumlahCutiAtauSakit
+                    : '-'}
+                </Text>
+              </View>
+              <View style={{flexDirection: 'column'}}>
+                <Text style={styles.label}>Hari Libur</Text>
+                <Text style={styles.textValue}>
+                  {data.jumlahTanggalMerah !== 0
+                    ? data.jumlahTanggalMerah
+                    : '-'}
+                </Text>
+              </View>
+              <View style={{flexDirection: 'column'}}>
+                <Text style={styles.label}>Jumlah Cuti Bersama</Text>
+                <Text style={styles.textValue}>
+                  {data.jumlahCutiBersama !== 0 ? data.jumlahCutiBersama : '-'}
+                </Text>
+              </View>
+              <View style={{flexDirection: 'column'}}>
+                <Text style={styles.label}>Tanggal Cuti</Text>
+                <Text style={styles.textValue}>
+                  {data.startDate && data.endDate
+                    ? `${data.startDate} - ${data.endDate}`
+                    : '-'}
+                </Text>
+              </View>
+            </View>
+            <ButtonAction
+              title="KIRIM"
+              onPress={() => sendData()}
+              style={{width: 269}}
             />
           </View>
-          <View style={styles.catatanCuti}>
-            <View style={{flexDirection: 'column'}}>
-              <Text style={styles.label}>Jumlah Cuti</Text>
-              <Text style={styles.textValue}>
-                {data.jumlahCutiAtauSakit !== 0 ? data.jumlahCutiAtauSakit : '-'}
-              </Text>
-            </View>
-            <View style={{flexDirection: 'column'}}>
-              <Text style={styles.label}>Hari Libur</Text>
-              <Text style={styles.textValue}>
-                {data.jumlahTanggalMerah !== 0 ? data.jumlahTanggalMerah : '-'}
-              </Text>
-            </View>
-            <View style={{flexDirection: 'column'}}>
-              <Text style={styles.label}>Jumlah Cuti Bersama</Text>
-              <Text style={styles.textValue}>
-                {data.jumlahCutiBersama !== 0 ? data.jumlahCutiBersama : '-'}
-              </Text>
-            </View>
-            <View style={{flexDirection: 'column'}}>
-              <Text style={styles.label}>Tanggal Cuti</Text>
-              <Text style={styles.textValue}>
-                {data.startDate && data.endDate
-                  ? `${data.startDate} - ${data.endDate}`
-                  : '-'}
-              </Text>
-            </View>
-          </View>
-          <ButtonAction
-            title="KIRIM"
-            onPress={() => sendData()}
-            style={{width: 269}}
-          />
         </View>
       </View>
-    </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -185,7 +193,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     // paddingTop: 140,
-    paddingVertical:70,
+    paddingVertical: 70,
     alignItems: 'center',
     position: 'relative',
   },
