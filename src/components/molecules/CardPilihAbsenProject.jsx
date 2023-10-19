@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
@@ -26,7 +27,7 @@ const CardPilihAbsenProject = ({navigation}) => {
         style={styles.VectorAtasKanan}
         source={require('../../assets/vector/VectorKananAtas.png')}
       />
-      <TouchableOpacity style={styles.CardPilihProject}>
+      <TouchableOpacity onPress={() => moveTo('absensi')} style={styles.CardPilihProject}>
         <Text style={styles.Text}>ON SITE</Text>
         <Text style={styles.TextDeskripsi}>
           jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
@@ -35,7 +36,7 @@ const CardPilihAbsenProject = ({navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.CardPilihProject}
-        onPress={() => moveTo('formAbsensi')}>
+        onPress={() => moveTo('absensi')}>
         <Text style={styles.Text}>WORK FROM HOME</Text>
         <Text style={styles.TextDeskripsi}>
           jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
