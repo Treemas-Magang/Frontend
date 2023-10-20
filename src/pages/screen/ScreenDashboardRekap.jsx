@@ -6,6 +6,7 @@ import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
 import DataPribadi from '../../components/molecules/DataPribadi';
 import MenuRekap from '../../components/organisms/MenuRekap';
+import {text} from '../../utils/text';
 
 const ScreenDashboardRekap = ({navigation}) => {
   return (
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     fontSize: 16,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: text.bold,
     color: Color.blue,
     textTransform: 'uppercase',
   },

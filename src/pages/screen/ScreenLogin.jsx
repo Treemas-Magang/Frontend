@@ -23,19 +23,20 @@ import {checkBiometryType} from '../../utils/checkBiometricType';
 import ReactNativeBiometrics from 'react-native-biometrics';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {text} from '../../utils/text';
 // import { LoginFingerprint } from '../../config/prosesLogin';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [deviceId, setDeviceId] = useState('');
   const {form} = useSelector(state => state.LoginReducer);
-  const {formLogin} = useSelector(state => state.LoginFingerPrintReducer)
+  const {formLogin} = useSelector(state => state.LoginFingerPrintReducer);
   // const {location} = useSelector(state => state.SplashReducer);
   const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
   useEffect(() => {
     checkBiometryType(dispatch);
     getDataFromSession('deviceId')
-    .then(idDevice => {
+      .then(idDevice => {
         if (idDevice !== null) {
           setDeviceId(idDevice);
           dispatch(setForm('deviceId', idDevice));
@@ -62,7 +63,7 @@ const ScreenLogin = ({navigation}) => {
     getDataFromSession('nik')
       .then(nik => {
         if (nik !== null) {
-          dispatch(setFormLoginFingerPrint('nik', nik))
+          dispatch(setFormLoginFingerPrint('nik', nik));
         } else {
           console.log('nik tidak ditemukan di session.');
         }
@@ -73,7 +74,7 @@ const ScreenLogin = ({navigation}) => {
     getDataFromSession('password')
       .then(password => {
         if (password !== null) {
-          dispatch(setFormLoginFingerPrint('password', password))
+          dispatch(setFormLoginFingerPrint('password', password));
         } else {
           console.log('pasword tidak ditemukan di session.');
         }
@@ -86,24 +87,27 @@ const ScreenLogin = ({navigation}) => {
     dispatch(setForm(inputType, value));
   };
   const sendData = async () => {
-  try {
-    const response = await axios.post('http://192.168.10.190:8081/api/auth/login', form);
-    const dataLogin = response.data.data;
-    if (dataLogin.token !== null) {
-      // const [{ token }] = dataLogin;
-      const token = dataLogin.token;
-      // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
-      await AsyncStorage.setItem('token', token);
-      await AsyncStorage.setItem('nik', form.nik);
-      await AsyncStorage.setItem('password', form.password);
-      navigation.replace('dashboard');
-    } else {
-      console.log('message : ',response.data.message);
+    try {
+      const response = await axios.post(
+        'http://192.168.10.190:8081/api/auth/login',
+        form,
+      );
+      const dataLogin = response.data.data;
+      if (dataLogin.token !== null) {
+        // const [{ token }] = dataLogin;
+        const token = dataLogin.token;
+        // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
+        await AsyncStorage.setItem('token', token);
+        await AsyncStorage.setItem('nik', form.nik);
+        await AsyncStorage.setItem('password', form.password);
+        navigation.replace('dashboard');
+      } else {
+        console.log('message : ', response.data.message);
+      }
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
     }
-  } catch (error) {
-    console.error('Terjadi kesalahan:', error);
-  }
-};
+  };
 
   const moveToLupaPassword = () => {
     navigation.navigate('lupaPassword');
@@ -121,28 +125,27 @@ const ScreenLogin = ({navigation}) => {
         console.log('Otentikasi berhasil');
         ///////////////////////////////////////
         // LoginFingerprint({navigation});
-        try {
-          const response = await axios.post('http://192.168.10.190:8081/api/auth/login', formLogin);
-          const dataLogin = response.data.data;
-          if (response.status === 200) {
-            // const [{ token }] = dataLogin;
-            const token = dataLogin.token;
-            // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
-            await AsyncStorage.setItem('token', token);
-            navigation.replace('dashboard');
-          } else {
-            console.log('message : ',response.data.message);
-          }
-        } catch (error) {
-          console.error('Terjadi kesalahan:', error);
-        }
+        // try {
+        //   const response = await axios.post('http://192.168.10.190:8081/api/auth/login', formLogin);
+        //   const dataLogin = response.data.data;
+        //   if (response.status === 200) {
+        //     // const [{ token }] = dataLogin;
+        //     const token = dataLogin.token;
+        //     // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
+        //     await AsyncStorage.setItem('token', token);
+        //     navigation.replace('dashboard');
+        //   } else {
+        //     console.log('message : ',response.data.message);
+        //   }
+        // } catch (error) {
+        //   console.error('Terjadi kesalahan:', error);
+        // }
 
         ///////////////////////////////////////
-        // navigation.replace('dashboard');
+        navigation.replace('dashboard');
       } else if (result.error) {
         // Pemindaian gagal
         console.log('Otentikasi gagal');
-
       }
     } catch (error) {
       navigation.navigate('gagalSidikJari');
@@ -189,7 +192,7 @@ const ScreenLogin = ({navigation}) => {
               <Text
                 style={{
                   fontSize: 14,
-                  fontFamily: 'Poppins-SemiBold',
+                  fontFamily: text.semiBold,
                   color: Color.black,
                 }}
                 onPress={() => moveToLupaPassword()}>

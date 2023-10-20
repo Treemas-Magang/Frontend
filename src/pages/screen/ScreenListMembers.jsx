@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 import ListMembers from '../../components/organisms/ListMembers';
 
@@ -12,5 +12,3 @@ const ScreenListMembers = ({navigation}) => {
 };
 
 export default ScreenListMembers;
-
-const styles = StyleSheet.create({});

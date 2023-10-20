@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   Judul: {
     textAlign: 'center',
     marginVertical: 112,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: text.semiBold,
     fontSize: 26,
     color: Color.blue,
     textTransform: 'uppercase',

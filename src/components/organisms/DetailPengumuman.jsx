@@ -3,6 +3,7 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
+import {text} from '../../utils/text';
 
 const DetailPengumuman = ({navigation}) => {
   return (
@@ -24,7 +25,7 @@ const DetailPengumuman = ({navigation}) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text
             style={{
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: text.semiBold,
               fontSize: 18,
               textAlign: 'center',
               color: Color.blue,
@@ -33,7 +34,7 @@ const DetailPengumuman = ({navigation}) => {
           </Text>
           <Text
             style={{
-              fontFamily: 'Poppins-Regular',
+              fontFamily: text.regular,
               fontSize: 12,
               textAlign: 'justify',
               width: 320,
@@ -51,7 +52,7 @@ const DetailPengumuman = ({navigation}) => {
           </Text>
           <Text
             style={{
-              fontFamily: 'Poppins-Regular',
+              fontFamily: text.regular,
               fontSize: 12,
               width: 320,
             }}>
@@ -59,7 +60,7 @@ const DetailPengumuman = ({navigation}) => {
           </Text>
           <Text
             style={{
-              fontFamily: 'Poppins-Regular',
+              fontFamily: text.regular,
               fontSize: 12,
               width: 320,
             }}>
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
   Judul: {
     textAlign: 'center',
     marginVertical: 80,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: text.semiBold,
     fontSize: 26,
     color: Color.blue,
   },

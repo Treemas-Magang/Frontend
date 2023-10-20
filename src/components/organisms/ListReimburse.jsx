@@ -78,27 +78,21 @@ const ListReimburse = ({navigation}) => {
         <View style={styles.catatanKerja}>
           <View style={{alignItems: 'flex-start'}}>
             <>
-              <Text style={{fontFamily: 'Poppins-LightItalic'}}>
-                Reimburse{' '}
-              </Text>
+              <Text style={{fontFamily: text.lightItalic}}>Reimburse </Text>
               <Text style={styles.textValue}>Rp. 0</Text>
             </>
             <>
-              <Text style={{fontFamily: 'Poppins-LightItalic'}}>
-                Data + Voice{' '}
-              </Text>
+              <Text style={{fontFamily: text.lightItalic}}>Data + Voice </Text>
               <Text style={styles.textValue}>Rp. 150.000</Text>
             </>
             <>
-              <Text style={{fontFamily: 'Poppins-LightItalic'}}>
-                Lain-lain{' '}
-              </Text>
+              <Text style={{fontFamily: text.lightItalic}}>Lain-lain </Text>
               <Text style={styles.textValue}>Rp. 0</Text>
             </>
           </View>
           <View style={{justifyContent: 'flex-end'}}>
             <>
-              <Text style={{fontFamily: 'Poppins-LightItalic'}}>Total </Text>
+              <Text style={{fontFamily: text.lightItalic}}>Total </Text>
               <Text style={[styles.textValue, {fontSize: 16}]}>
                 Rp. 150.000
               </Text>

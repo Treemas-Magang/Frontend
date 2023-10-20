@@ -9,8 +9,8 @@ import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
 import MenuUtama from '../../components/organisms/MenuUtama';
 import DataPribadi from '../../components/molecules/DataPribadi';
+import {text} from '../../utils/text';
 const ScreenDashboard = ({navigation}) => {
-  
   return (
     <ScrollView>
       <View style={{alignItems: 'center', backgroundColor: Color.green}}>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     fontSize: 16,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: text.bold,
     color: Color.blue,
     textTransform: 'uppercase',
   },

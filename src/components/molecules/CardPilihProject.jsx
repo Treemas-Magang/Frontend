@@ -2,6 +2,7 @@
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
 
 const CardPilihProject = () => {
   return (
@@ -53,13 +54,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   Text: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: text.semiBold,
     fontSize: 16,
     color: Color.green,
     paddingVertical: 10,
   },
   TextDeskripsi: {
-    fontFamily: 'Poppins-ExtraLight',
+    fontFamily: text.extraLight,
     fontSize: 10,
     marginBottom: 20,
     color: Color.black,

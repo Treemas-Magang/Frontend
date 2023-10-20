@@ -78,15 +78,13 @@ const ListTimesheet = ({navigation}) => {
         </ScrollView>
         <View style={styles.catatanKerja}>
           <View style={{alignItems: 'center'}}>
-            <Text style={{fontFamily: 'Poppins-LightItalic'}}>
+            <Text style={{fontFamily: text.lightItalic}}>
               Total Jam Reguler
             </Text>
             <Text style={styles.textValue}>75 Jam</Text>
           </View>
           <View style={{alignItems: 'center'}}>
-            <Text style={{fontFamily: 'Poppins-LightItalic'}}>
-              Total Lembur
-            </Text>
+            <Text style={{fontFamily: text.lightItalic}}>Total Lembur</Text>
             <Text style={styles.textValue}>75 Jam</Text>
           </View>
           <View style={{alignItems: 'center'}}>

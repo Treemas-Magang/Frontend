@@ -6,13 +6,14 @@ import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
 import DataPribadi from '../../components/molecules/DataPribadi';
 import MenuKehadiran from '../../components/organisms/MenuKehadiran';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
+import {text} from '../../utils/text';
 
 const ScreenDashboardKehadiran = ({navigation}) => {
-  const [isToken, setIsToken] = useState()
-  console.log('ini token : ',isToken)
+  const [isToken, setIsToken] = useState();
+  console.log('ini token : ', isToken);
   useEffect(() => {
-  getDataFromSession('token')
+    getDataFromSession('token')
       .then(token => {
         if (token !== null) {
           setIsToken(token);
@@ -23,7 +24,7 @@ const ScreenDashboardKehadiran = ({navigation}) => {
       .catch(error => {
         console.error('Terjadi kesalahan dalam getDataFromSession:', error);
       });
-  }, [])
+  }, []);
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <View
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     fontSize: 16,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: text.bold,
     color: Color.blue,
     textTransform: 'uppercase',
   },

@@ -9,6 +9,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFileInvoice} from '@fortawesome/free-solid-svg-icons';
 import CardUpdateProject from '../molecules/CardUpdateProject';
 import ButtonAction from '../atoms/ButtonAction';
+import {text} from '../../utils/text';
 
 const UpdateListProject = () => {
   const [checkboxes, setCheckboxes] = useState([
@@ -75,7 +76,7 @@ const UpdateListProject = () => {
         }}>
         <Text
           style={{
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: text.semiBold,
             textTransform: 'uppercase',
             fontSize: 26,
             color: Color.blue,

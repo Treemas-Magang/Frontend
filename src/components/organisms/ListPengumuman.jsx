@@ -5,6 +5,7 @@ import CardNotif from '../molecules/CardNotif';
 import {Color} from '../../utils/color';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
+import {text} from '../../utils/text';
 
 const ListPengumuman = ({navigation}) => {
   const [isOpen, setIsopen] = useState(true);
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
   Judul: {
     textAlign: 'center',
     marginVertical: 112,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: text.semiBold,
     fontSize: 26,
     color: Color.blue,
   },

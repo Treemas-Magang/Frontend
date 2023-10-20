@@ -2,6 +2,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import CardPilihAbsenProject from '../molecules/CardPilihAbsenProject';
+import {text} from '../../utils/text';
 
 const PilihAbsenProject = ({navigation}) => {
   return (
@@ -9,7 +10,7 @@ const PilihAbsenProject = ({navigation}) => {
       <View style={styles.CardUpdateTimesheet}>
         <Text
           style={{
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: text.semiBold,
             textTransform: 'uppercase',
             fontSize: 17,
             color: Color.blue,

@@ -6,29 +6,30 @@ import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
 import DataPribadi from '../../components/molecules/DataPribadi';
 import MenuForm from '../../components/organisms/MenuForm';
+import {text} from '../../utils/text';
 
 const ScreenDashboardForm = ({navigation}) => {
   return (
     <ScrollView>
       <View style={{alignItems: 'center', backgroundColor: Color.green}}>
-      <ButtonLogout />
-      <View
-        style={{
-          position: 'absolute',
-          top: 80,
-          width: 310,
-        }}>
-        <DataPribadi />
+        <ButtonLogout />
+        <View
+          style={{
+            position: 'absolute',
+            top: 80,
+            width: 310,
+          }}>
+          <DataPribadi />
+        </View>
+        <View style={styles.containerInfo}>
+          <Text style={styles.judulSection}>Statistik Tahun ini</Text>
+          <StatistikTahunIni />
+        </View>
+        <View style={styles.containerMenu}>
+          <Text style={styles.judulSection}>form</Text>
+          <MenuForm navigation={navigation} />
+        </View>
       </View>
-      <View style={styles.containerInfo}>
-        <Text style={styles.judulSection}>Statistik Tahun ini</Text>
-        <StatistikTahunIni />
-      </View>
-      <View style={styles.containerMenu}>
-        <Text style={styles.judulSection}>form</Text>
-        <MenuForm navigation={navigation} />
-      </View>
-    </View>
     </ScrollView>
   );
 };
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     fontSize: 16,
-    fontFamily: 'Poppins-Bold',
+    fontFamily: text.bold,
     color: Color.blue,
     textTransform: 'uppercase',
   },
