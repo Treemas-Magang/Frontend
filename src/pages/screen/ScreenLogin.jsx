@@ -121,24 +121,24 @@ const ScreenLogin = ({navigation}) => {
         console.log('Otentikasi berhasil');
         ///////////////////////////////////////
         // LoginFingerprint({navigation});
-        try {
-          const response = await axios.post('http://192.168.10.190:8081/api/auth/login', formLogin);
-          const dataLogin = response.data.data;
-          if (response.status === 200) {
-            // const [{ token }] = dataLogin;
-            const token = dataLogin.token;
-            // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
-            await AsyncStorage.setItem('token', token);
-            navigation.replace('dashboard');
-          } else {
-            console.log('message : ',response.data.message);
-          }
-        } catch (error) {
-          console.error('Terjadi kesalahan:', error);
-        }
+        // try {
+        //   const response = await axios.post('http://192.168.10.190:8081/api/auth/login', formLogin);
+        //   const dataLogin = response.data.data;
+        //   if (response.status === 200) {
+        //     // const [{ token }] = dataLogin;
+        //     const token = dataLogin.token;
+        //     // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
+        //     await AsyncStorage.setItem('token', token);
+        //     navigation.replace('dashboard');
+        //   } else {
+        //     console.log('message : ',response.data.message);
+        //   }
+        // } catch (error) {
+        //   console.error('Terjadi kesalahan:', error);
+        // }
 
         ///////////////////////////////////////
-        // navigation.replace('dashboard');
+        navigation.replace('dashboard');
       } else if (result.error) {
         // Pemindaian gagal
         console.log('Otentikasi gagal');
