@@ -27,27 +27,27 @@ const ScreenSplash = ({navigation}) => {
       // ...
 
       // Meminta izin lokasi dan mendapatkan lokasi
-      const hasPermission = await requestLocationPermission();
-      if (hasPermission) {
-        console.log('Izin lokasi diberikan.');
-        try {
-          const locationData = await getLocation();
-          console.log('Lokasi berhasil diambil:', locationData);
+      requestLocationPermission();
+      // if (hasPermission) {
+      //   console.log('Izin lokasi diberikan.');
+      //   try {
+      //     const locationData = await getLocation();
+      //     console.log('Lokasi berhasil diambil:', locationData);
 
-          // Set nilai lokasi ke dalam reducer
-          dispatch(
-            setLocation(
-              locationData.latitude,
-              locationData.longitude,
-              locationData.accuracy,
-            ),
-          );
-        } catch (error) {
-          console.error('Kesalahan saat mengambil lokasi:', error);
-        }
-      } else {
-        console.log('Izin lokasi tidak diberikan.');
-      }
+      //     // Set nilai lokasi ke dalam reducer
+      //     dispatch(
+      //       setLocation(
+      //         locationData.latitude,
+      //         locationData.longitude,
+      //         locationData.accuracy,
+      //       ),
+      //     );
+      //   } catch (error) {
+      //     console.error('Kesalahan saat mengambil lokasi:', error);
+      //   }
+      // } else {
+      //   console.log('Izin lokasi tidak diberikan.');
+      // }
 
       // ...
 
@@ -56,7 +56,7 @@ const ScreenSplash = ({navigation}) => {
         .then(savedAppVersion => {
           console.log('versi app : ',savedAppVersion)
           const shouldNavigate = savedAppVersion !== null;
-          if (shouldNavigate && location !== null) {
+          if (shouldNavigate) {
             // Jika data tersedia di AsyncStorage dan location tidak null, lanjutkan ke halaman login
             navigation.reset({
               index: 0,

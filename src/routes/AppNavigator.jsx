@@ -41,6 +41,7 @@ import {
   ScreenDetailMemberTidakMasuk,
   ScreenApproval,
   ScreenDetailApproval,
+  ScreenAbsensi,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -224,6 +225,11 @@ const screens = [
   {
     name: 'approval',
     component: ScreenApproval,
+    gestureEnabled: true,
+  },
+  {
+    name: 'absensi',
+    component: ScreenAbsensi,
     gestureEnabled: true,
   },
 ];
