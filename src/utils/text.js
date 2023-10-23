@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 export const text = {
     bold :'Poppins-Bold',
     semiBold : 'Poppins-SemiBold',
@@ -14,4 +15,4 @@ export const text = {
     semiBoldItalic : 'Poppins-SemiBoldItalic',
     boldItalic : 'Poppins-BoldItalic',
     extraBoldItalic : 'Poppins-ExtraBoldItalic',
-}
+};
