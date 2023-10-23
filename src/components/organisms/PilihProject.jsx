@@ -9,9 +9,6 @@ import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 
 const PilihProject = ({navigation}) => {
-  const moveTo = screen => {
-    navigation.navigate(screen);
-  };
   return (
     <View>
       <View style={styles.CardUpdateTimesheet}>
@@ -19,13 +16,13 @@ const PilihProject = ({navigation}) => {
           navigation={navigation}
           style={{
             position: 'absolute',
-            top: -130,
+            top: -150,
             left: -160,
           }}
         />
         <ButtonHome
           navigation={navigation}
-          style={{position: 'absolute', top: -138, right: -180}}
+          style={{position: 'absolute', top: -158, right: -180}}
         />
         <Image
           style={styles.VectorAtasKanan}
@@ -40,12 +37,7 @@ const PilihProject = ({navigation}) => {
           }}>
           Project Yang Di Pilih
         </Text>
-        <CardPilihProject />
-        <ButtonAction
-          onPress={() => moveTo('pilihAbsenProject')}
-          style={{width: 269, height: 50}}
-          title="NEXT"
-        />
+        <CardPilihProject navigation={navigation} />
       </View>
     </View>
   );
@@ -56,7 +48,7 @@ export default PilihProject;
 const styles = StyleSheet.create({
   CardUpdateTimesheet: {
     width: 320,
-    height: 600,
+    height: 550,
     backgroundColor: Color.white,
     borderRadius: 5,
     justifyContent: 'center',
@@ -65,7 +57,7 @@ const styles = StyleSheet.create({
   },
   VectorAtasKanan: {
     position: 'absolute',
-    top: -100,
+    top: -120,
     right: -40,
     zIndex: -1,
   },

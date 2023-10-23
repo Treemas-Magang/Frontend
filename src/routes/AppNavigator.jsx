@@ -42,6 +42,7 @@ import {
   ScreenApproval,
   ScreenDetailApproval,
   ScreenAbsensi,
+  ScreenRekapClaim,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -230,6 +231,11 @@ const screens = [
   {
     name: 'absensi',
     component: ScreenAbsensi,
+    gestureEnabled: true,
+  },
+  {
+    name: 'rekapClaim',
+    component: ScreenRekapClaim,
     gestureEnabled: true,
   },
 ];

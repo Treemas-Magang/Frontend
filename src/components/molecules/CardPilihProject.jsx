@@ -1,40 +1,48 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardPilihProject = () => {
+const CardPilihProject = ({navigation}) => {
+  const moveTo = tujuan => {
+    navigation.navigate(tujuan);
+  };
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.CardPilihProject}>
+      <TouchableOpacity
+        style={styles.CardPilihProject}
+        onPress={() => moveTo('pilihAbsenProject')}>
         <Text style={styles.Text}>ANDALAN FINANCE INDONESIA</Text>
         <Text style={styles.TextDeskripsi}>
           jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
           Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
         </Text>
-      </View>
-      <View style={styles.CardPilihProject}>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.CardPilihProject}
+        onPress={() => moveTo('pilihAbsenProject')}>
         <Text style={styles.Text}>TREEMAS SOLUSI UTAMA</Text>
         <Text style={styles.TextDeskripsi}>
           jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
           Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
         </Text>
-      </View>
-      <View style={styles.CardPilihProject}>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.CardPilihProject}
+        onPress={() => moveTo('pilihAbsenProject')}>
         <Text style={styles.Text}>OTHER</Text>
         <Text style={styles.TextDeskripsi}>
           jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
           Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
         </Text>
-      </View>
-      <View style={styles.CardPilihProject}>
-        <Text style={styles.Text}>OTHER</Text>
-        <Text style={styles.TextDeskripsi}>
-          jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-          Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
-        </Text>
-      </View>
+      </TouchableOpacity>
     </ScrollView>
   );
 };

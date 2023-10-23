@@ -39,6 +39,7 @@ const MenuRekap = ({navigation}) => {
         <IconMenu
           image={require('../../assets/vector/Claim.png')}
           title="Claim"
+          onPress={() => moveTo('rekapClaim')}
         />
       </View>
     </ScrollView>
