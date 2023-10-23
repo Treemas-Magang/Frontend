@@ -7,6 +7,8 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import getLocation from '../../utils/getLocation';
 import { Color } from '../../utils/color';
 import ButtonAction from '../atoms/ButtonAction';
+import { getAlamat } from '../../utils/getAlamat';
+import axios from 'axios';
 
 const initialRegion = {
   latitude: null,
@@ -20,6 +22,7 @@ const MapPreview = () => {
   const [locationLoaded, setLocationLoaded] = useState(false);
 
   useEffect(() => {
+        
     const ambilLokasi = async () => {
       try {
         const locationData = await getLocation();
@@ -29,6 +32,33 @@ const MapPreview = () => {
           latitude: locationData.latitude,
           longitude: locationData.longitude,
         });
+        // getAlamat(locationData.latitude, locationData.longitude)
+        // .then((address) => {
+        //   console.log('Alamat:', address);
+        // })
+        // .catch((error) => {
+        //   console.error('Error:', error);
+        // });
+        axios
+        .get('https://maps.googleapis.com/maps/api/geocode/json', {
+          params: {
+            latlng: `${locationData.latitude},${locationData.longitude}`,
+            key: 'AIzaSyByMFGn8i353SjJL_H0_hEfTmpUPx3_lC8', // Ganti dengan kunci API Google Maps Anda
+          },
+        })
+        .then((response) => {
+          const data = response.data;
+          // if (data.results.length > 0) {
+          //   const address = data.results[0].formatted_address;
+          //   console.log('Alamat:', address);
+          // } else {
+          //   console.warn('Alamat tidak ditemukan.');
+          // }
+          console.log(data)
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
         setLocationLoaded(true);
       } catch (error) {
         console.error('Kesalahan saat mengambil lokasi:', error);
@@ -36,6 +66,8 @@ const MapPreview = () => {
       }
     };
     ambilLokasi();
+
+    
   }, []);
 
   return (
@@ -55,9 +87,15 @@ const MapPreview = () => {
         </Marker>
         </MapView>
       ) : (
-        <ActivityIndicator size="large" />
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <ActivityIndicator size="large" />
+        </View>
       )}
-      <ButtonAction style={{position: 'absolute', bottom: 50, left: '16%', width:269}} title='masuk'  />
+      {
+        locationLoaded ? (
+          <ButtonAction style={{position: 'absolute', bottom: 50, left: '16%', width:269}} title='masuk'  />
+        ) : ('')
+      }
     </View>
   );
 };
