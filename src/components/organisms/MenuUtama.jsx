@@ -5,7 +5,14 @@ import IconMenu from '../atoms/IconMenu';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const MenuUtama = ({navigation}) => {
+const MenuUtama = ({
+  navigation,
+  wrapIcon,
+  styleImage,
+  styleNamaMenu,
+  gap,
+  box,
+}) => {
   const [totalPengumuman, setTotalPengumuman] = useState(null);
 
   useEffect(() => {
@@ -16,35 +23,57 @@ const MenuUtama = ({navigation}) => {
     navigation.navigate(tujuan);
   };
   return (
-    <View style={styles.wrapperIconMenu}>
-      <IconMenu
-        image={require('../../assets/vector/schedule.png')}
-        title="Kehadiran"
-        onPress={() => moveTo('dashboardKehadiran')}
-      />
-      <IconMenu
-        image={require('../../assets/vector/rekap.png')}
-        title="rekap"
-        onPress={() => moveTo('dashboardRekap')}
-      />
-      <IconMenu
-        image={require('../../assets/vector/folders.png')}
-        title="form"
-        onPress={() => moveTo('dashboardForm')}
-      />
-      <View style={styles.wrap}>
+    <View style={[styles.wrapperIconMenu, wrapIcon]}>
+      <View
+        style={[
+          {
+            flexDirection: 'row',
+          },
+          gap,
+        ]}>
         <IconMenu
-          image={require('../../assets/vector/announcement.png')}
-          title="pengumuman"
-          onPress={() => moveTo('dashboardNotif')}
+          image={require('../../assets/vector/schedule.png')}
+          title="Kehadiran"
+          onPress={() => moveTo('dashboardKehadiran')}
+          styleImage={styleImage}
+          styleNamaMenu={styleNamaMenu}
+          box={box}
         />
-        {totalPengumuman ? (
-          <View style={styles.notif}>
-            <Text style={styles.text}>{totalPengumuman}</Text>
-          </View>
-        ) : (
-          ''
-        )}
+        <IconMenu
+          image={require('../../assets/vector/rekap.png')}
+          title="rekap"
+          onPress={() => moveTo('dashboardRekap')}
+          styleImage={styleImage}
+          styleNamaMenu={styleNamaMenu}
+          box={box}
+        />
+      </View>
+      <View style={[{flexDirection: 'row'}, gap]}>
+        <IconMenu
+          image={require('../../assets/vector/folders.png')}
+          title="form"
+          onPress={() => moveTo('dashboardForm')}
+          styleImage={styleImage}
+          styleNamaMenu={styleNamaMenu}
+          box={box}
+        />
+        <View style={styles.wrap}>
+          <IconMenu
+            image={require('../../assets/vector/announcement.png')}
+            title="pengumuman"
+            onPress={() => moveTo('dashboardNotif')}
+            styleImage={styleImage}
+            styleNamaMenu={styleNamaMenu}
+            box={box}
+          />
+          {totalPengumuman ? (
+            <View style={styles.notif}>
+              <Text style={styles.text}>{totalPengumuman}</Text>
+            </View>
+          ) : (
+            ''
+          )}
+        </View>
       </View>
     </View>
   );
@@ -53,14 +82,7 @@ const MenuUtama = ({navigation}) => {
 export default MenuUtama;
 
 const styles = StyleSheet.create({
-  wrapperIconMenu: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    width: 360,
-    gap: 78,
-    justifyContent: 'center',
-    marginVertical: 50,
-  },
+  wrapperIconMenu: {},
   notif: {
     padding: 10,
     backgroundColor: Color.red,

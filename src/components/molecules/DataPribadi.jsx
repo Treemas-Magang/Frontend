@@ -52,6 +52,7 @@ const DataPribadi = ({stylePP, styleText, styleDataPribadi}) => {
         <Image
           source={require('../../assets/vector/user.png')}
           style={[styles.pp, stylePP]}
+          resizeMode="cover"
         />
       </View>
     </View>
@@ -72,6 +73,6 @@ const styles = StyleSheet.create({
     color: Color.blue,
   },
   pp: {
-    borderRadius: 100,
+    borderRadius: 200,
   },
 });

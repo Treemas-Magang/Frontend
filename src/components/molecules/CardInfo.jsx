@@ -30,7 +30,6 @@ export default CardInfo;
 const styles = StyleSheet.create({
   container: {
     borderRadius: 5,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   card: {
