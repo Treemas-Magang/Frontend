@@ -5,59 +5,32 @@ import React, {useEffect} from 'react';
 import {ActivityIndicator, Image, StyleSheet, View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Color} from '../../utils/color';
-import getLocation from '../../utils/getLocation';
 import requestLocationPermission from '../../utils/permissionService';
-import {useDispatch, useSelector} from 'react-redux';
-import {setLocation} from '../../redux';
 import getAppVersion from '../../utils/getAppVersion';
 import getIdDevice from '../../utils/getIdDevice';
-import { checkMockLocation } from '../../utils/checkMockLocation';
 const ScreenSplash = ({navigation}) => {
-  const dispatch = useDispatch();
-  const {location} = useSelector(state => state.SplashReducer);
-
   useEffect(() => {
     // Geolocation.setRNConfiguration({
     //   skipPermissionRequests: true, // Anda perlu mengurus izin sendiri
     //   authorizationLevel: 'whenInUse', // Izin yang diperlukan saat aplikasi aktif
     // });
-    getAppVersion()
-    getIdDevice()
+    getAppVersion();
+    getIdDevice();
     const fetchData = async () => {
       // ...
 
       // Meminta izin lokasi dan mendapatkan lokasi
       requestLocationPermission();
-      // if (hasPermission) {
-      //   console.log('Izin lokasi diberikan.');
-      //   try {
-      //     const locationData = await getLocation();
-      //     console.log('Lokasi berhasil diambil:', locationData);
-
-      //     // Set nilai lokasi ke dalam reducer
-      //     dispatch(
-      //       setLocation(
-      //         locationData.latitude,
-      //         locationData.longitude,
-      //         locationData.accuracy,
-      //       ),
-      //     );
-      //   } catch (error) {
-      //     console.error('Kesalahan saat mengambil lokasi:', error);
-      //   }
-      // } else {
-      //   console.log('Izin lokasi tidak diberikan.');
-      // }
 
       // ...
 
       // Cek apakah data isAppVersion telah disimpan di AsyncStorage
       AsyncStorage.getItem('appVersion')
         .then(savedAppVersion => {
-          console.log('versi app : ',savedAppVersion)
+          console.log('versi app : ', savedAppVersion);
           const shouldNavigate = savedAppVersion !== null;
           if (shouldNavigate) {
-            // Jika data tersedia di AsyncStorage dan location tidak null, lanjutkan ke halaman login
+            // Jika data tersedia di AsyncStorage, lanjutkan ke halaman login
             navigation.reset({
               index: 0,
               routes: [{name: 'login'}],
@@ -65,17 +38,12 @@ const ScreenSplash = ({navigation}) => {
           }
         })
         .catch(error => {
-          console.error(
-            'Gagal mengambil data versi aplikasi atau location',
-            error,
-          );
+          console.error('Gagal mengambil data versi aplikasi', error);
         });
     };
 
     fetchData();
-    // checkMockLocation()
-  }, [navigation, dispatch]);
-  console.log('dari redux: ',location)
+  }, [navigation]);
   return (
     <View
       style={{

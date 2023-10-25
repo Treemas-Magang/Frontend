@@ -11,11 +11,10 @@ const ButtonHome = ({navigation, style}) => {
     navigation.navigate('dashboard');
   };
   return (
-    <TouchableOpacity onPress={goHome}>
+    <TouchableOpacity style={style} onPress={goHome}>
       <FontAwesomeIcon
         icon={faHouseUser}
         color={Color.green}
-        style={style}
         size={40}
       />
     </TouchableOpacity>

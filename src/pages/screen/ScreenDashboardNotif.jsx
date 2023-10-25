@@ -13,12 +13,7 @@ const ScreenDashboardNotif = ({navigation}) => {
     <ScrollView>
       <View style={{alignItems: 'center', backgroundColor: Color.green}}>
         <ButtonLogout />
-        <View
-          style={{
-            position: 'absolute',
-            top: 80,
-            width: 310,
-          }}>
+        <View style={{position: 'absolute', top: 80, width: 310}}>
           <DataPribadi />
         </View>
         <View style={styles.containerInfo}>

@@ -13,57 +13,68 @@ import {faCamera} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormAbsensi} from '../../redux';
 import axios from 'axios';
+import {getTanggalSekarang} from '../../utils/getTanggalSekarang';
 
 const FormAbsensi = () => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.FormAbsensiReducer);
-  console.log(form)
+  console.log(form);
+  const [isWFH, setIsWFH] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [terlambat, setTerlambat] = useState(true);
 
   useEffect(() => {
-    dispatch(setFormAbsensi('lokasi', 'sdkaas kasdkas asdjasdn asdnasdkn asdnasdasm dasndkasn asndknasds asdnasdnaskn nwdjanjd msdn mwnd ndnwkd kndkn'));
+    const {date, time, dayName} = getTanggalSekarang();
+    console.log('tanggal : ', date);
+    console.log('hari : ', dayName);
+    console.log('waktu : ', time);
+    dispatch(
+      setFormAbsensi(
+        'lokasi',
+        'sdkaas kasdkas asdjasdn asdnasdkn asdnasdasm dasndkasn asndknasds asdnasdnaskn nwdjanjd msdn mwnd ndnwkd kndkn',
+      ),
+    );
     dispatch(setFormAbsensi('jarak', 20.0202));
     dispatch(setFormAbsensi('lokasi_project', 'PT. TREEMAS SOLUSI UTAMA'));
     dispatch(setFormAbsensi('nik', '999'));
     dispatch(setFormAbsensi('waktu', '09:00'));
-    dispatch(setFormAbsensi('foto', capturedImage))
+    dispatch(setFormAbsensi('foto', capturedImage));
   }, [dispatch, capturedImage]);
   const onChangeText = (value, inputType) => {
     dispatch(setFormAbsensi(inputType, value));
   };
 
-// Fungsi untuk mengirim data dan foto ke API
-// const kirimDataDanFotoKeAPI = async () => {
-//   try {
-//     const formData = new FormData();
-    // formData.append('nik', form.nik);
-    // formData.append('lokasi_project', form.lokasi_project);
-    // formData.append('waktu', form.waktu);
-    // formData.append('lokasi', form.lokasi);
-    // formData.append('jarak', form.jarak);
-    // formData.append('alasan_telat_masuk', form.alasan_telat_masuk);
-    // Tambahkan foto ke FormData
-//     formData.append('foto', {
-//       uri: form.foto.uri, // Lokasi file foto
-//       type: form.foto.type, // Tipe konten foto
-//       name: form.foto.fileName, // Nama file
-//     });
+  // Fungsi untuk mengirim data dan foto ke API
+  // const kirimDataDanFotoKeAPI = async () => {
+  //   try {
+  //     const formData = new FormData();
+  // formData.append('nik', form.nik);
+  // formData.append('lokasi_project', form.lokasi_project);
+  // formData.append('waktu', form.waktu);
+  // formData.append('lokasi', form.lokasi);
+  // formData.append('jarak', form.jarak);
+  // formData.append('alasan_telat_masuk', form.alasan_telat_masuk);
+  // Tambahkan foto ke FormData
+  //     formData.append('foto', {
+  //       uri: form.foto.uri, // Lokasi file foto
+  //       type: form.foto.type, // Tipe konten foto
+  //       name: form.foto.fileName, // Nama file
+  //     });
 
-//     const response = await axios.post('http://192.168.10.31:8081/absen/absen-proof/?nik=999', formData, {
-//       headers: {
-//         'Content-Type': 'multipart/form-data',
-//       },
-//     });
+  //     const response = await axios.post('http://192.168.10.31:8081/absen/absen-proof/?nik=999', formData, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     });
 
-//     // Proses respons dari API jika diperlukan
-//     console.log('Respon dari API:', response.data);
+  //     // Proses respons dari API jika diperlukan
+  //     console.log('Respon dari API:', response.data);
 
-//   } catch (error) {
-//     // Tangani kesalahan jika terjadi
-//     console.error('Kesalahan:', error);
-//   }
-// };
+  //   } catch (error) {
+  //     // Tangani kesalahan jika terjadi
+  //     console.error('Kesalahan:', error);
+  //   }
+  // };
 
   const sendData = () => {
     console.log('kirim data : ', form);
@@ -99,31 +110,47 @@ const FormAbsensi = () => {
         value={form.jarak}
         onTextChange={value => onChangeText(value, 'jarak')}
       />
-      <View style={styles.kotakPreviewKosong}>
-        <View style={styles.previewKosong}>
-          {capturedImage === null ? (
-            <>
-              <FontAwesomeIcon icon={faCamera} size={50} />
-              <Text>Preview</Text>
-            </>
-          ) : (
-            <Image
-              source={{uri: capturedImage.uri}}
-              style={{height: '100%', width: '100%', borderRadius: 10}}
+      {isWFH ? (
+        <>
+          <View style={styles.kotakPreviewKosong}>
+            <View style={styles.previewKosong}>
+              {capturedImage === null ? (
+                <>
+                  <FontAwesomeIcon icon={faCamera} size={50} />
+                  <Text>Preview</Text>
+                </>
+              ) : (
+                <Image
+                  source={{uri: capturedImage.uri}}
+                  style={{height: '100%', width: '100%', borderRadius: 10}}
+                />
+              )}
+            </View>
+          </View>
+          {terlambat ? (
+            <CustomTextInput
+              label="Alasan Telat Masuk"
+              secureTextEntry={false}
+              value={form.alasan_telat_masuk}
+              onTextChange={value => onChangeText(value, 'alasan_telat_masuk')}
             />
+          ) : (
+            ''
           )}
-        </View>
-      </View>
-      {terlambat ? (
-        <CustomTextInput label="Alasan Telat Masuk" secureTextEntry={false}  value={form.alasan_telat_masuk} onTextChange={value => onChangeText(value, 'alasan_telat_masuk')} />
+
+          <View style={styles.wrapperButton}>
+            <ButtonCamera onImageCapture={image => setCapturedImage(image)} />
+            <ButtonGalery onImageGalery={image => setCapturedImage(image)} />
+            <ButtonAction
+              title="kirim"
+              style={{width: 148}}
+              onPress={sendData}
+            />
+          </View>
+        </>
       ) : (
-        ''
+        <ButtonAction title="kirim" style={{width: 269}} />
       )}
-      <View style={styles.wrapperButton}>
-        <ButtonCamera onImageCapture={image => setCapturedImage(image)} />
-        <ButtonGalery onImageGalery={image => setCapturedImage(image)} />
-        <ButtonAction title="kirim" style={{width: 148}} onPress={sendData} />
-      </View>
     </View>
   );
 };

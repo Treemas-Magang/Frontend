@@ -13,22 +13,7 @@ const CardPilihAbsenProject = ({navigation}) => {
   };
   return (
     <View>
-      <ButtonBack
-        navigation={navigation}
-        style={{
-          position: 'absolute',
-          top: -250,
-          left: -40,
-        }}
-      />
-      <ButtonHome
-        navigation={navigation}
-        style={{position: 'absolute', top: -260, right: -50}}
-      />
-      <Image
-        style={styles.VectorAtasKanan}
-        source={require('../../assets/vector/VectorKananAtas.png')}
-      />
+      
       <TouchableOpacity onPress={() => moveTo('absensi')} style={styles.CardPilihProject}>
         <Text style={styles.Text}>ON SITE</Text>
         <Text style={styles.TextDeskripsi}>
@@ -77,10 +62,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     textAlign: 'justify',
   },
-  VectorAtasKanan: {
-    position: 'absolute',
-    top: -270,
-    right: -70,
-    zIndex: -1,
-  },
+  
 });

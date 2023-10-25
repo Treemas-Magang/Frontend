@@ -11,11 +11,10 @@ const ButtonBack = ({navigation, style}) => {
     navigation.goBack();
   };
   return (
-    <TouchableOpacity onPress={goBack}>
+    <TouchableOpacity style={style} onPress={goBack}>
       <FontAwesomeIcon
         icon={faArrowLeft}
         color={Color.white}
-        style={style}
         size={30}
       />
     </TouchableOpacity>

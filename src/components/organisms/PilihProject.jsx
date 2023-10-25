@@ -12,22 +12,6 @@ const PilihProject = ({navigation}) => {
   return (
     <View>
       <View style={styles.CardUpdateTimesheet}>
-        <ButtonBack
-          navigation={navigation}
-          style={{
-            position: 'absolute',
-            top: -150,
-            left: -160,
-          }}
-        />
-        <ButtonHome
-          navigation={navigation}
-          style={{position: 'absolute', top: -158, right: -180}}
-        />
-        <Image
-          style={styles.VectorAtasKanan}
-          source={require('../../assets/vector/VectorKananAtas.png')}
-        />
         <Text
           style={{
             fontFamily: text.semiBold,

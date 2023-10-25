@@ -1,26 +1,48 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import CardInfo from '../molecules/CardInfo';
 import {Color} from '../../utils/color';
 
+const initialState = {
+  masuk: 28,
+  telat_masuk: 11,
+  pulang_cepat: 4,
+  cuti: 3,
+  sakit: 2,
+  tidak_masuk: 0,
+};
+
 const StatistikTahunIni = () => {
+  const [statistik, setStatistik] = useState(initialState);
   return (
     <View style={styles.info}>
-      <CardInfo color={Color.cardMasuk} title="masuk" cardInfo="4" />
+      <CardInfo
+        color={Color.cardMasuk}
+        title="masuk"
+        cardInfo={statistik.masuk}
+      />
       <CardInfo
         color={Color.cardTelatMasuk}
         title="telat masuk"
-        cardInfo="11"
+        cardInfo={statistik.telat_masuk}
       />
       <CardInfo
         color={Color.cardPulangCepat}
         title="pulang cepat"
-        cardInfo="16"
+        cardInfo={statistik.pulang_cepat}
       />
-      <CardInfo color={Color.cardCuti} title="cuti" cardInfo="8" />
-      <CardInfo color={Color.cardSakit} title="sakit" cardInfo="9" />
-      <CardInfo color={Color.cardTidakMasuk} title="tidak masuk" cardInfo="0" />
+      <CardInfo color={Color.cardCuti} title="cuti" cardInfo={statistik.cuti} />
+      <CardInfo
+        color={Color.cardSakit}
+        title="sakit"
+        cardInfo={statistik.sakit}
+      />
+      <CardInfo
+        color={Color.cardTidakMasuk}
+        title="tidak masuk"
+        cardInfo={statistik.tidak_masuk}
+      />
     </View>
   );
 };

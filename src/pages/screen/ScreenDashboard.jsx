@@ -10,10 +10,15 @@ import ButtonLogout from '../../components/atoms/ButtonLogout';
 import MenuUtama from '../../components/organisms/MenuUtama';
 import DataPribadi from '../../components/molecules/DataPribadi';
 import {text} from '../../utils/text';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const ScreenDashboard = ({navigation}) => {
   return (
     <ScrollView>
-      <View style={{alignItems: 'center', backgroundColor: Color.green}}>
+      <View
+        style={{alignItems: 'center', backgroundColor: Color.green, flex: 1}}>
         <ButtonLogout navigation={navigation} />
         <View
           style={{

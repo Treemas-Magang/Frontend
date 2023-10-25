@@ -37,9 +37,10 @@ const CardRekapClaim = ({
         </Text>
       </View>
       <View style={styles.CardDalemReimburseStyle}>
-        <TouchableOpacity
+        <TouchableOpacity 
           style={{
             position: 'absolute',
+            zIndex: 2,
             flexDirection: 'row',
             gap: 5,
             right: 5,

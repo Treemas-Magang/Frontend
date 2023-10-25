@@ -1,5 +1,12 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, TouchableOpacity, ScrollView, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import KategoriApproval from '../molecules/KategoriApproval';
 import {Color} from '../../utils/color';
@@ -12,30 +19,30 @@ import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 
 const ListApproval = ({navigation}) => {
-  const [openDropdown, setOpenDropdown] = useState(false);
+  const [openDropdownApproval, setOpenDropdownApproval] = useState(false);
   const [tempatProject, setTempatProject] = useState('');
-  const handleOpenDropdown = () => {
-    setOpenDropdown(!openDropdown);
+  const handleOpenDropdownApproval = () => {
+    setOpenDropdownApproval(!openDropdownApproval);
   };
-  useEffect(()=>{
+  useEffect(() => {
     if (tempatProject !== '') {
-        setOpenDropdown(false);
+      setOpenDropdownApproval(false);
     }
   }, [tempatProject]);
   return (
     <View style={styles.listApproval}>
-        <ButtonBack
-            navigation={navigation}
-            style={{position: 'absolute', top: 20, left: 20}}
-        />
-        <ButtonHome
-            navigation={navigation}
-            style={{position: 'absolute', top: 20, right: 20}}
-        />
-        <Image
-            style={styles.VectorAtas}
-            source={require('../../assets/vector/VectorAtas.png')}
-        />
+      <ButtonBack
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, left: 20}}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, right: 20}}
+      />
+      <Image
+        style={styles.VectorAtas}
+        source={require('../../assets/vector/VectorAtas.png')}
+      />
       <View style={styles.wrapJudul}>
         <Text style={styles.judul}>APPROVAL</Text>
       </View>
@@ -46,7 +53,7 @@ const ListApproval = ({navigation}) => {
         <View style={styles.wrapDropdown}>
           <View style={styles.dropdown}>
             <TouchableOpacity
-              onPress={handleOpenDropdown}
+              onPress={handleOpenDropdownApproval}
               style={styles.tombolDropdown}>
               <Text style={styles.lokasiProject}>
                 {tempatProject === '' ? 'Pilih Lokasi Project' : tempatProject}
@@ -57,7 +64,7 @@ const ListApproval = ({navigation}) => {
                 color={Color.white}
               />
             </TouchableOpacity>
-            {openDropdown ? (
+            {openDropdownApproval ? (
               <DropdownApproval
                 dataPilihanProjact={data => setTempatProject(data)}
               />
@@ -67,16 +74,18 @@ const ListApproval = ({navigation}) => {
           </View>
         </View>
         <View style={styles.wrapCardApproval}>
-            <ScrollView style={{width: '90%'}} showsVerticalScrollIndicator={false}>
-                        <CardApproval navigation={navigation} />
-                        <CardApproval navigation={navigation} />
-                        <CardApproval navigation={navigation} />
-                        <CardApproval navigation={navigation} />
-                        <CardApproval navigation={navigation} />
-                        <CardApproval navigation={navigation} />
-                        <CardApproval navigation={navigation} />
-                        <CardApproval navigation={navigation} />
-            </ScrollView>
+          <ScrollView
+            style={{width: '90%'}}
+            showsVerticalScrollIndicator={false}>
+            <CardApproval navigation={navigation} />
+            <CardApproval navigation={navigation} />
+            <CardApproval navigation={navigation} />
+            <CardApproval navigation={navigation} />
+            <CardApproval navigation={navigation} />
+            <CardApproval navigation={navigation} />
+            <CardApproval navigation={navigation} />
+            <CardApproval navigation={navigation} />
+          </ScrollView>
         </View>
       </View>
     </View>
@@ -89,7 +98,7 @@ const styles = StyleSheet.create({
   listApproval: {
     backgroundColor: Color.green,
     height: '100%',
-    position: 'relative'
+    position: 'relative',
   },
   judul: {
     fontFamily: text.semiBold,
@@ -145,7 +154,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
-    VectorAtas: {
+  VectorAtas: {
     position: 'absolute',
     top: 0,
     right: 0,
