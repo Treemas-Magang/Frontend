@@ -3,15 +3,24 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
 
-const CardInfo = ({color, title, cardInfo}) => {
+const CardInfo = ({
+  color,
+  title,
+  cardInfo,
+  styleCard,
+  styleContainerCard,
+  styleTitle,
+  styleInfo,
+}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, styleContainerCard]}>
       <View style={{alignItems: 'center'}}>
-        <View style={[styles.card, {backgroundColor: color}]}>
-          <Text style={styles.textInfo}>{cardInfo}</Text>
+        <View style={[styles.card, {backgroundColor: color}, styleCard]}>
+          <Text style={[styles.textInfo, styleInfo]}>{cardInfo}</Text>
         </View>
-        <Text style={styles.text}>{title}</Text>
+        <Text style={[styles.text, styleTitle]}>{title}</Text>
       </View>
     </View>
   );
@@ -20,29 +29,23 @@ const CardInfo = ({color, title, cardInfo}) => {
 export default CardInfo;
 const styles = StyleSheet.create({
   container: {
-    width: 70,
-    height: 50,
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
   },
   card: {
-    width: 70,
-    height: 50,
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
   },
   text: {
-    fontSize: 9,
     textTransform: 'uppercase',
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: text.semiBold,
     color: Color.blue,
   },
   textInfo: {
-    fontSize: 16,
     textTransform: 'uppercase',
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: text.semiBold,
     color: Color.white,
   },
 });

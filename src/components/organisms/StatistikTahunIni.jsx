@@ -13,35 +13,69 @@ const initialState = {
   tidak_masuk: 0,
 };
 
-const StatistikTahunIni = () => {
+const StatistikTahunIni = ({
+  style,
+  styleCard,
+  styleContainerCard,
+  styleInfo,
+  styleTitle,
+}) => {
   const [statistik, setStatistik] = useState(initialState);
   return (
-    <View style={styles.info}>
+    <View style={[styles.info, style]}>
       <CardInfo
         color={Color.cardMasuk}
         title="masuk"
         cardInfo={statistik.masuk}
+        styleCard={styleCard}
+        styleContainerCard={styleContainerCard}
+        styleInfo={styleInfo}
+        styleTitle={styleTitle}
       />
       <CardInfo
         color={Color.cardTelatMasuk}
         title="telat masuk"
         cardInfo={statistik.telat_masuk}
+        styleCard={styleCard}
+        styleContainerCard={styleContainerCard}
+        styleInfo={styleInfo}
+        styleTitle={styleTitle}
       />
       <CardInfo
         color={Color.cardPulangCepat}
         title="pulang cepat"
         cardInfo={statistik.pulang_cepat}
+        styleCard={styleCard}
+        styleContainerCard={styleContainerCard}
+        styleInfo={styleInfo}
+        styleTitle={styleTitle}
       />
-      <CardInfo color={Color.cardCuti} title="cuti" cardInfo={statistik.cuti} />
+      <CardInfo
+        color={Color.cardCuti}
+        title="cuti"
+        cardInfo={statistik.cuti}
+        styleCard={styleCard}
+        styleContainerCard={styleContainerCard}
+        styleInfo={styleInfo}
+        styleTitle={styleTitle}
+      />
       <CardInfo
         color={Color.cardSakit}
         title="sakit"
         cardInfo={statistik.sakit}
+        styleCard={styleCard}
+        styleContainerCard={styleContainerCard}
+        styleInfo={styleInfo}
+        styleTitle={styleTitle}
       />
       <CardInfo
         color={Color.cardTidakMasuk}
         title="tidak masuk"
         cardInfo={statistik.tidak_masuk}
+        styleCard={styleCard}
+        styleContainerCard={styleContainerCard}
+        styleInfo={styleInfo}
+        styleTitle={styleTitle}
       />
     </View>
   );
@@ -54,7 +88,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: 360,
     gap: 30,
     justifyContent: 'center',
   },

@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 
-const ButtonLogout = ({navigation}) => {
+const ButtonLogout = ({navigation, style}) => {
   const [isOpenLogout, setIsOpenLogout] = useState(false);
 
   const openLogout = () => {
@@ -20,18 +20,21 @@ const ButtonLogout = ({navigation}) => {
   };
 
   const logout = () => {
-// Hapus token otentikasi dari AsyncStorage
-  AsyncStorage.removeItem('token')
-    .then(() => {
-      console.log('Token otentikasi berhasil dihapus.');
-       navigation.replace('login');
-    })
-    .catch(error => {
-      console.error('Terjadi kesalahan saat menghapus token otentikasi:', error);
-    });
-  }
+    // Hapus token otentikasi dari AsyncStorage
+    AsyncStorage.removeItem('token')
+      .then(() => {
+        console.log('Token otentikasi berhasil dihapus.');
+        navigation.replace('login');
+      })
+      .catch(error => {
+        console.error(
+          'Terjadi kesalahan saat menghapus token otentikasi:',
+          error,
+        );
+      });
+  };
   return (
-    <View style={{height: 224, width: '100%', position: 'relative'}}>
+    <View style={[styles.container, style]}>
       <View
         style={[
           styles.logout,
@@ -55,15 +58,15 @@ const ButtonLogout = ({navigation}) => {
             ''
           ) : (
             <TouchableOpacity onPress={() => logout()}>
-            <Text
-              style={{
-                marginHorizontal: 20,
-                fontWeight: 'bold',
-                color: Color.white,
-                width: '100%',
-              }}>
-              LOGOUT
-            </Text>
+              <Text
+                style={{
+                  marginHorizontal: 20,
+                  fontWeight: 'bold',
+                  color: Color.white,
+                  width: '100%',
+                }}>
+                LOGOUT
+              </Text>
             </TouchableOpacity>
           )}
         </View>
@@ -86,5 +89,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
     top: 25,
+  },
+  container: {
+    width: '100%',
+    position: 'relative',
   },
 });
