@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   containerMenu: {
     width: wp('100%'),
-    height: hp('48%'),
+    height: hp('43%'),
     backgroundColor: Color.green,
     borderTopStartRadius: 35,
     borderTopEndRadius: 35,
@@ -103,7 +103,11 @@ const styles = StyleSheet.create({
   styleStatistikTahunIni: {width: wp('90%'), height: hp('22%')},
   imgIcon: {width: wp('16%'), height: hp('9%')},
   namaMenu: {fontSize: hp('1.8%')},
-  wrapImgIcon: {gap: wp('5%'), height: hp('45%')},
+  wrapImgIcon: {
+    gap: wp('5%'),
+    height: hp('35%'),
+    justifyContent: 'center',
+  },
   gapMenuIcon: {gap: wp('10%'), width: wp('100%'), justifyContent: 'center'},
   boxMenuIcon: {width: wp('29%')},
 });
