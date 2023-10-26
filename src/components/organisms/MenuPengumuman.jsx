@@ -1,11 +1,19 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, View, Text} from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import IconMenu from '../atoms/IconMenu';
-import { Color } from '../../utils/color';
-import { text } from '../../utils/text';
+import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
 
-const MenuPengumuman = ({navigation}) => {
+const MenuPengumuman = ({
+  navigation,
+  wrapIcon,
+  styleImage,
+  styleNamaMenu,
+  gap,
+  box,
+  scrollViewContent,
+}) => {
   const [jumlahPengumuman, setJumlahPengumuman] = useState(null);
   const [jumlahApproval, setJumlahApproval] = useState(null);
 
@@ -14,31 +22,52 @@ const MenuPengumuman = ({navigation}) => {
     setJumlahPengumuman(5);
   }, []);
 
-
   const moveTo = screen => {
     navigation.navigate(screen);
   };
   return (
-    <View style={styles.wrapperIconMenu}>
-      <View style={styles.wrap}>
-        <IconMenu
-          image={require('../../assets/vector/announcement.png')}
-          title="pengumuman"
-          onPress={() => moveTo('notifPengumuman')}
-        />
-        {
-          jumlahPengumuman ? (<View style={styles.notif}><Text style={styles.text}>{jumlahPengumuman}</Text></View>) : ''
-        }
-      </View>
-      <View style={styles.wrap}>
-        <IconMenu
-          image={require('../../assets/vector/aprroval.png')}
-          title="approval"
-          onPress={() => moveTo('approval')}
-        />
-        {
-          jumlahApproval ? (<View style={styles.notif}><Text style={styles.text}>{jumlahApproval}</Text></View>) : ''
-        }
+    <View style={[styles.wrapperIconMenu, wrapIcon]}>
+      <View
+        style={[
+          {
+            flexDirection: 'row',
+          },
+          gap,
+        ]}>
+        <View style={styles.wrap}>
+          <IconMenu
+            image={require('../../assets/vector/announcement.png')}
+            title="pengumuman"
+            onPress={() => moveTo('notifPengumuman')}
+            styleImage={styleImage}
+            styleNamaMenu={styleNamaMenu}
+            box={box}
+          />
+          {jumlahPengumuman ? (
+            <View style={styles.notif}>
+              <Text style={styles.text}>{jumlahPengumuman}</Text>
+            </View>
+          ) : (
+            ''
+          )}
+        </View>
+        <View style={styles.wrap}>
+          <IconMenu
+            image={require('../../assets/vector/aprroval.png')}
+            title="approval"
+            onPress={() => moveTo('approval')}
+            styleImage={styleImage}
+            styleNamaMenu={styleNamaMenu}
+            box={box}
+          />
+          {jumlahApproval ? (
+            <View style={styles.notif}>
+              <Text style={styles.text}>{jumlahApproval}</Text>
+            </View>
+          ) : (
+            ''
+          )}
+        </View>
       </View>
     </View>
   );
@@ -50,15 +79,11 @@ const styles = StyleSheet.create({
   wrapperIconMenu: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: 360,
-    gap: 78,
-    justifyContent: 'center',
-    marginVertical: 50,
   },
-  wrap:{
+  wrap: {
     position: 'relative',
   },
-  notif:{
+  notif: {
     padding: 10,
     backgroundColor: Color.red,
     position: 'absolute',
@@ -70,11 +95,11 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: Color.green,
   },
-  text:{
+  text: {
     minWidth: 20,
     textAlign: 'center',
     color: Color.white,
     fontFamily: text.bold,
-    fontSize: 12
+    fontSize: 12,
   },
 });

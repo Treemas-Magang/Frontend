@@ -18,7 +18,11 @@ const ScreenDashboard = ({navigation}) => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>
-        <ButtonLogout navigation={navigation} style={{height: hp('10%')}} />
+        <ButtonLogout
+          navigation={navigation}
+          posisiLogout={{top: hp('2%')}}
+          style={{height: hp('10%')}}
+        />
       </View>
       <View style={styles.wrapDataPribadi}>
         <DataPribadi

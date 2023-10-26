@@ -10,7 +10,7 @@ const IconMenu = ({image, title, onPress, styleNamaMenu, styleImage, box}) => {
       <Image
         source={image}
         style={[styles.image, styleImage]}
-        resizeMode="cover"
+        resizeMode="contain"
       />
       <Text style={[styles.namaMenu, styleNamaMenu]}>{title}</Text>
     </TouchableOpacity>

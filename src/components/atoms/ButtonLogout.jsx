@@ -7,17 +7,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 
-const ButtonLogout = ({navigation, style}) => {
+const ButtonLogout = ({navigation, style, posisiLogout}) => {
   const [isOpenLogout, setIsOpenLogout] = useState(false);
 
   const openLogout = () => {
     setIsOpenLogout(!isOpenLogout); // Menggunakan !isOpenLogout untuk mengubah nilainya.
   };
 
-  const lebarLogout = {
-    lebarAwal: 43,
-    lebarAkhir: 133,
-  };
+  const lebarLogout = {lebarAwal: 43, lebarAkhir: 133};
 
   const logout = () => {
     // Hapus token otentikasi dari AsyncStorage
@@ -38,6 +35,7 @@ const ButtonLogout = ({navigation, style}) => {
       <View
         style={[
           styles.logout,
+          posisiLogout,
           !isOpenLogout
             ? {width: lebarLogout.lebarAwal}
             : {
@@ -88,7 +86,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    top: 25,
   },
   container: {
     width: '100%',

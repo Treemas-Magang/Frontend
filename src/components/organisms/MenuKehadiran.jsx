@@ -4,38 +4,74 @@ import {StyleSheet, View, ScrollView} from 'react-native';
 import React from 'react';
 import IconMenu from '../atoms/IconMenu';
 
-const MenuKehadiran = ({navigation}) => {
+const MenuKehadiran = ({
+  navigation,
+  wrapIcon,
+  styleImage,
+  styleNamaMenu,
+  gap,
+  box,
+  scrollViewContent,
+}) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContent}>
-      <View style={styles.wrapperIconMenu}>
-        <IconMenu
-          image={require('../../assets/vector/kehadiran.png')}
-          title="Absensi"
-          onPress={() => moveTo('pilihProject')}
-        />
-        <IconMenu
-          image={require('../../assets/vector/member.png')}
-          title="Member"
-          onPress={() => moveTo('listMemberProject')}
-        />
-        <IconMenu
-          image={require('../../assets/vector/updatelistproject.png')}
-          title="Update List Project"
-          onPress={() => moveTo('updateListProject')}
-        />
-        <IconMenu
-          image={require('../../assets/vector/listbelumpulang.png')}
-          title="List Belum Pulang"
-          onPress={() => moveTo('absenBelumPulang')}
-        />
-        <IconMenu
-          image={require('../../assets/vector/Cuti.png')}
-          title="Cuti"
-          onPress={() => moveTo('cekCuti')}
-        />
+    <ScrollView contentContainerStyle={scrollViewContent}>
+      <View style={[styles.wrapperIconMenu, wrapIcon]}>
+        <View
+          style={[
+            {
+              flexDirection: 'row',
+            },
+            gap,
+          ]}>
+          <IconMenu
+            image={require('../../assets/vector/kehadiran.png')}
+            title="Absensi"
+            onPress={() => moveTo('pilihProject')}
+            styleImage={styleImage}
+            styleNamaMenu={styleNamaMenu}
+            box={box}
+          />
+          <IconMenu
+            image={require('../../assets/vector/member.png')}
+            title="Member"
+            onPress={() => moveTo('listMemberProject')}
+            styleImage={styleImage}
+            styleNamaMenu={styleNamaMenu}
+            box={box}
+          />
+        </View>
+        <View style={[{flexDirection: 'row'}, gap]}>
+          <IconMenu
+            image={require('../../assets/vector/updatelistproject.png')}
+            title="Update List Project"
+            onPress={() => moveTo('updateListProject')}
+            styleImage={styleImage}
+            styleNamaMenu={styleNamaMenu}
+            box={box}
+          />
+          <IconMenu
+            image={require('../../assets/vector/listbelumpulang.png')}
+            title="List Belum Pulang"
+            onPress={() => moveTo('absenBelumPulang')}
+            styleImage={styleImage}
+            styleNamaMenu={styleNamaMenu}
+            box={box}
+          />
+        </View>
+        <View style={[{flexDirection: 'row'}, gap]}>
+          <IconMenu
+            image={require('../../assets/vector/Cuti.png')}
+            title="Cuti"
+            onPress={() => moveTo('cekCuti')}
+            styleImage={styleImage}
+            styleNamaMenu={styleNamaMenu}
+            box={box}
+          />
+          <View style={box} />
+        </View>
         <View style={{width: 70, height: 70, marginBottom: 5}} />
       </View>
     </ScrollView>
@@ -45,15 +81,8 @@ const MenuKehadiran = ({navigation}) => {
 export default MenuKehadiran;
 
 const styles = StyleSheet.create({
-  scrollViewContent: {
-    flexGrow: 1,
-  },
   wrapperIconMenu: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: 360,
-    gap: 78,
-    justifyContent: 'center',
-    marginVertical: 50,
   },
 });
