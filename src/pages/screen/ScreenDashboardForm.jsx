@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
@@ -16,7 +16,11 @@ const ScreenDashboardForm = ({navigation}) => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>
-        <ButtonLogout navigation={navigation} style={{height: hp('10%')}} />
+        <ButtonLogout
+          navigation={navigation}
+          posisiLogout={{top: hp('2%')}}
+          style={{height: hp('10%')}}
+        />
       </View>
       <View style={styles.wrapDataPribadi}>
         <DataPribadi
@@ -25,6 +29,10 @@ const ScreenDashboardForm = ({navigation}) => {
           styleText={styles.ukuranNamaNik}
         />
       </View>
+      <Image
+        style={styles.VectorAtasDashboard}
+        source={require('../../assets/vector/VectorAtasDashboard.png')}
+      />
       <View style={styles.containerInfo}>
         <Text style={styles.judulSection}>Statistik Tahun ini</Text>
         <StatistikTahunIni
@@ -127,5 +135,11 @@ const styles = StyleSheet.create({
   },
   boxMenuIcon: {
     width: wp('29%'),
+  },
+  VectorAtasDashboard: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: -1,
   },
 });

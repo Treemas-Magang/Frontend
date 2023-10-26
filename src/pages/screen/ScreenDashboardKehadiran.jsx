@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
@@ -49,6 +49,10 @@ const ScreenDashboardKehadiran = ({navigation}) => {
           styleText={styles.ukuranNamaNik}
         />
       </View>
+      <Image
+        style={styles.VectorAtasDashboard}
+        source={require('../../assets/vector/VectorAtasDashboard.png')}
+      />
       <View style={styles.containerInfo}>
         <Text style={styles.judulSection}>Statistik Tahun ini</Text>
         <StatistikTahunIni
@@ -134,4 +138,10 @@ const styles = StyleSheet.create({
   },
   gapMenuIcon: {gap: wp('10%'), width: wp('100%'), justifyContent: 'center'},
   boxMenuIcon: {width: wp('29%')},
+  VectorAtasDashboard: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: -1,
+  },
 });
