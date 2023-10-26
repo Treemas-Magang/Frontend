@@ -2,8 +2,8 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
@@ -18,7 +18,11 @@ const ScreenDashboard = ({navigation}) => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>
-        <ButtonLogout navigation={navigation} style={{height: hp('10%')}} />
+        <ButtonLogout
+          navigation={navigation}
+          posisiLogout={{top: hp('2%')}}
+          style={{height: hp('10%')}}
+        />
       </View>
       <View style={styles.wrapDataPribadi}>
         <DataPribadi
@@ -104,7 +108,7 @@ const styles = StyleSheet.create({
   imgIcon: {width: wp('16%'), height: hp('9%')},
   namaMenu: {fontSize: hp('1.8%')},
   wrapImgIcon: {
-    gap: wp('5%'),
+    gap: wp('10%'),
     height: hp('35%'),
     justifyContent: 'center',
   },
