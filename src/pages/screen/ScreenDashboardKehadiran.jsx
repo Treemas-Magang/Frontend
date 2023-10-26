@@ -51,6 +51,7 @@ const ScreenDashboardKehadiran = ({navigation}) => {
       </View>
       <Image
         style={styles.VectorAtasDashboard}
+        resizeMode="contain"
         source={require('../../assets/vector/VectorAtasDashboard.png')}
       />
       <View style={styles.containerInfo}>
@@ -140,8 +141,9 @@ const styles = StyleSheet.create({
   boxMenuIcon: {width: wp('29%')},
   VectorAtasDashboard: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: hp('-1%'),
+    right: wp('-10%'),
     zIndex: -1,
+    width: wp('100%'),
   },
 });

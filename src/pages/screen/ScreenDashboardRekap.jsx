@@ -36,6 +36,7 @@ const ScreenDashboardRekap = ({navigation}) => {
       </View>
       <Image
         style={styles.VectorAtasDashboard}
+        resizeMode="contain"
         source={require('../../assets/vector/VectorAtasDashboard.png')}
       />
       <View style={styles.containerInfo}>
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   },
   containerMenu: {
     width: wp('100%'),
-    height: hp('55%'),
+    height: hp('50%'),
     backgroundColor: Color.green,
     borderTopStartRadius: 35,
     borderTopEndRadius: 35,
@@ -145,8 +146,9 @@ const styles = StyleSheet.create({
   },
   VectorAtasDashboard: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: hp('-1%'),
+    right: wp('-10%'),
     zIndex: -1,
+    width: wp('100%'),
   },
 });
