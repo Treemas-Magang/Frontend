@@ -28,7 +28,13 @@ const jenis_cuti = [
   {id_cuti: 'CD4', keterangan_cuti: 'cuti 4'},
 ];
 
-const FormCuti = () => {
+const FormCuti = ({
+  style,
+  styleCard,
+  styleContainerCard,
+  styleInfo,
+  styleTitle,
+}) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.FormCutiReducer);
   console.log('ini dari reducer : ', form);
@@ -73,6 +79,12 @@ const FormCuti = () => {
   const handleClickOutside = () => {
     setShowKalender(false);
   };
+  const initialState = {
+    sisa_cuti: 28,
+    cuti_bersama: 11,
+    cuti_pengganti: 4,
+  };
+  const [statistik, setStatistik] = useState(initialState);
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.formCuti}>
@@ -83,17 +95,33 @@ const FormCuti = () => {
         )}
         <View style={styles.cardFormCuti}>
           <Text style={styles.judul}>Form Cuti</Text>
-          <View style={styles.wrapInfoCuti}>
-            <CardInfo title="sisa cuti" color={Color.cardMasuk} cardInfo="11" />
+          <View style={[styles.info, style]}>
+            <CardInfo
+              title="sisa cuti"
+              color={Color.cardMasuk}
+              cardInfo={statistik.sisa_cuti}
+              styleCard={styleCard}
+              styleContainerCard={styleContainerCard}
+              styleInfo={styleInfo}
+              styleTitle={styleTitle}
+            />
             <CardInfo
               title="cuti bersama"
               color={Color.cardTelatMasuk}
-              cardInfo="11"
+              cardInfo={statistik.cuti_bersama}
+              styleCard={styleCard}
+              styleContainerCard={styleContainerCard}
+              styleInfo={styleInfo}
+              styleTitle={styleTitle}
             />
             <CardInfo
               title="cuti penganti"
               color={Color.cardPulangCepat}
-              cardInfo="11"
+              cardInfo={statistik.cuti_pengganti}
+              styleCard={styleCard}
+              styleContainerCard={styleContainerCard}
+              styleInfo={styleInfo}
+              styleTitle={styleTitle}
             />
           </View>
           <View style={styles.wrapInputForm}>
@@ -203,11 +231,12 @@ const styles = StyleSheet.create({
     backgroundColor: Color.white,
     borderRadius: 10,
   },
-  wrapInfoCuti: {
+  info: {
+    alignItems: 'center',
     flexDirection: 'row',
-    gap: 25,
+    flexWrap: 'wrap',
     justifyContent: 'center',
-    marginBottom: 20,
+    paddingBottom: 25,
   },
   judul: {
     fontFamily: text.semiBold,
@@ -216,6 +245,7 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     marginBottom: 10,
+    textTransform: 'uppercase',
   },
   wrapInputForm: {
     width: '100%',

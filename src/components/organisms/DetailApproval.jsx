@@ -18,7 +18,7 @@ import CustomTextInput from '../atoms/CustomTextInput';
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 
-const DetailApproval = ({navigation}) => {
+const DetailApproval = ({navigation, stylePP}) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
 
@@ -46,14 +46,13 @@ const DetailApproval = ({navigation}) => {
       <View style={styles.backgroundDetailApproval}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{alignItems: 'center'}}>
-            <View
-              style={{
-                width: 100,
-                height: 100,
-                backgroundColor: Color.green,
-                borderRadius: 100,
-                alignItems: 'center',
-              }}></View>
+            <View>
+              <Image
+                source={require('../../assets/vector/user.png')}
+                style={[styles.pp, stylePP]}
+                resizeMode="cover"
+              />
+            </View>
           </View>
           <View
             style={{
@@ -207,5 +206,8 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     fontSize: 16,
     color: Color.red,
+  },
+  pp: {
+    borderRadius: 200,
   },
 });

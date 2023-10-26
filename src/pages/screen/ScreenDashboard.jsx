@@ -2,8 +2,8 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
@@ -89,7 +89,9 @@ const styles = StyleSheet.create({
     width: wp('25%'),
     height: hp('12.5%'),
   },
-  ukuranNamaNik: {fontSize: hp('2%')},
+  ukuranNamaNik: {
+    fontSize: hp('2%'),
+  },
   styleConatinerCard: {
     height: hp('6.6%'),
     width: wp('22%'),
@@ -98,16 +100,34 @@ const styles = StyleSheet.create({
     height: hp('6.6%'),
     width: wp('17%'),
   },
-  styleInfo: {fontSize: hp('2%')},
-  titleInfo: {fontSize: hp('1.3%')},
-  styleStatistikTahunIni: {width: wp('90%'), height: hp('22%')},
-  imgIcon: {width: wp('16%'), height: hp('9%')},
-  namaMenu: {fontSize: hp('1.8%')},
+  styleInfo: {
+    fontSize: hp('2%'),
+  },
+  titleInfo: {
+    fontSize: hp('1.3%'),
+  },
+  styleStatistikTahunIni: {
+    width: wp('90%'),
+    height: hp('22%'),
+  },
+  imgIcon: {
+    width: wp('16%'),
+    height: hp('9%'),
+  },
+  namaMenu: {
+    fontSize: hp('1.8%'),
+  },
   wrapImgIcon: {
-    gap: wp('5%'),
+    gap: wp('10%'),
     height: hp('35%'),
     justifyContent: 'center',
   },
-  gapMenuIcon: {gap: wp('10%'), width: wp('100%'), justifyContent: 'center'},
-  boxMenuIcon: {width: wp('29%')},
+  gapMenuIcon: {
+    gap: wp('10%'),
+    width: wp('100%'),
+    justifyContent: 'center',
+  },
+  boxMenuIcon: {
+    width: wp('29%'),
+  },
 });
