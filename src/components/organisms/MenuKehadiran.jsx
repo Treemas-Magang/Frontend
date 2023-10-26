@@ -70,11 +70,7 @@ const MenuKehadiran = ({
             styleNamaMenu={styleNamaMenu}
             box={box}
           />
-          <IconMenu
-            styleImage={styleImage}
-            styleNamaMenu={styleNamaMenu}
-            box={box}
-          />
+          <View style={box} />
         </View>
         <View style={{width: 70, height: 70, marginBottom: 5}} />
       </View>
