@@ -6,15 +6,19 @@ import {Color} from '../../utils/color';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import {text} from '../../utils/text';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const CardPilihAbsenProject = ({navigation}) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
   return (
     <View>
-      
-      <TouchableOpacity onPress={() => moveTo('absensi')} style={styles.CardPilihProject}>
+      <TouchableOpacity
+        onPress={() => moveTo('absensi')}
+        style={styles.CardPilihProject}>
         <Text style={styles.Text}>ON SITE</Text>
         <Text style={styles.TextDeskripsi}>
           jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
@@ -41,8 +45,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderColor: Color.green,
     borderWidth: 2,
-    width: 269,
-    minHeight: 100,
+    width: wp('70%'),
+    minHeight: hp('15'),
     borderRadius: 5,
     marginVertical: 10,
     alignItems: 'center',
@@ -62,5 +66,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     textAlign: 'justify',
   },
-  
 });

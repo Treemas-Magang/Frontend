@@ -5,7 +5,7 @@ import UpdateListProject from '../../components/organisms/UpdateListProject';
 
 const ScreenUpdateListProject = () => {
   return (
-    <View>
+    <View style={{flex: 1}}>
       <UpdateListProject />
     </View>
   );

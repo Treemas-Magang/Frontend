@@ -3,14 +3,14 @@
 /* eslint-disable comma-dangle */
 import React, {useState} from 'react';
 import {View, Text, ScrollView} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 import {Color} from '../../utils/color';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faFileInvoice} from '@fortawesome/free-solid-svg-icons';
 import CardUpdateProject from '../molecules/CardUpdateProject';
 import ButtonAction from '../atoms/ButtonAction';
 import {text} from '../../utils/text';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const UpdateListProject = () => {
   const [checkboxes, setCheckboxes] = useState([
     {
@@ -60,8 +60,7 @@ const UpdateListProject = () => {
   return (
     <View
       style={{
-        width: '100%',
-        height: '100%',
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Color.green,
@@ -69,8 +68,9 @@ const UpdateListProject = () => {
       <View
         style={{
           backgroundColor: Color.white,
-          width: 340,
-          paddingVertical: 20,
+          width: wp('85%'),
+          height: hp('75%'),
+          paddingVertical: 10,
           alignItems: 'center',
           borderRadius: 10,
         }}>
@@ -81,13 +81,13 @@ const UpdateListProject = () => {
             fontSize: 26,
             color: Color.blue,
             textAlign: 'center',
-            marginVertical: 30,
+            marginVertical: 10,
           }}>
           DAFTAR PROJECT
         </Text>
-        <ScrollView style={{height: 500}} showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           {checkboxes.map((checkbox, index) => (
-            <View key={index} style={{flexDirection: 'column'}}>
+            <View key={index}>
               <CardUpdateProject
                 alamat={checkbox.alamat}
                 title={checkbox.title}
@@ -108,7 +108,7 @@ const UpdateListProject = () => {
         </ScrollView>
         <ButtonAction
           title="UPDATE"
-          style={{marginTop: 20, width: 269, height: 50}}
+          style={{marginVertical: 10, width: wp('75%'), height: hp('8%')}}
         />
       </View>
     </View>

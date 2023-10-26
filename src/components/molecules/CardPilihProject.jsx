@@ -1,49 +1,21 @@
 /* eslint-disable prettier/prettier */
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
-
-const CardPilihProject = ({navigation}) => {
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
-  };
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+const CardPilihProject = ({navigation, onPress}) => {
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <TouchableOpacity
-        style={styles.CardPilihProject}
-        onPress={() => moveTo('pilihAbsenProject')}>
-        <Text style={styles.Text}>ANDALAN FINANCE INDONESIA</Text>
-        <Text style={styles.TextDeskripsi}>
-          jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-          Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.CardPilihProject}
-        onPress={() => moveTo('pilihAbsenProject')}>
-        <Text style={styles.Text}>TREEMAS SOLUSI UTAMA</Text>
-        <Text style={styles.TextDeskripsi}>
-          jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-          Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.CardPilihProject}
-        onPress={() => moveTo('pilihAbsenProject')}>
-        <Text style={styles.Text}>OTHER</Text>
-        <Text style={styles.TextDeskripsi}>
-          jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-          Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
-        </Text>
-      </TouchableOpacity>
-    </ScrollView>
+    <TouchableOpacity style={styles.CardPilihProject} onPress={onPress}>
+      <Text style={styles.Text}>ANDALAN FINANCE INDONESIA</Text>
+      <Text style={styles.TextDeskripsi}>
+        jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
+        Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
+      </Text>
+    </TouchableOpacity>
   );
 };
 
@@ -54,8 +26,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderColor: Color.green,
     borderWidth: 2,
-    width: 269,
-    minHeight: 100,
+    width: wp('70%'),
+    minHeight: hp('15%'),
     borderRadius: 5,
     marginVertical: 10,
     alignItems: 'center',

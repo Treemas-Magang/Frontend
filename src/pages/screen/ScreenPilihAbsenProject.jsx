@@ -5,7 +5,10 @@ import {Color} from '../../utils/color';
 import PilihAbsenProject from '../../components/organisms/PilihAbsenProject';
 import ButtonBack from '../../components/atoms/ButtonBack';
 import ButtonHome from '../../components/atoms/ButtonHome';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const ScreenPilihAbsenProject = ({navigation}) => {
   return (
     <View style={styles.BackgroundPilihProject}>
@@ -23,11 +26,13 @@ const ScreenPilihAbsenProject = ({navigation}) => {
       />
       <Image
         style={styles.VectorAtasKanan}
+        resizeMode="contain"
         source={require('../../assets/vector/VectorKananAtas.png')}
       />
       <PilihAbsenProject navigation={navigation} />
       <Image
         style={styles.VectorBawah}
+        resizeMode="contain"
         source={require('../../assets/vector/VectorBawah.png')}
       />
     </View>
@@ -43,19 +48,19 @@ const styles = StyleSheet.create({
     position: 'relative',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
   },
   VectorBawah: {
     position: 'absolute',
     bottom: -80,
     left: 0,
     zIndex: -1,
-    width: '100%',
+    width: wp('100%'),
   },
   VectorAtasKanan: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    width: wp('30%'),
+    top: hp('0%'),
+    right: hp('-1%'),
     zIndex: -1,
   },
 });
