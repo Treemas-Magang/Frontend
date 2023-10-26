@@ -228,7 +228,7 @@ const ScreenLogin = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: hp('98%'),
+    flex: 1,
     alignItems: 'center',
     position: 'relative',
     backgroundColor: Color.white,
