@@ -12,7 +12,10 @@ import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAbsenMasuk} from '../../redux';
 import {getTanggalSekarang} from '../../utils/getTanggalSekarang';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const initialRegion = {
   latitude: null,
   longitude: null,
@@ -134,19 +137,19 @@ const MapPreview = ({navigation}) => {
               style={{
                 position: 'absolute',
                 bottom: 50,
-                left: '16%',
-                width: 269,
+                left: wp('12'),
+                width: wp('75%'),
                 gap: 10,
               }}>
               <ButtonAction
                 style={{
-                  width: 269,
+                  width: wp('75%'),
                 }}
                 title="perbarui"
               />
               <ButtonAction
                 style={{
-                  width: 269,
+                  width: wp('75%'),
                   backgroundColor: Color.cardPulangCepat,
                 }}
                 title="pulang"
@@ -158,8 +161,8 @@ const MapPreview = ({navigation}) => {
               style={{
                 position: 'absolute',
                 bottom: 50,
-                left: '16%',
-                width: 269,
+                left: wp('12'),
+                width: wp('75%'),
               }}
               title="masuk"
             />

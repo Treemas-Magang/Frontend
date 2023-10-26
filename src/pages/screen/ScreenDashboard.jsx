@@ -33,6 +33,7 @@ const ScreenDashboard = ({navigation}) => {
       </View>
       <Image
         style={styles.VectorAtasDashboard}
+        resizeMode="contain"
         source={require('../../assets/vector/VectorAtasDashboard.png')}
       />
       <View style={styles.containerInfo}>
@@ -140,8 +141,9 @@ const styles = StyleSheet.create({
   },
   VectorAtasDashboard: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: hp('-1%'),
+    right: wp('-10%'),
     zIndex: -1,
+    width: wp('100%'),
   },
 });

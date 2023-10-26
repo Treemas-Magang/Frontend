@@ -1,17 +1,18 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React from 'react';
 import ButtonAction from '../../components/atoms/ButtonAction';
 import {Color} from '../../utils/color';
 import CardPilihProject from '../molecules/CardPilihProject';
 import {text} from '../../utils/text';
-import ButtonBack from '../atoms/ButtonBack';
-import ButtonHome from '../atoms/ButtonHome';
 
-const PilihProject = ({navigation}) => {
+const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
+  const moveTo = tujuan => {
+    navigation.navigate(tujuan);
+  };
   return (
     <View>
-      <View style={styles.CardUpdateTimesheet}>
+      <View style={[styles.wrappPilihProject, ukuranWrappPilihProject]}>
         <Text
           style={{
             fontFamily: text.semiBold,
@@ -21,7 +22,16 @@ const PilihProject = ({navigation}) => {
           }}>
           Project Yang Di Pilih
         </Text>
-        <CardPilihProject navigation={navigation} />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <CardPilihProject
+            navigation={navigation}
+            onPress={() => moveTo('pilihAbsenProject')}
+          />
+          <CardPilihProject navigation={navigation} />
+          <CardPilihProject navigation={navigation} />
+          <CardPilihProject navigation={navigation} />
+          <CardPilihProject navigation={navigation} />
+        </ScrollView>
       </View>
     </View>
   );
@@ -30,14 +40,11 @@ const PilihProject = ({navigation}) => {
 export default PilihProject;
 
 const styles = StyleSheet.create({
-  CardUpdateTimesheet: {
-    width: 320,
-    height: 550,
+  wrappPilihProject: {
     backgroundColor: Color.white,
     borderRadius: 5,
-    justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 50,
+    paddingVertical: 30,
   },
   VectorAtasKanan: {
     position: 'absolute',
