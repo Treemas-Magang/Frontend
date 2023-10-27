@@ -43,6 +43,7 @@ import {
   ScreenDetailApproval,
   ScreenAbsensi,
   ScreenRekapClaim,
+  ScreenListTimesheet,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -62,7 +63,7 @@ const screens = [
     component: ScreenNotifPengumuman,
     gestureEnabled: true,
   },
-  {name: 'listTimesheet', component: ListTimesheet, gestureEnabled: true},
+  {name: 'listTimesheet', component: ScreenListTimesheet, gestureEnabled: true},
   {
     name: 'detailTimesheet',
     component: ScreenDetailTimesheet,
