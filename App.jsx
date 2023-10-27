@@ -1,15 +1,17 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import AppNavigator from './src/routes/AppNavigator';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/';
-import { checkMockLocation } from './src/utils/checkMockLocation';
+import {checkMockLocation} from './src/utils/checkMockLocation';
+import {StatusBar} from 'react-native';
+import {Color} from './src/utils/color';
 
 export default function App() {
   useEffect(() => {
     const fetchData = () => {
-      checkMockLocation()
+      checkMockLocation();
     };
 
     // Jalankan `fetchData` setiap 10 detik
@@ -21,6 +23,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
+        <StatusBar animated={true} hidden />
         <AppNavigator />
       </NavigationContainer>
     </Provider>
