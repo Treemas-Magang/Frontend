@@ -20,6 +20,7 @@ const ScreenFormCuti = ({navigation}) => {
             position: 'absolute',
             top: 20,
             left: 20,
+            zIndex: 9,
           }}
         />
         <ButtonHome
