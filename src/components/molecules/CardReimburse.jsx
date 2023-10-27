@@ -44,8 +44,7 @@ const CardReimburse = ({
         <Text
           style={{
             fontFamily: text.lightItalic,
-            fontSize: 12,
-            paddingTop: 10,
+            fontSize: hp('1.2%'),
           }}>
           TOTAL JAM (jam)
         </Text>
@@ -55,7 +54,7 @@ const CardReimburse = ({
         <Text
           style={{
             fontFamily: text.lightItalic,
-            fontSize: 12,
+            fontSize: hp('1.2%'),
           }}>
           OVERTIME (jam)
         </Text>
@@ -65,7 +64,7 @@ const CardReimburse = ({
         <Text
           style={{
             fontFamily: text.lightItalic,
-            fontSize: 12,
+            fontSize: hp('1.2%'),
           }}>
           Transport
         </Text>
@@ -75,7 +74,7 @@ const CardReimburse = ({
         <Text
           style={{
             fontFamily: text.lightItalic,
-            fontSize: 12,
+            fontSize: hp('1.2%'),
           }}>
           Uang Makan
         </Text>
@@ -93,17 +92,19 @@ const styles = StyleSheet.create({
   CardReimburseStyle: {
     backgroundColor: Color.green,
     width: wp('80%'),
-    height: hp('28%'),
+    Height: hp('28%'),
     borderRadius: 5,
     marginVertical: 10,
     justifyContent: 'center',
+    paddingVertical: 20,
     alignItems: 'center',
   },
   CardDalemReimburseStyle: {
     backgroundColor: Color.white,
     width: wp('70%'),
-    height: hp('20%'),
+    minHeight: hp('20%'),
     borderRadius: 5,
     paddingHorizontal: 10,
+    paddingVertical: 10,
   },
 });
