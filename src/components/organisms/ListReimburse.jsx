@@ -6,9 +6,12 @@ import {text} from '../../utils/text';
 import CardReimburse from '../molecules/CardReimburse';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const ListReimburse = ({navigation}) => {
-  const [reimburse, setReimburse] = useState([
+  const [reimburses, setReimburses] = useState([
     {
       tanggal: 'Senin 2 Mei',
       totalJam: 8,
@@ -59,11 +62,18 @@ const ListReimburse = ({navigation}) => {
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <Text style={styles.Judul}>Reimburse</Text>
+      <View
+        style={{
+          width: wp('100%'),
+          height: hp('15%'),
+          justifyContent: 'center',
+        }}>
+        <Text style={styles.Judul}>Reimburse</Text>
+      </View>
       <View style={styles.backgroundCardReimburse}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {reimburse.map((reimburse, index) => (
-            <View key={index} style={{flexDirection: 'column'}}>
+          {reimburses.map((reimburse, index) => (
+            <View key={index}>
               <CardReimburse
                 navigation={navigation}
                 tanggal={reimburse.tanggal}
@@ -111,16 +121,13 @@ const styles = StyleSheet.create({
     backgroundColor: Color.white,
     paddingTop: 50,
     alignItems: 'center',
-    flex: 1,
-    flexDirection: 'column',
     gap: 10,
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
-    marginTop: -100,
+    height: hp('85%'),
   },
   Judul: {
     textAlign: 'center',
-    marginVertical: 112,
     fontFamily: text.semiBold,
     fontSize: 26,
     color: Color.blue,
@@ -140,9 +147,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: Color.black,
-    width: 280,
-    marginVertical: 20,
-    padding: 10,
+    width: wp('80%'),
+    marginTop: 10,
+    marginBottom: 50,
+    minHeight: hp('15%'),
+    // padding: 10,
     justifyContent: 'space-evenly',
   },
   textValue: {
