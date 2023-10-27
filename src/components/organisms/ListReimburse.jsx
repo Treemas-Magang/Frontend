@@ -52,11 +52,11 @@ const ListReimburse = ({navigation}) => {
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack
         navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
+        style={{position: 'absolute', top: 20, left: 20, zIndex: 99}}
       />
       <ButtonHome
         navigation={navigation}
-        style={{position: 'absolute', top: 20, right: 20}}
+        style={{position: 'absolute', top: 20, right: 20, zIndex: 99}}
       />
       <Image
         style={styles.VectorAtas}
