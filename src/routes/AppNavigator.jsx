@@ -44,6 +44,7 @@ import {
   ScreenAbsensi,
   ScreenRekapClaim,
   ScreenListTimesheet,
+  ScreenUpdatePassword,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -237,6 +238,11 @@ const screens = [
   {
     name: 'rekapClaim',
     component: ScreenRekapClaim,
+    gestureEnabled: true,
+  },
+  {
+    name: 'updatePassword',
+    component: ScreenUpdatePassword,
     gestureEnabled: true,
   },
 ];
