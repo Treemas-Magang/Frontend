@@ -9,6 +9,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import VectorAtasKanan from '../../components/atoms/VectorAtasKanan';
 const ScreenPilihProject = ({navigation}) => {
   return (
     <View style={styles.BackgroundPilihProject}>
@@ -24,11 +25,7 @@ const ScreenPilihProject = ({navigation}) => {
         navigation={navigation}
         style={{position: 'absolute', top: 20, right: 15}}
       />
-      <Image
-        style={styles.VectorAtasKanan}
-        resizeMode="contain"
-        source={require('../../assets/vector/VectorKananAtas.png')}
-      />
+      <VectorAtasKanan />
       <PilihProject
         navigation={navigation}
         ukuranWrappPilihProject={styles.ukuranWrappPilihProject}
