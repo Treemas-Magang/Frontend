@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import IconMenu from '../atoms/IconMenu';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
+import {getDataFromSession} from '../../utils/getDataSession';
 
 const MenuUtama = ({
   navigation,
@@ -13,10 +14,24 @@ const MenuUtama = ({
   gap,
   box,
 }) => {
-  const [totalPengumuman, setTotalPengumuman] = useState(null);
+  const [totalApproval, setTotalApproval] = useState(5);
+  const [totalPengumuman, setTotalPengumuman] = useState(6);
+  const [isRole, setIsRole] = useState('');
+
+  const totalNotive = totalApproval + totalPengumuman;
 
   useEffect(() => {
-    setTotalPengumuman(15);
+    getDataFromSession('role')
+      .then(role => {
+        if (role !== null) {
+          setIsRole(role);
+        } else {
+          console.log('Data tidak ditemukan di session.');
+        }
+      })
+      .catch(error => {
+        console.error('Terjadi kesalahan dalam getDataFromSession:', error);
+      });
   }, []);
 
   const moveTo = tujuan => {
@@ -25,12 +40,10 @@ const MenuUtama = ({
   return (
     <View style={[styles.wrapperIconMenu, wrapIcon]}>
       <View
-        style={[
-          {
-            flexDirection: 'row',
-          },
-          gap,
-        ]}>
+        style={{
+          flexDirection: 'row',
+          ...gap,
+        }}>
         <IconMenu
           image={require('../../assets/vector/schedule.png')}
           title="Kehadiran"
@@ -48,7 +61,7 @@ const MenuUtama = ({
           box={box}
         />
       </View>
-      <View style={[{flexDirection: 'row'}, gap]}>
+      <View style={{flexDirection: 'row', ...gap}}>
         <IconMenu
           image={require('../../assets/vector/folders.png')}
           title="form"
@@ -57,23 +70,39 @@ const MenuUtama = ({
           styleNamaMenu={styleNamaMenu}
           box={box}
         />
-        <View style={styles.wrap}>
-          <IconMenu
-            image={require('../../assets/vector/announcement.png')}
-            title="pengumuman"
-            onPress={() => moveTo('dashboardNotif')}
-            styleImage={styleImage}
-            styleNamaMenu={styleNamaMenu}
-            box={box}
-          />
-          {totalPengumuman ? (
-            <View style={styles.notif}>
-              <Text style={styles.text}>{totalPengumuman}</Text>
-            </View>
-          ) : (
-            ''
-          )}
-        </View>
+        {isRole === 'USER' ? (
+          <View>
+            <IconMenu
+              image={require('../../assets/vector/announcement.png')}
+              title="pengumuman"
+              onPress={() => moveTo('notifPengumuman')}
+              styleImage={styleImage}
+              styleNamaMenu={styleNamaMenu}
+              box={box}
+            />
+            {totalPengumuman ? (
+              <View style={styles.notif}>
+                <Text style={styles.text}>{totalPengumuman}</Text>
+              </View>
+            ) : null}
+          </View>
+        ) : (
+          <View>
+            <IconMenu
+              image={require('../../assets/vector/announcement.png')}
+              title="pengumuman"
+              onPress={() => moveTo('dashboardNotif')}
+              styleImage={styleImage}
+              styleNamaMenu={styleNamaMenu}
+              box={box}
+            />
+            {totalPengumuman ? (
+              <View style={styles.notif}>
+                <Text style={styles.text}>{totalNotive}</Text>
+              </View>
+            ) : null}
+          </View>
+        )}
       </View>
     </View>
   );

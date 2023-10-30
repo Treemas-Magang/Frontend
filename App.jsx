@@ -6,7 +6,6 @@ import {Provider} from 'react-redux';
 import {store} from './src/redux/';
 import {checkMockLocation} from './src/utils/checkMockLocation';
 import {StatusBar} from 'react-native';
-import {Color} from './src/utils/color';
 
 export default function App() {
   useEffect(() => {

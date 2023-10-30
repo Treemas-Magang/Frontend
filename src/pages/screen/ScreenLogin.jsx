@@ -146,6 +146,7 @@ const ScreenLogin = ({navigation}) => {
         // }
 
         ///////////////////////////////////////
+        await AsyncStorage.setItem('role', 'USER');
         navigation.replace('dashboard');
       } else if (result.error) {
         // Pemindaian gagal
