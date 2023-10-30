@@ -9,7 +9,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import VectorAtasKanan from '../../components/atoms/VectorAtasKanan';
+import VectorAtasBesar from '../../components/atoms/VectorAtasBesar';
 const ScreenPilihProject = ({navigation}) => {
   return (
     <View style={styles.BackgroundPilihProject}>
@@ -25,7 +25,7 @@ const ScreenPilihProject = ({navigation}) => {
         navigation={navigation}
         style={{position: 'absolute', top: 20, right: 15}}
       />
-      <VectorAtasKanan />
+      <VectorAtasBesar />
       <PilihProject
         navigation={navigation}
         ukuranWrappPilihProject={styles.ukuranWrappPilihProject}

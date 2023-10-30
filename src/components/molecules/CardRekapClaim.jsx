@@ -7,6 +7,10 @@ import {text} from '../../utils/text';
 import {formatToCurrency} from '../../utils/formatToCurrency';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faImage} from '@fortawesome/free-solid-svg-icons';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const CardRekapClaim = ({
   navigation,
@@ -37,7 +41,7 @@ const CardRekapClaim = ({
         </Text>
       </View>
       <View style={styles.CardDalemReimburseStyle}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={{
             position: 'absolute',
             zIndex: 2,
@@ -86,8 +90,8 @@ export default CardRekapClaim;
 const styles = StyleSheet.create({
   CardRekapClaimStyle: {
     backgroundColor: Color.green,
-    width: 350,
-    height: 230,
+    width: wp('85%'),
+    height: hp('35%'),
     borderRadius: 5,
     marginVertical: 10,
     justifyContent: 'center',
@@ -95,8 +99,8 @@ const styles = StyleSheet.create({
   },
   CardDalemReimburseStyle: {
     backgroundColor: Color.white,
-    width: 290,
-    height: 170,
+    width: wp('80%'),
+    height: hp('25%'),
     borderRadius: 5,
     marginVertical: 5,
     paddingHorizontal: 10,

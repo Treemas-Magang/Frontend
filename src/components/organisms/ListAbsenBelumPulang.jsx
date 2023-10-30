@@ -6,6 +6,10 @@ import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 import CardAbsenBelumPulang from '../molecules/CardAbsenBelumPulang';
 import ButtonHome from '../atoms/ButtonHome';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const ListAbsenBelumPulang = ({navigation}) => {
   const [AbsenBelumPulang, setAbsenBelumPulang] = useState([
@@ -56,7 +60,14 @@ const ListAbsenBelumPulang = ({navigation}) => {
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <Text style={styles.Judul}>ABSEN BELUM PULANG</Text>
+      <View
+        style={{
+          width: wp('100%'),
+          height: hp('30%'),
+          justifyContent: 'center',
+        }}>
+        <Text style={styles.Judul}>Absen Belum Pulang</Text>
+      </View>
       <View style={styles.backgroundCardAbsenBelumPulang}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* /////////////////////////////////////////////////////////////////// */}
@@ -95,7 +106,6 @@ const styles = StyleSheet.create({
   },
   Judul: {
     textAlign: 'center',
-    marginVertical: 112,
     fontFamily: text.semiBold,
     fontSize: 26,
     color: Color.blue,

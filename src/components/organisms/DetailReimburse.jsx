@@ -122,9 +122,11 @@ const styles = StyleSheet.create({
     color: Color.black,
     textTransform: 'uppercase',
     marginVertical: 2,
+    fontSize: hp('2%'),
   },
   TextDeskripsi: {
     fontFamily: text.light,
+    fontSize: hp('2%'),
     marginVertical: 2,
   },
 });

@@ -12,6 +12,7 @@ import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
+import VectorAtasBesar from '../atoms/VectorAtasBesar';
 
 const ListMemberProject = ({navigation}) => {
   const moveTo = tujuan => {
@@ -27,10 +28,7 @@ const ListMemberProject = ({navigation}) => {
         navigation={navigation}
         style={{position: 'absolute', top: 10, right: 10}}
       />
-      <Image
-        style={styles.VectorAtasKanan}
-        source={require('../../assets/vector/VectorKananAtas.png')}
-      />
+      <VectorAtasBesar />
       <View style={{paddingVertical: 70}}></View>
       <View style={styles.wrapListMember}>
         <View style={{alignItems: 'center', marginVertical: 20}}>

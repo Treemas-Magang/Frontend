@@ -5,6 +5,10 @@ import {text} from '../../utils/text';
 import ButtonAction from '../atoms/ButtonAction';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const DetailTimesheet = ({navigation}) => {
   const moveTo = tujuan => {
@@ -24,7 +28,14 @@ const DetailTimesheet = ({navigation}) => {
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <Text style={styles.Judul}>DETAIL TIMESHEET</Text>
+      <View
+        style={{
+          width: wp('100%'),
+          height: hp('20%'),
+          justifyContent: 'center',
+        }}>
+        <Text style={styles.Judul}>Detail timesheet</Text>
+      </View>
       <View style={styles.backgroundCardTimesheet}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View>
@@ -93,7 +104,7 @@ const DetailTimesheet = ({navigation}) => {
             <Text style={{fontFamily: text.light}}>7</Text>
           </View>
         </ScrollView>
-        <View style={styles.catatanKerja}>
+        <View style={styles.buttonUpdate}>
           <ButtonAction
             onPress={() => moveTo('formUpdateTimesheet')}
             title="UPDATE"
@@ -109,19 +120,20 @@ export default DetailTimesheet;
 const styles = StyleSheet.create({
   backgroundCardTimesheet: {
     backgroundColor: Color.white,
-    paddingTop: 50,
     paddingHorizontal: 29,
-    flex: 1,
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
-    marginTop: -50,
+    // marginTop: -50,
+    height: hp('90%'),
+    paddingTop: hp('5%'),
+    paddingBottom: hp('7.5%'),
   },
   Judul: {
     textAlign: 'center',
-    marginVertical: 112,
     fontFamily: text.semiBold,
-    fontSize: 26,
+    fontSize: wp('6%'),
     color: Color.blue,
+    textTransform: 'uppercase',
   },
   VectorAtas: {
     position: 'absolute',
@@ -129,7 +141,7 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: -1,
   },
-  catatanKerja: {
+  buttonUpdate: {
     backgroundColor: Color.white,
     padding: 20,
     margin: 8,

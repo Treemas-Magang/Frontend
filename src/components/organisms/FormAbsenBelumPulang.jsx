@@ -75,11 +75,4 @@ const styles = StyleSheet.create({
     color: Color.text,
     paddingBottom: -10,
   },
-  wrapperButton: {flexDirection: 'row', gap: 10},
-  previewKosong: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 });

@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   Judul: {
     textAlign: 'center',
     fontFamily: text.semiBold,
-    fontSize: 26,
+    fontSize: wp('6%'),
     color: Color.blue,
     textTransform: 'uppercase',
   },
