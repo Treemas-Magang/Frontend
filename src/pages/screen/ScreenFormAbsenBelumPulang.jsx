@@ -6,6 +6,7 @@ import {Color} from '../../utils/color';
 import FormAbsenBelumPulang from '../../components/organisms/FormAbsenBelumPulang';
 import ButtonBack from '../../components/atoms/ButtonBack';
 import ButtonHome from '../../components/atoms/ButtonHome';
+import VectorAtasBesar from '../../components/atoms/VectorAtasBesar';
 
 const ScreenFormAbsensi = ({navigation}) => {
   return (
@@ -23,10 +24,7 @@ const ScreenFormAbsensi = ({navigation}) => {
           navigation={navigation}
           style={{position: 'absolute', top: 10, right: 15}}
         />
-        <Image
-          style={styles.VectorAtasKanan}
-          source={require('../../assets/vector/VectorKananAtas.png')}
-        />
+        <VectorAtasBesar />
         <View style={styles.wrapperForm}>
           <FormAbsenBelumPulang navigation={navigation} />
         </View>

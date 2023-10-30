@@ -7,11 +7,14 @@ import {Color} from '../../utils/color';
 import CardUpdateProject from '../molecules/CardUpdateProject';
 import ButtonAction from '../atoms/ButtonAction';
 import {text} from '../../utils/text';
+import VectorAtasBesar from '../atoms/VectorAtasBesar';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-const UpdateListProject = () => {
+import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
+const UpdateListProject = ({navigation}) => {
   const [checkboxes, setCheckboxes] = useState([
     {
       title: 'ARTHAASIA FINANCE',
@@ -65,11 +68,20 @@ const UpdateListProject = () => {
         alignItems: 'center',
         backgroundColor: Color.green,
       }}>
+      <ButtonBack
+        navigation={navigation}
+        style={{position: 'absolute', top: 20, left: 20}}
+      />
+      <ButtonHome
+        navigation={navigation}
+        style={{position: 'absolute', top: 10, right: 10}}
+      />
+      <VectorAtasBesar />
       <View
         style={{
           backgroundColor: Color.white,
           width: wp('85%'),
-          height: hp('75%'),
+          height: hp('67%'),
           paddingVertical: 10,
           alignItems: 'center',
           borderRadius: 10,

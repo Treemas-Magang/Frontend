@@ -6,6 +6,10 @@ import {Color} from '../../utils/color';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import {text} from '../../utils/text';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const ListPengumuman = ({navigation}) => {
   const [isOpen, setIsopen] = useState(true);
@@ -23,7 +27,14 @@ const ListPengumuman = ({navigation}) => {
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <Text style={styles.Judul}>PENGUMUMAN</Text>
+      <View
+        style={{
+          width: wp('100%'),
+          height: hp('20%'),
+          justifyContent: 'center',
+        }}>
+        <Text style={styles.Judul}>Pengumuman</Text>
+      </View>
       <View style={styles.backgroundCardNotif}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <CardNotif open={isOpen} navigation={navigation} />
@@ -48,19 +59,17 @@ const styles = StyleSheet.create({
     backgroundColor: Color.white,
     paddingTop: 50,
     alignItems: 'center',
-    flex: 1,
-    flexDirection: 'column',
     gap: 10,
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
-    marginTop: -50,
+    height: hp('91.5%'),
   },
   Judul: {
     textAlign: 'center',
-    marginVertical: 112,
     fontFamily: text.semiBold,
-    fontSize: 26,
+    fontSize: wp('6%'),
     color: Color.blue,
+    textTransform: 'uppercase',
   },
   VectorAtas: {
     position: 'absolute',

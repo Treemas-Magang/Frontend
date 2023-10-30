@@ -2,6 +2,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
 
 const CardNotif = ({navigation, open}) => {
   const moveTo = tujuan => {
@@ -9,28 +10,34 @@ const CardNotif = ({navigation, open}) => {
   };
   return (
     <TouchableOpacity
-      style={[styles.CardNotifStyle, open ? {backgroundColor: Color.cardTidakMasuk} : {backgroundColor: Color.green} ]}
+      style={[
+        styles.CardNotifStyle,
+        open
+          ? {backgroundColor: Color.cardTidakMasuk}
+          : {backgroundColor: Color.green},
+      ]}
       onPress={() => moveTo('detailPengumuman')}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-      {
-        open ? (<Image
-          source={require('../../assets/icons/PesanTerbuka.png')}
-          style={styles.Image}
-        />):(<Image
-          source={require('../../assets/icons/Pesan.png')}
-          style={styles.Image}
-        />)
-      }
-        
+        {open ? (
+          <Image
+            source={require('../../assets/icons/PesanTerbuka.png')}
+            style={styles.Image}
+          />
+        ) : (
+          <Image
+            source={require('../../assets/icons/Pesan.png')}
+            style={styles.Image}
+          />
+        )}
+
         <View>
-          <Text style={{fontFamily: 'Poppins-ExtraLightItalic', fontSize: 10}}>
+          <Text style={{fontFamily: text.lightItalic, fontSize: 10}}>
             20 MEI 2023
           </Text>
-          <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 12}}>
+          <Text style={{fontFamily: text.semiBold, fontSize: 12}}>
             Jam Kerja Selama Ramadhan
           </Text>
-          <Text
-            style={{fontFamily: 'Poppins-Regular', fontSize: 10, width: 177}}>
+          <Text style={{fontFamily: text.regular, fontSize: 10, width: 177}}>
             What is Lorem Ipsum? Lorem Ipsum is simply dummy . . . . .
           </Text>
         </View>

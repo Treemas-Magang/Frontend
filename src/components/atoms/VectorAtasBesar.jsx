@@ -5,20 +5,20 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const VectorAtasKanan = () => {
+const VectorAtasBesar = () => {
   return (
     <Image
-      style={styles.VectorAtasKanan}
+      style={styles.VectorAtasBesar}
       resizeMode="contain"
       source={require('../../assets/vector/VectorKananAtas.png')}
     />
   );
 };
 
-export default VectorAtasKanan;
+export default VectorAtasBesar;
 
 const styles = StyleSheet.create({
-  VectorAtasKanan: {
+  VectorAtasBesar: {
     position: 'absolute',
     top: hp('0%'),
     right: wp('0%'),

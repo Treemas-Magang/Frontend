@@ -6,6 +6,10 @@ import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import CardRekapClaim from '../molecules/CardRekapClaim';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const ListRekapClaim = ({navigation}) => {
   const [claim, setClaim] = useState([
@@ -54,7 +58,16 @@ const ListRekapClaim = ({navigation}) => {
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <Text style={styles.Judul}>Claim</Text>
+      <View style={styles.wrapKeteranganClaim}>
+        <View
+          style={{
+            width: wp('100%'),
+            height: hp('20%'),
+            justifyContent: 'center',
+          }}>
+          <Text style={styles.Judul}>Keterangan Cuti</Text>
+        </View>
+      </View>
       <View style={styles.backgroundCardClaim}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {claim.map((claim, index) => (
@@ -82,19 +95,20 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     alignItems: 'center',
     flex: 1,
-    flexDirection: 'column',
     gap: 10,
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
-    marginTop: -100,
   },
   Judul: {
     textAlign: 'center',
-    marginVertical: 112,
     fontFamily: text.semiBold,
-    fontSize: 26,
+    fontSize: wp('5.5%'),
     color: Color.blue,
     textTransform: 'uppercase',
+  },
+  wrapKeteranganClaim: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   VectorAtas: {
     position: 'absolute',

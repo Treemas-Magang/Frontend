@@ -3,10 +3,10 @@ import {View} from 'react-native';
 import React from 'react';
 import UpdateListProject from '../../components/organisms/UpdateListProject';
 
-const ScreenUpdateListProject = () => {
+const ScreenUpdateListProject = ({navigation}) => {
   return (
     <View style={{flex: 1}}>
-      <UpdateListProject />
+      <UpdateListProject navigation={navigation} />
     </View>
   );
 };

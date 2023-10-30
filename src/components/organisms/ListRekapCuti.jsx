@@ -6,24 +6,35 @@ import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import CardRekapCuti from '../molecules/CardRekapCuti';
 import ButtonHome from '../atoms/ButtonHome';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const ListRekapCuti = ({navigation}) => {
   return (
     <View style={styles.background}>
       <ButtonBack
         navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
+        style={{position: 'absolute', top: 20, left: 20, zIndex: 99}}
       />
       <ButtonHome
         navigation={navigation}
-        style={{position: 'absolute', top: 10, right: 10}}
+        style={{position: 'absolute', top: 10, right: 10, zIndex: 99}}
+      />
+      <Image
+        style={styles.VectorAtasKanan}
+        source={require('../../assets/vector/VectorKananAtas.png')}
       />
       <View style={styles.wrapKeteranganCuti}>
-        <Image
-          style={styles.VectorAtasKanan}
-          source={require('../../assets/vector/VectorKananAtas.png')}
-        />
-        <Text style={styles.judul}>KETERANGAN CUTI</Text>
+        <View
+          style={{
+            width: wp('100%'),
+            height: hp('30%'),
+            justifyContent: 'center',
+          }}>
+          <Text style={styles.Judul}>Keterangan Cuti</Text>
+        </View>
       </View>
       <View style={styles.wrapCardRekapCuti}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -65,10 +76,12 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 35,
     position: 'relative',
   },
-  judul: {
+  Judul: {
+    textAlign: 'center',
     fontFamily: text.semiBold,
-    fontSize: 26,
+    fontSize: wp('6%'),
     color: Color.blue,
+    textTransform: 'uppercase',
   },
   wrapStatus: {
     flexDirection: 'row',

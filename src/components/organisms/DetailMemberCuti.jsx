@@ -4,8 +4,12 @@ import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
-const DetailMemberCuti = ({navigation}) => {
+const DetailMemberCuti = ({navigation, stylePP}) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
@@ -13,28 +17,35 @@ const DetailMemberCuti = ({navigation}) => {
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack
         navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
+        style={{position: 'absolute', top: 20, left: 20, zIndex: 99}}
       />
       <ButtonHome
         navigation={navigation}
-        style={{position: 'absolute', top: 20, right: 20}}
+        style={{position: 'absolute', top: 20, right: 20, zIndex: 99}}
       />
       <Image
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <Text style={styles.Judul}>DETAIL Member</Text>
+      <View
+        style={{
+          width: wp('100%'),
+          height: hp('20%'),
+          justifyContent: 'center',
+        }}>
+        <Text style={styles.Judul}>Detail</Text>
+        <Text style={styles.Judul}>member cuti</Text>
+      </View>
       <View style={styles.backgroundDetailCuti}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{alignItems: 'center'}}>
-            <View
-              style={{
-                width: 100,
-                height: 100,
-                backgroundColor: Color.green,
-                borderRadius: 100,
-                alignItems: 'center',
-              }}></View>
+            <View>
+              <Image
+                source={require('../../assets/vector/user.png')}
+                style={[styles.pp, stylePP]}
+                resizeMode="cover"
+              />
+            </View>
           </View>
           <View>
             <Text style={styles.TextTitle}>Nik</Text>
@@ -99,18 +110,18 @@ export default DetailMemberCuti;
 const styles = StyleSheet.create({
   backgroundDetailCuti: {
     backgroundColor: Color.white,
-    paddingTop: 50,
     paddingHorizontal: 29,
-    flex: 1,
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
-    marginTop: -50,
+    // marginTop: -50,
+    height: hp('90%'),
+    paddingTop: hp('5%'),
+    paddingBottom: hp('10%'),
   },
   Judul: {
     textAlign: 'center',
-    marginVertical: 112,
     fontFamily: text.semiBold,
-    fontSize: 26,
+    fontSize: wp('6%'),
     color: Color.blue,
     textTransform: 'uppercase',
   },
