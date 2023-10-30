@@ -56,7 +56,7 @@ const CustomTextInput = ({label, value, onTextChange, ...rest}) => {
         ]}>
         {label}
       </Text>
-      {label === 'Password' ? (
+      {label === 'Password' || label === 'Konfirmasi Password' ? (
         <TouchableOpacity
           style={styles.toggle}
           onPress={() => togglePasswordVisibility()}>

@@ -17,6 +17,7 @@ import {faArrowDownShortWide} from '@fortawesome/free-solid-svg-icons';
 import DropdownList from '../atoms/DropdownList';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
+import VectorAtasKanan from '../atoms/VectorAtasKanan';
 
 const ListMembers = ({navigation}) => {
   const [isDropdown, setIsDropdown] = useState(false);
@@ -38,10 +39,7 @@ const ListMembers = ({navigation}) => {
           navigation={navigation}
           style={{position: 'absolute', top: 10, right: 10}}
         />
-        <Image
-          style={styles.VectorAtasKanan}
-          source={require('../../assets/vector/VectorKananAtas.png')}
-        />
+        <VectorAtasKanan />
         <View style={{paddingVertical: 70}}></View>
         <View style={styles.wrapListMember}>
           {isDropdown ? <DropdownList /> : ''}
