@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     gap: 10,
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
-    height: hp('85%'),
+    height: hp('91.5%'),
   },
   Judul: {
     textAlign: 'center',
@@ -149,9 +149,8 @@ const styles = StyleSheet.create({
     borderColor: Color.black,
     width: wp('80%'),
     marginTop: 10,
-    marginBottom: 50,
+    marginBottom: 60,
     minHeight: hp('15%'),
-    // padding: 10,
     justifyContent: 'space-evenly',
   },
   textValue: {

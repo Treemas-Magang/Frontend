@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Image} from 'react-native';
 import React from 'react';
 import CardUpdateTimesheet from '../molecules/CardUpdateTimesheet';
 import {Color} from '../../utils/color';
@@ -7,7 +7,15 @@ import {Color} from '../../utils/color';
 const FormUpdateTimesheet = () => {
   return (
     <View style={styles.BackgroundUpdateTimesheet}>
+      <Image
+        style={styles.VectorAtasKebalik}
+        source={require('../../assets/vector/VectorAtasKebalik.png')}
+      />
       <CardUpdateTimesheet />
+      <Image
+        style={styles.VectorBawah}
+        source={require('../../assets/vector/VectorBawah.png')}
+      />
     </View>
   );
 };
@@ -22,5 +30,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
+  },
+  VectorBawah: {
+    position: 'absolute',
+    bottom: 0,
+    zIndex: -1,
+    width: '100%',
+  },
+  VectorAtasKebalik: {
+    position: 'absolute',
+    top: 0,
+    zIndex: -1,
+    width: '100%',
   },
 });
