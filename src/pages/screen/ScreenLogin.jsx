@@ -147,10 +147,15 @@ const ScreenLogin = ({navigation}) => {
 
         ///////////////////////////////////////
         await AsyncStorage.setItem('role', 'USER');
-        navigation.replace('dashboard', {
-          nik: 1298191281222,
-          nama: 'rizki febriansyah',
-        });
+        const is_pass_chg = '1';
+        if (is_pass_chg === '0') {
+          navigation.replace('updatePassword');
+        } else {
+          navigation.replace('dashboard', {
+            nik: 1298191281222,
+            nama: 'rizki febriansyah',
+          });
+        }
       } else if (result.error) {
         // Pemindaian gagal
         console.log('Otentikasi gagal');
