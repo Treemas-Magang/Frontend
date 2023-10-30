@@ -48,7 +48,7 @@ const ScreenUpdatePassword = ({navigation}) => {
           <View style={{flexDirection: 'row', gap: 20}}>
             <ButtonAction
               style={{width: 275}}
-              onPress={() => sendData()}
+              // onPress={() => sendData()}
               title="UPDATE"
             />
           </View>

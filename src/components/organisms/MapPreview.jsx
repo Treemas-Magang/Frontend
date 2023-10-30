@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
-import {StyleSheet, View, ActivityIndicator, Image} from 'react-native';
+import {StyleSheet, View, ActivityIndicator, Image, Alert} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import getLocation from '../../utils/getLocation';
@@ -16,9 +16,16 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-const initialRegion = {
+import {hitungJarak} from '../../utils/hitungJarak';
+const initialLokasiUser = {
   latitude: null,
   longitude: null,
+  latitudeDelta: 0.001,
+  longitudeDelta: 0.001,
+};
+const initialLokasiPerusahaan = {
+  latitude: -6.2452781,
+  longitude: 106.6687073,
   latitudeDelta: 0.001,
   longitudeDelta: 0.001,
 };
@@ -29,7 +36,10 @@ const MapPreview = ({navigation}) => {
   const [isAbsen, setIsAbsen] = useState(false);
   const [isPerbarui, setIsPerbarui] = useState(false);
   const [isPulang, setIsPulang] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState(initialRegion);
+  const [currentLocation, setCurrentLocation] = useState(initialLokasiUser);
+  const [lokasiPerusahaan, setLokasiPerusahaan] = useState(
+    initialLokasiPerusahaan,
+  );
   const [locationLoaded, setLocationLoaded] = useState(false);
 
   const project_id = 'TMS';
@@ -93,7 +103,48 @@ const MapPreview = ({navigation}) => {
     };
 
     ambilLokasi();
+    // const distance = hitungJarak(
+    //   -6.2452781,
+    //   106.6687073,
+    //   -6.2454283,
+    //   106.6712577,
+    // );
   }, [setCurrentLocation]);
+  useEffect(() => {
+    if (
+      lokasiPerusahaan.latitude &&
+      lokasiPerusahaan.longitude &&
+      currentLocation.latitude &&
+      currentLocation.longitude
+    ) {
+      const distance = hitungJarak(
+        lokasiPerusahaan.latitude,
+        lokasiPerusahaan.longitude,
+        currentLocation.latitude,
+        currentLocation.longitude,
+      );
+      const jarakMeter = distance.toFixed(2);
+      const jarakBulat = Math.ceil(jarakMeter / 1000);
+      console.log(`Jarak antara kedua titik adalah ${jarakBulat} meter.`);
+      //jarak user ke kantor 100 = 100 meter
+      if (jarakBulat > 100) {
+        Alert.alert(
+          'Peringatan',
+          'Jarak Anda ke tempat kerja lebih dari 100 meter. Anda tidak dapat melakukan absen.',
+          [
+            {
+              text: 'Kembali',
+              onPress: () => {
+                navigation.navigate('dashboard');
+              },
+            },
+          ],
+        );
+      }
+    } else {
+      console.log('Salah satu lokasi tidak valid, jarak tidak dapat dihitung.');
+    }
+  }, [lokasiPerusahaan, currentLocation]);
   const handleMasuk = () => {
     setIsAbsen(true);
     console.log('data absen masuk : ', form);

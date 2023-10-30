@@ -4,6 +4,7 @@
 
 import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
+import {useRoute} from '@react-navigation/native';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
@@ -15,6 +16,10 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 const ScreenDashboard = ({navigation}) => {
+  const route = useRoute();
+  const {nik, nama} = route.params;
+  console.log('nik dari parameter : ', nik);
+  console.log('nama dari parameter : ', nama);
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>

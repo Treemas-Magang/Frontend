@@ -22,7 +22,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <StatusBar animated={true} hidden />
+        <StatusBar animated={true} barStyle={'default'} />
         <AppNavigator />
       </NavigationContainer>
     </Provider>
