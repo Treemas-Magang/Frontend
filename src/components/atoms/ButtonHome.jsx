@@ -5,10 +5,7 @@ import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHouseUser} from '@fortawesome/free-solid-svg-icons';
 import {Color} from '../../utils/color';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 const ButtonHome = ({navigation, style}) => {
   const goHome = () => {
     navigation.navigate('dashboard');
