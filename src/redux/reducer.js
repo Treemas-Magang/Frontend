@@ -9,7 +9,7 @@ import {combineReducers} from 'redux';
 const initialStateLogin = {
   title: 'Login Page',
   isLogin: true,
-  form: {
+  formLogin: {
     nik: '',
     password: '',
     deviceId: '',
@@ -19,8 +19,8 @@ const LoginReducer = (state = initialStateLogin, action) => {
   if (action.type === 'SET_FORM') {
     return {
       ...state,
-      form: {
-        ...state.form,
+      formLogin: {
+        ...state.formLogin,
         [action.inputType]: action.inputValue,
       },
     };
@@ -376,6 +376,7 @@ const initialStateUpdatepassword = {
   form: {
     nik: '',
     password_baru: '',
+    is_chg_pass: '',
   },
 };
 const UpdatePasswordReducer = (state = initialStateUpdatepassword, action) => {

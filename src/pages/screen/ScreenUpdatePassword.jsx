@@ -2,14 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  ScrollView,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {View, StyleSheet, Image, ScrollView} from 'react-native';
 import CustomTextInput from '../../components/atoms/CustomTextInput';
 import ButtonAction from '../../components/atoms/ButtonAction';
 import {Color} from '../../utils/color';
@@ -17,10 +10,35 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {useDispatch, useSelector} from 'react-redux';
+import {setFormUpdatePassword} from '../../redux';
+import {useRoute} from '@react-navigation/native';
 const ScreenUpdatePassword = ({navigation}) => {
+  const route = useRoute();
+  const {nik} = route.params;
+  const dispatch = useDispatch();
+  const {form} = useSelector(state => state.UpdatePasswordReducer);
   const [newPass, setNewPass] = useState('');
-  const [konfPass, setKonfPass] = useState('');
+  const [konPass, setKonPass] = useState('');
 
+  const sendData = () => {
+    if (newPass === '' && konPass === '') {
+      console.log('harap isi semua form !!');
+    } else if (konPass === '') {
+      console.log('tolong isi konfirmasi password');
+    } else if (newPass === '') {
+      console.log('tolong isi password baru');
+    } else if (newPass === konPass && newPass !== null && konPass !== null) {
+      dispatch(setFormUpdatePassword('nik', nik));
+      dispatch(setFormUpdatePassword('password_baru', newPass));
+      dispatch(setFormUpdatePassword('is_chg_pas', '1'));
+      navigation.replace('login');
+    } else {
+      console.log('konfirmasi password tidak cocok !!!');
+    }
+  };
+
+  console.log('password baru : ', form);
   return (
     <View style={{flex: 1}}>
       <ScrollView
@@ -44,14 +62,14 @@ const ScreenUpdatePassword = ({navigation}) => {
           <CustomTextInput
             label="Konfirmasi Password"
             type="password"
-            // value={form.password}
-            // onTextChange={value => onChangeText(value, 'password')}
+            value={konPass}
+            onTextChange={value => setKonPass(value)}
             maxLength={10}
           />
           <View style={{flexDirection: 'row', gap: 20}}>
             <ButtonAction
               style={{width: 275}}
-              // onPress={() => sendData()}
+              onPress={() => sendData()}
               title="UPDATE"
             />
           </View>

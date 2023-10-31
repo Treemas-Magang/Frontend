@@ -32,8 +32,8 @@ import {
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [deviceId, setDeviceId] = useState('');
-  const {form} = useSelector(state => state.LoginReducer);
-  const {formLogin} = useSelector(state => state.LoginFingerPrintReducer);
+  const {formLogin} = useSelector(state => state.LoginReducer);
+  // const {formLogin} = useSelector(state => state.LoginFingerPrintReducer);
   // const {location} = useSelector(state => state.SplashReducer);
   const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
@@ -94,7 +94,7 @@ const ScreenLogin = ({navigation}) => {
     try {
       const response = await axios.post(
         'http://192.168.10.190:8081/api/auth/login',
-        form,
+        formLogin,
       );
       const dataLogin = response.data.data;
       if (dataLogin.token !== null) {
@@ -102,8 +102,8 @@ const ScreenLogin = ({navigation}) => {
         const token = dataLogin.token;
         // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
         await AsyncStorage.setItem('token', token);
-        await AsyncStorage.setItem('nik', form.nik);
-        await AsyncStorage.setItem('password', form.password);
+        await AsyncStorage.setItem('nik', formLogin.nik);
+        await AsyncStorage.setItem('password', formLogin.password);
         navigation.replace('dashboard');
       } else {
         console.log('message : ', response.data.message);
@@ -147,14 +147,14 @@ const ScreenLogin = ({navigation}) => {
 
         ///////////////////////////////////////
         await AsyncStorage.setItem('role', 'USER');
+        await AsyncStorage.setItem('nik', '1298191281222');
         const is_pass_chg = '1';
         if (is_pass_chg === '0') {
-          navigation.replace('updatePassword');
-        } else {
-          navigation.replace('dashboard', {
-            nik: 1298191281222,
-            nama: 'rizki febriansyah',
+          navigation.replace('updatePassword', {
+            nik: '1298191281222',
           });
+        } else {
+          navigation.replace('dashboard');
         }
       } else if (result.error) {
         // Pemindaian gagal
@@ -185,7 +185,7 @@ const ScreenLogin = ({navigation}) => {
           }}>
           <CustomTextInput
             label="NIK"
-            value={form.nik}
+            value={formLogin.nik}
             onTextChange={value => onChangeText(value, 'nik')}
             secureTextEntry={false}
             keyboardType={'numeric'}
@@ -194,7 +194,7 @@ const ScreenLogin = ({navigation}) => {
           <CustomTextInput
             label="Password"
             type="password"
-            value={form.password}
+            value={formLogin.password}
             onTextChange={value => onChangeText(value, 'password')}
             maxLength={10}
           />
