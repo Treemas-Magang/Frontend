@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 10,
+    marginBottom: 50,
   },
   textJudul: {
     fontFamily: text.semiBold,

@@ -6,18 +6,16 @@ import ButtonBack from '../atoms/ButtonBack';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonHome from '../atoms/ButtonHome';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const ListRekapSakit = ({navigation}) => {
   return (
     <View style={styles.background}>
-      <ButtonBack
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
-      />
-      <ButtonHome
-        navigation={navigation}
-        style={{position: 'absolute', top: 10, right: 10}}
-      />
+      <ButtonBack navigation={navigation} />
+      <ButtonHome navigation={navigation} />
       <View style={styles.wrapKeteranganSakit}>
         <Image
           style={styles.VectorAtasKanan}
@@ -66,9 +64,11 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   judul: {
+    textAlign: 'center',
     fontFamily: text.semiBold,
-    fontSize: 26,
+    fontSize: wp('6%'),
     color: Color.blue,
+    textTransform: 'uppercase',
   },
   wrapStatus: {
     flexDirection: 'row',

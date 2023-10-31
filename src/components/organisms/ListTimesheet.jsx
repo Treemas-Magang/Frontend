@@ -6,6 +6,10 @@ import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const ListTimesheet = ({navigation}) => {
   const [timesheet, setTimesheet] = useState([
@@ -48,19 +52,20 @@ const ListTimesheet = ({navigation}) => {
   ]);
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
-      <ButtonBack
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
-      />
-      <ButtonHome
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, right: 20}}
-      />
+      <ButtonBack navigation={navigation} />
+      <ButtonHome navigation={navigation} />
       <Image
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <Text style={styles.Judul}>TIMESHEET</Text>
+      <View
+        style={{
+          width: wp('100%'),
+          height: hp('15%'),
+          justifyContent: 'center',
+        }}>
+        <Text style={styles.Judul}>Timesheet</Text>
+      </View>
       <View style={styles.backgroundCardTimesheet}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* /////////////////////////////////////////////////////////////////// */}
@@ -77,13 +82,13 @@ const ListTimesheet = ({navigation}) => {
           {/* /////////////////////////////////////////////////////////////////// */}
         </ScrollView>
         <View style={styles.catatanKerja}>
-          <View style={{alignItems: 'center'}}>
+          <View style={{alignItems: 'flex-start'}}>
             <Text style={{fontFamily: text.lightItalic}}>
               Total Jam Reguler
             </Text>
             <Text style={styles.textValue}>75 Jam</Text>
           </View>
-          <View style={{alignItems: 'center'}}>
+          <View style={{alignItems: 'flex-start'}}>
             <Text style={{fontFamily: text.lightItalic}}>Total Lembur</Text>
             <Text style={styles.textValue}>75 Jam</Text>
           </View>
@@ -106,19 +111,17 @@ const styles = StyleSheet.create({
     backgroundColor: Color.white,
     paddingTop: 50,
     alignItems: 'center',
-    flex: 1,
-    flexDirection: 'column',
     gap: 10,
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
-    marginTop: -100,
+    height: hp('91.5%'),
   },
   Judul: {
     textAlign: 'center',
-    marginVertical: 112,
     fontFamily: text.semiBold,
-    fontSize: 26,
+    fontSize: wp('6%'),
     color: Color.blue,
+    textTransform: 'uppercase',
   },
   VectorAtas: {
     position: 'absolute',
@@ -134,10 +137,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: Color.black,
-    width: 280,
-    marginVertical: 20,
-    padding: 10,
-    alignItems: 'center',
+    width: wp('80%'),
+    marginTop: 10,
+    marginBottom: 60,
+    minHeight: hp('15%'),
+    justifyContent: 'space-evenly',
   },
   textValue: {
     fontFamily: text.semiBold,

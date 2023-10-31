@@ -16,14 +16,8 @@ const DetailTimesheet = ({navigation}) => {
   };
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
-      <ButtonBack
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
-      />
-      <ButtonHome
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, right: 20}}
-      />
+      <ButtonBack navigation={navigation} />
+      <ButtonHome navigation={navigation} />
       <Image
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}

@@ -21,7 +21,7 @@ const dataUser = [
     nama_karyawan: 'rizki febriansyah',
   },
 ];
-const DataPribadi = ({stylePP, styleText, styleDataPribadi}) => {
+const DataPribadi = ({stylePP, styleDataPribadi}) => {
   const [isNik, setIsNik] = useState('');
   const [isNama_karyawan, setIsNamaKaryawan] = useState('');
   const dispatch = useDispatch();
@@ -50,8 +50,8 @@ const DataPribadi = ({stylePP, styleText, styleDataPribadi}) => {
         styleDataPribadi,
       ]}>
       <View>
-        <Text style={[styles.textNama, styleText]}>{isNama_karyawan}</Text>
-        <Text style={[styles.textNik, styleText]}>{isNik}</Text>
+        <Text style={[styles.textNama]}>{isNama_karyawan}</Text>
+        <Text style={[styles.textNik]}>{isNik}</Text>
       </View>
       <View>
         <Image
@@ -72,10 +72,12 @@ const styles = StyleSheet.create({
     color: Color.blue,
     textTransform: 'uppercase',
     width: 200,
+    fontSize: wp('4.5%'),
   },
   textNik: {
     fontFamily: text.regular,
     color: Color.blue,
+    fontSize: wp('4.5%'),
   },
   pp: {
     borderRadius: 200,

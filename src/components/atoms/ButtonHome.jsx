@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
-import {TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHouseUser} from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +11,7 @@ const ButtonHome = ({navigation, style}) => {
     navigation.navigate('dashboard');
   };
   return (
-    <TouchableOpacity style={style} onPress={goHome}>
+    <TouchableOpacity style={styles.ButtonHome} onPress={goHome}>
       <FontAwesomeIcon
         icon={faHouseUser}
         color={Color.green}
@@ -22,3 +22,11 @@ const ButtonHome = ({navigation, style}) => {
 };
 
 export default ButtonHome;
+const styles = StyleSheet.create({
+  ButtonHome: {
+    position: 'absolute',
+    top: 20,
+    right: 15,
+    zIndex: 999,
+  },
+});

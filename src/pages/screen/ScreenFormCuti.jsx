@@ -14,19 +14,8 @@ const ScreenFormCuti = ({navigation}) => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <ButtonBack
-          navigation={navigation}
-          style={{
-            position: 'absolute',
-            top: 20,
-            left: 20,
-            zIndex: 9,
-          }}
-        />
-        <ButtonHome
-          navigation={navigation}
-          style={{position: 'absolute', top: 13, right: 15, zIndex: 99}}
-        />
+        <ButtonBack navigation={navigation} />
+        <ButtonHome navigation={navigation} />
         <Image
           style={styles.VectorAtasKanan}
           source={require('../../assets/vector/VectorKananAtas.png')}

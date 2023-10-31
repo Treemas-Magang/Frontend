@@ -13,18 +13,8 @@ import VectorAtasBesar from '../../components/atoms/VectorAtasBesar';
 const ScreenPilihProject = ({navigation}) => {
   return (
     <View style={styles.BackgroundPilihProject}>
-      <ButtonBack
-        navigation={navigation}
-        style={{
-          position: 'absolute',
-          top: 20,
-          left: 15,
-        }}
-      />
-      <ButtonHome
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, right: 15}}
-      />
+      <ButtonBack navigation={navigation} />
+      <ButtonHome navigation={navigation} />
       <VectorAtasBesar />
       <PilihProject
         navigation={navigation}

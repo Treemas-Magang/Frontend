@@ -63,14 +63,8 @@ const ListAbsen = ({navigation}) => {
   ]);
   return (
     <View style={styles.background}>
-      <ButtonBack
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
-      />
-      <ButtonHome
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, right: 20}}
-      />
+      <ButtonBack navigation={navigation} />
+      <ButtonHome navigation={navigation} />
       <View style={styles.wrapAbsen}>
         <Image
           style={styles.VectorAtas}

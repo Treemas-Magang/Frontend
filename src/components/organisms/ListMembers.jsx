@@ -31,14 +31,8 @@ const ListMembers = ({navigation}) => {
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.listMember}>
-        <ButtonBack
-          navigation={navigation}
-          style={{position: 'absolute', top: 20, left: 20}}
-        />
-        <ButtonHome
-          navigation={navigation}
-          style={{position: 'absolute', top: 10, right: 10}}
-        />
+        <ButtonBack navigation={navigation} />
+        <ButtonHome navigation={navigation} />
         <VectorAtasBesar />
         <View style={{paddingVertical: 70}}></View>
         <View style={styles.wrapListMember}>

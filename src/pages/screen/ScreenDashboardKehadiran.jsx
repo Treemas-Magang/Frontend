@@ -46,7 +46,6 @@ const ScreenDashboardKehadiran = ({navigation}) => {
         <DataPribadi
           styleDataPribadi={styles.lebarDataPribadi}
           stylePP={styles.ukuranPP}
-          styleText={styles.ukuranNamaNik}
         />
       </View>
       <Image
@@ -119,7 +118,6 @@ const styles = StyleSheet.create({
     width: wp('25%'),
     height: hp('12.5%'),
   },
-  ukuranNamaNik: {fontSize: hp('2%')},
   styleConatinerCard: {
     height: hp('6.6%'),
     width: wp('22%'),

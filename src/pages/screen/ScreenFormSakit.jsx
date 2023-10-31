@@ -10,18 +10,8 @@ const ScreenFormSakit = ({navigation}) => {
   return (
     <View style={{height: '100%', backgroundColor: Color.green}}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <ButtonBack
-          navigation={navigation}
-          style={{
-            position: 'absolute',
-            top: 20,
-            left: 20,
-          }}
-        />
-        <ButtonHome
-          navigation={navigation}
-          style={{position: 'absolute', top: 13, right: 15}}
-        />
+        <ButtonBack navigation={navigation} />
+        <ButtonHome navigation={navigation} />
         <Image
           style={styles.VectorAtasKanan}
           source={require('../../assets/vector/VectorKananAtas.png')}

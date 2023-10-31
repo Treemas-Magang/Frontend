@@ -61,14 +61,8 @@ const ListCekCuti = ({navigation}) => {
   console.log(showKalender);
   return (
     <View style={styles.background}>
-      <ButtonBack
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
-      />
-      <ButtonHome
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, right: 20}}
-      />
+      <ButtonBack navigation={navigation} />
+      <ButtonHome navigation={navigation} />
       <Image
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}

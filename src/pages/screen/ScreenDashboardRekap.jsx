@@ -31,7 +31,6 @@ const ScreenDashboardRekap = ({navigation}) => {
         <DataPribadi
           styleDataPribadi={styles.lebarDataPribadi}
           stylePP={styles.ukuranPP}
-          styleText={styles.ukuranNamaNik}
         />
       </View>
       <Image
@@ -103,9 +102,6 @@ const styles = StyleSheet.create({
   ukuranPP: {
     width: wp('25%'),
     height: hp('12.5%'),
-  },
-  ukuranNamaNik: {
-    fontSize: hp('2%'),
   },
   styleConatinerCard: {
     height: hp('6.6%'),
