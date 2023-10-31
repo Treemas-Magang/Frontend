@@ -9,6 +9,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setDataUserAPI, fetchDataUserError} from '../../redux';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {text} from '../../utils/text';
 
 const dataUser = [
   {
@@ -63,13 +68,13 @@ export default DataPribadi;
 
 const styles = StyleSheet.create({
   textNama: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: text.semiBold,
     color: Color.blue,
     textTransform: 'uppercase',
     width: 200,
   },
   textNik: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: text.regular,
     color: Color.blue,
   },
   pp: {

@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     height: hp('12.5%'),
   },
   ukuranNamaNik: {
-    fontSize: hp('2%'),
+    fontSize: wp('4.5%'),
   },
   styleConatinerCard: {
     height: hp('6.6%'),
