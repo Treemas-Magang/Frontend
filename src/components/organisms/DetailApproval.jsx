@@ -62,7 +62,7 @@ const DetailApproval = ({navigation, stylePP}) => {
               <Image
                 source={require('../../assets/vector/user.png')}
                 style={[styles.pp, stylePP]}
-                resizeMode="cover"
+                resizeMode="contain"
               />
             </View>
           </View>

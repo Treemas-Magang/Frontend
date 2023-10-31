@@ -22,7 +22,7 @@ const ScreenUpdatePassword = ({navigation}) => {
   const [konfPass, setKonfPass] = useState('');
 
   return (
-    <KeyboardAvoidingView style={{flex: 1, backgroundColor: 'blue'}}>
+    <View style={{flex: 1}}>
       <ScrollView
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled">
@@ -56,19 +56,25 @@ const ScreenUpdatePassword = ({navigation}) => {
             />
           </View>
         </View>
-
-        <Image
-          style={styles.vectorKiri}
-          source={require('../../assets/vector/VectorKiri.png')}
-          resizeMode="contain"
-        />
-        <Image
-          style={styles.vectorKanan}
-          source={require('../../assets/vector/VectorKanan.png')}
-          resizeMode="contain"
-        />
+        <View
+          style={{
+            width: wp('100%'),
+            height: hp('20%'),
+            position: 'relative',
+          }}>
+          <Image
+            style={styles.vectorKiri}
+            source={require('../../assets/vector/VectorKiri.png')}
+            resizeMode="contain"
+          />
+          <Image
+            style={styles.vectorKanan}
+            source={require('../../assets/vector/VectorKanan.png')}
+            resizeMode="contain"
+          />
+        </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
