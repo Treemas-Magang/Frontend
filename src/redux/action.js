@@ -105,3 +105,10 @@ export const setAbsenPulang = (inputType, value) => {
     inputValue: value,
   };
 };
+export const setFormUpdatePassword = (inputType, value) => {
+  return {
+    type: 'SET_FORM_UPDATE_PASSWORD',
+    inputType: inputType,
+    inputValue: value,
+  };
+};

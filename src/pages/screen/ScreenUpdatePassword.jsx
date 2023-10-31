@@ -18,6 +18,9 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 const ScreenUpdatePassword = ({navigation}) => {
+  const [newPass, setNewPass] = useState('');
+  const [konfPass, setKonfPass] = useState('');
+
   return (
     <KeyboardAvoidingView style={{flex: 1, backgroundColor: 'blue'}}>
       <ScrollView
@@ -34,8 +37,8 @@ const ScreenUpdatePassword = ({navigation}) => {
           <CustomTextInput
             label="Password"
             type="password"
-            // value={form.password}
-            // onTextChange={value => onChangeText(value, 'password')}
+            value={newPass}
+            onTextChange={value => setNewPass(value)}
             maxLength={10}
           />
           <CustomTextInput

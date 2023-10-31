@@ -370,6 +370,27 @@ const AbsenPulangReducer = (state = initialStateAbsenPulang, action) => {
   return state;
 };
 
+const initialStateUpdatepassword = {
+  title: 'Login Page',
+  isLogin: true,
+  form: {
+    nik: '',
+    password_baru: '',
+  },
+};
+const UpdatePasswordReducer = (state = initialStateUpdatepassword, action) => {
+  if (action.type === 'SET_FORM_UPDATE_PASSWORD') {
+    return {
+      ...state,
+      form: {
+        ...state.form,
+        [action.inputType]: action.inputValue,
+      },
+    };
+  }
+  return state;
+};
+
 const reducer = combineReducers({
   LoginReducer,
   SplashReducer,
@@ -386,6 +407,7 @@ const reducer = combineReducers({
   AbsenMasukReducer,
   AbsenPulangReducer,
   UpdateAbsenReducer,
+  UpdatePasswordReducer,
 });
 
 export default reducer;
