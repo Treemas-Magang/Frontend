@@ -53,7 +53,7 @@ const DetailMember = ({navigation, stylePP}) => {
               <Image
                 source={require('../../assets/vector/user.png')}
                 style={[styles.pp, stylePP]}
-                resizeMode="cover"
+                resizeMode="contain"
               />
             </View>
           </View>
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     // marginTop: -50,
     height: hp('90%'),
     paddingTop: hp('5%'),
-    paddingBottom: hp('10%'),
+    paddingBottom: hp('15%'),
   },
   Judul: {
     textAlign: 'center',
