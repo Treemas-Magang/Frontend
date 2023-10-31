@@ -166,7 +166,7 @@ const ScreenLogin = ({navigation}) => {
   };
 
   return (
-    <KeyboardAvoidingView style={{flex: 1, backgroundColor: 'blue'}}>
+    <View style={{flex: 1}}>
       <ScrollView
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled">
@@ -177,7 +177,12 @@ const ScreenLogin = ({navigation}) => {
             resizeMode="contain"
           />
         </View>
-        <View style={{position: 'relative', gap: 15, height: hp('50%')}}>
+        <View
+          style={{
+            position: 'relative',
+            gap: 15,
+            height: hp('50%'),
+          }}>
           <CustomTextInput
             label="NIK"
             value={form.nik}
@@ -215,23 +220,28 @@ const ScreenLogin = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{height: hp('10%')}}>
+        <View
+          style={{
+            height: hp('20%'),
+            width: wp('100%'),
+            position: 'relative',
+          }}>
           <Text style={styles.textInfo}>Mobile Absensi Karyawan</Text>
           <Text style={styles.textInfo}>Version : {appVersion}</Text>
           <Text style={styles.textInfo}>&copy;2023 PT TREEMAS</Text>
+          <Image
+            style={styles.vectorKiri}
+            source={require('../../assets/vector/VectorKiri.png')}
+            resizeMode="contain"
+          />
+          <Image
+            style={styles.vectorKanan}
+            source={require('../../assets/vector/VectorKanan.png')}
+            resizeMode="contain"
+          />
         </View>
-        <Image
-          style={styles.vectorKiri}
-          source={require('../../assets/vector/VectorKiri.png')}
-          resizeMode="contain"
-        />
-        <Image
-          style={styles.vectorKanan}
-          source={require('../../assets/vector/VectorKanan.png')}
-          resizeMode="contain"
-        />
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
