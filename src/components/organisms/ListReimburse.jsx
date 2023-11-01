@@ -65,22 +65,17 @@ const ListReimburse = ({navigation}) => {
     setIsShowCatatanKerja(!isShowCatatanKerja);
   };
   return (
-    <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
+    <View style={styles.container}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
       <Image
         style={styles.VectorAtas}
         source={require('../../assets/vector/VectorAtas.png')}
       />
-      <View
-        style={{
-          width: wp('100%'),
-          height: hp('15%'),
-          justifyContent: 'center',
-        }}>
-        <Text style={styles.Judul}>Reimburse</Text>
+      <View style={styles.containerJudul}>
+        <Text style={styles.Judul}>reimburse</Text>
       </View>
-      <View style={styles.backgroundCardReimburse}>
+      <View style={styles.content}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {reimburses.map((reimburse, index) => (
             <View key={index}>
@@ -95,21 +90,24 @@ const ListReimburse = ({navigation}) => {
             </View>
           ))}
         </ScrollView>
+
+        <TouchableOpacity
+          onPress={showCatatanKerja}
+          style={
+            isShowCatatanKerja ? styles.btnOnInvoice : styles.btnOffInvoice
+          }>
+          <FontAwesomeIcon
+            icon={isShowCatatanKerja ? faAngleDoubleDown : faAngleDoubleUp}
+            size={30}
+            color={Color.white}
+          />
+        </TouchableOpacity>
         <View
           style={
             isShowCatatanKerja
               ? styles.tampilkanCatatanKerja
               : styles.dontShowCatatanKerja
           }>
-          <TouchableOpacity
-            style={styles.btnShowCatatanKerja}
-            onPress={showCatatanKerja}>
-            <FontAwesomeIcon
-              icon={isShowCatatanKerja ? faAngleDoubleDown : faAngleDoubleUp}
-              size={30}
-              color={Color.white}
-            />
-          </TouchableOpacity>
           <View style={styles.catatanKerja}>
             <View style={{alignItems: 'flex-start'}}>
               <>
@@ -145,14 +143,9 @@ const ListReimburse = ({navigation}) => {
 export default ListReimburse;
 
 const styles = StyleSheet.create({
-  backgroundCardReimburse: {
-    backgroundColor: Color.white,
-    paddingTop: 50,
-    alignItems: 'center',
-    gap: 10,
-    borderTopEndRadius: 35,
-    borderTopStartRadius: 35,
-    height: hp('91.5%'),
+  container: {
+    backgroundColor: Color.green,
+    flex: 1,
   },
   Judul: {
     textAlign: 'center',
@@ -170,7 +163,6 @@ const styles = StyleSheet.create({
   catatanKerja: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    // gap: 10,
     backgroundColor: Color.white,
     borderRadius: 5,
     borderWidth: 3,
@@ -185,31 +177,54 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   dontShowCatatanKerja: {
-    position: 'absolute',
+    backgroundColor: 'blue',
+    minHeight: hp('10%'),
     width: wp('100%'),
+    position: 'absolute',
+    bottom: -150,
     alignItems: 'center',
-    backgroundColor: Color.white,
-    paddingVertical: 20,
-    bottom: hp('-11%'),
   },
   tampilkanCatatanKerja: {
-    position: 'absolute',
-    backgroundColor: Color.white,
+    // backgroundColor: 'blue',
+    minHeight: hp('10%'),
     width: wp('100%'),
-    height: hp('30%'),
+    position: 'absolute',
+    bottom: 0,
     alignItems: 'center',
-    justifyContent: 'center',
-    bottom: 50,
   },
-  btnShowCatatanKerja: {
-    width: 50,
-    height: 50,
+  btnOffInvoice: {
+    width: wp('12%'),
+    height: wp('12%'),
+    borderRadius: wp('12%'),
     backgroundColor: Color.black,
     position: 'absolute',
-    top: -30,
-    right: 45,
+    bottom: 10,
+    right: wp('5%'),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 50,
+  },
+  btnOnInvoice: {
+    width: wp('12%'),
+    height: wp('12%'),
+    borderRadius: wp('12%'),
+    backgroundColor: Color.black,
+    position: 'absolute',
+    bottom: 140,
+    right: wp('5%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  content: {
+    backgroundColor: Color.white,
+    flex: 5,
+    position: 'relative',
+    alignItems: 'center',
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    paddingTop: 35,
+  },
+  containerJudul: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });

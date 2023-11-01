@@ -5,7 +5,6 @@ import AppNavigator from './src/routes/AppNavigator';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/';
 import {checkMockLocation} from './src/utils/checkMockLocation';
-import {StatusBar} from 'react-native';
 
 export default function App() {
   useEffect(() => {
@@ -22,7 +21,6 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <StatusBar animated={true} barStyle={'default'} />
         <AppNavigator />
       </NavigationContainer>
     </Provider>
