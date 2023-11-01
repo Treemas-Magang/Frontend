@@ -15,7 +15,8 @@ const ButtonCamera = ({onImageCapture}) => {
   const openCamera = () => {
     const options = {
       mediaType: 'photo',
-      quality: 0.03,
+      quality: 0.7,
+      maxFileSize: 720 * 720,
       includeBase64: true,
     };
 
