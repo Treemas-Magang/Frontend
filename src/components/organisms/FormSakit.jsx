@@ -25,10 +25,18 @@ import ButtonCamera from '../atoms/ButtonCamera';
 import ButtonGalery from '../atoms/ButtonGalery';
 
 const FormSakit = () => {
-    const [capturedImage, setCapturedImage] = useState(null);
+  const [capturedImage, setCapturedImage] = useState(null);
+  let base64ImageData = null;
+  if (capturedImage && capturedImage.base64 && capturedImage.fileSize) {
+    base64ImageData = `data:image/jpeg;base64,${capturedImage.base64}`;
+    console.log('ini file size : ', capturedImage.fileSize);
+  } else {
+    console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
+  }
+  console.log('ini base64Image : ', base64ImageData);
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.FormSakitReducer);
-//   console.log('ini dari reducer : ', form);
+  //   console.log('ini dari reducer : ', form);
   const [showKalender, setShowKalender] = useState(false);
   const [adaSuratDokter, setAdaSuratDoker] = useState(false);
   const [data, setData] = useState({
@@ -47,10 +55,10 @@ const FormSakit = () => {
   };
   console.log(adaSuratDokter);
   useEffect(() => {
-    const kirimFotoKeReducer = () =>{
-        dispatch(setFormSakit('foto', capturedImage))
-    }
-    kirimFotoKeReducer()
+    const kirimFotoKeReducer = () => {
+      dispatch(setFormSakit('foto', capturedImage));
+    };
+    kirimFotoKeReducer();
   }, [capturedImage, dispatch]);
   const handleDataReady = newData => {
     if (
@@ -74,94 +82,116 @@ const FormSakit = () => {
   const sendData = () => {
     console.log('kirim data : ', form);
   };
-    const handleClickOutside = () => {
-      setShowKalender(false);
+  const handleClickOutside = () => {
+    setShowKalender(false);
   };
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
-    <View style={styles.formCuti}>
-      {showKalender && (
-        <View style={{position: 'absolute', top: 0, right: 55, zIndex: 2}}>
-          <KalenderRange onDataReady={handleDataReady} />
-        </View>
-      )}
-      <View style={styles.cardFormCuti}>
-        <Text style={styles.judul}>Form Sakit</Text>
-        <View style={styles.wrapInputForm}>
-          <View style={{position: 'relative', gap: 10,}}>
-            <FakeTextInput
-              label="Surat Dokter"
-            />
-            <TouchableOpacity
-              onPress={suratDokter}
-              style={[adaSuratDokter ? styles.suratDokterFalse  : styles.suratDokterTrue]}>
-              <Text style={[adaSuratDokter ? {color: Color.white} : {color: Color.green}]}>ADA</Text>
-            </TouchableOpacity>
-            <FakeTextInput
-              value={`${form.tanggal_sakit} - ${form.tanggal_selesai}`}
-              label="tgl awal - akhir cuti"
-            />
-            <TouchableOpacity
-              onPress={openKalender}
-              style={{
-                position: 'absolute',
-                top: 67,
-                right: 5,
-                paddingLeft: 250,
-                paddingVertical: 5,
-              }}>
-              <FontAwesomeIcon
-                icon={faCalendarDays}
-                size={25}
-                color={Color.green}
+      <View style={styles.formCuti}>
+        {showKalender && (
+          <View style={{position: 'absolute', top: 0, right: 55, zIndex: 2}}>
+            <KalenderRange onDataReady={handleDataReady} />
+          </View>
+        )}
+        <View style={styles.cardFormCuti}>
+          <Text style={styles.judul}>Form Sakit</Text>
+          <View style={styles.wrapInputForm}>
+            <View style={{position: 'relative', gap: 10}}>
+              <FakeTextInput label="Surat Dokter" />
+              <TouchableOpacity
+                onPress={suratDokter}
+                style={[
+                  adaSuratDokter
+                    ? styles.suratDokterFalse
+                    : styles.suratDokterTrue,
+                ]}>
+                <Text
+                  style={[
+                    adaSuratDokter
+                      ? {color: Color.white}
+                      : {color: Color.green},
+                  ]}>
+                  ADA
+                </Text>
+              </TouchableOpacity>
+              <FakeTextInput
+                value={`${form.tanggal_sakit} - ${form.tanggal_selesai}`}
+                label="tgl awal - akhir cuti"
               />
-            </TouchableOpacity>
-            {/* <CustomTextInput label="tgl masuk kerja" editable={false} /> */}
-            <FakeTextInput value={form.tanggal_masuk} label="tgl masuk kerja" />
-            <FakeTextInput value={form.jml_sakit} label="Jumlah hari" />
-            <CustomTextInput
-              label="Alasan"
-              secureTextEntry={false}
-              value={form.alasan}
-              onTextChange={value => onChangeText(value, 'alasan')}
-            />
+              <TouchableOpacity
+                onPress={openKalender}
+                style={{
+                  position: 'absolute',
+                  top: 67,
+                  right: 5,
+                  paddingLeft: 250,
+                  paddingVertical: 5,
+                }}>
+                <FontAwesomeIcon
+                  icon={faCalendarDays}
+                  size={25}
+                  color={Color.green}
+                />
+              </TouchableOpacity>
+              {/* <CustomTextInput label="tgl masuk kerja" editable={false} /> */}
+              <FakeTextInput
+                value={form.tanggal_masuk}
+                label="tgl masuk kerja"
+              />
+              <FakeTextInput value={form.jml_sakit} label="Jumlah hari" />
+              <CustomTextInput
+                label="Alasan"
+                secureTextEntry={false}
+                value={form.alasan}
+                onTextChange={value => onChangeText(value, 'alasan')}
+              />
+            </View>
+
+            {adaSuratDokter ? (
+              <>
+                <View style={styles.kotakPreviewKosong}>
+                  <View style={styles.previewKosong}>
+                    {base64ImageData === null ? (
+                      <>
+                        <FontAwesomeIcon icon={faCamera} size={50} />
+                        <Text>Preview</Text>
+                      </>
+                    ) : (
+                      <Image
+                        source={{uri: base64ImageData}}
+                        style={{
+                          height: '100%',
+                          width: '100%',
+                          borderRadius: 10,
+                        }}
+                      />
+                    )}
+                  </View>
+                </View>
+                <View style={styles.wrapperButton}>
+                  <ButtonCamera
+                    onImageCapture={image => setCapturedImage(image)}
+                  />
+                  <ButtonGalery
+                    onImageGalery={image => setCapturedImage(image)}
+                  />
+                  <ButtonAction
+                    title="kirim"
+                    style={{width: 148}}
+                    onPress={() => sendData()}
+                  />
+                </View>
+              </>
+            ) : (
+              <ButtonAction
+                title="KIRIM"
+                onPress={() => sendData()}
+                style={{width: 269}}
+              />
+            )}
           </View>
-          
-      {
-        adaSuratDokter ? (
-        <>
-            <View style={styles.kotakPreviewKosong}>
-        <View style={styles.previewKosong}>
-          {capturedImage === null ? (
-            <>
-              <FontAwesomeIcon icon={faCamera} size={50} />
-              <Text>Preview</Text>
-            </>
-          ) : (
-            <Image
-              source={{uri: capturedImage.uri}}
-              style={{height: '100%', width: '100%', borderRadius: 10}}
-            />
-          )}
         </View>
       </View>
-          <View style={styles.wrapperButton}>
-            <ButtonCamera onImageCapture={image => setCapturedImage(image)} />
-            <ButtonGalery onImageGalery={image => setCapturedImage(image)} />
-            <ButtonAction title="kirim" style={{width: 148}} onPress={() => sendData()} />
-          </View>
-        </>
-        ) : (
-            <ButtonAction
-            title="KIRIM"
-            onPress={() => sendData()}
-            style={{width: 269}}
-          />
-        )
-      }
-        </View>
-      </View>
-    </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -173,7 +203,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     // paddingTop: 140,
-    paddingVertical:70,
+    paddingVertical: 70,
     alignItems: 'center',
     position: 'relative',
   },
