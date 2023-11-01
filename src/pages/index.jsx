@@ -39,6 +39,7 @@ import ScreenAbsensi from './screen/ScreenAbsensi';
 import ScreenRekapClaim from './screen/ScreenRekapClaim';
 import ScreenListTimesheet from './screen/ScreenListTimesheet';
 import ScreenUpdatePassword from './screen/ScreenUpdatePassword';
+import ScreenPreviewPhoto from './screen/ScreenPreviewPhoto';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -80,4 +81,5 @@ export {
   ScreenRekapClaim,
   ScreenListTimesheet,
   ScreenUpdatePassword,
+  ScreenPreviewPhoto,
 };

@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import ListTimesheet from '../components/organisms/ListTimesheet';
 import {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -45,6 +44,7 @@ import {
   ScreenRekapClaim,
   ScreenListTimesheet,
   ScreenUpdatePassword,
+  ScreenPreviewPhoto,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -243,6 +243,11 @@ const screens = [
   {
     name: 'updatePassword',
     component: ScreenUpdatePassword,
+    gestureEnabled: true,
+  },
+  {
+    name: 'previewPhoto',
+    component: ScreenPreviewPhoto,
     gestureEnabled: true,
   },
 ];
