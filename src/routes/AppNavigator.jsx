@@ -252,7 +252,7 @@ const screens = [
   },
 ];
 
-const routeName = 'previewPhoto';
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {
