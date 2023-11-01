@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
-import {ScrollView, StyleSheet, Text, View, Image} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import CardListAbsen from '../molecules/CardListAbsen';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
+import VectorAtasKecil from '../atoms/VectorAtasKecil';
 
 const ListAbsen = ({navigation}) => {
   const [dataAbsens, setDataAbsens] = useState([
@@ -65,11 +66,8 @@ const ListAbsen = ({navigation}) => {
     <View style={styles.background}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
+      <VectorAtasKecil />
       <View style={styles.wrapAbsen}>
-        <Image
-          style={styles.VectorAtas}
-          source={require('../../assets/vector/VectorAtas.png')}
-        />
         <Text style={styles.judul}>ABSEN</Text>
       </View>
       <View style={styles.wrapCardAbsen}>
@@ -138,11 +136,5 @@ const styles = StyleSheet.create({
     height: 15,
     backgroundColor: Color.cardSakit,
     borderRadius: 15,
-  },
-  VectorAtas: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
   },
 });

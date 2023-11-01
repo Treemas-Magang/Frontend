@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
@@ -10,6 +10,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import VectorAtasKecil from '../atoms/VectorAtasKecil';
 
 const ListRekapClaim = ({navigation}) => {
   const [claim, setClaim] = useState([
@@ -48,10 +49,7 @@ const ListRekapClaim = ({navigation}) => {
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
-      <Image
-        style={styles.VectorAtas}
-        source={require('../../assets/vector/VectorAtas.png')}
-      />
+      <VectorAtasKecil />
       <View style={styles.wrapKeteranganClaim}>
         <View
           style={{
@@ -103,11 +101,5 @@ const styles = StyleSheet.create({
   wrapKeteranganClaim: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  VectorAtas: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
   },
 });
