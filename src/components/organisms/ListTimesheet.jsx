@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: Color.black,
     width: wp('80%'),
-    minHeight: hp('10%'),
+    minHeight: hp('5%'),
     justifyContent: 'space-evenly',
   },
   textValue: {
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     borderRadius: wp('12%'),
     backgroundColor: Color.black,
     position: 'absolute',
-    bottom: 140,
+    bottom: 100,
     right: wp('5%'),
     alignItems: 'center',
     justifyContent: 'center',
