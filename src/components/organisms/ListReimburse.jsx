@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
@@ -22,6 +21,7 @@ import {
   faAngleDoubleDown,
   faAngleDoubleUp,
 } from '@fortawesome/free-solid-svg-icons';
+import VectorAtasKecil from '../atoms/VectorAtasKecil';
 const ListReimburse = ({navigation}) => {
   const [reimburses, setReimburses] = useState([
     {
@@ -68,10 +68,8 @@ const ListReimburse = ({navigation}) => {
     <View style={styles.container}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
-      <Image
-        style={styles.VectorAtas}
-        source={require('../../assets/vector/VectorAtas.png')}
-      />
+      <VectorAtasKecil />
+
       <View style={styles.containerJudul}>
         <Text style={styles.Judul}>reimburse</Text>
       </View>
@@ -153,12 +151,6 @@ const styles = StyleSheet.create({
     fontSize: wp('6%'),
     color: Color.blue,
     textTransform: 'uppercase',
-  },
-  VectorAtas: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
   },
   catatanKerja: {
     flexDirection: 'row',

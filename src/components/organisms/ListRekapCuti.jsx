@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React from 'react';
 import ButtonBack from '../atoms/ButtonBack';
 import {Color} from '../../utils/color';
@@ -10,16 +10,14 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import VectorAtasBesar from '../atoms/VectorAtasBesar';
 
 const ListRekapCuti = ({navigation}) => {
   return (
     <View style={styles.background}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
-      <Image
-        style={styles.VectorAtasKanan}
-        source={require('../../assets/vector/VectorKananAtas.png')}
-      />
+      <VectorAtasBesar />
       <View style={styles.wrapKeteranganCuti}>
         <View
           style={{
@@ -90,11 +88,5 @@ const styles = StyleSheet.create({
     height: 15,
     backgroundColor: Color.cardSakit,
     borderRadius: 15,
-  },
-  VectorAtasKanan: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
   },
 });
