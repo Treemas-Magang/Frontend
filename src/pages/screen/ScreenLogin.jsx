@@ -28,7 +28,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-// import { LoginFingerprint } from '../../config/prosesLogin';
+import {LoginFingerprint} from '../../config/prosesLogin';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [deviceId, setDeviceId] = useState('');
@@ -43,8 +43,8 @@ const ScreenLogin = ({navigation}) => {
       .then(idDevice => {
         if (idDevice !== null) {
           setDeviceId(idDevice);
-          dispatch(setForm('deviceId', idDevice));
-          dispatch(setFormLoginFingerPrint('deviceId', idDevice));
+          dispatch(setForm('handsetImei', idDevice));
+          dispatch(setFormLoginFingerPrint('handsetImei', idDevice));
         } else {
           console.log('Data tidak ditemukan di session.');
         }
@@ -93,13 +93,15 @@ const ScreenLogin = ({navigation}) => {
   const sendData = async () => {
     try {
       const response = await axios.post(
-        'http://192.168.10.190:8081/api/auth/login',
+        'https://treemas-api-403500.et.r.appspot.com/api/auth/login',
         formLogin,
       );
       const dataLogin = response.data.data;
+      console.log(dataLogin);
       if (dataLogin.token !== null) {
-        // const [{ token }] = dataLogin;
+        // const [{ token }]\ = dataLogin;
         const token = dataLogin.token;
+        console.log('ini token :', token);
         // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
         await AsyncStorage.setItem('token', token);
         await AsyncStorage.setItem('nik', formLogin.nik);
@@ -129,33 +131,37 @@ const ScreenLogin = ({navigation}) => {
         console.log('Otentikasi berhasil');
         ///////////////////////////////////////
         // LoginFingerprint({navigation});
-        // try {
-        //   const response = await axios.post('http://192.168.10.190:8081/api/auth/login', formLogin);
-        //   const dataLogin = response.data.data;
-        //   if (response.status === 200) {
-        //     // const [{ token }] = dataLogin;
-        //     const token = dataLogin.token;
-        //     // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
-        //     await AsyncStorage.setItem('token', token);
-        //     navigation.replace('dashboard');
-        //   } else {
-        //     console.log('message : ',response.data.message);
-        //   }
-        // } catch (error) {
-        //   console.error('Terjadi kesalahan:', error);
-        // }
+        try {
+          const response = await axios.post(
+            'https://treemas-api-403500.et.r.appspot.com/api/auth/login',
+            formLogin,
+          );
+          const dataLogin = response.data.data;
+          if (response.status === 200) {
+            // const [{ token }] = dataLogin;
+            const token = dataLogin.token;
+            console.log('ini token fp : ', token);
+            // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
+            await AsyncStorage.setItem('token', token);
+            navigation.replace('dashboard');
+          } else {
+            console.log('message : ', response.data.message);
+          }
+        } catch (error) {
+          console.error('Terjadi kesalahan:', error);
+        }
 
         ///////////////////////////////////////
-        await AsyncStorage.setItem('role', 'USER');
-        await AsyncStorage.setItem('nik', '1298191281222');
-        const is_pass_chg = '1';
-        if (is_pass_chg === '0') {
-          navigation.replace('updatePassword', {
-            nik: '1298191281222',
-          });
-        } else {
-          navigation.replace('dashboard');
-        }
+        // await AsyncStorage.setItem('role', 'USER');
+        // await AsyncStorage.setItem('nik', '1298191281222');
+        // const is_pass_chg = '1';
+        // if (is_pass_chg === '0') {
+        //   navigation.replace('updatePassword', {
+        //     nik: '1298191281222',
+        //   });
+        // } else {
+        //   navigation.replace('dashboard');
+        // }
       } else if (result.error) {
         // Pemindaian gagal
         console.log('Otentikasi gagal');

@@ -2,7 +2,14 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable space-infix-ops */
 /* eslint-disable comma-dangle */
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
@@ -15,6 +22,7 @@ import {faCamera} from '@fortawesome/free-solid-svg-icons';
 import Dropdown from '../atoms/Dropdown';
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormClaim} from '../../redux';
+import {openCamera, openGalerImg} from '../../utils/getPhoto';
 
 const jenis_cuti = [
   {id_cuti: 'CD1', keterangan_cuti: 'cuti 1'},
@@ -23,28 +31,73 @@ const jenis_cuti = [
   {id_cuti: 'CD4', keterangan_cuti: 'cuti 4'},
 ];
 
-const FormClaim = () => {
-  const [itemSelect, setItemSelect] = useState('')
+const FormClaim = ({navigation}) => {
+  const [itemSelect, setItemSelect] = useState('');
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.FormClaimReducer);
   const [capturedImage, setCapturedImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  console.log('loading : ', isLoading);
+  let base64ImageData = null;
+  if (capturedImage && capturedImage.base64 && capturedImage.fileSize) {
+    base64ImageData = `data:image/jpeg;base64,${capturedImage.base64}`;
+    console.log('ini file size : ', capturedImage.fileSize);
+  } else {
+    console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
+  }
+  console.log('ini base64Image : ', base64ImageData);
 
-  useEffect(() => {
-    dispatch(setFormClaim('foto', capturedImage));
-    dispatch(setFormClaim('type', itemSelect));
-    dispatch(setFormClaim('nik', '999'));
-  }, [dispatch, capturedImage, itemSelect]);
+  // useEffect(() => {
+  //   dispatch(setFormClaim('type', itemSelect));
+  //   dispatch(setFormClaim('nik', '999'));
+  // }, [dispatch, capturedImage, itemSelect]);
   const onChangeText = (value, inputType) => {
     dispatch(setFormClaim(inputType, value));
   };
+
+  const openKamera = () => {
+    setCapturedImage(null);
+    setIsLoading(true);
+    openCamera()
+      .then(imageData => {
+        setCapturedImage(imageData);
+        setIsLoading(false);
+        // Lakukan sesuatu dengan imageData (misalnya, tampilkan gambar)
+      })
+      .catch(error => {
+        // Tangani kesalahan
+        console.error(error);
+      });
+  };
+  const openGalery = () => {
+    setCapturedImage(null);
+    setIsLoading(true);
+    openGalerImg()
+      .then(imageData => {
+        setCapturedImage(imageData);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        // Tangani kesalahan
+        console.error(error);
+      });
+  };
+
   const sendData = () => {
-    console.log('kirim data : ', form);
+    // console.log('kirim data : ', form);
     // kirimDataDanFotoKeAPI();
+  };
+  const moveToPreview = () => {
+    navigation.navigate('previewPhoto', {photo: base64ImageData});
   };
   return (
     <View style={styles.congtainerForm}>
       <Text style={styles.textJudul}>form claim</Text>
-      <Dropdown onSelect={(selectedItem) => setItemSelect(selectedItem)} nama_dropdown="Type" jenis_cuti={jenis_cuti} />
+      <Dropdown
+        onSelect={selectedItem => setItemSelect(selectedItem)}
+        nama_dropdown="Type"
+        jenis_cuti={jenis_cuti}
+      />
       <CustomTextInput
         label="Keterangan"
         secureTextEntry={false}
@@ -59,22 +112,36 @@ const FormClaim = () => {
       />
       <View style={styles.kotakPreviewKosong}>
         <View style={styles.previewKosong}>
-          {capturedImage === null ? (
+          {base64ImageData === null ? (
             <>
-              <FontAwesomeIcon icon={faCamera} size={50} />
-              <Text>Preview</Text>
+              {isLoading ? (
+                <ActivityIndicator size="large" color={Color.black} />
+              ) : (
+                <>
+                  <FontAwesomeIcon icon={faCamera} size={50} />
+                  <Text>Preview</Text>
+                </>
+              )}
             </>
           ) : (
-            <Image
-              source={{uri: capturedImage.uri}}
-              style={{height: '100%', width: '100%', borderRadius: 10}}
-            />
+            <TouchableOpacity
+              style={styles.previewKosong}
+              onPress={moveToPreview}>
+              <Image
+                source={{uri: base64ImageData}}
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  borderRadius: 10,
+                }}
+              />
+            </TouchableOpacity>
           )}
         </View>
       </View>
       <View style={styles.wrapperButton}>
-        <ButtonCamera onImageCapture={image => setCapturedImage(image)} />
-        <ButtonGalery onImageGalery={image => setCapturedImage(image)} />
+        <ButtonCamera onPress={openKamera} />
+        <ButtonGalery onPress={openGalery} />
         <ButtonAction title="kirim" style={{width: 148}} onPress={sendData} />
       </View>
     </View>

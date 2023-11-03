@@ -33,7 +33,7 @@ const initialStateLoginFingerPrint = {
   formLogin: {
     nik: '',
     password: '',
-    deviceId: '',
+    handsetImei: '',
   },
 };
 const LoginFingerPrintReducer = (

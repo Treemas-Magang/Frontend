@@ -7,12 +7,11 @@ import {
   TouchableOpacity,
   Image,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Color} from '../../utils/color';
-import CardInfo from '../molecules/CardInfo';
 import {text} from '../../utils/text';
-import Dropdown from '../atoms/Dropdown';
 import CustomTextInput from '../atoms/CustomTextInput';
 import ButtonAction from '../atoms/ButtonAction';
 import KalenderRange from '../molecules/KalenderRange';
@@ -23,9 +22,12 @@ import {setFormSakit} from '../../redux';
 import FakeTextInput from '../atoms/FakeTextInput';
 import ButtonCamera from '../atoms/ButtonCamera';
 import ButtonGalery from '../atoms/ButtonGalery';
+import {openCamera, openGalerImg} from '../../utils/getPhoto';
 
-const FormSakit = () => {
+const FormSakit = ({navigation}) => {
   const [capturedImage, setCapturedImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  console.log('loading : ', isLoading);
   let base64ImageData = null;
   if (capturedImage && capturedImage.base64 && capturedImage.fileSize) {
     base64ImageData = `data:image/jpeg;base64,${capturedImage.base64}`;
@@ -54,12 +56,12 @@ const FormSakit = () => {
     setAdaSuratDoker(!adaSuratDokter);
   };
   console.log(adaSuratDokter);
-  useEffect(() => {
-    const kirimFotoKeReducer = () => {
-      dispatch(setFormSakit('foto', capturedImage));
-    };
-    kirimFotoKeReducer();
-  }, [capturedImage, dispatch]);
+  // useEffect(() => {
+  //   const kirimFotoKeReducer = () => {
+  //     dispatch(setFormSakit('foto', capturedImage));
+  //   };
+  //   kirimFotoKeReducer();
+  // }, [capturedImage, dispatch]);
   const handleDataReady = newData => {
     if (
       newData.jumlahCutiAtauSakit !== data.jumlahCutiAtauSakit ||
@@ -79,11 +81,47 @@ const FormSakit = () => {
   const onChangeText = (value, inputType) => {
     dispatch(setFormSakit(inputType, value));
   };
+  // const handleImageCapture = image => {
+  //   setTimeout(() => {
+  //     setCapturedImage(image); // Update capturedImage with the captured image
+  //   }, 2000); // Simulating a 2-second delay for image capture
+  // };
+
+  const openKamera = () => {
+    setCapturedImage(null);
+    setIsLoading(true);
+    openCamera()
+      .then(imageData => {
+        setCapturedImage(imageData);
+        setIsLoading(false);
+        // Lakukan sesuatu dengan imageData (misalnya, tampilkan gambar)
+      })
+      .catch(error => {
+        // Tangani kesalahan
+        console.error(error);
+      });
+  };
+  const openGalery = () => {
+    setCapturedImage(null);
+    setIsLoading(true);
+    openGalerImg()
+      .then(imageData => {
+        setCapturedImage(imageData);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        // Tangani kesalahan
+        console.error(error);
+      });
+  };
   const sendData = () => {
-    console.log('kirim data : ', form);
+    // console.log('kirim data : ', form);
   };
   const handleClickOutside = () => {
     setShowKalender(false);
+  };
+  const moveToPreview = () => {
+    navigation.navigate('previewPhoto', {photo: base64ImageData});
   };
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
@@ -153,27 +191,41 @@ const FormSakit = () => {
                   <View style={styles.previewKosong}>
                     {base64ImageData === null ? (
                       <>
-                        <FontAwesomeIcon icon={faCamera} size={50} />
-                        <Text>Preview</Text>
+                        {isLoading ? (
+                          <ActivityIndicator size="large" color={Color.black} />
+                        ) : (
+                          <>
+                            <FontAwesomeIcon icon={faCamera} size={50} />
+                            <Text>Preview</Text>
+                          </>
+                        )}
                       </>
                     ) : (
-                      <Image
-                        source={{uri: base64ImageData}}
-                        style={{
-                          height: '100%',
-                          width: '100%',
-                          borderRadius: 10,
-                        }}
-                      />
+                      <TouchableOpacity
+                        style={styles.previewKosong}
+                        onPress={moveToPreview}>
+                        <Image
+                          source={{uri: base64ImageData}}
+                          style={{
+                            height: '100%',
+                            width: '100%',
+                            borderRadius: 10,
+                          }}
+                        />
+                      </TouchableOpacity>
                     )}
                   </View>
                 </View>
                 <View style={styles.wrapperButton}>
                   <ButtonCamera
-                    onImageCapture={image => setCapturedImage(image)}
+                    // onImageCapture={image => setCapturedImage(image)}
+                    // onImageCapture={handleImageCapture}
+                    // loading={loading => setIsLoading(loading)}
+                    onPress={openKamera}
                   />
                   <ButtonGalery
-                    onImageGalery={image => setCapturedImage(image)}
+                    // onImageGalery={image => setCapturedImage(image)}
+                    onPress={openGalery}
                   />
                   <ButtonAction
                     title="kirim"

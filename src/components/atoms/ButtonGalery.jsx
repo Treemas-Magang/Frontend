@@ -12,32 +12,32 @@ import {Color} from '../../utils/color';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {faImages} from '@fortawesome/free-regular-svg-icons';
 
-const ButtonGalery = ({onImageGalery}) => {
-  const [imageGalery, setImageGalery] = useState(null);
-  const opengalery = () => {
-    const option = {
-      mediaType: 'photo',
-      quality: 1,
-      maxWidth: 500,
-      maxHeight: 300,
-      maxFileSize: 1024 * 1024,
-    };
-    launchImageLibrary(option, res => {
-      if (res.didCancel) {
-        console.log('user cancel take photo');
-      } else if (res.errorCode) {
-        console.log(res.errorMessage);
-      } else {
-        const data = res.assets[0];
-        console.log(data);
-        // setImageGalery(data)
-        onImageGalery(data);
-      }
-    });
-  };
+const ButtonGalery = ({onPress}) => {
+  // const [imageGalery, setImageGalery] = useState(null);
+  // const opengalery = () => {
+  //   const option = {
+  //     mediaType: 'photo',
+  //     quality: 1,
+  //     maxWidth: 500,
+  //     maxHeight: 300,
+  //     maxFileSize: 1024 * 1024,
+  //   };
+  //   launchImageLibrary(option, res => {
+  //     if (res.didCancel) {
+  //       console.log('user cancel take photo');
+  //     } else if (res.errorCode) {
+  //       console.log(res.errorMessage);
+  //     } else {
+  //       const data = res.assets[0];
+  //       console.log(data);
+  //       // setImageGalery(data)
+  //       onImageGalery(data);
+  //     }
+  //   });
+  // };
   return (
     <View>
-      <TouchableOpacity onPress={opengalery}>
+      <TouchableOpacity onPress={onPress}>
         <FontAwesomeIcon icon={faImage} color={Color.green} size={50} />
       </TouchableOpacity>
     </View>

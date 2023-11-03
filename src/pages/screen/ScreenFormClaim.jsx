@@ -18,7 +18,7 @@ const ScreenFormClaim = ({navigation}) => {
           source={require('../../assets/vector/VectorKananAtas.png')}
         />
         <View style={styles.wrapperForm}>
-          <FormClaim />
+          <FormClaim navigation={navigation} />
         </View>
       </ScrollView>
     </View>
