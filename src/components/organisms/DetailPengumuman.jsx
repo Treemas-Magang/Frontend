@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
@@ -8,8 +9,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { useRoute } from '@react-navigation/native';
 
 const DetailPengumuman = ({navigation}) => {
+  const {judul, deskripsi, usrCrt, image} = useRoute().params;
+
+  console.log(image, '-asu-')
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -36,7 +41,7 @@ const DetailPengumuman = ({navigation}) => {
               textAlign: 'center',
               color: Color.blue,
             }}>
-            Jam Kerja Selama Ramadhan
+            {judul}
           </Text>
           <Text
             style={{
@@ -45,16 +50,7 @@ const DetailPengumuman = ({navigation}) => {
               textAlign: 'justify',
               width: 320,
             }}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum. Lorem ipsum dolor, sit
-            amet consectetur adipisicing elit.
+            {deskripsi}
           </Text>
           <Text
             style={{
@@ -72,6 +68,23 @@ const DetailPengumuman = ({navigation}) => {
             }}>
             HR Division
           </Text>
+          <Text
+            style={{
+              fontFamily: text.regular,
+              fontSize: 12,
+              width: 320,
+            }}>
+            {usrCrt}
+          </Text>
+          <View style={{width: wp('100%')}}>
+            <Image
+              source={{uri: `data:image/jpeg;base64,${image}`}}
+              style={{
+                width: 200,
+                height: 107,
+              }}
+            />
+          </View>
         </ScrollView>
         <View
           style={{
@@ -79,13 +92,7 @@ const DetailPengumuman = ({navigation}) => {
             alignItems: 'center',
             marginBottom: 20,
           }}>
-          <Image
-            source={require('../../assets/icons/logo.png')}
-            style={{
-              width: 200,
-              height: 107,
-            }}
-          />
+          <Image source={require('../../assets/icons/logo.png')} />
         </View>
       </View>
     </View>

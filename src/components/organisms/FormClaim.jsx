@@ -66,7 +66,8 @@ const FormClaim = ({navigation}) => {
       })
       .catch(error => {
         // Tangani kesalahan
-        console.error(error);
+        setIsLoading(false);
+        // console.error(error);
       });
   };
   const openGalery = () => {
@@ -79,7 +80,8 @@ const FormClaim = ({navigation}) => {
       })
       .catch(error => {
         // Tangani kesalahan
-        console.error(error);
+        setIsLoading(false);
+        // console.error(error);
       });
   };
 

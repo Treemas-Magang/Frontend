@@ -30,7 +30,7 @@ const LoginReducer = (state = initialStateLogin, action) => {
 const initialStateLoginFingerPrint = {
   title: 'Login Page',
   isLogin: true,
-  formLogin: {
+  formLoginFP: {
     nik: '',
     password: '',
     handsetImei: '',
@@ -43,8 +43,8 @@ const LoginFingerPrintReducer = (
   if (action.type === 'SET_FORM_LOGIN_FINGERPRINT') {
     return {
       ...state,
-      formLogin: {
-        ...state.formLogin,
+      formLoginFP: {
+        ...state.formLoginFP,
         [action.inputType]: action.inputValue,
       },
     };

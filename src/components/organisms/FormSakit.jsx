@@ -98,7 +98,8 @@ const FormSakit = ({navigation}) => {
       })
       .catch(error => {
         // Tangani kesalahan
-        console.error(error);
+        setIsLoading(false);
+        // console.error(error);
       });
   };
   const openGalery = () => {
@@ -111,7 +112,8 @@ const FormSakit = ({navigation}) => {
       })
       .catch(error => {
         // Tangani kesalahan
-        console.error(error);
+        setIsLoading(false);
+        // console.error(error);
       });
   };
   const sendData = () => {

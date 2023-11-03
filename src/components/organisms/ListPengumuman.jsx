@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import CardNotif from '../molecules/CardNotif';
 import {Color} from '../../utils/color';
 import ButtonBack from '../atoms/ButtonBack';
@@ -10,9 +10,51 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import axios from 'axios';
+import {getDataFromSession} from '../../utils/getDataSession';
 
 const ListPengumuman = ({navigation}) => {
   const [isOpen, setIsopen] = useState(true);
+  const [dataPengumuman, setDataPengumuman] = useState([])
+useEffect(() => {
+  getDataFromSession('token')
+    .then(token => {
+      if (token !== null) {
+        getData(token); // Panggil getData setelah menerima token
+      } else {
+        console.log('Data tidak ditemukan di session.');
+      }
+    })
+    .catch(error => {
+      console.error('Terjadi kesalahan dalam getDataFromSession:', error);
+    });
+}, []);
+
+const getData = async token => {
+  console.log('ini token : ', token)
+  try {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.get(
+      'https://treemas-api-403500.et.r.appspot.com/api/master-data/announcement-view',
+      {headers}
+    );
+    const data = response.data.data;
+    setDataPengumuman(data)
+    console.log(data);
+  } catch (error) {
+    console.error('Terjadi kesalahan:', error);
+  }
+};
+const moveTo = (tujuan, judul, deskripsi, usrCrt, image) => {
+  navigation.navigate(tujuan, {
+    judul: judul,
+    deskripsi: deskripsi,
+    usrCrt: usrCrt,
+    image: image,
+  });
+};
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -31,15 +73,18 @@ const ListPengumuman = ({navigation}) => {
       </View>
       <View style={styles.backgroundCardNotif}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <CardNotif open={isOpen} navigation={navigation} />
-          <CardNotif navigation={navigation} />
-          <CardNotif navigation={navigation} />
-          <CardNotif navigation={navigation} />
-          <CardNotif navigation={navigation} />
-          <CardNotif navigation={navigation} />
-          <CardNotif navigation={navigation} />
-          <CardNotif navigation={navigation} />
-          <CardNotif navigation={navigation} />
+          {dataPengumuman.map((Pengumuman, index) => (
+            <CardNotif
+              key={index}
+              onPress={() =>
+                moveTo('detailPengumuman', Pengumuman.header, Pengumuman.note, Pengumuman.usrCrt, Pengumuman.image64)
+              }
+              deskripsi={Pengumuman.note}
+              tanggal={Pengumuman.tglUpload}
+              judul={Pengumuman.header}
+              navigation={navigation}
+            />
+          ))}
         </ScrollView>
       </View>
     </View>
@@ -56,7 +101,7 @@ const styles = StyleSheet.create({
     gap: 10,
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
-    height: hp('91.5%'),
+    height: hp('80%'),
   },
   Judul: {
     textAlign: 'center',

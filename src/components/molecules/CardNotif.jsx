@@ -4,10 +4,7 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardNotif = ({navigation, open}) => {
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
-  };
+const CardNotif = ({open, tanggal, judul, deskripsi, onPress}) => {
   return (
     <TouchableOpacity
       style={[
@@ -16,7 +13,7 @@ const CardNotif = ({navigation, open}) => {
           ? {backgroundColor: Color.cardTidakMasuk}
           : {backgroundColor: Color.green},
       ]}
-      onPress={() => moveTo('detailPengumuman')}>
+      onPress={onPress}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         {open ? (
           <Image
@@ -32,13 +29,13 @@ const CardNotif = ({navigation, open}) => {
 
         <View>
           <Text style={{fontFamily: text.lightItalic, fontSize: 10}}>
-            20 MEI 2023
+            {tanggal}
           </Text>
-          <Text style={{fontFamily: text.semiBold, fontSize: 12}}>
-            Jam Kerja Selama Ramadhan
+          <Text style={{fontFamily: text.semiBold, fontSize: 12, width: 200}} numberOfLines={1}>
+            {judul}
           </Text>
-          <Text style={{fontFamily: text.regular, fontSize: 10, width: 177}}>
-            What is Lorem Ipsum? Lorem Ipsum is simply dummy . . . . .
+          <Text style={{fontFamily: text.regular, fontSize: 10, width: 177}} numberOfLines={2} >
+            {deskripsi}
           </Text>
         </View>
       </View>
