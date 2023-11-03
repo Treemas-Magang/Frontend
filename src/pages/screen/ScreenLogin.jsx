@@ -33,7 +33,7 @@ const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [deviceId, setDeviceId] = useState('');
   const {formLogin} = useSelector(state => state.LoginReducer);
-  // const {formLogin} = useSelector(state => state.LoginFingerPrintReducer);
+  const {formLoginFP} = useSelector(state => state.LoginFingerPrintReducer);
   // const {location} = useSelector(state => state.SplashReducer);
   const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
@@ -134,7 +134,7 @@ const ScreenLogin = ({navigation}) => {
         try {
           const response = await axios.post(
             'https://treemas-api-403500.et.r.appspot.com/api/auth/login',
-            formLogin,
+            formLoginFP,
           );
           const dataLogin = response.data.data;
           if (response.status === 200) {
@@ -228,7 +228,7 @@ const ScreenLogin = ({navigation}) => {
         </View>
         <View
           style={{
-            height: hp('20%'),
+            height: hp('25%'),
             width: wp('100%'),
             position: 'relative',
           }}>
