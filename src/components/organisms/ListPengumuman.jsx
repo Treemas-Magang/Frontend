@@ -12,49 +12,53 @@ import {
 } from 'react-native-responsive-screen';
 import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
+import SkeletonCardNotif from '../skeleton/SkeletonCardNotif';
 
 const ListPengumuman = ({navigation}) => {
   const [isOpen, setIsopen] = useState(true);
-  const [dataPengumuman, setDataPengumuman] = useState([])
-useEffect(() => {
-  getDataFromSession('token')
-    .then(token => {
-      if (token !== null) {
-        getData(token); // Panggil getData setelah menerima token
-      } else {
-        console.log('Data tidak ditemukan di session.');
-      }
-    })
-    .catch(error => {
-      console.error('Terjadi kesalahan dalam getDataFromSession:', error);
-    });
-}, []);
+  const [dataPengumuman, setDataPengumuman] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setIsLoading(true);
+    getDataFromSession('token')
+      .then(token => {
+        if (token !== null) {
+          getData(token); // Panggil getData setelah menerima token
+        } else {
+          console.log('Data tidak ditemukan di session.');
+        }
+      })
+      .catch(error => {
+        console.error('Terjadi kesalahan dalam getDataFromSession:', error);
+      });
+  }, []);
 
-const getData = async token => {
-  console.log('ini token : ', token)
-  try {
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const response = await axios.get(
-      'https://treemas-api-403500.et.r.appspot.com/api/master-data/announcement-view',
-      {headers}
-    );
-    const data = response.data.data;
-    setDataPengumuman(data)
-    console.log(data);
-  } catch (error) {
-    console.error('Terjadi kesalahan:', error);
-  }
-};
-const moveTo = (tujuan, judul, deskripsi, usrCrt, image) => {
-  navigation.navigate(tujuan, {
-    judul: judul,
-    deskripsi: deskripsi,
-    usrCrt: usrCrt,
-    image: image,
-  });
-};
+  const getData = async token => {
+    console.log('ini token : ', token);
+    try {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(
+        'https://treemas-api-403500.et.r.appspot.com/api/master-data/announcement-view',
+        {headers},
+      );
+      const data = response.data.data;
+      setDataPengumuman(data);
+      setIsLoading(false);
+      console.log(data);
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
+    }
+  };
+  const moveTo = (tujuan, judul, deskripsi, usrCrt, image) => {
+    navigation.navigate(tujuan, {
+      judul: judul,
+      deskripsi: deskripsi,
+      usrCrt: usrCrt,
+      image: image,
+    });
+  };
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -73,18 +77,34 @@ const moveTo = (tujuan, judul, deskripsi, usrCrt, image) => {
       </View>
       <View style={styles.backgroundCardNotif}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {dataPengumuman.map((Pengumuman, index) => (
-            <CardNotif
-              key={index}
-              onPress={() =>
-                moveTo('detailPengumuman', Pengumuman.header, Pengumuman.note, Pengumuman.usrCrt, Pengumuman.image64)
-              }
-              deskripsi={Pengumuman.note}
-              tanggal={Pengumuman.tglUpload}
-              judul={Pengumuman.header}
-              navigation={navigation}
-            />
-          ))}
+          {isLoading ? (
+            <>
+              <SkeletonCardNotif />
+              <SkeletonCardNotif />
+              <SkeletonCardNotif />
+              <SkeletonCardNotif />
+              <SkeletonCardNotif />
+            </>
+          ) : (
+            dataPengumuman.map((Pengumuman, index) => (
+              <CardNotif
+                key={index}
+                onPress={() =>
+                  moveTo(
+                    'detailPengumuman',
+                    Pengumuman.header,
+                    Pengumuman.note,
+                    Pengumuman.usrCrt,
+                    Pengumuman.image64,
+                  )
+                }
+                deskripsi={Pengumuman.note}
+                tanggal={Pengumuman.tglUpload}
+                judul={Pengumuman.header}
+                navigation={navigation}
+              />
+            ))
+          )}
         </ScrollView>
       </View>
     </View>

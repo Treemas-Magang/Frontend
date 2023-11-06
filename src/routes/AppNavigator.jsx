@@ -49,6 +49,7 @@ import {
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
+import SkeletonCardNotif from '../components/skeleton/SkeletonCardNotif';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -248,6 +249,11 @@ const screens = [
   {
     name: 'previewPhoto',
     component: ScreenPreviewPhoto,
+    gestureEnabled: true,
+  },
+  {
+    name: 'skeletonCardNotif',
+    component: SkeletonCardNotif,
     gestureEnabled: true,
   },
 ];
