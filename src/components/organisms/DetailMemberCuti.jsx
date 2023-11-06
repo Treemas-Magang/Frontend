@@ -8,6 +8,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import VectorAtasKecil from '../atoms/VectorAtasKecil';
 
 const DetailMemberCuti = ({navigation, stylePP}) => {
   const moveTo = tujuan => {
@@ -17,10 +18,7 @@ const DetailMemberCuti = ({navigation, stylePP}) => {
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
-      <Image
-        style={styles.VectorAtas}
-        source={require('../../assets/vector/VectorAtas.png')}
-      />
+      <VectorAtasKecil />
       <View
         style={{
           width: wp('100%'),
@@ -118,12 +116,6 @@ const styles = StyleSheet.create({
     fontSize: wp('6%'),
     color: Color.blue,
     textTransform: 'uppercase',
-  },
-  VectorAtas: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
   },
   TextTitle: {
     fontFamily: text.semiBoldItalic,

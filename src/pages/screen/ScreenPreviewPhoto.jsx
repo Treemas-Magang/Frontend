@@ -1,10 +1,9 @@
 /* eslint-disable prettier/prettier */
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import ButtonBack from '../../components/atoms/ButtonBack';
 import ButtonHome from '../../components/atoms/ButtonHome';
-import {text} from '../../utils/text';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -26,18 +25,13 @@ const ScreenPreviewPhoto = ({navigation}) => {
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
       <VectorAtasKecil />
-      <View
-        style={{
-          width: wp('100%'),
-          height: hp('15%'),
-          justifyContent: 'center',
-        }}>
-        <Text style={styles.Judul}>Priview Photo</Text>
-      </View>
       <View style={styles.SectionPreview}>
         <Image
           source={{uri: photo}}
-          style={{height: hp('75%'), width: wp('89%')}}
+          style={{
+            height: hp('90%'),
+            width: wp('90%'),
+          }}
           resizeMode="contain"
         />
       </View>
@@ -49,18 +43,13 @@ export default ScreenPreviewPhoto;
 
 const styles = StyleSheet.create({
   SectionPreview: {
-    height: hp('75%'),
-    width: wp('90%'),
+    height: hp('100%'),
+    width: wp('100%'),
+    marginTop: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
     // borderWidth: 2,
     // borderColor: Color.black,
     // backgroundColor: 'tomato',
-  },
-
-  Judul: {
-    textAlign: 'center',
-    fontFamily: text.semiBold,
-    fontSize: wp('6%'),
-    color: Color.blue,
-    textTransform: 'uppercase',
   },
 });
