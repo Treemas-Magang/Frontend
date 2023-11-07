@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, Animated, Easing} from 'react-native';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const SkeletonCardNotif = () => {
+const SkeletonCardCekCuti = () => {
   const shimmer = new Animated.Value(0);
 
   useEffect(() => {
@@ -32,24 +32,31 @@ const SkeletonCardNotif = () => {
   };
 
   return (
-    <View style={styles.CardNotifStyle}>
-      <Animated.View
-        style={[styles.shimmerCard, {opacity: getShimmerOpacity()}]}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={styles.shimmerBox} />
-          <View style={{gap: 5, marginLeft: 10}}>
-            <Text style={styles.shimmerText}></Text>
-            <Text style={styles.shimmerText}></Text>
-            <Text style={styles.shimmerText}></Text>
+    <View style={styles.CardCekCutiStyle}>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{gap: 5, marginLeft: 10}}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{width: 70}}>NIK</Text>
+            <Animated.View
+              style={[styles.shimmerCard, {opacity: getShimmerOpacity()}]}>
+              <Text style={styles.shimmerText}></Text>
+            </Animated.View>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{width: 70}}>Nama</Text>
+            <Animated.View
+              style={[styles.shimmerCard, {opacity: getShimmerOpacity()}]}>
+              <Text style={styles.shimmerText}></Text>
+            </Animated.View>
           </View>
         </View>
-      </Animated.View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  CardNotifStyle: {
+  CardCekCutiStyle: {
     width: 320,
     height: 80,
     borderRadius: 5,
@@ -62,21 +69,15 @@ const styles = StyleSheet.create({
     height: '100',
     backgroundColor: Color.grey,
   },
-  shimmerBox: {
-    width: 60,
-    height: 60,
-    backgroundColor: Color.skeleton,
-    marginLeft: 20,
-  },
   shimmerText: {
     fontFamily: text.lightItalic,
     fontSize: 10,
     backgroundColor: Color.skeleton,
     width: 200,
     height: 10,
-    borderRadius: 5,
     marginVertical: 5,
+    borderRadius: 5,
   },
 });
 
-export default SkeletonCardNotif;
+export default SkeletonCardCekCuti;

@@ -14,4 +14,5 @@ export const Color = {
   brown: '#5E4300',
   grey: '#D9D9D9',
   skeleton: '#A9A9A9',
+  lightgrey: '#F1EFEF',
 };

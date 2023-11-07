@@ -119,10 +119,10 @@ const styles = StyleSheet.create({
     backgroundColor: Color.white,
     paddingTop: 50,
     alignItems: 'center',
-    gap: 10,
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
-    height: hp('80%'),
+    height: hp('90%'),
+    paddingBottom: 90,
   },
   Judul: {
     textAlign: 'center',

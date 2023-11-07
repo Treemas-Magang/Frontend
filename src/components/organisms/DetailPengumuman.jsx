@@ -9,6 +9,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {useRoute} from '@react-navigation/native';
+import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -29,6 +31,7 @@ const DetailPengumuman = ({navigation}) => {
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
+      <VectorAtasKecil />
       <View
         style={{
           width: wp('100%'),
@@ -38,10 +41,6 @@ const DetailPengumuman = ({navigation}) => {
         <Text style={styles.Judul}>Detail </Text>
         <Text style={styles.Judul}>Pengumuman </Text>
       </View>
-      <Image
-        style={styles.VectorAtas}
-        source={require('../../assets/vector/VectorAtas.png')}
-      />
       <View style={styles.backgroundCardPengumuman}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text

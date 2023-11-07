@@ -17,6 +17,7 @@ import DropdownApproval from '../atoms/DropdownApproval';
 import CardApproval from '../molecules/CardApproval';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
+import VectorAtasKecil from '../atoms/VectorAtasKecil';
 
 const ListApproval = ({navigation}) => {
   const [openDropdownApproval, setOpenDropdownApproval] = useState(false);
@@ -33,10 +34,7 @@ const ListApproval = ({navigation}) => {
     <View style={styles.listApproval}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
-      <Image
-        style={styles.VectorAtas}
-        source={require('../../assets/vector/VectorAtas.png')}
-      />
+      <VectorAtasKecil />
       <View style={styles.wrapJudul}>
         <Text style={styles.judul}>APPROVAL</Text>
       </View>
@@ -147,11 +145,5 @@ const styles = StyleSheet.create({
   wrapCardApproval: {
     alignItems: 'center',
     width: '100%',
-  },
-  VectorAtas: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
   },
 });
