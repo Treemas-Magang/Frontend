@@ -57,7 +57,7 @@ const ListRekapClaim = ({navigation}) => {
             height: hp('20%'),
             justifyContent: 'center',
           }}>
-          <Text style={styles.Judul}>Keterangan Cuti</Text>
+          <Text style={styles.Judul}>CLAIM</Text>
         </View>
       </View>
       <View style={styles.backgroundCardClaim}>
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   Judul: {
     textAlign: 'center',
     fontFamily: text.semiBold,
-    fontSize: wp('5.5%'),
+    fontSize: wp('7%'),
     color: Color.blue,
     textTransform: 'uppercase',
   },

@@ -17,7 +17,6 @@ import {
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
-import ButtonAction from '../atoms/ButtonAction';
 
 const SkeletonDetailTimesheet = ({navigation}) => {
   const shimmer = new Animated.Value(0);
