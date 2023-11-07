@@ -50,6 +50,11 @@ import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
 import SkeletonCardNotif from '../components/skeleton/SkeletonCardNotif';
+import SkeletonCardCekCuti from '../components/skeleton/SkeletonCardCekCuti';
+import SkeletonCardTimesheet from '../components/skeleton/SkeletonCardTimesheet';
+import SkeletonCardReimburse from '../components/skeleton/SkeletonCardReimburse';
+import SkeletonDetailReimburse from '../components/skeleton/SkeletonDetailReimburse';
+import SkeletonDetailTimesheet from '../components/skeleton/SkeletonDetailTimesheet';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -256,9 +261,34 @@ const screens = [
     component: SkeletonCardNotif,
     gestureEnabled: true,
   },
+  {
+    name: 'skeletonCardCekCuti',
+    component: SkeletonCardCekCuti,
+    gestureEnabled: true,
+  },
+  {
+    name: 'skeletonCardTimesheet',
+    component: SkeletonCardTimesheet,
+    gestureEnabled: true,
+  },
+  {
+    name: 'skeletonCardReimburse',
+    component: SkeletonCardReimburse,
+    gestureEnabled: true,
+  },
+  {
+    name: 'skeletonDetailReimburse',
+    component: SkeletonDetailReimburse,
+    gestureEnabled: true,
+  },
+  {
+    name: 'skeletonDetailTimesheet',
+    component: SkeletonDetailTimesheet,
+    gestureEnabled: true,
+  },
 ];
 
-const routeName = 'splash';
+const routeName = 'skeletonCardReimburse';
 const Stack = createNativeStackNavigator();
 
 function App() {
