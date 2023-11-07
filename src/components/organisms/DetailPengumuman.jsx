@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Color} from '../../utils/color';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
@@ -10,11 +10,21 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DetailPengumuman = ({navigation}) => {
-  const {judul, deskripsi, usrCrt, image} = useRoute().params;
+  const {judul, deskripsi, usrCrt, image, id} = useRoute().params;
 
-  console.log(image, '-asu-')
+  useEffect(() => {
+    try {
+      AsyncStorage.setItem(`pengumuman_${id}`, '1');
+      // AsyncStorage.removeItem(`pengumuman_${id}`);
+      console.log('berhasil simpan status');
+    } catch (error) {
+      console.log(error);
+    }
+  }, [id]);
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />

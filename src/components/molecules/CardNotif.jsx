@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardNotif = ({open, tanggal, judul, deskripsi, onPress}) => {
+const CardNotif = ({open, tanggal, judul, deskripsi, onPress, status}) => {
   return (
     <TouchableOpacity
       style={[
@@ -15,7 +15,7 @@ const CardNotif = ({open, tanggal, judul, deskripsi, onPress}) => {
       ]}
       onPress={onPress}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        {open ? (
+        {status ? (
           <Image
             source={require('../../assets/icons/PesanTerbuka.png')}
             style={styles.Image}
@@ -26,15 +26,19 @@ const CardNotif = ({open, tanggal, judul, deskripsi, onPress}) => {
             style={styles.Image}
           />
         )}
-
         <View>
           <Text style={{fontFamily: text.lightItalic, fontSize: 10}}>
             {tanggal}
           </Text>
-          <Text style={{fontFamily: text.semiBold, fontSize: 12, width: 200}} numberOfLines={1}>
+          <Text
+            style={{fontFamily: text.semiBold, fontSize: 12, width: 200}}
+            numberOfLines={1}>
+            {status}
             {judul}
           </Text>
-          <Text style={{fontFamily: text.regular, fontSize: 10, width: 177}} numberOfLines={2} >
+          <Text
+            style={{fontFamily: text.regular, fontSize: 10, width: 177}}
+            numberOfLines={2}>
             {deskripsi}
           </Text>
         </View>

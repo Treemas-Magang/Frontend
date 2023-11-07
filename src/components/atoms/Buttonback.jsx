@@ -13,6 +13,7 @@ import {
 const ButtonBack = ({navigation, style}) => {
   const goBack = () => {
     navigation.goBack();
+
   };
   return (
     <TouchableOpacity style={styles.ButtonBack} onPress={goBack}>

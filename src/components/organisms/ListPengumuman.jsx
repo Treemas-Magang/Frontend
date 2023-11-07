@@ -89,19 +89,20 @@ const ListPengumuman = ({navigation}) => {
             dataPengumuman.map((Pengumuman, index) => (
               <CardNotif
                 key={index}
-                onPress={() =>
+                onPress={() => {
                   moveTo(
                     'detailPengumuman',
                     Pengumuman.header,
                     Pengumuman.note,
                     Pengumuman.usrCrt,
                     Pengumuman.image64,
-                  )
-                }
+                  );
+                }}
                 deskripsi={Pengumuman.note}
                 tanggal={Pengumuman.tglUpload}
                 judul={Pengumuman.header}
                 navigation={navigation}
+                id={Pengumuman.id}
               />
             ))
           )}
