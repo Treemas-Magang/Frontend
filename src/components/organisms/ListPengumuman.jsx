@@ -13,10 +13,12 @@ import {
 import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
 import SkeletonCardNotif from '../skeleton/SkeletonCardNotif';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ListPengumuman = ({navigation}) => {
   const [isOpen, setIsopen] = useState(true);
   const [dataPengumuman, setDataPengumuman] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(true);
@@ -46,19 +48,82 @@ const ListPengumuman = ({navigation}) => {
       const data = response.data.data;
       setDataPengumuman(data);
       setIsLoading(false);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.error('Terjadi kesalahan:', error);
     }
   };
-  const moveTo = (tujuan, judul, deskripsi, usrCrt, image) => {
+
+  const moveTo = (tujuan, judul, deskripsi, usrCrt, image, id) => {
     navigation.navigate(tujuan, {
       judul: judul,
       deskripsi: deskripsi,
       usrCrt: usrCrt,
       image: image,
+      id: id,
     });
   };
+
+  // const handleReadNotif = async id => {
+  //   try {
+  //     // Ambil data yang sudah ada dari AsyncStorage
+  //     const existingData = await AsyncStorage.getItem('selectedIds');
+  //     let selectedIds = [];
+
+  //     if (existingData) {
+  //       // Jika data sudah ada, parse dan gunakan
+  //       selectedIds = JSON.parse(existingData);
+  //     }
+
+  //     // Cek apakah ID sudah ada di dalam array
+  //     if (!selectedIds.includes(id)) {
+  //       // Jika belum ada, tambahkan ID ke dalam array
+  //       selectedIds.push(id);
+
+  //       // Simpan kembali array yang sudah diperbarui ke dalam AsyncStorage
+  //       await AsyncStorage.setItem('selectedIds', JSON.stringify(selectedIds));
+  //       console.log('ID berhasil disimpan ke AsyncStorage');
+  //     } else {
+  //       console.log('ID sudah ada di dalam array');
+  //     }
+  //   } catch (error) {
+  //     console.error('Gagal menyimpan ID ke AsyncStorage:', error);
+  //   }
+  // };
+  useEffect(() => {
+    const fetchDataFromAsyncStorage = async () => {
+      try {
+        const existingData = await AsyncStorage.getItem('selectedIds');
+        if (existingData) {
+          const dataId = JSON.parse(existingData);
+          setSelectedIds(dataId);
+          console.log('Data selectedIds diambil dari AsyncStorage:', dataId);
+        } else {
+          console.log('Tidak ada data selectedIds di AsyncStorage.');
+        }
+      } catch (error) {
+        console.error(
+          'Terjadi kesalahan dalam mengambil data dari AsyncStorage:',
+          error,
+        );
+      }
+    };
+
+    fetchDataFromAsyncStorage();
+  }, []);
+
+  useEffect(() => {
+    selectedIds.map(id => {
+      console.log(`ID yang ada di selectedIds: ${id}`);
+    });
+  }, [selectedIds]);
+
+  useEffect(() => {
+    dataPengumuman.map(data => {
+      console.log(`ID yang ada di dataPengumuman: ${data.id}`);
+    });
+  }, [dataPengumuman]);
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -90,12 +155,14 @@ const ListPengumuman = ({navigation}) => {
               <CardNotif
                 key={index}
                 onPress={() => {
+                  // handleReadNotif(Pengumuman.id);
                   moveTo(
                     'detailPengumuman',
                     Pengumuman.header,
                     Pengumuman.note,
                     Pengumuman.usrCrt,
                     Pengumuman.image64,
+                    Pengumuman.id
                   );
                 }}
                 deskripsi={Pengumuman.note}
@@ -103,6 +170,7 @@ const ListPengumuman = ({navigation}) => {
                 judul={Pengumuman.header}
                 navigation={navigation}
                 id={Pengumuman.id}
+                status={Pengumuman.status}
               />
             ))
           )}

@@ -11,25 +11,20 @@ import {
 } from 'react-native-responsive-screen';
 import {useRoute} from '@react-navigation/native';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
-import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { simpanIdYgSudahDiBaca } from '../../utils/simpanStatusRead';
 
 const DetailPengumuman = ({navigation}) => {
   const {judul, deskripsi, usrCrt, image, id} = useRoute().params;
 
   useEffect(() => {
-    try {
-      AsyncStorage.setItem(`pengumuman_${id}`, '1');
-      // AsyncStorage.removeItem(`pengumuman_${id}`);
-      console.log('berhasil simpan status');
-    } catch (error) {
-      console.log(error);
-    }
+    simpanIdYgSudahDiBaca(id)
   }, [id]);
 
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
+      {/* <ButtonBackBaru navigation={navigation} /> */}
       <ButtonHome navigation={navigation} />
       <VectorAtasKecil />
       <View

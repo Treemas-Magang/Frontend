@@ -288,7 +288,7 @@ const screens = [
   },
 ];
 
-const routeName = 'skeletonCardReimburse';
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {
