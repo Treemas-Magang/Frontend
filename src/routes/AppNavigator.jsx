@@ -60,6 +60,7 @@ import SkeletonDataPribadi from '../components/skeleton/SkeletonDataPribadi';
 import SkeletonCardAbsen from '../components/skeleton/SkeletonCardAbsen';
 import SkeletonCardRekapClaim from '../components/skeleton/SkeletonCardRekapClaim';
 import SkeeltonCardRekapCuti from '../components/skeleton/SkeletonCardRekapCuti';
+import SkeletonCardRekapSakit from '../components/skeleton/SkeletonCardRekapSakit';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -316,9 +317,14 @@ const screens = [
     component: SkeeltonCardRekapCuti,
     gestureEnabled: true,
   },
+  {
+    name: 'skeletonCardRekapSakit',
+    component: SkeletonCardRekapSakit,
+    gestureEnabled: true,
+  },
 ];
 
-const routeName = 'splash';
+const routeName = 'skeletonCardRekapSakit';
 const Stack = createNativeStackNavigator();
 
 function App() {
