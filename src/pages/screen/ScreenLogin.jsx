@@ -101,11 +101,14 @@ const ScreenLogin = ({navigation}) => {
       if (dataLogin.token !== null) {
         // const [{ token }]\ = dataLogin;
         const token = dataLogin.token;
+        const role = dataLogin.user.role;
+
         console.log('ini token :', token);
         // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
         await AsyncStorage.setItem('token', token);
         await AsyncStorage.setItem('nik', formLogin.nik);
         await AsyncStorage.setItem('password', formLogin.password);
+        await AsyncStorage.setItem('role', role);
         navigation.replace('dashboard');
       } else {
         console.log('message : ', response.data.message);
@@ -140,9 +143,11 @@ const ScreenLogin = ({navigation}) => {
           if (response.status === 200) {
             // const [{ token }] = dataLogin;
             const token = dataLogin.token;
+            const role = dataLogin.user.role;
             console.log('ini token fp : ', token);
             // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
             await AsyncStorage.setItem('token', token);
+            await AsyncStorage.setItem('role', role);
             navigation.replace('dashboard');
           } else {
             console.log('message : ', response.data.message);

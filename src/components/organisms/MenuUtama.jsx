@@ -22,16 +22,11 @@ const MenuUtama = ({
 
   useEffect(() => {
     getDataFromSession('role')
-      .then(role => {
-        if (role !== null) {
-          setIsRole(role);
-        } else {
-          console.log('Data tidak ditemukan di session.');
-        }
-      })
-      .catch(error => {
-        console.error('Terjadi kesalahan dalam getDataFromSession:', error);
-      });
+    .then((data) => {
+      console.log('role : ', data)
+      setIsRole(data)
+    })
+    .catch(error => console.log(error))
   }, []);
 
   const moveTo = tujuan => {
