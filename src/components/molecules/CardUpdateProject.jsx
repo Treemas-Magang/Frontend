@@ -12,6 +12,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 const CardUpdateProject = ({title, alamat, value, onValueChange}) => {
+  console.log(value)
   return (
     <View style={{flexDirection: 'column'}}>
       <View style={styles.cardUpdate}>

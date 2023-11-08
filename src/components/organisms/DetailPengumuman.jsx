@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Color} from '../../utils/color';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
@@ -11,14 +11,20 @@ import {
 } from 'react-native-responsive-screen';
 import {useRoute} from '@react-navigation/native';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { simpanIdYgSudahDiBaca } from '../../utils/simpanStatusRead';
 
 const DetailPengumuman = ({navigation}) => {
-  const {judul, deskripsi, usrCrt, image} = useRoute().params;
+  const {judul, deskripsi, usrCrt, image, id} = useRoute().params;
 
-  console.log(image, '-asu-');
+  useEffect(() => {
+    simpanIdYgSudahDiBaca(id)
+  }, [id]);
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
+      {/* <ButtonBackBaru navigation={navigation} /> */}
       <ButtonHome navigation={navigation} />
       <VectorAtasKecil />
       <View
