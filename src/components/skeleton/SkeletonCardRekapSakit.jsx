@@ -1,56 +1,98 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, View, Animated, Easing} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faImage} from '@fortawesome/free-solid-svg-icons';
-import {text} from '../../utils/text';
 
 const SkeletonCardRekapSakit = () => {
+  const shimmer = new Animated.Value(0);
+
+  useEffect(() => {
+    shimmerAnimation();
+  });
+
+  const shimmerAnimation = () => {
+    Animated.loop(
+      Animated.timing(shimmer, {
+        toValue: 1,
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }),
+    ).start();
+  };
+
+  const getShimmerOpacity = () => {
+    const inputRange = [0, 0.5, 1];
+    const outputRange = [0.5, 1, 0.5]; // Adjust opacity values as needed
+    return shimmer.interpolate({
+      inputRange,
+      outputRange,
+    });
+  };
   return (
-    <View style={styles.cardRekapSakit}>
-      <View style={styles.cardData}>
-        <View style={styles.data}>
-          <Text style={styles.lebelData}>Dari tanggal</Text>
-          <Text>:</Text>
-          <Text style={styles.labelDeskripsi}></Text>
+    <Animated.View style={{opacity: getShimmerOpacity()}}>
+      <View style={styles.cardRekapSakit}>
+        <View style={styles.cardData}>
+          <View style={styles.data}>
+            <Text style={styles.lebelData}>Dari tanggal</Text>
+            <Text>:</Text>
+            <Animated.View style={{opacity: getShimmerOpacity()}}>
+              <Text style={styles.labelDeskripsi}></Text>
+            </Animated.View>
+          </View>
+          <View style={styles.data}>
+            <Text style={styles.lebelData}>Sampai tanggal</Text>
+            <Text>:</Text>
+            <Animated.View style={{opacity: getShimmerOpacity()}}>
+              <Text style={styles.labelDeskripsi}></Text>
+            </Animated.View>
+          </View>
+          <View style={styles.data}>
+            <Text style={styles.lebelData}>Kembali Kerja</Text>
+            <Text>:</Text>
+            <Animated.View style={{opacity: getShimmerOpacity()}}>
+              <Text style={styles.labelDeskripsi}></Text>
+            </Animated.View>
+          </View>
+          <View style={styles.data}>
+            <Text style={styles.lebelData}>Jumlah Hari</Text>
+            <Text>:</Text>
+            <Animated.View style={{opacity: getShimmerOpacity()}}>
+              <Text style={styles.labelDeskripsi}></Text>
+            </Animated.View>
+          </View>
+          <View style={styles.data}>
+            <Text style={styles.lebelData}>Keterangan</Text>
+            <Text>:</Text>
+            <Animated.View style={{opacity: getShimmerOpacity()}}>
+              <Text style={styles.labelDeskripsi}></Text>
+            </Animated.View>
+          </View>
+          <View style={styles.data}>
+            <Text style={styles.lebelData}>Disetujui Oleh</Text>
+            <Text>:</Text>
+            <Animated.View style={{opacity: getShimmerOpacity()}}>
+              <Text style={styles.labelDeskripsi}></Text>
+            </Animated.View>
+          </View>
+          <View style={styles.data}>
+            <Text style={styles.lebelData}>Catatan Disetujui</Text>
+            <Text>:</Text>
+            <Animated.View style={{opacity: getShimmerOpacity()}}>
+              <Text style={styles.labelDeskripsi}></Text>
+            </Animated.View>
+          </View>
         </View>
-        <View style={styles.data}>
-          <Text style={styles.lebelData}>Sampai tanggal</Text>
-          <Text>:</Text>
-          <Text style={styles.labelDeskripsi}></Text>
-        </View>
-        <View style={styles.data}>
-          <Text style={styles.lebelData}>Kembali Kerja</Text>
-          <Text>:</Text>
-          <Text style={styles.labelDeskripsi}></Text>
-        </View>
-        <View style={styles.data}>
-          <Text style={styles.lebelData}>Jumlah Hari</Text>
-          <Text>:</Text>
-          <Text style={styles.labelDeskripsi}></Text>
-        </View>
-        <View style={styles.data}>
-          <Text style={styles.lebelData}>Keterangan</Text>
-          <Text>:</Text>
-          <Text style={styles.labelDeskripsi}></Text>
-        </View>
-        <View style={styles.data}>
-          <Text style={styles.lebelData}>Disetujui Oleh</Text>
-          <Text>:</Text>
-          <Text style={styles.labelDeskripsi}></Text>
-        </View>
-        <View style={styles.data}>
-          <Text style={styles.lebelData}>Catatan Disetujui</Text>
-          <Text>:</Text>
-          <Text style={styles.labelDeskripsi}></Text>
+        <View style={styles.status}>
+          <FontAwesomeIcon icon={faImage} size={50} color={Color.white} />
+          <Animated.View style={{opacity: getShimmerOpacity()}}>
+            <Text style={styles.statusText}></Text>
+          </Animated.View>
         </View>
       </View>
-      <View style={styles.status}>
-        <FontAwesomeIcon icon={faImage} size={50} color={Color.white} />
-        <Text style={styles.statusText}>DISETUJUI</Text>
-      </View>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -83,9 +125,10 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   statusText: {
-    fontFamily: text.semiBold,
-    fontSize: 25,
-    color: Color.white,
+    backgroundColor: Color.skeleton,
+    width: 180,
+    height: 40,
+    borderRadius: 5,
   },
   data: {
     flexDirection: 'row',
@@ -97,5 +140,6 @@ const styles = StyleSheet.create({
   labelDeskripsi: {
     backgroundColor: Color.skeleton,
     width: 100,
+    borderRadius: 5,
   },
 });
