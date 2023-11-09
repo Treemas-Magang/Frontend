@@ -60,6 +60,11 @@ import SkeletonDataPribadi from '../components/skeleton/SkeletonDataPribadi';
 import SkeletonCardAbsen from '../components/skeleton/SkeletonCardAbsen';
 import SkeletonCardRekapClaim from '../components/skeleton/SkeletonCardRekapClaim';
 import SkeeltonCardRekapCuti from '../components/skeleton/SkeletonCardRekapCuti';
+import SkeletonCardRekapSakit from '../components/skeleton/SkeletonCardRekapSakit';
+import SkeletonCardApproval from '../components/skeleton/SkeletonCardApproval';
+import SkeletonCardAbsenBelumPulang from '../components/skeleton/SkeletonCardAbsenBelumPulang';
+import SkeletonDetailAbsen from '../components/skeleton/SkeletonDetailAbsen';
+import SkeletonDetailApproval from '../components/skeleton/SkeletonDetailApproval';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -314,6 +319,31 @@ const screens = [
   {
     name: 'skeletonCardRekapCuti',
     component: SkeeltonCardRekapCuti,
+    gestureEnabled: true,
+  },
+  {
+    name: 'skeletonCardRekapSakit',
+    component: SkeletonCardRekapSakit,
+    gestureEnabled: true,
+  },
+  {
+    name: 'skeletonCardApproval',
+    component: SkeletonCardApproval,
+    gestureEnabled: true,
+  },
+  {
+    name: 'skeletonCardAbsenBelumPulang',
+    component: SkeletonCardAbsenBelumPulang,
+    gestureEnabled: true,
+  },
+  {
+    name: 'skeletonDetailAbsen',
+    component: SkeletonDetailAbsen,
+    gestureEnabled: true,
+  },
+  {
+    name: 'skeletonDetailApproval',
+    component: SkeletonDetailApproval,
     gestureEnabled: true,
   },
 ];
