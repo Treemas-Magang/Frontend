@@ -11,20 +11,19 @@ import {
 } from 'react-native-responsive-screen';
 import {useRoute} from '@react-navigation/native';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { simpanIdYgSudahDiBaca } from '../../utils/simpanStatusRead';
+import ButtonBackBaru from '../atoms/ButtonBackBaru';
 
 const DetailPengumuman = ({navigation}) => {
   const {judul, deskripsi, usrCrt, image, id} = useRoute().params;
 
-  useEffect(() => {
-    simpanIdYgSudahDiBaca(id)
-  }, [id]);
+  // useEffect(() => {
+  //   simpanIdYgSudahDiBaca(id)
+  // }, [id]);
 
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
-      {/* <ButtonBackBaru navigation={navigation} /> */}
+      {/* <ButtonBackBaru navigation={navigation} tujuan={'notifPengumuman'} /> */}
       <ButtonHome navigation={navigation} />
       <VectorAtasKecil />
       <View

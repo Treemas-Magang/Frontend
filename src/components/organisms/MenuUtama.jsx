@@ -5,6 +5,7 @@ import IconMenu from '../atoms/IconMenu';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import {getDataFromSession} from '../../utils/getDataSession';
+import { useSelector } from 'react-redux';
 
 const MenuUtama = ({
   navigation,
@@ -14,8 +15,9 @@ const MenuUtama = ({
   gap,
   box,
 }) => {
+  const pengumuman = useSelector(state => state.initialStateJumlahPengumuman);
   const [totalApproval, setTotalApproval] = useState(5);
-  const [totalPengumuman, setTotalPengumuman] = useState(6);
+  const [totalPengumuman, setTotalPengumuman] = useState(0);
   const [isRole, setIsRole] = useState('');
 
   const totalNotive = totalApproval + totalPengumuman;
@@ -28,7 +30,6 @@ const MenuUtama = ({
     })
     .catch(error => console.log(error))
   }, []);
-
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };

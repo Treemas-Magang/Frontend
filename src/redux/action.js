@@ -112,3 +112,10 @@ export const setFormUpdatePassword = (inputType, value) => {
     inputValue: value,
   };
 };
+export const setJumlahPengumuman = (inputType, value) => {
+  return {
+    type: 'SET_JUMLAH_PENGUMUMAN',
+    inputType: inputType,
+    inputValue: value,
+  };
+};

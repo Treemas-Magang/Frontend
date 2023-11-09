@@ -12,7 +12,7 @@ const initialStateLogin = {
   formLogin: {
     nik: '',
     password: '',
-    deviceId: '',
+    handsetImei: '',
   },
 };
 const LoginReducer = (state = initialStateLogin, action) => {
@@ -391,6 +391,23 @@ const UpdatePasswordReducer = (state = initialStateUpdatepassword, action) => {
   }
   return state;
 };
+const initialStateJumlahPengumuman = {
+  pengumuman: 0,
+};
+
+const JumlahPengumumanReducer = (
+  state = initialStateJumlahPengumuman,
+  action,
+) => {
+  if (action.type === 'SET_JUMLAH_PENGUMUMAN') {
+    return {
+      ...state,
+      pengumuman: action.inputValue,
+    };
+  }
+  return state;
+};
+
 
 const reducer = combineReducers({
   LoginReducer,
@@ -409,6 +426,7 @@ const reducer = combineReducers({
   AbsenPulangReducer,
   UpdateAbsenReducer,
   UpdatePasswordReducer,
+  JumlahPengumumanReducer
 });
 
 export default reducer;
