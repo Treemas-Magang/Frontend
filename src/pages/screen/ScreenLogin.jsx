@@ -37,6 +37,8 @@ const ScreenLogin = ({navigation}) => {
   // const {location} = useSelector(state => state.SplashReducer);
   const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
+  const routeAPI = 'https://treemas-api-403500.et.r.appspot.com';
+  // const routeAPI = 'http://192.168.10.31:8081';
   useEffect(() => {
     checkBiometryType(dispatch);
     getDataFromSession('deviceId')
@@ -91,14 +93,17 @@ const ScreenLogin = ({navigation}) => {
     dispatch(setForm(inputType, value));
   };
   const sendData = async () => {
+    console.log(formLogin)
     try {
       const response = await axios.post(
-        'https://treemas-api-403500.et.r.appspot.com/api/auth/login',
+        `${routeAPI}/api/auth/login`,
         formLogin,
       );
       const dataLogin = response.data.data;
       console.log(dataLogin);
-      if (dataLogin.token !== null) {
+      
+      if (response.status === 200) {
+        console.log(response.data.data)
         // const [{ token }]\ = dataLogin;
         const token = dataLogin.token;
         const role = dataLogin.user.role;
@@ -114,7 +119,7 @@ const ScreenLogin = ({navigation}) => {
         console.log('message : ', response.data.message);
       }
     } catch (error) {
-      console.error('Terjadi kesalahan:', error);
+      console.log('handset imei tidak sama');//masih proses
     }
   };
 
@@ -132,11 +137,9 @@ const ScreenLogin = ({navigation}) => {
       if (result.success) {
         // Pemindaian berhasil
         console.log('Otentikasi berhasil');
-        ///////////////////////////////////////
-        // LoginFingerprint({navigation});
         try {
           const response = await axios.post(
-            'https://treemas-api-403500.et.r.appspot.com/api/auth/login',
+            `${routeAPI}/api/auth/login`,
             formLoginFP,
           );
           const dataLogin = response.data.data;

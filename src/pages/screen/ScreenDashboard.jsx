@@ -3,7 +3,7 @@
 /* eslint-disable react-native/no-inline-styles */
 
 import {StyleSheet, Text, View, Image} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useRoute} from '@react-navigation/native';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
@@ -15,7 +15,20 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {
+  getToken,
+  getData,
+  checkAndSaveToStorage,
+  updateStatusInStorage,
+  hitungJumlahStatusFalse,
+  pengumumanData
+} from '../../utils/buatStatusPengumumanFalse';
 const ScreenDashboard = ({navigation}) => {
+  useEffect(() => {
+    // Panggil fungsi getToken saat komponen ini dipasang
+    getToken();
+  }, []);
+  
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>

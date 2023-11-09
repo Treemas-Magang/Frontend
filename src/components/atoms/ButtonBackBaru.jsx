@@ -10,9 +10,9 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const ButtonBackBaru = ({navigation, style}) => {
+const ButtonBackBaru = ({navigation, style, tujuan}) => {
   const goBack = () => {
-    navigation.navigate('notifPengumuman');
+    navigation.navigate(tujuan);
   };
   return (
     <TouchableOpacity style={styles.ButtonBack} onPress={goBack}>
