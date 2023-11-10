@@ -14,11 +14,11 @@ import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
 import SkeletonCardNotif from '../skeleton/SkeletonCardNotif';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useDispatch } from 'react-redux';
-import { setJumlahPengumuman } from '../../redux';
+import {useDispatch} from 'react-redux';
+import {setJumlahPengumuman} from '../../redux';
 
 const ListPengumuman = ({navigation}) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [dataPengumuman, setDataPengumuman] = useState([]);
   const [dataPengumumanStorage, setDataPengumumanStorage] = useState([]);
   const [dataGabungan, setDataGabungan] = useState([]);
@@ -145,49 +145,49 @@ const ListPengumuman = ({navigation}) => {
     }
   };
 
-const updateStatusInStorage = async id => {
-  try {
-    // Mengambil data dari AsyncStorage
-    const dataFromStorage = await AsyncStorage.getItem('announcementData');
+  const updateStatusInStorage = async id => {
+    try {
+      // Mengambil data dari AsyncStorage
+      const dataFromStorage = await AsyncStorage.getItem('announcementData');
 
-    if (dataFromStorage !== null) {
-      // Jika data ditemukan, parse data JSON
-      const parsedData = JSON.parse(dataFromStorage);
+      if (dataFromStorage !== null) {
+        // Jika data ditemukan, parse data JSON
+        const parsedData = JSON.parse(dataFromStorage);
 
-      // Cari item dengan id yang sesuai dalam data tersebut
-      const itemToUpdate = parsedData.find(item => item.id === id);
+        // Cari item dengan id yang sesuai dalam data tersebut
+        const itemToUpdate = parsedData.find(item => item.id === id);
 
-      if (itemToUpdate) {
-        // Jika item ditemukan, ubah status menjadi true
-        itemToUpdate.status = true;
+        if (itemToUpdate) {
+          // Jika item ditemukan, ubah status menjadi true
+          itemToUpdate.status = true;
 
-        // Simpan data yang telah diubah kembali ke AsyncStorage
-        await AsyncStorage.setItem(
-          'announcementData',
-          JSON.stringify(parsedData),
-        );
-        console.log(
-          `Status untuk ID ${id} berhasil diubah menjadi true di AsyncStorage`,
-        );
-        console.log('ubah status :', dataPengumumanStorage);
+          // Simpan data yang telah diubah kembali ke AsyncStorage
+          await AsyncStorage.setItem(
+            'announcementData',
+            JSON.stringify(parsedData),
+          );
+          console.log(
+            `Status untuk ID ${id} berhasil diubah menjadi true di AsyncStorage`,
+          );
+          console.log('ubah status :', dataPengumumanStorage);
+        } else {
+          // Item dengan id yang diberikan tidak ditemukan
+          console.log(`Item dengan ID ${id} tidak ditemukan.`);
+        }
       } else {
-        // Item dengan id yang diberikan tidak ditemukan
-        console.log(`Item dengan ID ${id} tidak ditemukan.`);
+        // Data tidak ditemukan di AsyncStorage
+        console.log('Data tidak ditemukan di AsyncStorage');
       }
-    } else {
-      // Data tidak ditemukan di AsyncStorage
-      console.log('Data tidak ditemukan di AsyncStorage');
+    } catch (error) {
+      console.error('Gagal mengubah status di AsyncStorage:', error);
     }
-  } catch (error) {
-    console.error('Gagal mengubah status di AsyncStorage:', error);
-  }
-};
+  };
 
-// Panggil fungsi updateStatusInStorage saat handleReadNotif dijalankan
-const handleReadNotif = async id => {
-  // Panggil fungsi untuk mengubah status
-  updateStatusInStorage(id);
-  // ... kode lainnya
+  // Panggil fungsi updateStatusInStorage saat handleReadNotif dijalankan
+  const handleReadNotif = async id => {
+    // Panggil fungsi untuk mengubah status
+    updateStatusInStorage(id);
+    // ... kode lainnya
     const updatedDataPengumuman = dataGabungan.map(item => {
       if (item.id === id) {
         return {...item, status: true};
@@ -197,38 +197,38 @@ const handleReadNotif = async id => {
 
     // Set dataPengumuman yang telah diperbarui
     setDataGabungan(updatedDataPengumuman);
-};
-useEffect(() => {
-  // Fungsi untuk menggabungkan status
-  const combineStatus = (DP, DPS) => {
-    const combinedData = DP.map(item => {
-      const matchingStorageItem = DPS.find(
-        storageItem => storageItem.id === item.id,
-      );
-      if (matchingStorageItem) {
-        // Jika item dengan ID yang cocok ditemukan di storage, gunakan status dari storage
-        return {
-          ...item,
-          status: matchingStorageItem.status,
-        };
-      } else {
-        // Jika tidak ditemukan, gunakan status default (false)
-        return {
-          ...item,
-          status: false,
-        };
-      }
-    });
-    return combinedData;
   };
+  useEffect(() => {
+    // Fungsi untuk menggabungkan status
+    const combineStatus = (DP, DPS) => {
+      const combinedData = DP.map(item => {
+        const matchingStorageItem = DPS.find(
+          storageItem => storageItem.id === item.id,
+        );
+        if (matchingStorageItem) {
+          // Jika item dengan ID yang cocok ditemukan di storage, gunakan status dari storage
+          return {
+            ...item,
+            status: matchingStorageItem.status,
+          };
+        } else {
+          // Jika tidak ditemukan, gunakan status default (false)
+          return {
+            ...item,
+            status: false,
+          };
+        }
+      });
+      return combinedData;
+    };
 
-  // Panggil fungsi combineStatus untuk menggabungkan status
-  const combinedData = combineStatus(dataPengumuman, dataPengumumanStorage);
+    // Panggil fungsi combineStatus untuk menggabungkan status
+    const combinedData = combineStatus(dataPengumuman, dataPengumumanStorage);
 
-  // Simpan hasil gabungan ke state dataGabungan
-  setDataGabungan(combinedData);
-  console.log('data berhasil di gabung')
-}, [dataPengumuman, dataPengumumanStorage]);
+    // Simpan hasil gabungan ke state dataGabungan
+    setDataGabungan(combinedData);
+    console.log('data berhasil di gabung');
+  }, [dataPengumuman, dataPengumumanStorage]);
 
   const moveTo = (tujuan, judul, deskripsi, usrCrt, image, id) => {
     navigation.navigate(tujuan, {
@@ -282,7 +282,7 @@ useEffect(() => {
                   );
                 }}
                 deskripsi={Pengumuman.note}
-                tanggal={Pengumuman.tglUpload}
+                tanggal={Pengumuman.tgl_upload}
                 judul={Pengumuman.header}
                 navigation={navigation}
                 id={Pengumuman.id}

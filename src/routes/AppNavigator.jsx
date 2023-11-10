@@ -66,6 +66,7 @@ import SkeletonCardAbsenBelumPulang from '../components/skeleton/SkeletonCardAbs
 import SkeletonDetailAbsen from '../components/skeleton/SkeletonDetailAbsen';
 import SkeletonDetailApproval from '../components/skeleton/SkeletonDetailApproval';
 import SkeletonCardMember from '../components/skeleton/SkeletonCardMember';
+import SkeletonCardMemberProject from '../components/skeleton/SkeletonCardMemberProject';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -350,6 +351,11 @@ const screens = [
   {
     name: 'skeletonCardMember',
     component: SkeletonCardMember,
+    gestureEnabled: true,
+  },
+  {
+    name: 'skeletonCardMemberProject',
+    component: SkeletonCardMemberProject,
     gestureEnabled: true,
   },
 ];

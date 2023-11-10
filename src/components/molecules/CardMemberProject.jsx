@@ -9,7 +9,7 @@ const CardMemberProject = ({navigation, nama}) => {
   };
   return (
     <TouchableOpacity
-      style={styles.CardPilihProject}
+      style={styles.CardMemberProject}
       onPress={() => moveTo('listMembers')}>
       <Text style={styles.Text}>{nama}</Text>
     </TouchableOpacity>
@@ -19,7 +19,7 @@ const CardMemberProject = ({navigation, nama}) => {
 export default CardMemberProject;
 
 const styles = StyleSheet.create({
-  CardPilihProject: {
+  CardMemberProject: {
     backgroundColor: 'transparent',
     borderColor: Color.green,
     borderWidth: 2,
