@@ -33,13 +33,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  VectorAtasKanan: {
-    position: 'absolute',
-    width: wp('30%'),
-    top: hp('0%'),
-    right: hp('-0.5%'),
-    zIndex: -11,
+    paddingTop: 85,
   },
   ukuranWrappPilihProject: {
     width: wp('85%'),

@@ -7,13 +7,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-const CardPilihProject = ({navigation, onPress}) => {
+const CardPilihProject = ({onPress, nama, alamat}) => {
   return (
     <TouchableOpacity style={styles.CardPilihProject} onPress={onPress}>
-      <Text style={styles.Text}>ANDALAN FINANCE INDONESIA</Text>
-      <Text style={styles.TextDeskripsi}>
-        jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-        Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
+      <Text style={styles.Text}>{nama}</Text>
+      <Text style={styles.TextDeskripsi} numberOfLines={4}>
+        {alamat}
       </Text>
     </TouchableOpacity>
   );
@@ -35,9 +34,12 @@ const styles = StyleSheet.create({
   },
   Text: {
     fontFamily: text.semiBold,
-    fontSize: 16,
+    fontSize: 14,
     color: Color.green,
     paddingVertical: 10,
+    textTransform: 'uppercase',
+    width: wp('60%'),
+    textAlign: 'center',
   },
   TextDeskripsi: {
     fontFamily: text.extraLight,
