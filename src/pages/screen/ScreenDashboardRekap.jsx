@@ -50,7 +50,7 @@ const ScreenDashboardRekap = ({navigation}) => {
         />
         <View style={styles.containerMenu}>
           <ButtonBack navigation={navigation} />
-          <Text style={styles.judulSection}>menu rekap</Text>
+          <Text style={styles.judulSectionMenu}>menu rekap</Text>
           <MenuRekap
             styleImage={styles.imgIcon}
             styleNamaMenu={styles.namaMenu}
@@ -89,6 +89,13 @@ const styles = StyleSheet.create({
   judulSection: {
     marginVertical: hp('2%'),
     fontSize: hp('2%'),
+    fontFamily: text.bold,
+    color: Color.blue,
+    textTransform: 'uppercase',
+  },
+  judulSectionMenu: {
+    marginVertical: hp('3%'),
+    fontSize: hp('3%'),
     fontFamily: text.bold,
     color: Color.blue,
     textTransform: 'uppercase',

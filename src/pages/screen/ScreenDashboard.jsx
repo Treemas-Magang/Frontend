@@ -21,14 +21,14 @@ import {
   checkAndSaveToStorage,
   updateStatusInStorage,
   hitungJumlahStatusFalse,
-  pengumumanData
+  pengumumanData,
 } from '../../utils/buatStatusPengumumanFalse';
 const ScreenDashboard = ({navigation}) => {
   useEffect(() => {
     // Panggil fungsi getToken saat komponen ini dipasang
     getToken();
   }, []);
-  
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>
@@ -59,7 +59,7 @@ const ScreenDashboard = ({navigation}) => {
           style={styles.styleStatistikTahunIni}
         />
         <View style={styles.containerMenu}>
-          <Text style={styles.judulSection}>menu utama</Text>
+          <Text style={styles.judulSectionMenu}>menu utama</Text>
           <MenuUtama
             styleImage={styles.imgIcon}
             styleNamaMenu={styles.namaMenu}
@@ -95,6 +95,13 @@ const styles = StyleSheet.create({
   judulSection: {
     marginVertical: hp('2%'),
     fontSize: hp('2%'),
+    fontFamily: text.bold,
+    color: Color.blue,
+    textTransform: 'uppercase',
+  },
+  judulSectionMenu: {
+    marginVertical: hp('1.5%'),
+    fontSize: hp('2.5%'),
     fontFamily: text.bold,
     color: Color.blue,
     textTransform: 'uppercase',

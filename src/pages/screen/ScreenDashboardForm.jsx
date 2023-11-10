@@ -45,7 +45,7 @@ const ScreenDashboardForm = ({navigation}) => {
         />
         <View style={styles.containerMenu}>
           <ButtonBack navigation={navigation} />
-          <Text style={styles.judulSection}>menu form</Text>
+          <Text style={styles.judulSectionMenu}>menu form</Text>
           <MenuForm
             navigation={navigation}
             styleImage={styles.imgIcon}
@@ -85,6 +85,14 @@ const styles = StyleSheet.create({
     color: Color.blue,
     textTransform: 'uppercase',
   },
+  judulSectionMenu: {
+    marginVertical: hp('1.5%'),
+    fontSize: hp('3%'),
+    fontFamily: text.bold,
+    color: Color.blue,
+    textTransform: 'uppercase',
+  },
+
   wrapDataPribadi: {
     height: hp('15%'),
     width: wp('100%'),
