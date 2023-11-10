@@ -1,29 +1,40 @@
 /* eslint-disable prettier/prettier */
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
-} from 'react-native';
-import React from 'react';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
+import CardMemberProject from '../molecules/CardMemberProject';
 
 const ListMemberProject = ({navigation}) => {
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
-  };
+  const [namaMembers, setNamaMember] = useState([
+    {
+      nama: 'Bank UOB',
+    },
+    {
+      nama: 'GRAHA TELKOMSIGMA',
+    },
+    {
+      nama: 'BANK PERMATA',
+    },
+    {
+      nama: 'MANDIRI',
+    },
+    {
+      nama: 'PT MITRA TRANSAKSI INDONESIA',
+    },
+    {
+      nama: 'PT TREEMAS SOLUSI UTAMA',
+    },
+  ]);
   return (
     <View style={styles.listMember}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
       <VectorAtasBesar />
-      <View style={{paddingVertical: 70}}></View>
+      <View style={{paddingVertical: 55}}></View>
       <View style={styles.wrapListMember}>
         <View style={{alignItems: 'center', marginVertical: 20}}>
           <Text style={styles.judul}>MEMBER</Text>
@@ -59,36 +70,14 @@ const ListMemberProject = ({navigation}) => {
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <TouchableOpacity
-            style={styles.CardPilihProject}
-            onPress={() => moveTo('listMembers')}>
-            <Text style={styles.Text}>BANK UOB</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.CardPilihProject}
-            onPress={() => moveTo('listMembers')}>
-            <Text style={styles.Text}>GRAHA TELKOMSIGMA</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.CardPilihProject}
-            onPress={() => moveTo('listMembers')}>
-            <Text style={styles.Text}>BANK PERMATA</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.CardPilihProject}
-            onPress={() => moveTo('listMembers')}>
-            <Text style={styles.Text}>MANDIRI</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.CardPilihProject}
-            onPress={() => moveTo('listMembers')}>
-            <Text style={styles.Text}>BANK OF TOKYO</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.CardPilihProject}
-            onPress={() => moveTo('listMembers')}>
-            <Text style={styles.Text}>PT MITRA TRANSAKSI INDONESIA</Text>
-          </TouchableOpacity>
+          {namaMembers.map((namaMember, index) => (
+            <View key={index}>
+              <CardMemberProject
+                nama={namaMember.nama}
+                navigation={navigation}
+              />
+            </View>
+          ))}
         </ScrollView>
       </View>
     </View>
@@ -127,22 +116,6 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     borderRadius: 15,
-  },
-  Text: {
-    fontFamily: text.semiBold,
-    fontSize: 16,
-    color: Color.green,
-  },
-  CardPilihProject: {
-    backgroundColor: 'transparent',
-    borderColor: Color.green,
-    borderWidth: 2,
-    width: 280,
-    minHeight: 50,
-    borderRadius: 5,
-    marginVertical: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   VectorAtasKanan: {
     position: 'absolute',

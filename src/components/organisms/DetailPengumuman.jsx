@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {Color} from '../../utils/color';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
@@ -47,7 +47,7 @@ const DetailPengumuman = ({navigation}) => {
               fontFamily: text.regular,
               fontSize: 12,
               textAlign: 'justify',
-              width: 320,
+              width: 350,
             }}>
             {deskripsi}
           </Text>
@@ -75,12 +75,16 @@ const DetailPengumuman = ({navigation}) => {
             }}>
             {usrCrt}
           </Text>
-          <View style={{width: wp('100%')}}>
+          <View style={{alignItems: 'center'}}>
             <Image
+              resizeMode="contain"
               source={{uri: `data:image/jpeg;base64,${image}`}}
               style={{
-                width: 200,
-                height: 107,
+                width: wp('80%'),
+                height: hp('30%'),
+                borderRadius: 5,
+                borderWidth: 4,
+                borderColor: Color.green,
               }}
             />
           </View>

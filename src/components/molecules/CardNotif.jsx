@@ -10,9 +10,7 @@ const CardNotif = ({open, tanggal, judul, deskripsi, onPress, id, status}) => {
     <TouchableOpacity
       style={[
         styles.CardNotifStyle,
-        open
-          ? {backgroundColor: Color.cardTidakMasuk}
-          : {backgroundColor: Color.green},
+        status ? {backgroundColor: Color.grey} : {backgroundColor: Color.green},
       ]}
       onPress={onPress}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>

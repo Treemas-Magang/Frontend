@@ -34,7 +34,7 @@ const ListMembers = ({navigation}) => {
         <ButtonBack navigation={navigation} />
         <ButtonHome navigation={navigation} />
         <VectorAtasBesar />
-        <View style={{paddingVertical: 70}}></View>
+        <View style={{paddingVertical: 55}}></View>
         <View style={styles.wrapListMember}>
           {isDropdown ? <DropdownList /> : ''}
           <TouchableOpacity onPress={handleDropdown} style={styles.iconDrop}>
