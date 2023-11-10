@@ -12,6 +12,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import ButtonBack from '../../components/atoms/ButtonBack';
 const ScreenDashboardKehadiran = ({navigation}) => {
   const [isToken, setIsToken] = useState();
   console.log('ini token : ', isToken);
@@ -63,6 +64,7 @@ const ScreenDashboardKehadiran = ({navigation}) => {
           style={styles.styleStatistikTahunIni}
         />
         <View style={styles.containerMenu}>
+          <ButtonBack navigation={navigation} />
           <Text style={styles.judulSection}>menu kehadiran</Text>
           <MenuKehadiran
             styleImage={styles.imgIcon}

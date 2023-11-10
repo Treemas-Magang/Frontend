@@ -11,6 +11,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import ButtonBack from '../../components/atoms/ButtonBack';
 const ScreenDashboardNotif = ({navigation}) => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
@@ -42,6 +43,7 @@ const ScreenDashboardNotif = ({navigation}) => {
           style={styles.styleStatistikTahunIni}
         />
         <View style={styles.containerMenu}>
+          <ButtonBack navigation={navigation} />
           <Text style={styles.judulSection}>menu notif</Text>
           <MenuPengumuman
             styleImage={styles.imgIcon}

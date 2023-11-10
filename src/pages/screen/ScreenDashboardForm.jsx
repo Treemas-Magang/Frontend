@@ -11,6 +11,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import ButtonBack from '../../components/atoms/ButtonBack';
 
 const ScreenDashboardForm = ({navigation}) => {
   return (
@@ -43,6 +44,7 @@ const ScreenDashboardForm = ({navigation}) => {
           style={styles.styleStatistikTahunIni}
         />
         <View style={styles.containerMenu}>
+          <ButtonBack navigation={navigation} />
           <Text style={styles.judulSection}>menu form</Text>
           <MenuForm
             navigation={navigation}

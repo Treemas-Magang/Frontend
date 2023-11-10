@@ -12,6 +12,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import ButtonBack from '../../components/atoms/ButtonBack';
 const ScreenDashboardRekap = ({navigation}) => {
   return (
     // <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -48,6 +49,7 @@ const ScreenDashboardRekap = ({navigation}) => {
           style={styles.styleStatistikTahunIni}
         />
         <View style={styles.containerMenu}>
+          <ButtonBack navigation={navigation} />
           <Text style={styles.judulSection}>menu rekap</Text>
           <MenuRekap
             styleImage={styles.imgIcon}
