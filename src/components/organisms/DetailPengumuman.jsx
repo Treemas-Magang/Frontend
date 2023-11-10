@@ -16,10 +16,6 @@ import ButtonBackBaru from '../atoms/ButtonBackBaru';
 const DetailPengumuman = ({navigation}) => {
   const {judul, deskripsi, usrCrt, image, id} = useRoute().params;
 
-  // useEffect(() => {
-  //   simpanIdYgSudahDiBaca(id)
-  // }, [id]);
-
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />

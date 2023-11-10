@@ -14,14 +14,17 @@ const MenuUtama = ({
   styleNamaMenu,
   gap,
   box,
+  jml_blm_baca
 }) => {
   const pengumuman = useSelector(state => state.initialStateJumlahPengumuman);
   const [totalApproval, setTotalApproval] = useState(5);
-  const [totalPengumuman, setTotalPengumuman] = useState(0);
+  const [totalPengumuman, setTotalPengumuman] = useState(1);
   const [isRole, setIsRole] = useState('');
 
   const totalNotive = totalApproval + totalPengumuman;
-
+  useEffect(() => {
+    setTotalPengumuman(+jml_blm_baca);
+  }, [jml_blm_baca])
   useEffect(() => {
     getDataFromSession('role')
     .then((data) => {

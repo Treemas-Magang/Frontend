@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
@@ -11,7 +11,23 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {
+  getToken,
+  countDataWithFalseStatus,
+} from '../../utils/buatStatusPengumumanFalse';
 const ScreenDashboardNotif = ({navigation}) => {
+    const [jmlBlmBaca, setJmlBlmBaca] = useState(0)
+  useEffect(() => {
+    getToken().then(() => {
+      countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
+        console.log(
+          'Jumlah ID dengan status false:',
+          jumlahDataDenganStatusFalse,
+        );
+        setJmlBlmBaca(+jumlahDataDenganStatusFalse);
+      });
+    });
+  }, []);
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>
@@ -50,6 +66,7 @@ const ScreenDashboardNotif = ({navigation}) => {
             gap={styles.gapMenuIcon}
             box={styles.boxMenuIcon}
             navigation={navigation}
+            jml_blm_baca={jmlBlmBaca}
           />
         </View>
       </View>

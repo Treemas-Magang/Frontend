@@ -12,15 +12,14 @@ const MenuPengumuman = ({
   styleNamaMenu,
   gap,
   box,
-  scrollViewContent,
+  jml_blm_baca
 }) => {
   const [jumlahPengumuman, setJumlahPengumuman] = useState(null);
   const [jumlahApproval, setJumlahApproval] = useState(null);
-
   useEffect(() => {
     setJumlahApproval(10);
-    setJumlahPengumuman(5);
-  }, []);
+    setJumlahPengumuman(jml_blm_baca);
+  }, [jml_blm_baca]);
 
   const moveTo = screen => {
     navigation.navigate(screen);

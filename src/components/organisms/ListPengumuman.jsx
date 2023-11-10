@@ -16,6 +16,7 @@ import SkeletonCardNotif from '../skeleton/SkeletonCardNotif';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { setJumlahPengumuman } from '../../redux';
+import ButtonBackBaru from '../atoms/ButtonBackBaru';
 
 const ListPengumuman = ({navigation}) => {
   const dispatch = useDispatch()
@@ -24,6 +25,14 @@ const ListPengumuman = ({navigation}) => {
   const [dataGabungan, setDataGabungan] = useState([]);
   // const [suksesSaveToStorage, setSuksesSavetoStorage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [role, setRole] = useState('')
+  useEffect(() => {
+    getDataFromSession('role')
+    .then(data => {
+      setRole(data);
+    })
+    .catch(error => console.log(error));
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -169,7 +178,6 @@ const updateStatusInStorage = async id => {
         console.log(
           `Status untuk ID ${id} berhasil diubah menjadi true di AsyncStorage`,
         );
-        console.log('ubah status :', dataPengumumanStorage);
       } else {
         // Item dengan id yang diberikan tidak ditemukan
         console.log(`Item dengan ID ${id} tidak ditemukan.`);
@@ -241,8 +249,12 @@ useEffect(() => {
   };
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
-      <ButtonBack navigation={navigation} />
-      {/* <ButtonBackBaru navigation={navigation} tujuan='dashboard' /> */}
+      {/* <ButtonBack navigation={navigation} /> */}
+      {role === 'USER' ? (
+        <ButtonBackBaru navigation={navigation} tujuan="dashboard" />
+      ) : (
+        <ButtonBackBaru navigation={navigation} tujuan="dashboardNotif" />
+      )}
       <ButtonHome navigation={navigation} />
       <Image
         style={styles.VectorAtas}
@@ -267,28 +279,30 @@ useEffect(() => {
               <SkeletonCardNotif />
             </>
           ) : (
-            dataGabungan.map((Pengumuman, index) => (
-              <CardNotif
-                key={index}
-                onPress={() => {
-                  handleReadNotif(Pengumuman.id);
-                  moveTo(
-                    'detailPengumuman',
-                    Pengumuman.header,
-                    Pengumuman.note,
-                    Pengumuman.usrCrt,
-                    Pengumuman.image64,
-                    Pengumuman.id,
-                  );
-                }}
-                deskripsi={Pengumuman.note}
-                tanggal={Pengumuman.tglUpload}
-                judul={Pengumuman.header}
-                navigation={navigation}
-                id={Pengumuman.id}
-                status={Pengumuman.status}
-              />
-            ))
+            dataGabungan
+              .sort((a, b) => b.id - a.id)
+              .map((Pengumuman, index) => (
+                <CardNotif
+                  key={index}
+                  onPress={() => {
+                    handleReadNotif(Pengumuman.id);
+                    moveTo(
+                      'detailPengumuman',
+                      Pengumuman.header,
+                      Pengumuman.note,
+                      Pengumuman.usrCrt,
+                      Pengumuman.image64,
+                      Pengumuman.id,
+                    );
+                  }}
+                  deskripsi={Pengumuman.note}
+                  tanggal={Pengumuman.tglUpload}
+                  judul={Pengumuman.header}
+                  navigation={navigation}
+                  id={Pengumuman.id}
+                  status={Pengumuman.status}
+                />
+              ))
           )}
         </ScrollView>
       </View>

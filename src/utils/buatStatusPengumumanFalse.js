@@ -127,3 +127,21 @@ export const updateStatusInStorage = async id => {
     console.error('Gagal mengubah status di AsyncStorage:', error);
   }
 };
+// Fungsi untuk menghitung data dengan status true
+// Fungsi untuk menghitung data dengan status true dari AsyncStorage
+export const countDataWithFalseStatus = async () => {
+  try {
+    const dataFromStorage = await AsyncStorage.getItem('announcementData');
+    if (dataFromStorage !== null) {
+      const parsedData = JSON.parse(dataFromStorage);
+      const falseStatusCount = parsedData.filter(item => item.status === false).length;
+    //   const trueStatusCount = parsedData.filter(item => item.status === true).length;
+      return falseStatusCount.toString(); // Mengonversi hasil perhitungan menjadi string
+    } else {
+      return '0'; // Mengembalikan '0' jika data tidak ditemukan di AsyncStorage
+    }   
+  } catch (error) {
+    console.error('Gagal mengambil data dari AsyncStorage:', error);
+    return '0'; // Mengembalikan '0' jika terjadi kesalahan
+  }
+};

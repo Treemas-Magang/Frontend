@@ -3,7 +3,7 @@
 /* eslint-disable react-native/no-inline-styles */
 
 import {StyleSheet, Text, View, Image} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
@@ -21,14 +21,20 @@ import {
   checkAndSaveToStorage,
   updateStatusInStorage,
   hitungJumlahStatusFalse,
-  pengumumanData
+  pengumumanData,
+  countDataWithFalseStatus,
 } from '../../utils/buatStatusPengumumanFalse';
 const ScreenDashboard = ({navigation}) => {
-  useEffect(() => {
-    // Panggil fungsi getToken saat komponen ini dipasang
-    getToken();
-  }, []);
-  
+  const [jmlBlmBaca, setJmlBlmBaca] = useState(0)
+useEffect(() => {
+  getToken().then(() => {
+    countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
+      console.log('Jumlah ID dengan status false:', jumlahDataDenganStatusFalse);
+      setJmlBlmBaca(+jumlahDataDenganStatusFalse)
+    });
+  });
+}, []);
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>
@@ -67,6 +73,7 @@ const ScreenDashboard = ({navigation}) => {
             gap={styles.gapMenuIcon}
             box={styles.boxMenuIcon}
             navigation={navigation}
+            jml_blm_baca={jmlBlmBaca}
           />
         </View>
       </View>
