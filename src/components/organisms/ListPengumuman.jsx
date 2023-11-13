@@ -296,7 +296,7 @@ const ListPengumuman = ({navigation}) => {
                     );
                   }}
                   deskripsi={Pengumuman.note}
-                  tanggal={Pengumuman.tglUpload}
+                  tanggal={Pengumuman.tgl_upload}
                   judul={Pengumuman.header}
                   navigation={navigation}
                   id={Pengumuman.id}
