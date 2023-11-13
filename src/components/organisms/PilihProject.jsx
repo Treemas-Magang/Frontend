@@ -1,12 +1,33 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import React from 'react';
-import ButtonAction from '../../components/atoms/ButtonAction';
+import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 import CardPilihProject from '../molecules/CardPilihProject';
 import {text} from '../../utils/text';
 
 const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
+  const [pilihProjects, setPilihProject] = useState([
+    {
+      nama: 'Bank UOB',
+      alamat:
+        'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15326, Indonesia',
+    },
+    {
+      nama: 'PT TREEMAS SOLUSI UTAMA',
+      alamat:
+        'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15326, Indonesia',
+    },
+    {
+      nama: 'BANK ANDALAN RAKYAT',
+      alamat:
+        'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15326, Indonesia',
+    },
+    {
+      nama: 'Bank MEGA',
+      alamat:
+        'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15326, Indonesia',
+    },
+  ]);
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
@@ -23,14 +44,16 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
           Project Yang Di Pilih
         </Text>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <CardPilihProject
-            navigation={navigation}
-            onPress={() => moveTo('pilihAbsenProject')}
-          />
-          <CardPilihProject navigation={navigation} />
-          <CardPilihProject navigation={navigation} />
-          <CardPilihProject navigation={navigation} />
-          <CardPilihProject navigation={navigation} />
+          {pilihProjects.map((pilihProject, index) => (
+            <View key={index}>
+              <CardPilihProject
+                nama={pilihProject.nama}
+                alamat={pilihProject.alamat}
+                navigation={navigation}
+                onPress={() => moveTo('pilihAbsenProject')}
+              />
+            </View>
+          ))}
         </ScrollView>
       </View>
     </View>
@@ -45,11 +68,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     paddingVertical: 30,
-  },
-  VectorAtasKanan: {
-    position: 'absolute',
-    top: -120,
-    right: -40,
-    zIndex: -1,
   },
 });

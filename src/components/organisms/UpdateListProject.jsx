@@ -67,6 +67,7 @@ const UpdateListProject = ({navigation}) => {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: Color.green,
+        paddingTop: 50,
       }}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
@@ -76,7 +77,6 @@ const UpdateListProject = ({navigation}) => {
           backgroundColor: Color.white,
           width: wp('85%'),
           height: hp('67%'),
-          paddingVertical: 10,
           alignItems: 'center',
           borderRadius: 10,
         }}>

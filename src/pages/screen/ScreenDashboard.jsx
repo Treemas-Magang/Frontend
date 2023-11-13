@@ -65,7 +65,7 @@ useEffect(() => {
           style={styles.styleStatistikTahunIni}
         />
         <View style={styles.containerMenu}>
-          <Text style={styles.judulSection}>menu utama</Text>
+          <Text style={styles.judulSectionMenu}>menu utama</Text>
           <MenuUtama
             styleImage={styles.imgIcon}
             styleNamaMenu={styles.namaMenu}
@@ -102,6 +102,13 @@ const styles = StyleSheet.create({
   judulSection: {
     marginVertical: hp('2%'),
     fontSize: hp('2%'),
+    fontFamily: text.bold,
+    color: Color.blue,
+    textTransform: 'uppercase',
+  },
+  judulSectionMenu: {
+    marginVertical: hp('1.5%'),
+    fontSize: hp('2.5%'),
     fontFamily: text.bold,
     color: Color.blue,
     textTransform: 'uppercase',

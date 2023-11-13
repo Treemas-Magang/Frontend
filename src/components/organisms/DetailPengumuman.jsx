@@ -1,6 +1,13 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import React, {useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
@@ -11,10 +18,13 @@ import {
 } from 'react-native-responsive-screen';
 import {useRoute} from '@react-navigation/native';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
-import ButtonBackBaru from '../atoms/ButtonBackBaru';
 
 const DetailPengumuman = ({navigation}) => {
   const {judul, deskripsi, usrCrt, image, id} = useRoute().params;
+  const base64 = `data:image/jpeg;base64,${image}`;
+  const moveToPreview = () => {
+    navigation.navigate('previewPhoto', {photo: base64});
+  };
 
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
@@ -76,17 +86,19 @@ const DetailPengumuman = ({navigation}) => {
             {usrCrt}
           </Text>
           <View style={{alignItems: 'center'}}>
-            <Image
-              resizeMode="contain"
-              source={{uri: `data:image/jpeg;base64,${image}`}}
-              style={{
-                width: wp('80%'),
-                height: hp('30%'),
-                borderRadius: 5,
-                borderWidth: 4,
-                borderColor: Color.green,
-              }}
-            />
+            <TouchableOpacity onPress={moveToPreview}>
+              <Image
+                resizeMode="contain"
+                source={{uri: `data:image/jpeg;base64,${image}`}}
+                style={{
+                  width: wp('80%'),
+                  height: hp('30%'),
+                  borderRadius: 5,
+                  borderWidth: 4,
+                  borderColor: Color.green,
+                }}
+              />
+            </TouchableOpacity>
           </View>
         </ScrollView>
         <View

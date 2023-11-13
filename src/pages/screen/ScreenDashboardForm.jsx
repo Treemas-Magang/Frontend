@@ -11,6 +11,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import ButtonBack from '../../components/atoms/ButtonBack';
 
 const ScreenDashboardForm = ({navigation}) => {
   return (
@@ -43,7 +44,8 @@ const ScreenDashboardForm = ({navigation}) => {
           style={styles.styleStatistikTahunIni}
         />
         <View style={styles.containerMenu}>
-          <Text style={styles.judulSection}>menu form</Text>
+          <ButtonBack navigation={navigation} />
+          <Text style={styles.judulSectionMenu}>menu form</Text>
           <MenuForm
             navigation={navigation}
             styleImage={styles.imgIcon}
@@ -83,6 +85,14 @@ const styles = StyleSheet.create({
     color: Color.blue,
     textTransform: 'uppercase',
   },
+  judulSectionMenu: {
+    marginVertical: hp('1.5%'),
+    fontSize: hp('3%'),
+    fontFamily: text.bold,
+    color: Color.blue,
+    textTransform: 'uppercase',
+  },
+
   wrapDataPribadi: {
     height: hp('15%'),
     width: wp('100%'),
