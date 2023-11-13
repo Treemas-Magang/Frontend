@@ -89,30 +89,79 @@ const DetailPengumuman = ({navigation}) => {
             }}>
             {usrCrt}
           </Text>
-          <View style={{alignItems: 'center'}}>
-            <TouchableOpacity onPress={moveToPreview}>
-              <Image
-                resizeMode="contain"
-                source={{uri: `data:image/jpeg;base64,${image}`}}
-                style={{
-                  width: wp('80%'),
-                  height: hp('30%'),
-                  borderRadius: 5,
-                  borderWidth: 4,
-                  borderColor: Color.green,
-                }}
-              />
-            </TouchableOpacity>
+          {/* ////////////////////////////////////// */}
+          {image !== null ? (
+            <>
+              <View style={{flexDirection: 'row'}}>
+                <View
+                  style={{
+                    height: 2,
+                    flex: 1,
+                    backgroundColor: Color.green,
+                    alignSelf: 'center',
+                  }}></View>
+                <Text
+                  style={{
+                    fontFamily: text.semiBoldItalic,
+                    fontSize: 12,
+                    color: Color.green,
+                    textTransform: 'uppercase',
+                    marginHorizontal: 10,
+                  }}>
+                  Lampiran
+                </Text>
+                <View
+                  style={{
+                    height: 2,
+                    flex: 1,
+                    backgroundColor: Color.green,
+                    alignSelf: 'center',
+                  }}></View>
+              </View>
+              <View style={{alignItems: 'center'}}>
+                <TouchableOpacity onPress={moveToPreview}>
+                  <Image
+                    resizeMode="contain"
+                    source={{uri: `data:image/jpeg;base64,${image}`}}
+                    style={{
+                      width: wp('80%'),
+                      height: hp('30%'),
+                      borderRadius: 5,
+                      borderWidth: 4,
+                      borderColor: Color.green,
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={{flexDirection: 'row'}}>
+                <View
+                  style={{
+                    height: 2,
+                    flex: 1,
+                    backgroundColor: Color.green,
+                    alignSelf: 'center',
+                    marginTop: 10,
+                  }}></View>
+              </View>
+            </>
+          ) : (
+            ''
+          )}
+
+          {/* ///////////////////////////////// */}
+          <View
+            style={{
+              width: '100%',
+              height: '50%',
+              alignItems: 'center',
+              marginBottom: 10,
+            }}>
+            <Image
+              source={require('../../assets/icons/logo.png')}
+              resizeMode="contain"
+            />
           </View>
         </ScrollView>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: 20,
-          }}>
-          <Image source={require('../../assets/icons/logo.png')} />
-        </View>
       </View>
     </View>
   );
@@ -138,10 +187,9 @@ const styles = StyleSheet.create({
     paddingTop: hp('5%'),
     paddingBottom: hp('10%'),
   },
-  VectorAtas: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
+  buttonUpdate: {
+    width: wp('80%'),
+    maxHeight: hp('10%'),
+    alignItems: 'center',
   },
 });

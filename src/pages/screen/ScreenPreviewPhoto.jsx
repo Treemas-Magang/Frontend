@@ -10,6 +10,7 @@ import {
 } from 'react-native-responsive-screen';
 import VectorAtasKecil from '../../components/atoms/VectorAtasKecil';
 import {useRoute} from '@react-navigation/native';
+import Pinchable from 'react-native-pinchable';
 
 const ScreenPreviewPhoto = ({navigation}) => {
   const route = useRoute();
@@ -26,14 +27,16 @@ const ScreenPreviewPhoto = ({navigation}) => {
       <ButtonHome navigation={navigation} />
       <VectorAtasKecil />
       <View style={styles.SectionPreview}>
-        <Image
-          source={{uri: photo}}
-          style={{
-            height: hp('90%'),
-            width: wp('90%'),
-          }}
-          resizeMode="contain"
-        />
+        <Pinchable>
+          <Image
+            source={{uri: photo}}
+            style={{
+              height: hp('90%'),
+              width: wp('90%'),
+            }}
+            resizeMode="contain"
+          />
+        </Pinchable>
       </View>
     </View>
   );
@@ -48,8 +51,5 @@ const styles = StyleSheet.create({
     marginTop: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    // borderWidth: 2,
-    // borderColor: Color.black,
-    // backgroundColor: 'tomato',
   },
 });
