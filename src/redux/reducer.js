@@ -247,20 +247,21 @@ const FormAbsensiReducer = (state = initialStateAbsensi, action) => {
   return state;
 };
 const initialStateClaim = {
-  form: {
+  form_claim: {
     nik: '',
-    type: '',
+    nama: '',
     keterangan: '',
     nominal: 0,
-    foto: {},
+    id_claim: '',
+    image64: '',
   },
 };
 const FormClaimReducer = (state = initialStateClaim, action) => {
   if (action.type === 'SET_FORM_CLAIM') {
     return {
       ...state,
-      form: {
-        ...state.form,
+      form_claim: {
+        ...state.form_claim,
         [action.inputType]: action.inputValue,
       },
     };
@@ -407,6 +408,22 @@ const JumlahPengumumanReducer = (
   }
   return state;
 };
+const initialStateJumlahApproval = {
+  approval: 0,
+};
+
+const JumlahApprovalReducer = (
+  state = initialStateJumlahApproval,
+  action,
+) => {
+  if (action.type === 'SET_JUMLAH_APPROVAL') {
+    return {
+      ...state,
+      approval: action.inputValue,
+    };
+  }
+  return state;
+};
 
 
 const reducer = combineReducers({
@@ -426,7 +443,8 @@ const reducer = combineReducers({
   AbsenPulangReducer,
   UpdateAbsenReducer,
   UpdatePasswordReducer,
-  JumlahPengumumanReducer
+  JumlahPengumumanReducer,
+  JumlahApprovalReducer
 });
 
 export default reducer;

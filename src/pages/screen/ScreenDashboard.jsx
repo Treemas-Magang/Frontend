@@ -3,7 +3,7 @@
 /* eslint-disable react-native/no-inline-styles */
 
 import {StyleSheet, Text, View, Image} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
@@ -17,17 +17,29 @@ import {
 } from 'react-native-responsive-screen';
 import {
   getToken,
-  getData,
-  checkAndSaveToStorage,
-  updateStatusInStorage,
-  hitungJumlahStatusFalse,
-  pengumumanData,
+  countDataWithFalseStatus,
 } from '../../utils/buatStatusPengumumanFalse';
+import { useDispatch, useSelector } from 'react-redux';
+import { setJumlahPengumuman } from '../../redux';
 const ScreenDashboard = ({navigation}) => {
-  useEffect(() => {
-    // Panggil fungsi getToken saat komponen ini dipasang
-    getToken();
-  }, []);
+  const dispatch = useDispatch();
+  const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
+  const {approval} = useSelector(state => state.JumlahApprovalReducer);
+  const [jmlBlmBaca, setJmlBlmBaca] = useState(0)
+useEffect(() => {
+  getToken().then(() => {
+    countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
+      console.log('Jumlah ID dengan status false:', jumlahDataDenganStatusFalse);
+      // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
+      dispatch(setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse));
+    });
+  });
+}, [dispatch]);
+
+useEffect(() => {
+  const totalNotif = pengumuman + approval
+  setJmlBlmBaca(totalNotif)
+}, [approval, pengumuman])
 
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
@@ -67,6 +79,7 @@ const ScreenDashboard = ({navigation}) => {
             gap={styles.gapMenuIcon}
             box={styles.boxMenuIcon}
             navigation={navigation}
+            jml_blm_baca={jmlBlmBaca}
           />
         </View>
       </View>

@@ -45,6 +45,7 @@ import {
   ScreenListTimesheet,
   ScreenUpdatePassword,
   ScreenPreviewPhoto,
+  ScreenTesNotifikasi,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -248,6 +249,11 @@ const screens = [
   {
     name: 'previewPhoto',
     component: ScreenPreviewPhoto,
+    gestureEnabled: true,
+  },
+  {
+    name: 'testNotifikasi',
+    component: ScreenTesNotifikasi,
     gestureEnabled: true,
   },
 ];

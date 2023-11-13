@@ -16,6 +16,7 @@ import SkeletonCardNotif from '../skeleton/SkeletonCardNotif';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import {setJumlahPengumuman} from '../../redux';
+import ButtonBackBaru from '../atoms/ButtonBackBaru';
 
 const ListPengumuman = ({navigation}) => {
   const dispatch = useDispatch();
@@ -24,6 +25,14 @@ const ListPengumuman = ({navigation}) => {
   const [dataGabungan, setDataGabungan] = useState([]);
   // const [suksesSaveToStorage, setSuksesSavetoStorage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [role, setRole] = useState('')
+  useEffect(() => {
+    getDataFromSession('role')
+    .then(data => {
+      setRole(data);
+    })
+    .catch(error => console.log(error));
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -161,27 +170,26 @@ const ListPengumuman = ({navigation}) => {
           // Jika item ditemukan, ubah status menjadi true
           itemToUpdate.status = true;
 
-          // Simpan data yang telah diubah kembali ke AsyncStorage
-          await AsyncStorage.setItem(
-            'announcementData',
-            JSON.stringify(parsedData),
-          );
-          console.log(
-            `Status untuk ID ${id} berhasil diubah menjadi true di AsyncStorage`,
-          );
-          console.log('ubah status :', dataPengumumanStorage);
-        } else {
-          // Item dengan id yang diberikan tidak ditemukan
-          console.log(`Item dengan ID ${id} tidak ditemukan.`);
-        }
+        // Simpan data yang telah diubah kembali ke AsyncStorage
+        await AsyncStorage.setItem(
+          'announcementData',
+          JSON.stringify(parsedData),
+        );
+        console.log(
+          `Status untuk ID ${id} berhasil diubah menjadi true di AsyncStorage`,
+        );
       } else {
-        // Data tidak ditemukan di AsyncStorage
-        console.log('Data tidak ditemukan di AsyncStorage');
+        // Item dengan id yang diberikan tidak ditemukan
+        console.log(`Item dengan ID ${id} tidak ditemukan.`);
       }
-    } catch (error) {
-      console.error('Gagal mengubah status di AsyncStorage:', error);
+    } else {
+      // Data tidak ditemukan di AsyncStorage
+      console.log('Data tidak ditemukan di AsyncStorage');
     }
-  };
+  } catch (error) {
+    console.error('Gagal mengubah status di AsyncStorage:', error);
+  }
+};
 
   // Panggil fungsi updateStatusInStorage saat handleReadNotif dijalankan
   const handleReadNotif = async id => {
@@ -241,8 +249,12 @@ const ListPengumuman = ({navigation}) => {
   };
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
-      <ButtonBack navigation={navigation} />
-      {/* <ButtonBackBaru navigation={navigation} tujuan='dashboard' /> */}
+      {/* <ButtonBack navigation={navigation} /> */}
+      {role === 'USER' ? (
+        <ButtonBackBaru navigation={navigation} tujuan="dashboard" />
+      ) : (
+        <ButtonBackBaru navigation={navigation} tujuan="dashboardNotif" />
+      )}
       <ButtonHome navigation={navigation} />
       <Image
         style={styles.VectorAtas}
@@ -267,28 +279,30 @@ const ListPengumuman = ({navigation}) => {
               <SkeletonCardNotif />
             </>
           ) : (
-            dataGabungan.map((Pengumuman, index) => (
-              <CardNotif
-                key={index}
-                onPress={() => {
-                  handleReadNotif(Pengumuman.id);
-                  moveTo(
-                    'detailPengumuman',
-                    Pengumuman.header,
-                    Pengumuman.note,
-                    Pengumuman.usrCrt,
-                    Pengumuman.image64,
-                    Pengumuman.id,
-                  );
-                }}
-                deskripsi={Pengumuman.note}
-                tanggal={Pengumuman.tgl_upload}
-                judul={Pengumuman.header}
-                navigation={navigation}
-                id={Pengumuman.id}
-                status={Pengumuman.status}
-              />
-            ))
+            dataGabungan
+              .sort((a, b) => b.id - a.id)
+              .map((Pengumuman, index) => (
+                <CardNotif
+                  key={index}
+                  onPress={() => {
+                    handleReadNotif(Pengumuman.id);
+                    moveTo(
+                      'detailPengumuman',
+                      Pengumuman.header,
+                      Pengumuman.note,
+                      Pengumuman.usrCrt,
+                      Pengumuman.image64,
+                      Pengumuman.id,
+                    );
+                  }}
+                  deskripsi={Pengumuman.note}
+                  tanggal={Pengumuman.tgl_upload}
+                  judul={Pengumuman.header}
+                  navigation={navigation}
+                  id={Pengumuman.id}
+                  status={Pengumuman.status}
+                />
+              ))
           )}
         </ScrollView>
       </View>

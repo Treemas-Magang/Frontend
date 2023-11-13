@@ -12,7 +12,11 @@ import {
 
 const ButtonBackBaru = ({navigation, style, tujuan}) => {
   const goBack = () => {
-    navigation.navigate(tujuan);
+    // navigation.replace(tujuan);
+                navigation.reset({
+                  index: 0,
+                  routes: [{name: tujuan}],
+                });
   };
   return (
     <TouchableOpacity style={styles.ButtonBack} onPress={goBack}>
