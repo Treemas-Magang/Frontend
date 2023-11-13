@@ -14,17 +14,13 @@ const MenuUtama = ({
   styleNamaMenu,
   gap,
   box,
-  jml_blm_baca
+  jml_blm_baca,
 }) => {
-  const pengumuman = useSelector(state => state.initialStateJumlahPengumuman);
-  const [totalApproval, setTotalApproval] = useState(5);
-  const [totalPengumuman, setTotalPengumuman] = useState(1);
   const [isRole, setIsRole] = useState('');
 
-  const totalNotive = totalApproval + totalPengumuman;
-  useEffect(() => {
-    setTotalPengumuman(+jml_blm_baca);
-  }, [jml_blm_baca])
+  // useEffect(() => {
+  //   setTotalPengumuman(+jml_blm_baca);
+  // }, [jml_blm_baca])
   useEffect(() => {
     getDataFromSession('role')
     .then((data) => {
@@ -79,9 +75,9 @@ const MenuUtama = ({
               styleNamaMenu={styleNamaMenu}
               box={box}
             />
-            {totalPengumuman ? (
+            {jml_blm_baca ? (
               <View style={styles.notif}>
-                <Text style={styles.text}>{totalPengumuman}</Text>
+                <Text style={styles.text}>{jml_blm_baca}</Text>
               </View>
             ) : null}
           </View>
@@ -95,9 +91,9 @@ const MenuUtama = ({
               styleNamaMenu={styleNamaMenu}
               box={box}
             />
-            {totalPengumuman ? (
+            {jml_blm_baca ? (
               <View style={styles.notif}>
-                <Text style={styles.text}>{totalNotive}</Text>
+                <Text style={styles.text}>{jml_blm_baca}</Text>
               </View>
             ) : null}
           </View>

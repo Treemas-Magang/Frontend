@@ -17,23 +17,29 @@ import {
 } from 'react-native-responsive-screen';
 import {
   getToken,
-  getData,
-  checkAndSaveToStorage,
-  updateStatusInStorage,
-  hitungJumlahStatusFalse,
-  pengumumanData,
   countDataWithFalseStatus,
 } from '../../utils/buatStatusPengumumanFalse';
+import { useDispatch, useSelector } from 'react-redux';
+import { setJumlahPengumuman } from '../../redux';
 const ScreenDashboard = ({navigation}) => {
+  const dispatch = useDispatch();
+  const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
+  const {approval} = useSelector(state => state.JumlahApprovalReducer);
   const [jmlBlmBaca, setJmlBlmBaca] = useState(0)
 useEffect(() => {
   getToken().then(() => {
     countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
       console.log('Jumlah ID dengan status false:', jumlahDataDenganStatusFalse);
-      setJmlBlmBaca(+jumlahDataDenganStatusFalse)
+      // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
+      dispatch(setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse));
     });
   });
-}, []);
+}, [dispatch]);
+
+useEffect(() => {
+  const totalNotif = pengumuman + approval
+  setJmlBlmBaca(totalNotif)
+}, [approval, pengumuman])
 
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>

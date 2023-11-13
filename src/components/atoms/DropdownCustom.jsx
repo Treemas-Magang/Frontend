@@ -1,49 +1,42 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import {StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
-
-const DropdownApproval = ({dataPilihanProjact}) => {
-  const [tempatProject, setTempatProject] = useState('');
-  const handlePilihTempatProject = value => {
-    setTempatProject(value);
+const DropdownCustom = ({data, idTypeClaim, dataType}) => {
+  const [type, setType] = useState('');
+  const [idType, setIdtype] = useState('');
+  const [dataClaim, setDataClaim] = useState([]);
+  const handlePilihType = (keterangan, id) => {
+    setType(keterangan);
+    setIdtype(id);
   };
-  dataPilihanProjact(tempatProject);
+  data(type);
+  idTypeClaim(idType);
+useEffect(() => {
+  setDataClaim(dataType);
+}, [dataType]);
 
   return (
-    <View>
-      <TouchableOpacity
-        onPress={() => handlePilihTempatProject('BANK JAGO REGULER SHIFT')}
-        style={styles.item}>
-        <Text style={styles.tempatProject}>BANK JAGO REGULER SHIFT</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => handlePilihTempatProject('BANK JAGO EOD SHIFT')}
-        style={styles.item}>
-        <Text style={styles.tempatProject}>BANK JAGO EOD SHIFT</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => handlePilihTempatProject('TREEMAS SOLUSI UTAMA')}
-        style={styles.item}>
-        <Text style={styles.tempatProject}>TREEMAS SOLUSI UTAMA</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => handlePilihTempatProject('BANK UOB')}
-        style={styles.item}>
-        <Text style={styles.tempatProject}>BANK UOB</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => handlePilihTempatProject('CTBC BANK')}
-        style={styles.item}>
-        <Text style={styles.tempatProject}>CTBC BANK</Text>
-      </TouchableOpacity>
+    <ScrollView style={{height: 200}}>
+      {dataClaim.length > 0 ? (
+        dataClaim.map((claims, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => handlePilihType(claims.keterangan, claims.idClaim)}
+            style={styles.item}>
+            <Text style={styles.tempatProject}>{claims.keterangan}</Text>
+          </TouchableOpacity>
+        ))
+      ) : (
+        <Text>Loading . . .</Text>
+      )}
       <View style={styles.batasBawah} />
-    </View>
+    </ScrollView>
   );
 };
 
-export default DropdownApproval;
+export default DropdownCustom;
 
 const styles = StyleSheet.create({
   item: {

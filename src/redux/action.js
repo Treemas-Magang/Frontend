@@ -119,3 +119,10 @@ export const setJumlahPengumuman = (inputType, value) => {
     inputValue: value,
   };
 };
+export const setJumlahApproval = (inputType, value) => {
+  return {
+    type: 'SET_JUMLAH_APPROVAL',
+    inputType: inputType,
+    inputValue: value,
+  };
+};

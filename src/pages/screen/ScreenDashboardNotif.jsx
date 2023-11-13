@@ -16,8 +16,13 @@ import {
   countDataWithFalseStatus,
 } from '../../utils/buatStatusPengumumanFalse';
 import ButtonBack from '../../components/atoms/ButtonBack';
+import ButtonBackBaru from '../../components/atoms/ButtonBackBaru';
+import { useDispatch } from 'react-redux';
+import { setJumlahApproval, setJumlahPengumuman } from '../../redux';
 const ScreenDashboardNotif = ({navigation}) => {
+    const dispatch = useDispatch();
     const [jmlBlmBaca, setJmlBlmBaca] = useState(0)
+    const [jmlApp, setJmlApp] = useState(0)
   useEffect(() => {
     getToken().then(() => {
       countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
@@ -26,9 +31,11 @@ const ScreenDashboardNotif = ({navigation}) => {
           jumlahDataDenganStatusFalse,
         );
         setJmlBlmBaca(+jumlahDataDenganStatusFalse);
+        dispatch(setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse))
       });
     });
-  }, []);
+    dispatch(setJumlahApproval('approval', jmlApp));
+  }, [dispatch, jmlApp]);
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>
@@ -59,7 +66,8 @@ const ScreenDashboardNotif = ({navigation}) => {
           style={styles.styleStatistikTahunIni}
         />
         <View style={styles.containerMenu}>
-          <ButtonBack navigation={navigation} />
+          {/* <ButtonBack navigation={navigation} /> */}
+          <ButtonBackBaru navigation={navigation} tujuan='dashboard' />
           <Text style={styles.judulSectionMenu}>menu notif</Text>
           <MenuPengumuman
             styleImage={styles.imgIcon}
@@ -69,6 +77,7 @@ const ScreenDashboardNotif = ({navigation}) => {
             box={styles.boxMenuIcon}
             navigation={navigation}
             jml_blm_baca={jmlBlmBaca}
+            dataPengumuman={data => setJmlApp(data)}
           />
         </View>
       </View>

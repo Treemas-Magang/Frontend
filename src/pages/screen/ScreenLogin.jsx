@@ -107,10 +107,13 @@ const ScreenLogin = ({navigation}) => {
         // const [{ token }]\ = dataLogin;
         const token = dataLogin.token;
         const role = dataLogin.user.role;
+        const nama = dataLogin.user.full_name;
 
         console.log('ini token :', token);
         // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
+
         await AsyncStorage.setItem('token', token);
+        await AsyncStorage.setItem('nama', nama);
         await AsyncStorage.setItem('nik', formLogin.nik);
         await AsyncStorage.setItem('password', formLogin.password);
         await AsyncStorage.setItem('role', role);
@@ -147,8 +150,10 @@ const ScreenLogin = ({navigation}) => {
             // const [{ token }] = dataLogin;
             const token = dataLogin.token;
             const role = dataLogin.user.role;
+            const nama = dataLogin.user.full_name;
             console.log('ini token fp : ', token);
             // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
+            await AsyncStorage.setItem('nama', nama);
             await AsyncStorage.setItem('token', token);
             await AsyncStorage.setItem('role', role);
             navigation.replace('dashboard');
