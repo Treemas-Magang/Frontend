@@ -5,7 +5,6 @@ import IconMenu from '../atoms/IconMenu';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import {getDataFromSession} from '../../utils/getDataSession';
-import { useSelector } from 'react-redux';
 
 const MenuUtama = ({
   navigation,
