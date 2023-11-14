@@ -15,26 +15,17 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {
-  getToken,
-  countDataWithFalseStatus,
-} from '../../utils/buatStatusPengumumanFalse';
-import { useDispatch, useSelector } from 'react-redux';
-import { setJumlahPengumuman } from '../../redux';
+import { useSelector } from 'react-redux';
+import { cekToken } from '../../utils/cekToken';
 const ScreenDashboard = ({navigation}) => {
-  const dispatch = useDispatch();
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
   const {approval} = useSelector(state => state.JumlahApprovalReducer);
   const [jmlBlmBaca, setJmlBlmBaca] = useState(0)
-useEffect(() => {
-  getToken().then(() => {
-    countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
-      console.log('Jumlah ID dengan status false:', jumlahDataDenganStatusFalse);
-      // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
-      dispatch(setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse));
-    });
-  });
-}, [dispatch]);
+
+  useEffect(() => {
+    cekToken()
+  }, [])
+
 
 useEffect(() => {
   const totalNotif = pengumuman + approval

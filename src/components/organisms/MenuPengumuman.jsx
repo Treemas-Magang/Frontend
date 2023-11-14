@@ -4,6 +4,9 @@ import React, {useState, useEffect} from 'react';
 import IconMenu from '../atoms/IconMenu';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
+import { useDispatch, useSelector } from 'react-redux';
+import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
+import { setJumlahPengumuman } from '../../redux';
 
 const MenuPengumuman = ({
   navigation,
@@ -12,17 +15,38 @@ const MenuPengumuman = ({
   styleNamaMenu,
   gap,
   box,
-  jml_blm_baca,
-  dataPengumuman
 }) => {
-  const [jumlahPengumuman, setJumlahPengumuman] = useState(null);
-  const [jumlahApproval, setJumlahApproval] = useState(10);
-  useEffect(() => {
-    // setJumlahApproval(10);
-    setJumlahPengumuman(jml_blm_baca);
-  }, [jml_blm_baca]);
-  const totalApprovalDanPengumuman = jumlahApproval + jumlahPengumuman;
-  dataPengumuman(totalApprovalDanPengumuman);
+  const dispatch = useDispatch();
+  const [jmlPengumuman, setJmlPengumuman] = useState(null);
+  const [jumlahApproval, setJumlahApproval] = useState(null);
+
+  // useEffect(() => {
+  //   setJumlahPengumuman(pengumuman);
+  //   setJumlahApproval(approval);
+  // }, [approval, pengumuman]);
+useEffect(() => {
+  // render notif //
+  getToken().then(() => {
+    countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
+      console.log(
+        'Jumlah ID dengan status false:',
+        jumlahDataDenganStatusFalse,
+      );
+      // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
+      dispatch(setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse));
+      setJmlPengumuman(+jumlahDataDenganStatusFalse);
+
+      ////////////////////////////////////////////
+      // ini untuk jumlah Approval
+      setJumlahApproval(10);
+    });
+  });
+
+  /////////////////
+}, [dispatch]);
+
+console.log(jmlPengumuman)
+
   const moveTo = screen => {
     navigation.navigate(screen);
   };
@@ -44,9 +68,9 @@ const MenuPengumuman = ({
             styleNamaMenu={styleNamaMenu}
             box={box}
           />
-          {jumlahPengumuman ? (
+          {jmlPengumuman ? (
             <View style={styles.notif}>
-              <Text style={styles.text}>{jumlahPengumuman}</Text>
+              <Text style={styles.text}>{jmlPengumuman}</Text>
             </View>
           ) : (
             ''

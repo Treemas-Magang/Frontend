@@ -16,10 +16,6 @@ const MenuUtama = ({
   jml_blm_baca,
 }) => {
   const [isRole, setIsRole] = useState('');
-
-  // useEffect(() => {
-  //   setTotalPengumuman(+jml_blm_baca);
-  // }, [jml_blm_baca])
   useEffect(() => {
     getDataFromSession('role')
     .then((data) => {

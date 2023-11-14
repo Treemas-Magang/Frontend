@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { isMockingLocation, MockLocationDetectorErrorCode, MockLocationDetectorError } from 'react-native-turbo-mock-location-detector';
 import { Alert, BackHandler } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const exit = () => {
   BackHandler.exitApp();
@@ -18,6 +19,16 @@ export const checkMockLocation = () => {
             [{text: 'OK', onPress: () => exit()}],
           { cancelable: false }
         );
+         AsyncStorage.removeItem('token')
+           .then(() => {
+             console.log('Token otentikasi berhasil dihapus.');
+           })
+           .catch(error => {
+             console.error(
+               'Terjadi kesalahan saat menghapus token otentikasi:',
+               error,
+             );
+           });
       }
       // Hasil boolean untuk Android dan iOS >= 15.0
     })

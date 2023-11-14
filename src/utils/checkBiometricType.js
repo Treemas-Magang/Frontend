@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // import { setBiometricType } from '../redux';
 // import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics'
 // export const checkBiometryType = async (dispatch) => {

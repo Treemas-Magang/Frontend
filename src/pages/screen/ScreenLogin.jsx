@@ -18,7 +18,7 @@ import {Color} from '../../utils/color';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFingerprint} from '@fortawesome/free-solid-svg-icons';
 import {useSelector, useDispatch} from 'react-redux';
-import {setForm, setFormLoginFingerPrint} from '../../redux';
+import {setForm, setFormLoginFingerPrint, setJumlahApproval, setJumlahPengumuman} from '../../redux';
 import {checkBiometryType} from '../../utils/checkBiometricType';
 import ReactNativeBiometrics from 'react-native-biometrics';
 import axios from 'axios';
@@ -29,6 +29,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {LoginFingerprint} from '../../config/prosesLogin';
+import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [deviceId, setDeviceId] = useState('');
@@ -117,6 +118,35 @@ const ScreenLogin = ({navigation}) => {
         await AsyncStorage.setItem('nik', formLogin.nik);
         await AsyncStorage.setItem('password', formLogin.password);
         await AsyncStorage.setItem('role', role);
+        // render notif //
+                getToken().then(() => {
+                  countDataWithFalseStatus().then(
+                    jumlahDataDenganStatusFalse => {
+                      console.log(
+                        'Jumlah ID dengan status false:',
+                        jumlahDataDenganStatusFalse,
+                      );
+                      // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
+                      dispatch(
+                        setJumlahPengumuman(
+                          'pengumuman',
+                          +jumlahDataDenganStatusFalse,
+                        ),
+                      );
+                      ////////////////////////////////////////////
+                      // ini untuk jumlah Approval
+                      dispatch(setJumlahApproval('approval', 10));
+                    },
+                  );
+                });
+
+
+        /////////////////
+
+
+
+
+
         navigation.replace('dashboard');
       } else {
         console.log('message : ', response.data.message);
@@ -156,6 +186,29 @@ const ScreenLogin = ({navigation}) => {
             await AsyncStorage.setItem('nama', nama);
             await AsyncStorage.setItem('token', token);
             await AsyncStorage.setItem('role', role);
+
+
+            // render notif //
+            getToken().then(() => {
+              countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
+                console.log(
+                  'Jumlah ID dengan status false:',
+                  jumlahDataDenganStatusFalse,
+                );
+                // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
+                dispatch(
+                  setJumlahPengumuman(
+                    'pengumuman',
+                    +jumlahDataDenganStatusFalse,
+                  ),
+                );
+                ////////////////////////////////////////////
+                // ini untuk jumlah Approval
+                dispatch(setJumlahApproval('approval', 10));
+              });
+            });
+
+            /////////////////
             navigation.replace('dashboard');
           } else {
             console.log('message : ', response.data.message);

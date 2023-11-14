@@ -20,22 +20,21 @@ import ButtonBackBaru from '../../components/atoms/ButtonBackBaru';
 import { useDispatch } from 'react-redux';
 import { setJumlahApproval, setJumlahPengumuman } from '../../redux';
 const ScreenDashboardNotif = ({navigation}) => {
-    const dispatch = useDispatch();
-    const [jmlBlmBaca, setJmlBlmBaca] = useState(0)
-    const [jmlApp, setJmlApp] = useState(0)
-  useEffect(() => {
-    getToken().then(() => {
-      countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
-        console.log(
-          'Jumlah ID dengan status false:',
-          jumlahDataDenganStatusFalse,
-        );
-        setJmlBlmBaca(+jumlahDataDenganStatusFalse);
-        dispatch(setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse))
-      });
-    });
-    dispatch(setJumlahApproval('approval', jmlApp));
-  }, [dispatch, jmlApp]);
+    // const dispatch = useDispatch();
+    // const [jmlBlmBaca, setJmlBlmBaca] = useState(0)
+  // useEffect(() => {
+  //   getToken().then(() => {
+  //     countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
+  //       console.log(
+  //         'Jumlah ID dengan status false:',
+  //         jumlahDataDenganStatusFalse,
+  //       );
+  //       setJmlBlmBaca(+jumlahDataDenganStatusFalse);
+  //       dispatch(setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse))
+  //     });
+  //   });
+  //   dispatch(setJumlahApproval('approval', jmlApp));
+  // }, [dispatch, jmlApp]);
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>
@@ -76,8 +75,6 @@ const ScreenDashboardNotif = ({navigation}) => {
             gap={styles.gapMenuIcon}
             box={styles.boxMenuIcon}
             navigation={navigation}
-            jml_blm_baca={jmlBlmBaca}
-            dataPengumuman={data => setJmlApp(data)}
           />
         </View>
       </View>

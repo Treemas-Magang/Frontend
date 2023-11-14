@@ -10,38 +10,29 @@ import getAppVersion from '../../utils/getAppVersion';
 import getIdDevice from '../../utils/getIdDevice';
 const ScreenSplash = ({navigation}) => {
   useEffect(() => {
-    // Geolocation.setRNConfiguration({
-    //   skipPermissionRequests: true, // Anda perlu mengurus izin sendiri
-    //   authorizationLevel: 'whenInUse', // Izin yang diperlukan saat aplikasi aktif
-    // });
-    getAppVersion();
-    getIdDevice();
-    const fetchData = async () => {
-      // ...
+        const fetchData = async () => {
+          try {
+            // Dapatkan ID perangkat
+            const deviceId = await getIdDevice();
+            
+        // Dapatkan versi aplikasi
+        const appVersion = await getAppVersion();
 
-      // Meminta izin lokasi dan mendapatkan lokasi
-      requestLocationPermission();
+        // Mintakan izin lokasi
+        await requestLocationPermission();
 
-      // ...
-
-      // Cek apakah data isAppVersion telah disimpan di AsyncStorage
-      AsyncStorage.getItem('appVersion')
-        .then(savedAppVersion => {
-          console.log('versi app : ', savedAppVersion);
-          const shouldNavigate = savedAppVersion !== null;
-          if (shouldNavigate) {
-            // Jika data tersedia di AsyncStorage, lanjutkan ke halaman login
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'login'}],
-            });
-          }
-        })
-        .catch(error => {
-          console.error('Gagal mengambil data versi aplikasi', error);
-        });
+        // Navigasi ke layar login setelah berhasil mendapatkan semua informasi
+        if (deviceId && appVersion) {
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'login'}],
+          });
+        }
+      } catch (error) {
+        // Tangani kesalahan jika diperlukan
+        console.error('Error:', error);
+      }
     };
-
     fetchData();
   }, [navigation]);
   return (
@@ -69,3 +60,31 @@ const styles = StyleSheet.create({
 });
 
 export default ScreenSplash;
+
+
+// const fetchData = async () => {
+//   // ...
+
+//   // Meminta izin lokasi dan mendapatkan lokasi
+
+//   // ...
+
+//   // Cek apakah data isAppVersion telah disimpan di AsyncStorage
+//   await AsyncStorage.getItem('appVersion')
+//     .then(savedAppVersion => {
+//       console.log('versi app : ', savedAppVersion);
+//       const shouldNavigate = savedAppVersion;
+//       if (shouldNavigate) {
+//         // Jika data tersedia di AsyncStorage, lanjutkan ke halaman login
+//         navigation.reset({
+//           index: 0,
+//           routes: [{name: 'login'}],
+//         });
+//       }
+//     })
+//     .catch(error => {
+//       console.error('Gagal mengambil data versi aplikasi', error);
+//     });
+// };
+
+// fetchData();

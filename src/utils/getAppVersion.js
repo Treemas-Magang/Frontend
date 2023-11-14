@@ -3,7 +3,7 @@ import DeviceInfo from 'react-native-device-info';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const getAppVersion = async () => {
   try {
-    const appVersion = await DeviceInfo.getVersion();
+    const appVersion = DeviceInfo.getVersion();
     await AsyncStorage.setItem('appVersion', appVersion);
     return appVersion;
   } catch (error) {
