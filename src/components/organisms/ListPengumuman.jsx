@@ -3,7 +3,6 @@ import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import CardNotif from '../molecules/CardNotif';
 import {Color} from '../../utils/color';
-import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import {text} from '../../utils/text';
 import {
@@ -15,7 +14,6 @@ import {getDataFromSession} from '../../utils/getDataSession';
 import SkeletonCardNotif from '../skeleton/SkeletonCardNotif';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
-import {setJumlahPengumuman} from '../../redux';
 import ButtonBackBaru from '../atoms/ButtonBackBaru';
 
 const ListPengumuman = ({navigation}) => {
