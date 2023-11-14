@@ -9,6 +9,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import VectorAtasBesar from '../../components/atoms/VectorAtasBesar';
 
 const ScreenFormCuti = ({navigation}) => {
   return (
@@ -16,10 +17,7 @@ const ScreenFormCuti = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <ButtonBack navigation={navigation} />
         <ButtonHome navigation={navigation} />
-        <Image
-          style={styles.VectorAtasKanan}
-          source={require('../../assets/vector/VectorKananAtas.png')}
-        />
+        <VectorAtasBesar />
         <View style={styles.wrapperForm}>
           <FormCuti
             navigation={navigation}
@@ -42,12 +40,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     width: '100%',
     height: '100%',
-  },
-  VectorAtasKanan: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
   },
   styleConatinerCard: {
     height: hp('6.6%'),

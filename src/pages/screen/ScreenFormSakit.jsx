@@ -5,6 +5,7 @@ import {Color} from '../../utils/color';
 import FormSakit from '../../components/organisms/FormSakit';
 import ButtonBack from '../../components/atoms/ButtonBack';
 import ButtonHome from '../../components/atoms/ButtonHome';
+import VectorAtasBesar from '../../components/atoms/VectorAtasBesar';
 
 const ScreenFormSakit = ({navigation}) => {
   return (
@@ -12,10 +13,7 @@ const ScreenFormSakit = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <ButtonBack navigation={navigation} />
         <ButtonHome navigation={navigation} />
-        <Image
-          style={styles.VectorAtasKanan}
-          source={require('../../assets/vector/VectorKananAtas.png')}
-        />
+        <VectorAtasBesar />
         <View style={styles.wrapperForm}>
           <FormSakit navigation={navigation} />
         </View>
@@ -32,11 +30,5 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     width: '100%',
     height: '100%',
-  },
-  VectorAtasKanan: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
   },
 });

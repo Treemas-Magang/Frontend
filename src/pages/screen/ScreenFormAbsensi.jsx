@@ -6,6 +6,7 @@ import FormAbsensi from '../../components/organisms/FormAbsensi';
 import {Color} from '../../utils/color';
 import ButtonBack from '../../components/atoms/ButtonBack';
 import ButtonHome from '../../components/atoms/ButtonHome';
+import VectorAtasBesar from '../../components/atoms/VectorAtasBesar';
 
 const ScreenFormAbsensi = ({navigation}) => {
   return (
@@ -13,10 +14,7 @@ const ScreenFormAbsensi = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <ButtonBack navigation={navigation} />
         <ButtonHome navigation={navigation} />
-        <Image
-          style={styles.VectorAtasKanan}
-          source={require('../../assets/vector/VectorKananAtas.png')}
-        />
+        <VectorAtasBesar />
         <View style={styles.wrapperForm}>
           <FormAbsensi />
         </View>
@@ -33,11 +31,5 @@ const styles = StyleSheet.create({
     paddingVertical: 80,
     width: '100%',
     height: '100%',
-  },
-  VectorAtasKanan: {
-    position: 'absolute',
-    top: -30,
-    right: 0,
-    zIndex: -1,
   },
 });
