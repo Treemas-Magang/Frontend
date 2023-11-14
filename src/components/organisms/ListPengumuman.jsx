@@ -15,6 +15,7 @@ import SkeletonCardNotif from '../skeleton/SkeletonCardNotif';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import ButtonBackBaru from '../atoms/ButtonBackBaru';
+import VectorAtasBesar from '../atoms/VectorAtasBesar';
 
 const ListPengumuman = ({navigation}) => {
   const dispatch = useDispatch();
@@ -23,13 +24,13 @@ const ListPengumuman = ({navigation}) => {
   const [dataGabungan, setDataGabungan] = useState([]);
   // const [suksesSaveToStorage, setSuksesSavetoStorage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [role, setRole] = useState('')
+  const [role, setRole] = useState('');
   useEffect(() => {
     getDataFromSession('role')
-    .then(data => {
-      setRole(data);
-    })
-    .catch(error => console.log(error));
+      .then(data => {
+        setRole(data);
+      })
+      .catch(error => console.log(error));
   }, []);
 
   useEffect(() => {
@@ -168,26 +169,26 @@ const ListPengumuman = ({navigation}) => {
           // Jika item ditemukan, ubah status menjadi true
           itemToUpdate.status = true;
 
-        // Simpan data yang telah diubah kembali ke AsyncStorage
-        await AsyncStorage.setItem(
-          'announcementData',
-          JSON.stringify(parsedData),
-        );
-        console.log(
-          `Status untuk ID ${id} berhasil diubah menjadi true di AsyncStorage`,
-        );
+          // Simpan data yang telah diubah kembali ke AsyncStorage
+          await AsyncStorage.setItem(
+            'announcementData',
+            JSON.stringify(parsedData),
+          );
+          console.log(
+            `Status untuk ID ${id} berhasil diubah menjadi true di AsyncStorage`,
+          );
+        } else {
+          // Item dengan id yang diberikan tidak ditemukan
+          console.log(`Item dengan ID ${id} tidak ditemukan.`);
+        }
       } else {
-        // Item dengan id yang diberikan tidak ditemukan
-        console.log(`Item dengan ID ${id} tidak ditemukan.`);
+        // Data tidak ditemukan di AsyncStorage
+        console.log('Data tidak ditemukan di AsyncStorage');
       }
-    } else {
-      // Data tidak ditemukan di AsyncStorage
-      console.log('Data tidak ditemukan di AsyncStorage');
+    } catch (error) {
+      console.error('Gagal mengubah status di AsyncStorage:', error);
     }
-  } catch (error) {
-    console.error('Gagal mengubah status di AsyncStorage:', error);
-  }
-};
+  };
 
   // Panggil fungsi updateStatusInStorage saat handleReadNotif dijalankan
   const handleReadNotif = async id => {
@@ -254,10 +255,7 @@ const ListPengumuman = ({navigation}) => {
         <ButtonBackBaru navigation={navigation} tujuan="dashboardNotif" />
       )}
       <ButtonHome navigation={navigation} />
-      <Image
-        style={styles.VectorAtas}
-        source={require('../../assets/vector/VectorAtas.png')}
-      />
+      <VectorAtasBesar />
       <View
         style={{
           width: wp('100%'),
@@ -326,11 +324,5 @@ const styles = StyleSheet.create({
     fontSize: wp('6%'),
     color: Color.blue,
     textTransform: 'uppercase',
-  },
-  VectorAtas: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
   },
 });
