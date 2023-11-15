@@ -4,7 +4,7 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardAbsenBelumPulang = ({
+const CardBelumAbsenPulang = ({
   navigation,
   tanggal,
   jam_masuk,
@@ -18,7 +18,7 @@ const CardAbsenBelumPulang = ({
   return (
     <View>
       <TouchableOpacity
-        style={styles.CardAbsenBelumPulangStyle}
+        style={styles.CardBelumAbsenPulangStyle}
         onPress={() => moveTo('formAbsenBelumPulang')}>
         <View
           style={{
@@ -65,10 +65,10 @@ const CardAbsenBelumPulang = ({
   );
 };
 
-export default CardAbsenBelumPulang;
+export default CardBelumAbsenPulang;
 
 const styles = StyleSheet.create({
-  CardAbsenBelumPulangStyle: {
+  CardBelumAbsenPulangStyle: {
     backgroundColor: Color.green,
     width: 320,
     height: 250,

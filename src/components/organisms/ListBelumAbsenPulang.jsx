@@ -4,15 +4,15 @@ import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
-import CardAbsenBelumPulang from '../molecules/CardAbsenBelumPulang';
 import ButtonHome from '../atoms/ButtonHome';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
+import CardBelumAbsenPulang from '../molecules/CardBelumAbsenPulang';
 
-const ListAbsenBelumPulang = ({navigation}) => {
+const ListBelumAbsenPulang = ({navigation}) => {
   const [AbsenBelumPulang, setAbsenBelumPulang] = useState([
     {
       tanggal: 'Selasa 05 April',
@@ -58,14 +58,14 @@ const ListAbsenBelumPulang = ({navigation}) => {
           height: hp('30%'),
           justifyContent: 'center',
         }}>
-        <Text style={styles.Judul}>Absen Belum Pulang</Text>
+        <Text style={styles.Judul}>Belum Absen Pulang</Text>
       </View>
-      <View style={styles.backgroundCardAbsenBelumPulang}>
+      <View style={styles.backgroundCardBelumAbsenPulang}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* /////////////////////////////////////////////////////////////////// */}
           {AbsenBelumPulang.map((AbsenBelumPulang, index) => (
             <View key={index} style={{flexDirection: 'column'}}>
-              <CardAbsenBelumPulang
+              <CardBelumAbsenPulang
                 navigation={navigation}
                 jam_masuk={AbsenBelumPulang.jam_masuk}
                 project={AbsenBelumPulang.project}
@@ -82,10 +82,10 @@ const ListAbsenBelumPulang = ({navigation}) => {
   );
 };
 
-export default ListAbsenBelumPulang;
+export default ListBelumAbsenPulang;
 
 const styles = StyleSheet.create({
-  backgroundCardAbsenBelumPulang: {
+  backgroundCardBelumAbsenPulang: {
     backgroundColor: Color.white,
     paddingTop: 30,
     alignItems: 'center',

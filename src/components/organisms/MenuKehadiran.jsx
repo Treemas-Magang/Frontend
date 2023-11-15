@@ -54,8 +54,8 @@ const MenuKehadiran = ({
           />
           <IconMenu
             image={require('../../assets/vector/listbelumpulang.png')}
-            title="List Belum Pulang"
-            onPress={() => moveTo('absenBelumPulang')}
+            title="Belum Absen Pulang"
+            onPress={() => moveTo('belumabsenpulang')}
             styleImage={styleImage}
             styleNamaMenu={styleNamaMenu}
             box={box}

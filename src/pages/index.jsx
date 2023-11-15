@@ -25,7 +25,7 @@ import ScreenFormCuti from './screen/ScreenFormCuti';
 import ScreenRekapCuti from './screen/ScreenRekapCuti';
 import ScreenFormClaim from './screen/ScreenFormClaim';
 import ScreenListMembers from './screen/ScreenListMembers';
-import ScreenAbsenBelumPulang from './screen/ScreenAbsenBelumPulang';
+import ScreenBelumAbsenPulang from './screen/ScreenBelumAbsenPulang';
 import ScreenFormAbsenBelumPulang from './screen/ScreenFormAbsenBelumPulang';
 import ScreenListMemberProject from './screen/ScreenListMemberProject';
 import ScreenDetailMemberCuti from './screen/ScreenDetailMemberCuti';
@@ -68,7 +68,7 @@ export {
   ScreenRekapCuti,
   ScreenFormClaim,
   ScreenListMembers,
-  ScreenAbsenBelumPulang,
+  ScreenBelumAbsenPulang,
   ScreenFormAbsenBelumPulang,
   ScreenListMemberProject,
   ScreenDetailMemberCuti,
