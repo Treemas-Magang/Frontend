@@ -1,14 +1,14 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
-import {ScrollView, StyleSheet, View, Image} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
-import FormAbsenBelumPulang from '../../components/organisms/FormAbsenBelumPulang';
 import ButtonBack from '../../components/atoms/ButtonBack';
 import ButtonHome from '../../components/atoms/ButtonHome';
 import VectorAtasBesar from '../../components/atoms/VectorAtasBesar';
+import FormBelumAbsenPulang from '../../components/organisms/FormBelumAbsenPulang';
 
-const ScreenFormAbsensi = ({navigation}) => {
+const ScreenFormBelumAbsenPulang = ({navigation}) => {
   return (
     <View style={{height: '100%', backgroundColor: Color.green}}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -16,14 +16,14 @@ const ScreenFormAbsensi = ({navigation}) => {
         <ButtonHome navigation={navigation} />
         <VectorAtasBesar />
         <View style={styles.wrapperForm}>
-          <FormAbsenBelumPulang navigation={navigation} />
+          <FormBelumAbsenPulang navigation={navigation} />
         </View>
       </ScrollView>
     </View>
   );
 };
 
-export default ScreenFormAbsensi;
+export default ScreenFormBelumAbsenPulang;
 
 const styles = StyleSheet.create({
   wrapperForm: {
