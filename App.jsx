@@ -11,7 +11,7 @@ export default function App() {
   useEffect(() => {
     StatusBar.setBackgroundColor(Color.black);
     const fetchData = () => {
-      checkMockLocation();
+      // checkMockLocation();
     };
 
     // Jalankan `fetchData` setiap 10 detik

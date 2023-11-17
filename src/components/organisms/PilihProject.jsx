@@ -8,28 +8,28 @@ import {text} from '../../utils/text';
 const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   const [pilihProjects, setPilihProject] = useState([
     {
-      nama: 'Bank UOB',
-      alamat:
-        'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15326, Indonesia',
-    },
-    {
       nama: 'PT TREEMAS SOLUSI UTAMA',
       alamat:
         'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15326, Indonesia',
     },
     {
+      nama: 'Bank UOB',
+      alamat:
+        'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15327, Indonesia',
+    },
+    {
       nama: 'BANK ANDALAN RAKYAT',
       alamat:
-        'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15326, Indonesia',
+        'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15328, Indonesia',
     },
     {
       nama: 'Bank MEGA',
       alamat:
-        'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15326, Indonesia',
+        'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15329, Indonesia',
     },
   ]);
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
+  const moveTo = (tujuan, namaTempat, alamat) => {
+    navigation.navigate(tujuan, {namaTempat: namaTempat, alamat: alamat});
   };
   return (
     <View>
@@ -50,7 +50,7 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
                 nama={pilihProject.nama}
                 alamat={pilihProject.alamat}
                 navigation={navigation}
-                onPress={() => moveTo('pilihAbsenProject')}
+                onPress={() => moveTo('pilihAbsenProject', pilihProject.nama, pilihProject.alamat)}
               />
             </View>
           ))}

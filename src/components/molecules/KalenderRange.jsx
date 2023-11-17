@@ -1,13 +1,16 @@
 /* eslint-disable prettier/prettier */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import { Color } from '../../utils/color';
 import { text } from '../../utils/text';
 import moment from 'moment';
+import axios from 'axios';
 const KalenderRange = (props) => {
 const [selectedStartDate, setSelectedStartDate] = useState(null);
 const [selectedEndDate, setSelectedEndDate] = useState(null);
+const [dataTglLibur, setDataTglLibur] = useState([]);
+const [dataTglCutiBersama, setDataTglCutiBersama] = useState([]);
 const minDate = new Date(); // Hari ini
 const maxDate = new Date();
 maxDate.setFullYear(maxDate.getFullYear(), 11, 31);
@@ -15,9 +18,49 @@ const formatDate = (date) => {
     return moment(date).format('YYYY-MM-DD');
 };
 
+//get data tanggal libur dari API
+
+useEffect(() => {
+  const getData = async () => {
+    // setIsLoading(true);
+    const token =
+      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDAxIiwiaWF0IjoxNzAwMDM4Nzc2LCJleHAiOjE3MDAxMjUxNzZ9.DVH7JQtomcx6B1RKOjrPZxLbjbn-u1NCBAWmdD17x0U';
+    try {
+      const headers = {
+        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(
+        'https://treemas-api-403500.et.r.appspot.com/api/master-data/libur-view',
+        {headers},
+      );
+      const data = response.data.data;
+      // Ambil hanya tanggal libur dari data dan setel ke dalam state
+      // Filter objek berdasarkan isCutiBersama dan ambil hanya tanggal liburnya
+      const tanggalLiburNonCutiBersama = data
+        .filter(item => item.isCutiBersama === '0')
+        .map(item => item.tglLibur);
+
+      const tanggalLiburCutiBersama = data
+        .filter(item => item.isCutiBersama !== '0')
+        .map(item => item.tglLibur);
+
+      // Simpan kedua kelompok tanggal libur dalam state
+      setDataTglCutiBersama(tanggalLiburNonCutiBersama);
+      setDataTglLibur(tanggalLiburCutiBersama);
+      // setIsLoading(false);
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
+    }
+  };
+  getData()
+}, []);
+
+console.log('tgl merah : ', dataTglLibur)
+console.log('tgl cuti bersama : ',dataTglCutiBersama)
 // Daftar tanggal yang ingin diabaikan
-const cutiBersama = ['2023-10-18', '2023-10-20'];
-const tanggalMerah = ['2023-10-12', '2023-10-25'];
+const cutiBersama = dataTglCutiBersama;
+const tanggalMerah = dataTglLibur;
 
 const startDate = selectedStartDate ? formatDate(selectedStartDate) : '';
 const endDate = selectedEndDate ? formatDate(selectedEndDate) : '';

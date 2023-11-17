@@ -30,9 +30,12 @@ import {
 } from 'react-native-responsive-screen';
 import {LoginFingerprint} from '../../config/prosesLogin';
 import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
+import ButtonLoading from '../../components/atoms/ButtonLoading';
+import { checkMockLocation } from '../../utils/checkMockLocation';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [deviceId, setDeviceId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const {formLogin} = useSelector(state => state.LoginReducer);
   const {formLoginFP} = useSelector(state => state.LoginFingerPrintReducer);
   // const {location} = useSelector(state => state.SplashReducer);
@@ -93,7 +96,12 @@ const ScreenLogin = ({navigation}) => {
   const onChangeText = (value, inputType) => {
     dispatch(setForm(inputType, value));
   };
+  useEffect(() => {
+    dispatch(setForm('isWebAccess', '0'));
+    dispatch(setFormLoginFingerPrint('isWebAccess', '0'));
+  }, [dispatch]);
   const sendData = async () => {
+    setIsLoading(true)
     console.log(formLogin)
     try {
       const response = await axios.post(
@@ -118,6 +126,7 @@ const ScreenLogin = ({navigation}) => {
         await AsyncStorage.setItem('nik', formLogin.nik);
         await AsyncStorage.setItem('password', formLogin.password);
         await AsyncStorage.setItem('role', role);
+        setIsLoading(false);
         // render notif //
                 getToken().then(() => {
                   countDataWithFalseStatus().then(
@@ -139,20 +148,15 @@ const ScreenLogin = ({navigation}) => {
                     },
                   );
                 });
-
-
         /////////////////
-
-
-
-
-
         navigation.replace('dashboard');
       } else {
         console.log('message : ', response.data.message);
+        setIsLoading(false);
       }
     } catch (error) {
-      console.log('handset imei tidak sama');//masih proses
+      console.log('gagal login');//masih proses
+       setIsLoading(false);
     }
   };
 
@@ -161,6 +165,8 @@ const ScreenLogin = ({navigation}) => {
   };
   const rnBiometrics = new ReactNativeBiometrics();
   const handleFingerprint = async () => {
+    setIsLoading(true)
+    // checkMockLocation();
     try {
       const result = await rnBiometrics.simplePrompt({
         promptMessage: 'Gunakan sidik jari untuk login',
@@ -186,7 +192,7 @@ const ScreenLogin = ({navigation}) => {
             await AsyncStorage.setItem('nama', nama);
             await AsyncStorage.setItem('token', token);
             await AsyncStorage.setItem('role', role);
-
+            setIsLoading(false)
 
             // render notif //
             getToken().then(() => {
@@ -212,9 +218,11 @@ const ScreenLogin = ({navigation}) => {
             navigation.replace('dashboard');
           } else {
             console.log('message : ', response.data.message);
+             setIsLoading(false);
           }
         } catch (error) {
           console.error('Terjadi kesalahan:', error);
+           setIsLoading(false);
         }
 
         ///////////////////////////////////////
@@ -230,9 +238,11 @@ const ScreenLogin = ({navigation}) => {
         // }
       } else if (result.error) {
         // Pemindaian gagal
+         setIsLoading(false);
         console.log('Otentikasi gagal');
       }
     } catch (error) {
+       setIsLoading(false);
       navigation.navigate('gagalSidikJari');
     }
   };
@@ -271,7 +281,12 @@ const ScreenLogin = ({navigation}) => {
             maxLength={10}
           />
           <View style={{flexDirection: 'row', gap: 20}}>
-            <ButtonAction onPress={() => sendData()} title="login" />
+            {isLoading ? (
+              <ButtonLoading />
+            ) : (
+              <ButtonAction onPress={() => sendData()} title="login" />
+            )}
+
             <TouchableOpacity onPress={() => handleFingerprint()}>
               <FontAwesomeIcon
                 icon={faFingerprint}

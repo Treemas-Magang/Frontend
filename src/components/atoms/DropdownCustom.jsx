@@ -19,7 +19,7 @@ useEffect(() => {
 
   return (
     <ScrollView style={{height: 200}}>
-      {dataClaim.length > 0 ? (
+      {dataClaim?.length ? (
         dataClaim.map((claims, index) => (
           <TouchableOpacity
             key={index}

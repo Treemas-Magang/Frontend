@@ -114,7 +114,7 @@ const FormClaim = ({navigation}) => {
             'https://treemas-api-403500.et.r.appspot.com/api/master-data/claim-view',
             {headers},
           );
-          const dtClaim = response.data.data.user;
+          const dtClaim = response.data.data;
           setDataClaim(dtClaim);
         } else {
           console.log('Data tidak ditemukan di session.');

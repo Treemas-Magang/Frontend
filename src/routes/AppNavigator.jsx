@@ -50,7 +50,7 @@ import {
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
-import ScreenCobaCheckBox from '../pages/screen/ScreenCobaCheckBox';
+// import ScreenCobaCheckBox from '../pages/screen/ScreenCobaCheckBox';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},

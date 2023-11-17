@@ -14,36 +14,35 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setFormAbsensi} from '../../redux';
 import axios from 'axios';
 import {getTanggalSekarang} from '../../utils/getTanggalSekarang';
+import { checkMockLocation } from '../../utils/checkMockLocation';
+import { useRoute } from '@react-navigation/native';
+import { jamSekarang } from '../../utils/jamSekarang';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getDataFromSession } from '../../utils/getDataSession';
 
-const FormAbsensi = () => {
+const FormAbsensi = ({navigation}) => {
+  const {namaTempat} = useRoute().params
   const dispatch = useDispatch();
-  const {form} = useSelector(state => state.FormAbsensiReducer);
-  console.log(form);
+  const {formAbsensi} = useSelector(state => state.FormAbsensiReducer);
+  console.log(formAbsensi);
   const [isWFH, setIsWFH] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [terlambat, setTerlambat] = useState(true);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const {date, time, dayName} = getTanggalSekarang();
     console.log('tanggal : ', date);
     console.log('hari : ', dayName);
     console.log('waktu : ', time);
-    dispatch(
-      setFormAbsensi(
-        'lokasi',
-        'sdkaas kasdkas asdjasdn asdnasdkn asdnasdasm dasndkasn asndknasds asdnasdnaskn nwdjanjd msdn mwnd ndnwkd kndkn',
-      ),
-    );
-    dispatch(setFormAbsensi('jarak', 20.0202));
-    dispatch(setFormAbsensi('lokasi_project', 'PT. TREEMAS SOLUSI UTAMA'));
-    dispatch(setFormAbsensi('nik', '999'));
-    dispatch(setFormAbsensi('waktu', '09:00'));
-    dispatch(setFormAbsensi('foto', capturedImage));
+    // dispatch(setFormAbsensi('nik', '999'));
+    // dispatch(setFormAbsensi('foto', capturedImage));
   }, [dispatch, capturedImage]);
   const onChangeText = (value, inputType) => {
     dispatch(setFormAbsensi(inputType, value));
   };
 
+  useEffect
   // Fungsi untuk mengirim data dan foto ke API
   // const kirimDataDanFotoKeAPI = async () => {
   //   try {
@@ -76,24 +75,93 @@ const FormAbsensi = () => {
   //   }
   // };
 
-  const sendData = () => {
-    console.log('kirim data : ', form);
-    // kirimDataDanFotoKeAPI();
-  };
+
+
+const kirimDataAbsensi = async () => {
+  try {
+    const token = await getDataFromSession('token');
+
+    if (token !== null) {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      const response = await axios.post(
+        'http://192.168.10.31:8081/api/absen/input-absen',
+        formAbsensi,
+        {headers},
+      );
+
+      if (response.data.success) {
+        console.log('message : ', response.data.message, response.message);
+        // try {
+        //   await AsyncStorage.setItem('sudah_absen', 'true');
+        //   console.log('berhasil menyimpan status sudah absen');
+        // } catch (error) {
+        //   console.log('gagal menyimpan status sudah absen', error);
+        // }
+      } else {
+        console.log('message : ', response.data.message, response.message);
+        // try {
+        //   await AsyncStorage.setItem('sudah_absen', 'false');
+        //   console.log('berhasil menyimpan status sudah absen');
+        // } catch (error) {
+        //   console.log('gagal menyimpan status sudah absen', error);
+        // }
+      }
+    } else {
+      console.log('Data tidak ditemukan di session.');
+    }
+  } catch (error) {
+    console.error('Terjadi kesalahan dalam getDataFromSession:', error);
+  }
+};
+
+const sudahAbsen = async () => {
+  await kirimDataAbsensi();
+};
+
+const sendData = async () => {
+  try {
+    // checkMockLocation();
+    console.log('kirim data : ', formAbsensi);
+    // await kirimDataDanFotoKeAPI(); // Uncomment if kirimDataDanFotoKeAPI is an asynchronous function
+    await sudahAbsen()
+    .then(() => {
+      try {
+        AsyncStorage.setItem('sudah_absen', 'true');
+        console.log('berhasil menyimpan status sudah absen');
+      } catch (error) {
+        console.log('gagal menyimpan status sudah absen', error);
+      }
+    })
+    .catch(() => {
+      try {
+        AsyncStorage.setItem('sudah_absen', 'false');
+        console.log('berhasil menyimpan status sudah absen');
+      } catch (error) {
+        console.log('gagal menyimpan status sudah absen', error);
+      }
+    });
+    navigation.replace('dashboard');
+  } catch (error) {
+    console.error('Error in sendData:', error);
+  }
+};
+
   return (
     <View style={styles.congtainerForm}>
       <Text style={styles.textJudul}>melakukan absensi</Text>
       <CustomTextInput
         label="Lokasi Project"
         secureTextEntry={false}
-        value={form.lokasi_project}
+        value={namaTempat}
         onTextChange={value => onChangeText(value, 'lokasi_project')}
       />
       <CustomTextInput
         label="Waktu"
         secureTextEntry={false}
-        value={form.waktu}
-        onTextChange={value => onChangeText(value, 'waktu')}
+        value={jamSekarang()}
       />
       <CustomTextInput
         label="Lokasi"
@@ -101,13 +169,14 @@ const FormAbsensi = () => {
         multiline={true}
         style={styles.textArea}
         editable={false}
-        value={form.lokasi}
+        value={formAbsensi.lokasiMsk}
         onTextChange={value => onChangeText(value, 'lokasi')}
       />
       <CustomTextInput
         label="Jarak"
+        editable={false}
         secureTextEntry={false}
-        value={form.jarak}
+        value={formAbsensi.jarakMsk}
         onTextChange={value => onChangeText(value, 'jarak')}
       />
       {isWFH ? (
@@ -131,7 +200,7 @@ const FormAbsensi = () => {
             <CustomTextInput
               label="Alasan Telat Masuk"
               secureTextEntry={false}
-              value={form.alasan_telat_masuk}
+              value={formAbsensi.alasan_telat_masuk}
               onTextChange={value => onChangeText(value, 'alasan_telat_masuk')}
             />
           ) : (
@@ -149,7 +218,7 @@ const FormAbsensi = () => {
           </View>
         </>
       ) : (
-        <ButtonAction title="kirim" style={{width: 269}} />
+        <ButtonAction title="kirim" style={{width: 269}} onPress={sendData} />
       )}
     </View>
   );

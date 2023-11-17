@@ -9,7 +9,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { useRoute } from '@react-navigation/native';
 const PilihAbsenProject = ({navigation}) => {
+  const {namaTempat, alamat} = useRoute().params;
   return (
     <View style={styles.CardUpdateTimesheet}>
       <Text
@@ -21,7 +23,7 @@ const PilihAbsenProject = ({navigation}) => {
         }}>
         MEMILIH LOKASI ABSENSI PROJECT
       </Text>
-      <CardPilihAbsenProject navigation={navigation} />
+      <CardPilihAbsenProject alamat={alamat} namaTempat={namaTempat} navigation={navigation} />
     </View>
   );
 };
