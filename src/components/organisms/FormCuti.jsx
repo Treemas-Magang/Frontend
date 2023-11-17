@@ -24,19 +24,13 @@ import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import DropdownCuti from '../atoms/DropdownCuti';
 
-const jenis_cuti = [
-  {id_cuti: 'CD1', keterangan_cuti: 'cuti 1'},
-  {id_cuti: 'CD2', keterangan_cuti: 'cuti 2'},
-  {id_cuti: 'CD3', keterangan_cuti: 'cuti 3'},
-  {id_cuti: 'CD4', keterangan_cuti: 'cuti 4'},
-];
-
 const FormCuti = ({
   style,
   styleCard,
   styleContainerCard,
   styleInfo,
   styleTitle,
+  opnDropDown,
 }) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.FormCutiReducer);
@@ -57,12 +51,14 @@ const FormCuti = ({
   const [cutiDesc, setCutiDesc] = useState('');
   const handleOpenDropdown = () => {
     setOpenDropdown(!openDropdown);
+    opnDropDown(!openDropdown);
   };
   useEffect(() => {
     if (cutiDesc !== '') {
       setOpenDropdown(false);
+      opnDropDown(!openDropdown);
     }
-  }, []);
+  }, [cutiDesc, opnDropDown, openDropdown]);
   const openKalender = () => {
     setShowKalender(!showKalender);
   };
@@ -100,8 +96,8 @@ const FormCuti = ({
             'https://treemas-api-403500.et.r.appspot.com/api/master-data/cuti-view',
             {headers},
           );
-          const dataCuti = response.data.data;
-          setDataCuti(dataCuti);
+          const dtCuti = response.data.data;
+          setDataCuti(dtCuti);
         } else {
           console.log('Data token tidak di temukan');
         }
@@ -109,7 +105,8 @@ const FormCuti = ({
         console.error('Terjadi Kesalahan:', error);
       }
     };
-  }, [dataCuti]);
+    fetchData();
+  }, []);
 
   const sendData = () => {
     console.log('kirim data : ', form);
