@@ -114,7 +114,7 @@ const FormClaim = ({navigation}) => {
             'https://treemas-api-403500.et.r.appspot.com/api/master-data/claim-view',
             {headers},
           );
-          const dtClaim = response.data.data.user;
+          const dtClaim = response.data.data;
           setDataClaim(dtClaim);
         } else {
           console.log('Data tidak ditemukan di session.');
@@ -139,7 +139,7 @@ const FormClaim = ({navigation}) => {
           <TouchableOpacity
             onPress={handleOpenDropdownCustom}
             style={styles.tombolDropdown}>
-            <Text style={styles.lokasiProject}>
+            <Text style={styles.textDropdown}>
               {keterangan === '' ? 'Pilih Type Claim' : keterangan}
             </Text>
             <FontAwesomeIcon
@@ -286,5 +286,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  textDropdown: {
+    fontSize: 19,
+    fontFamily: text.light,
+    color: Color.blue,
+    right: 10,
   },
 });

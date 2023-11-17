@@ -46,10 +46,10 @@ const ListMembers = ({navigation}) => {
           </TouchableOpacity>
           <View style={{alignItems: 'center'}}>
             <Text style={styles.judul}>MEMBER</Text>
-            <Text style={styles.judul}>MANDIRI</Text>
+            <Text style={styles.judul}>MANDI RI</Text>
           </View>
           <View style={styles.wrapStatus}>
-            <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+            <View style={styles.labelKet}>
               <View
                 style={[
                   styles.simbolStatus,
@@ -58,13 +58,13 @@ const ListMembers = ({navigation}) => {
               />
               <Text>Hadir</Text>
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+            <View style={styles.labelKet}>
               <View
                 style={[styles.simbolStatus, {backgroundColor: Color.cardCuti}]}
               />
               <Text>Cuti</Text>
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+            <View style={styles.labelKet}>
               <View
                 style={[
                   styles.simbolStatus,
@@ -73,7 +73,7 @@ const ListMembers = ({navigation}) => {
               />
               <Text>Tidak masuk</Text>
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+            <View style={styles.labelKet}>
               <View
                 style={[
                   styles.simbolStatus,
@@ -87,6 +87,10 @@ const ListMembers = ({navigation}) => {
             <View style={{gap: 20}}>
               <CardMember status="sakit" navigation={navigation} />
               <CardMember status="tidakMasuk" navigation={navigation} />
+              <CardMember status="sakit" navigation={navigation} />
+              <CardMember status="tidakMasuk" navigation={navigation} />
+              <CardMember status="hadir" navigation={navigation} />
+              <CardMember status="cuti" navigation={navigation} />
               <CardMember status="hadir" navigation={navigation} />
               <CardMember status="cuti" navigation={navigation} />
             </View>
@@ -135,10 +139,9 @@ const styles = StyleSheet.create({
     height: 15,
     borderRadius: 15,
   },
-  VectorAtasKanan: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
+  labelKet: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
   },
 });

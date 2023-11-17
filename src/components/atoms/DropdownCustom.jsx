@@ -1,5 +1,11 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
@@ -13,13 +19,13 @@ const DropdownCustom = ({data, idTypeClaim, dataType}) => {
   };
   data(type);
   idTypeClaim(idType);
-useEffect(() => {
-  setDataClaim(dataType);
-}, [dataType]);
+  useEffect(() => {
+    setDataClaim(dataType);
+  }, [dataType]);
 
   return (
     <ScrollView style={{height: 200}}>
-      {dataClaim.length > 0 ? (
+      {dataClaim?.length ? (
         dataClaim.map((claims, index) => (
           <TouchableOpacity
             key={index}

@@ -170,7 +170,7 @@ const FormCuti = ({
                 <TouchableOpacity
                   onPress={handleOpenDropdown}
                   style={styles.tombolDropdown}>
-                  <Text style={styles.lokasiProject}>
+                  <Text style={styles.textDropdown}>
                     {cutiDesc === '' ? 'Pilih Type Cuti' : cutiDesc}
                   </Text>
                   <FontAwesomeIcon
@@ -376,5 +376,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  textDropdown: {
+    fontSize: 19,
+    fontFamily: text.light,
+    color: Color.blue,
+    right: 10,
   },
 });
