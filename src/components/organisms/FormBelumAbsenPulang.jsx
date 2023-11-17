@@ -9,10 +9,10 @@ import {text} from '../../utils/text';
 import CustomTextInput from '../atoms/CustomTextInput';
 import ButtonAction from '../atoms/ButtonAction';
 
-const FormAbsenBelumPulang = () => {
+const FormBelumAbsenPulang = () => {
   return (
-    <View style={styles.formAbsenBelumPulang}>
-      <View style={styles.cardFormAbsenBelumPulang}>
+    <View style={styles.FormBelumAbsenPulang}>
+      <View style={styles.cardFormBelumAbsenPulang}>
         <Text style={styles.textJudul}>Absen Pulang</Text>
         <CustomTextInput
           label="Tanggal"
@@ -26,7 +26,7 @@ const FormAbsenBelumPulang = () => {
           style={styles.textArea}
           editable={false}
         />
-        <CustomTextInput label="Catatan Lupa Pulang" secureTextEntry={false} />
+        <CustomTextInput label="Catatan Lupa Absen" secureTextEntry={false} />
         <CustomTextInput label="Jam Pulang" secureTextEntry={false} />
         <CustomTextInput label="Timesheet" secureTextEntry={false} />
         <CustomTextInput
@@ -42,18 +42,18 @@ const FormAbsenBelumPulang = () => {
   );
 };
 
-export default FormAbsenBelumPulang;
+export default FormBelumAbsenPulang;
 
 const styles = StyleSheet.create({
-  formAbsenBelumPulang: {
+  FormBelumAbsenPulang: {
     height: '100%',
     width: '100%',
     alignItems: 'center',
     position: 'relative',
   },
-  cardFormAbsenBelumPulang: {
+  cardFormBelumAbsenPulang: {
     width: 320,
-    paddingVertical: 20,
+    paddingVertical: 15,
     backgroundColor: Color.white,
     borderRadius: 10,
     alignItems: 'center',

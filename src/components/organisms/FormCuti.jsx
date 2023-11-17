@@ -16,10 +16,13 @@ import CustomTextInput from '../atoms/CustomTextInput';
 import ButtonAction from '../atoms/ButtonAction';
 import KalenderRange from '../molecules/KalenderRange';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faCalendarDays} from '@fortawesome/free-solid-svg-icons';
+import {faCalendarDays, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormCuti} from '../../redux';
 import FakeTextInput from '../atoms/FakeTextInput';
+import {getDataFromSession} from '../../utils/getDataSession';
+import axios from 'axios';
+import DropdownCuti from '../atoms/DropdownCuti';
 
 const jenis_cuti = [
   {id_cuti: 'CD1', keterangan_cuti: 'cuti 1'},
@@ -48,6 +51,18 @@ const FormCuti = ({
     startDate: '',
     endDate: '',
   });
+  const [dataCuti, setDataCuti] = useState([]);
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [dataId, setDataId] = useState('');
+  const [cutiDesc, setCutiDesc] = useState('');
+  const handleOpenDropdown = () => {
+    setOpenDropdown(!openDropdown);
+  };
+  useEffect(() => {
+    if (cutiDesc !== '') {
+      setOpenDropdown(false);
+    }
+  }, []);
   const openKalender = () => {
     setShowKalender(!showKalender);
   };
@@ -73,6 +88,29 @@ const FormCuti = ({
   const onChangeText = (value, inputType) => {
     dispatch(setFormCuti(inputType, value));
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = await getDataFromSession('token');
+        if (token !== null) {
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          const response = await axios.get(
+            'https://treemas-api-403500.et.r.appspot.com/api/master-data/cuti-view',
+            {headers},
+          );
+          const dataCuti = response.data.data;
+          setDataCuti(dataCuti);
+        } else {
+          console.log('Data token tidak di temukan');
+        }
+      } catch (error) {
+        console.error('Terjadi Kesalahan:', error);
+      }
+    };
+  }, [dataCuti]);
+
   const sendData = () => {
     console.log('kirim data : ', form);
   };
@@ -125,7 +163,33 @@ const FormCuti = ({
             />
           </View>
           <View style={styles.wrapInputForm}>
-            <Dropdown nama_dropdown="Jenis cuti" jenis_cuti={jenis_cuti} />
+            {/* <Dropdown nama_dropdown="Jenis cuti" jenis_cuti={jenis_cuti} /> */}
+            <View style={styles.wrapDropdown}>
+              <View
+                style={openDropdown ? styles.dropdownTrue : styles.dropdown}>
+                <TouchableOpacity
+                  onPress={handleOpenDropdown}
+                  style={styles.tombolDropdown}>
+                  <Text style={styles.lokasiProject}>
+                    {cutiDesc === '' ? 'Pilih Type Cuti' : cutiDesc}
+                  </Text>
+                  <FontAwesomeIcon
+                    icon={faCaretDown}
+                    size={25}
+                    color={openDropdown ? Color.white : Color.green}
+                  />
+                </TouchableOpacity>
+                {openDropdown ? (
+                  <DropdownCuti
+                    data={data => setCutiDesc(data)}
+                    idTypeCuti={dt => setDataId(dt)}
+                    dataType={dataCuti}
+                  />
+                ) : (
+                  ''
+                )}
+              </View>
+            </View>
             <View style={{position: 'relative', gap: 10}}>
               {/* <CustomTextInput
               label="tgl awal - akhir cuti"
@@ -274,5 +338,43 @@ const styles = StyleSheet.create({
   textValue: {
     fontFamily: text.semiBold,
     color: Color.black,
+  },
+  wrapDropdown: {
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 20,
+    position: 'relative',
+    marginBottom: 70,
+  },
+  dropdown: {
+    width: '86.6%',
+    minHeight: 50,
+    // backgroundColor: Color.blue,
+    borderBottomWidth: 2,
+    borderBottomColor: Color.green,
+    borderRadius: 5,
+    paddingHorizontal: 20,
+    // paddingVertical: 10,
+    position: 'absolute',
+    zIndex: 10,
+  },
+  dropdownTrue: {
+    width: '86.6%',
+    minHeight: 50,
+    backgroundColor: Color.green,
+    // borderBottomWidth: 2,
+    // borderBottomColor: Color.green ,
+    borderRadius: 5,
+    paddingHorizontal: 20,
+    // paddingVertical: 10,
+    position: 'absolute',
+    zIndex: 10,
+  },
+  tombolDropdown: {
+    height: 50,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });

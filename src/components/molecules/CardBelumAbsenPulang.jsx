@@ -19,7 +19,7 @@ const CardBelumAbsenPulang = ({
     <View>
       <TouchableOpacity
         style={styles.CardBelumAbsenPulangStyle}
-        onPress={() => moveTo('formAbsenBelumPulang')}>
+        onPress={() => moveTo('formBelumAbsenPulang')}>
         <View
           style={{
             width: '100%',

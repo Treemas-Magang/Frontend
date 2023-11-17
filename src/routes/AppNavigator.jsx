@@ -31,7 +31,7 @@ import {
   ScreenFormClaim,
   ScreenListMembers,
   ScreenBelumAbsenPulang,
-  ScreenFormAbsenBelumPulang,
+  ScreenFormBelumAbsenPulang,
   ScreenListMemberProject,
   ScreenDetailMemberCuti,
   ScreenDetailMemberSakit,
@@ -50,7 +50,6 @@ import {
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
 import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
-// import ScreenCobaCheckBox from '../pages/screen/ScreenCobaCheckBox';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -183,13 +182,13 @@ const screens = [
     gestureEnabled: true,
   },
   {
-    name: 'belumabsenpulang',
+    name: 'belumAbsenPulang',
     component: ScreenBelumAbsenPulang,
     gestureEnabled: true,
   },
   {
-    name: 'formAbsenBelumPulang',
-    component: ScreenFormAbsenBelumPulang,
+    name: 'formBelumAbsenPulang',
+    component: ScreenFormBelumAbsenPulang,
     gestureEnabled: true,
   },
   {
@@ -257,11 +256,6 @@ const screens = [
     component: ScreenTesNotifikasi,
     gestureEnabled: true,
   },
-  // {
-  //   name: 'cobaCheckBox',
-  //   component: ScreenCobaCheckBox,
-  //   gestureEnabled: true,
-  // },
 ];
 
 const routeName = 'splash';

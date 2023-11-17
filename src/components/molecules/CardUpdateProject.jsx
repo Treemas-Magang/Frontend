@@ -11,8 +11,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {text} from '../../utils/text';
 const CardUpdateProject = ({title, alamat, value, onValueChange}) => {
-  console.log(value)
+  console.log(value);
   return (
     <View style={{flexDirection: 'column'}}>
       <View style={styles.cardUpdate}>
@@ -22,8 +23,14 @@ const CardUpdateProject = ({title, alamat, value, onValueChange}) => {
           color={Color.white}
         />
         <View style={{width: wp('45%')}}>
-          <Text>{title}</Text>
-          <Text style={{textAlign: 'justify'}} numberOfLines={3}>
+          <Text style={styles.textTitle}>{title}</Text>
+          <Text
+            style={{
+              textAlign: 'justify',
+              fontFamily: text.semiBold,
+              fontSize: 12,
+            }}
+            numberOfLines={2}>
             {alamat}
           </Text>
         </View>
@@ -36,7 +43,7 @@ const CardUpdateProject = ({title, alamat, value, onValueChange}) => {
 const styles = StyleSheet.create({
   cardUpdate: {
     backgroundColor: Color.green,
-    height: hp('13%'),
+    height: hp('15%'),
     width: wp('75%'),
     flexDirection: 'row',
     justifyContent: 'center',
@@ -44,6 +51,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     gap: 8,
     borderRadius: 10,
+  },
+  textTitle: {
+    fontFamily: text.semiBold,
+    fontSize: 12,
+    color: Color.black,
+    textTransform: 'uppercase',
   },
 });
 
