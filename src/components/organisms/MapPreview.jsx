@@ -10,13 +10,18 @@ import ButtonAction from '../atoms/ButtonAction';
 import {getAlamat} from '../../utils/getAlamat';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
-import {setAbsenMasuk} from '../../redux';
+import {setAbsenMasuk, setFormAbsensi} from '../../redux';
 import {getTanggalSekarang} from '../../utils/getTanggalSekarang';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {hitungJarak} from '../../utils/hitungJarak';
+import { checkMockLocation } from '../../utils/checkMockLocation';
+import { useRoute } from '@react-navigation/native';
+import { jamSekarang } from '../../utils/jamSekarang';
+import { getDataFromSession } from '../../utils/getDataSession';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const initialLokasiUser = {
   latitude: null,
   longitude: null,
@@ -24,13 +29,15 @@ const initialLokasiUser = {
   longitudeDelta: 0.001,
 };
 const initialLokasiPerusahaan = {
-  latitude: -6.2452781,
-  longitude: 106.6687073,
+  latitude: -6.245091550324631,
+  longitude: 106.6712797641271,
   latitudeDelta: 0.001,
   longitudeDelta: 0.001,
 };
 
+
 const MapPreview = ({navigation}) => {
+  const {namaTempat, alamat} = useRoute().params;
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.AbsenMasukReducer);
   const [isAbsen, setIsAbsen] = useState(false);
@@ -47,12 +54,35 @@ const MapPreview = ({navigation}) => {
   const nama = 'Rizki febriansyah';
   let is_absen = 1;
   let is_wfh = 0;
+  
+  useEffect(() => {
+    getDataFromSession('sudah_absen')
+    .then(data => {
+      setIsAbsen(data);
+    })
+    .catch(error => console.log('gagal ambil data dari session'));
+  }, []);
+
+console.log('sudah absen ? ',isAbsen)
+
   useEffect(() => {
     const ambilLokasi = async () => {
       const {date, time, dayName} = getTanggalSekarang();
       try {
         const locationData = await getLocation();
         console.log('Lokasi berhasil diambil:', locationData);
+        getAlamat(locationData.latitude, locationData.longitude, 'AIzaSyA1tH4Nq364y6knELo5DwSWIwyvxNRF2b8')
+        .then(data => {
+          console.log('alamat : ', data);
+              dispatch(
+                setFormAbsensi( 'lokasiMsk', data),
+              );
+              dispatch(setFormAbsensi('gpsLatitudeMsk', locationData.latitude));
+              dispatch(
+                setFormAbsensi('gpsLongitudeMsk', locationData.longitude),
+              );
+        })
+        .catch(error => console.log(error));
         setCurrentLocation({
           ...currentLocation,
           latitude: locationData.latitude,
@@ -68,33 +98,6 @@ const MapPreview = ({navigation}) => {
         dispatch(setAbsenMasuk('jam_msk', time));
         dispatch(setAbsenMasuk('is_absen', is_absen));
         dispatch(setAbsenMasuk('is_wfh', is_wfh));
-        // getAlamat(locationData.latitude, locationData.longitude)
-        // .then((address) => {
-        //   console.log('Alamat:', address);
-        // })
-        // .catch((error) => {
-        //   console.error('Error:', error);
-        // });
-        // axios
-        //   .get('https://maps.googleapis.com/maps/api/geocode/json', {
-        //     params: {
-        //       latlng: `${locationData.latitude},${locationData.longitude}`,
-        //       key: 'AIzaSyByMFGn8i353SjJL_H0_hEfTmpUPx3_lC8', // Ganti dengan kunci API Google Maps Anda
-        //     },
-        //   })
-        //   .then(response => {
-        //     const data = response.data;
-        //     // if (data.results.length > 0) {
-        //     //   const address = data.results[0].formatted_address;
-        //     //   console.log('Alamat:', address);
-        //     // } else {
-        //     //   console.warn('Alamat tidak ditemukan.');
-        //     // }
-        //     console.log(data);
-        //   })
-        //   .catch(error => {
-        //     console.error('Error:', error);
-        //   });
         setLocationLoaded(true);
       } catch (error) {
         console.error('Kesalahan saat mengambil lokasi:', error);
@@ -103,12 +106,6 @@ const MapPreview = ({navigation}) => {
     };
 
     ambilLokasi();
-    // const distance = hitungJarak(
-    //   -6.2452781,
-    //   106.6687073,
-    //   -6.2454283,
-    //   106.6712577,
-    // );
   }, [setCurrentLocation]);
   useEffect(() => {
     if (
@@ -123,9 +120,11 @@ const MapPreview = ({navigation}) => {
         currentLocation.latitude,
         currentLocation.longitude,
       );
-      const jarakMeter = distance.toFixed(2);
-      const jarakBulat = Math.ceil(jarakMeter / 1000);
+      const jarakMeter = distance;
+      const jarakBulat = Math.ceil(jarakMeter);
+      console.log(`Jarak antara kedua titik adalah ${jarakMeter} meter.`);
       console.log(`Jarak antara kedua titik adalah ${jarakBulat} meter.`);
+      dispatch(setFormAbsensi('jarakMsk', `${jarakBulat} meter`));
       //jarak user ke kantor 100 = 100 meter
       if (jarakBulat > 100) {
         Alert.alert(
@@ -146,14 +145,29 @@ const MapPreview = ({navigation}) => {
     }
   }, [lokasiPerusahaan, currentLocation]);
   const handleMasuk = () => {
-    setIsAbsen(true);
+    // checkMockLocation();
+    navigation.navigate('formAbsensi', {namaTempat: namaTempat});
     console.log('data absen masuk : ', form);
   };
-  const handlePerbarui = () => {
-    setIsPerbarui(true);
+
+  //////////////////////////////////////////////
+  const sudahAbsen = async () => {
+    try {
+      await AsyncStorage.setItem('sudah_absen', 'false');
+      console.log('berhasil menyimpan status sudah absen');
+    } catch (error) {
+      console.log('gagal menyimpan status sudah absen', error);
+    }
+  };
+
+  //////////////////////////////////////////////
+
+  const handlePerbarui = async () => {
+    await sudahAbsen()
+    // setIsPerbarui(true);
   };
   const handlePulang = () => {
-    setIsPulang(true);
+    // setIsPulang(true);
   };
   return (
     <View style={{flex: 1, position: 'relative'}}>
@@ -183,7 +197,7 @@ const MapPreview = ({navigation}) => {
       )}
       {locationLoaded ? (
         <>
-          {isAbsen ? (
+          {isAbsen === 'true' ? (
             <View
               style={{
                 position: 'absolute',
@@ -197,6 +211,7 @@ const MapPreview = ({navigation}) => {
                   width: wp('75%'),
                 }}
                 title="perbarui"
+                onPress={handlePerbarui}
               />
               <ButtonAction
                 style={{

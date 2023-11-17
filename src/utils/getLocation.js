@@ -34,7 +34,7 @@ const getLocation = () => {
             console.error('Kesalahan saat mengambil lokasi:', error);
           }
         },
-        {enableHighAccuracy: false, timeout: 20000, maximumAge: 5000},
+        {enableHighAccuracy: false, maximumAge: 30000, timeout: 5000},
       );
     } catch (error) {
       console.error('Kesalahan saat mengambil data lokasi:', error);

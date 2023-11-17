@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, View, ScrollView, Image} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import FormCuti from '../../components/organisms/FormCuti';
 import {Color} from '../../utils/color';
 import ButtonBack from '../../components/atoms/ButtonBack';
@@ -12,6 +12,7 @@ import {
 import VectorAtasBesar from '../../components/atoms/VectorAtasBesar';
 
 const ScreenFormCuti = ({navigation}) => {
+  const [isDropdownAktif, setIsDropdownAktif] = useState(false)
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -25,6 +26,7 @@ const ScreenFormCuti = ({navigation}) => {
             styleCard={styles.ukuranCard}
             styleInfo={styles.styleInfo}
             styleTitle={styles.titleInfo}
+            opnDropDown={data => setIsDropdownAktif}
           />
         </View>
       </ScrollView>

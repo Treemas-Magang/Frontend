@@ -16,7 +16,7 @@ const ScreenFormAbsensi = ({navigation}) => {
         <ButtonHome navigation={navigation} />
         <VectorAtasBesar />
         <View style={styles.wrapperForm}>
-          <FormAbsensi />
+          <FormAbsensi navigation={navigation} />
         </View>
       </ScrollView>
     </View>

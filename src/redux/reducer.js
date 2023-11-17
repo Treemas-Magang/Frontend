@@ -13,6 +13,7 @@ const initialStateLogin = {
     nik: '',
     password: '',
     handsetImei: '',
+    isWebAccess: ''
   },
 };
 const LoginReducer = (state = initialStateLogin, action) => {
@@ -34,6 +35,7 @@ const initialStateLoginFingerPrint = {
     nik: '',
     password: '',
     handsetImei: '',
+    isWebAccess: ''
   },
 };
 const LoginFingerPrintReducer = (
@@ -224,22 +226,21 @@ const FormSakitReducer = (state = initialStateFormSakit, action) => {
 };
 
 const initialStateAbsensi = {
-  form: {
-    nik: '',
-    lokasi_project: '',
-    waktu: '',
-    lokasi: '',
-    jarak: 0,
-    alasan_telat_masuk: '',
-    foto: {},
+  formAbsensi: {
+    lokasiMsk: '',
+    jarakMsk: '',
+    noteTelatMsk: '',
+    gpsLatitudeMsk: null,
+    gpsLongitudeMsk: null,
+    image64: '',
   },
 };
 const FormAbsensiReducer = (state = initialStateAbsensi, action) => {
   if (action.type === 'SET_FORM_ABSENSI') {
     return {
       ...state,
-      form: {
-        ...state.form,
+      formAbsensi: {
+        ...state.formAbsensi,
         [action.inputType]: action.inputValue,
       },
     };
@@ -424,6 +425,24 @@ const JumlahApprovalReducer = (
   }
   return state;
 };
+// const initialStateSudahMasuk = {
+//   sudah_masuk: false,
+//   sudah_update : false,
+//   sudah_pulang : false,
+// };
+
+// const SudahMasukReducer = (
+//   state = initialStateSudahMasuk,
+//   action,
+// ) => {
+//   if (action.type === 'SET_SUDAH_MASUK') {
+//     return {
+//       ...state,
+//       sudah_masuk: action.inputValue,
+//     };
+//   }
+//   return state;
+// };
 
 
 const reducer = combineReducers({
@@ -444,7 +463,8 @@ const reducer = combineReducers({
   UpdateAbsenReducer,
   UpdatePasswordReducer,
   JumlahPengumumanReducer,
-  JumlahApprovalReducer
+  JumlahApprovalReducer,
+  // SudahMasukReducer,
 });
 
 export default reducer;
