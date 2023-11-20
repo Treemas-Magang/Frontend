@@ -264,7 +264,7 @@ const screens = [
   },
 ];
 
-const routeName = 'formAbsenPulang';
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {
