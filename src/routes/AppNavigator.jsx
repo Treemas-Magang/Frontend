@@ -46,6 +46,7 @@ import {
   ScreenUpdatePassword,
   ScreenPreviewPhoto,
   ScreenTesNotifikasi,
+  ScreenFormAbsenPulang,
 } from '../pages/index';
 import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
 import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
@@ -256,9 +257,14 @@ const screens = [
     component: ScreenTesNotifikasi,
     gestureEnabled: true,
   },
+  {
+    name: 'formAbsenPulang',
+    component: ScreenFormAbsenPulang,
+    gestureEnabled: true,
+  },
 ];
 
-const routeName = 'splash';
+const routeName = 'formAbsenPulang';
 const Stack = createNativeStackNavigator();
 
 function App() {

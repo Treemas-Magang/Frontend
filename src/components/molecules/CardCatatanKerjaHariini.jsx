@@ -32,14 +32,6 @@ const CardCatatanKerjaHariini = () => {
       behavior="position"
       keyboardVerticalOffset={-500}
       style={styles.container}>
-      <Image
-        style={
-          pulangCepat
-            ? styles.VectorAtasKebalikFalse
-            : styles.VectorAtasKebalikTrue
-        }
-        source={require('../../assets/vector/VectorAtasKebalik.png')}
-      />
       <View style={styles.CardCatatanKerja}>
         <Text
           style={{
@@ -58,7 +50,7 @@ const CardCatatanKerjaHariini = () => {
         />
         {pulangCepat ? (
           <CustomTextInput
-            label="Catan Pulang Kerja"
+            label="Catan Pulang Cepat"
             value={form.keterangan}
             onTextChange={value => onChangeText(value, 'catatanPulangKerja')}
             secureTextEntry={false}
@@ -69,10 +61,6 @@ const CardCatatanKerjaHariini = () => {
 
         <ButtonAction onPress={() => sendData()} title="KIRIM" />
       </View>
-      <Image
-        style={pulangCepat ? styles.VectorBawahFalse : styles.VectorBawahTrue}
-        source={require('../../assets/vector/VectorBawah.png')}
-      />
     </KeyboardAvoidingView>
   );
 };
@@ -88,34 +76,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 50,
     paddingVertical: 30,
-  },
-  VectorBawahFalse: {
-    position: 'absolute',
-    bottom: -277,
-    left: -36,
-    zIndex: -1,
-    width: '100%',
-  },
-  VectorBawahTrue: {
-    position: 'absolute',
-    bottom: -320,
-    left: -36,
-    zIndex: -1,
-    width: '100%',
-  },
-  VectorAtasKebalikFalse: {
-    position: 'absolute',
-    top: -199,
-    left: -36,
-    zIndex: -1,
-    width: '100%',
-  },
-  VectorAtasKebalikTrue: {
-    position: 'absolute',
-    top: -250,
-    left: -36,
-    zIndex: -1,
-    width: '100%',
   },
   container: {
     flex: 1,

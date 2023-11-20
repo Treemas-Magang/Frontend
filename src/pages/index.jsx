@@ -41,6 +41,7 @@ import ScreenListTimesheet from './screen/ScreenListTimesheet';
 import ScreenUpdatePassword from './screen/ScreenUpdatePassword';
 import ScreenPreviewPhoto from './screen/ScreenPreviewPhoto';
 import ScreenTesNotifikasi from './screen/ScreenTesNotifikasi';
+import ScreenFormAbsenPulang from './screen/ScreenFormAbsenPulang';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -84,4 +85,5 @@ export {
   ScreenUpdatePassword,
   ScreenPreviewPhoto,
   ScreenTesNotifikasi,
+  ScreenFormAbsenPulang,
 };
