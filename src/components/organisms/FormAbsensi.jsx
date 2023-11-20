@@ -86,34 +86,45 @@ const kirimDataAbsensi = async () => {
         Authorization: `Bearer ${token}`,
       };
 
-      const response = await axios.post(
+      axios.post(
         'http://192.168.10.31:8081/api/absen/input-absen',
         formAbsensi,
-        {headers},
-      );
+        {headers}
+      )
+      .then((res) => {
+        console.log(res.success);
+        console.log(res);
+      })
+      .catch(error => console.log(error));
 
-      if (response.data.success) {
-        console.log('message : ', response.data.message, response.message);
-        // try {
-        //   await AsyncStorage.setItem('sudah_absen', 'true');
-        //   console.log('berhasil menyimpan status sudah absen');
-        // } catch (error) {
-        //   console.log('gagal menyimpan status sudah absen', error);
-        // }
-      } else {
-        console.log('message : ', response.data.message, response.message);
-        // try {
-        //   await AsyncStorage.setItem('sudah_absen', 'false');
-        //   console.log('berhasil menyimpan status sudah absen');
-        // } catch (error) {
-        //   console.log('gagal menyimpan status sudah absen', error);
-        // }
-      }
+      // const response = await axios.post(
+      //   'http://192.168.10.31:8081/api/absen/input-absen',
+      //   formAbsensi,
+      //   {headers},
+      // );
+
+      // if (response.success) {
+      //   console.log('message berhasil : ', response);
+      //   // try {
+      //   //   await AsyncStorage.setItem('sudah_absen', 'true');
+      //   //   console.log('berhasil menyimpan status sudah absen');
+      //   // } catch (error) {
+      //   //   console.log('gagal menyimpan status sudah absen', error);
+      //   // }
+      // } else {
+      //   console.log('message gagal : ', response);
+      //   // try {
+      //   //   await AsyncStorage.setItem('sudah_absen', 'false');
+      //   //   console.log('berhasil menyimpan status sudah absen');
+      //   // } catch (error) {
+      //   //   console.log('gagal menyimpan status sudah absen', error);
+      //   // }
+      // }
     } else {
       console.log('Data tidak ditemukan di session.');
     }
   } catch (error) {
-    console.error('Terjadi kesalahan dalam getDataFromSession:', error);
+    console.error('Terjadi kesalahan:', error);
   }
 };
 

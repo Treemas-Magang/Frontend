@@ -115,6 +115,7 @@ const FormClaim = ({navigation}) => {
             {headers},
           );
           const dtClaim = response.data.data;
+          console.log(response);
           setDataClaim(dtClaim);
         } else {
           console.log('Data tidak ditemukan di session.');

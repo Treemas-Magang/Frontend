@@ -37,7 +37,8 @@ const initialLokasiPerusahaan = {
 
 
 const MapPreview = ({navigation}) => {
-  const {namaTempat, alamat} = useRoute().params;
+  const {namaTempat, alamat, projectId} = useRoute().params;
+  console.log('project id :', projectId)
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.AbsenMasukReducer);
   const [isAbsen, setIsAbsen] = useState(false);
@@ -80,6 +81,9 @@ console.log('sudah absen ? ',isAbsen)
               dispatch(setFormAbsensi('gpsLatitudeMsk', locationData.latitude));
               dispatch(
                 setFormAbsensi('gpsLongitudeMsk', locationData.longitude),
+              );
+              dispatch(
+                setFormAbsensi('projectId', projectId),
               );
         })
         .catch(error => console.log(error));

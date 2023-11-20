@@ -11,6 +11,7 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
       nama: 'PT TREEMAS SOLUSI UTAMA',
       alamat:
         'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15326, Indonesia',
+      projectId: 'PROJ001',
     },
     {
       nama: 'Bank UOB',
@@ -28,8 +29,8 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
         'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15329, Indonesia',
     },
   ]);
-  const moveTo = (tujuan, namaTempat, alamat) => {
-    navigation.navigate(tujuan, {namaTempat: namaTempat, alamat: alamat});
+  const moveTo = (tujuan, namaTempat, alamat, projectId) => {
+    navigation.navigate(tujuan, {namaTempat: namaTempat, alamat: alamat, projectId: projectId});
   };
   return (
     <View>
@@ -50,7 +51,7 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
                 nama={pilihProject.nama}
                 alamat={pilihProject.alamat}
                 navigation={navigation}
-                onPress={() => moveTo('pilihAbsenProject', pilihProject.nama, pilihProject.alamat)}
+                onPress={() => moveTo('pilihAbsenProject', pilihProject.nama, pilihProject.alamat, pilihProject.projectId)}
               />
             </View>
           ))}
