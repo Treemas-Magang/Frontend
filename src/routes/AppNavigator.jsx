@@ -47,10 +47,8 @@ import {
   ScreenPreviewPhoto,
   ScreenTesNotifikasi,
   ScreenFormAbsenPulang,
+  ScreenFormUpdateTimesheet,
 } from '../pages/index';
-import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
-import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
-import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -70,16 +68,6 @@ const screens = [
   {
     name: 'detailTimesheet',
     component: ScreenDetailTimesheet,
-    gestureEnabled: true,
-  },
-  {
-    name: 'cardUpdateTimesheet',
-    component: CardUpdateTimesheet,
-    gestureEnabled: true,
-  },
-  {
-    name: 'formUpdateTimesheet',
-    component: FormUpdateTimesheet,
     gestureEnabled: true,
   },
   {
@@ -120,11 +108,6 @@ const screens = [
   {
     name: 'dashboardKehadiran',
     component: ScreenDashboardKehadiran,
-    gestureEnabled: true,
-  },
-  {
-    name: 'formCatatanKerjaHariini',
-    component: FormCatatanKerjaHariini,
     gestureEnabled: true,
   },
   {
@@ -260,6 +243,11 @@ const screens = [
   {
     name: 'formAbsenPulang',
     component: ScreenFormAbsenPulang,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formUpdateTimesheet',
+    component: ScreenFormUpdateTimesheet,
     gestureEnabled: true,
   },
 ];
