@@ -3,10 +3,12 @@ import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import CardCatatanKerjaHariini from '../molecules/CardCatatanKerjaHariini';
+import ButtonBack from '../atoms/ButtonBack';
 
 const FormCatatanKerjaHariini = () => {
   return (
     <View style={styles.BackgroundCatatanKerja}>
+      <ButtonBack />
       <CardCatatanKerjaHariini />
     </View>
   );

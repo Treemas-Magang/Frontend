@@ -79,7 +79,7 @@ const DetailApproval = ({navigation, stylePP}) => {
           </View>
           <View>
             <Text style={styles.TextTitle}>Project</Text>
-            <Text style={styles.TextDeskripsi}>05-06-2023</Text>
+            <Text style={styles.TextDeskripsi}>TREEMAS SOLUSI UTAMA</Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Jam Masuk</Text>
@@ -87,21 +87,21 @@ const DetailApproval = ({navigation, stylePP}) => {
           </View>
           <View>
             <Text style={styles.TextTitle}>Lokasi Masuk</Text>
-            <Text style={{textAlign: 'justify'}}>
+            <Text style={{textAlign: 'justify', marginBottom: 5}}>
               jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
               Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
             </Text>
           </View>
           <View>
-            <Text style={styles.TextTitle}>Catatan Telat</Text>
+            <Text style={styles.TextTitle}>Catatan Telat Masuk</Text>
             <Text style={styles.TextDeskripsi}>-</Text>
           </View>
           <View>
-            <Text style={styles.TextTitle}>Jam Keluar</Text>
+            <Text style={styles.TextTitle}>Jam Pulang</Text>
             <Text style={styles.TextDeskripsi}>Belum Absen Keluar</Text>
           </View>
           <View>
-            <Text style={styles.TextTitle}>Lokasi Keluar</Text>
+            <Text style={styles.TextTitle}>Lokasi Pulang</Text>
             <Text style={{textAlign: 'justify'}}>Belum Absen Keluar</Text>
           </View>
           <View>
