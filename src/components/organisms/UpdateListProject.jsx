@@ -14,6 +14,7 @@ import {
 } from 'react-native-responsive-screen';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
+import {getDataFromSession} from '../../utils/getDataSession';
 const UpdateListProject = ({navigation}) => {
   const [dataAllProject, setDataAllProject] = useState([]);
   const [patch, setPatch] = useState([]);
@@ -133,25 +134,36 @@ const UpdateListProject = ({navigation}) => {
           DAFTAR PROJECT
         </Text>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {dataAllProject.map((dataProjects, index) => (
-            <View key={index}>
-              <CardUpdateProject
-                alamat={dataProjects.projectAddress}
-                title={dataProjects.projectName}
-                onValueChange={() => toggleCheckbox(index)}
-                value={dataProjects.value}
-              />
+          {dataAllProject.length > 0 ? (
+            dataAllProject.map((dataProjects, index) => (
+              <View key={index}>
+                <CardUpdateProject
+                  alamat={dataProjects.projectAddress}
+                  title={dataProjects.projectName}
+                  onValueChange={() => toggleCheckbox(index)}
+                  value={dataProjects.value}
+                />
+              </View>
+            ))
+          ) : (
+            <View
+              style={{
+                width: wp('50%'),
+                height: hp('45%'),
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontFamily: text.lightItalic,
+                  textTransform: 'uppercase',
+                  fontSize: 20,
+                  color: Color.blue,
+                }}>
+                Tidak Ada Data
+              </Text>
             </View>
-          ))}
-          {/* <Text>Selected options:</Text>
-      {checkboxes
-        .filter(checkbox => checkbox.value)
-        .map((checkbox, index) => (
-          <View key={index}>
-            <Text>{checkbox.title}</Text>
-            <Text>{checkbox.alamat}</Text>
-          </View>
-        ))} */}
+          )}
         </ScrollView>
         <ButtonAction
           title="UPDATE"
@@ -164,45 +176,3 @@ const UpdateListProject = ({navigation}) => {
 };
 
 export default UpdateListProject;
-
-// <View>
-//   <Text>Select multiple options:</Text>
-//   {checkboxes.map((checkbox, index) => (
-//     <View key={index} style={{flexDirection: 'column'}}>
-//       <View
-//         style={{
-//           backgroundColor: Color.green,
-//           height: 90,
-//           width: 295,
-//           flexDirection: 'row',
-//           justifyContent: 'center',
-//           alignItems: 'center',
-//           marginVertical: 10,
-//           gap: 8
-//         }}>
-//         <FontAwesomeIcon
-//           icon={faFileInvoice}
-//           size={50}
-//           color={Color.white}
-//         />
-//         <View style={{width: 180}}>
-//           <Text>{checkbox.title}</Text>
-//           <Text style={{textAlign:'justify'}} numberOfLines={3}>{checkbox.alamat}</Text>
-//         </View>
-//         <CheckBox
-//           value={checkbox.value}
-//           onValueChange={() => toggleCheckbox(index)}
-//         />
-//       </View>
-//     </View>
-//   ))}
-//   <Text>Selected options:</Text>
-//   {checkboxes
-//     .filter(checkbox => checkbox.value)
-//     .map((checkbox, index) => (
-//       <View key={index}>
-//         <Text>{checkbox.title}</Text>
-//         <Text>{checkbox.alamat}</Text>
-//       </View>
-//     ))}
-// </View>
