@@ -10,14 +10,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-const CardPilihAbsenProject = ({navigation, namaTempat, alamat}) => {
-  const moveTo = (tujuan, namaTempat, alamat) => {
-    navigation.navigate(tujuan, {namaTempat: namaTempat, alamat: alamat});
+const CardPilihAbsenProject = ({navigation, namaTempat, alamat, projectId}) => {
+  const moveTo = (tujuan, namaTempat, alamat, prjId) => {
+    navigation.navigate(tujuan, {
+      namaTempat: namaTempat,
+      alamat: alamat,
+      projectId: prjId,
+    });
   };
   return (
     <View>
       <TouchableOpacity
-        onPress={() => moveTo('absensi', namaTempat, alamat)}
+        onPress={() => moveTo('absensi', namaTempat, alamat, projectId)}
         style={styles.CardPilihProject}>
         <Text style={styles.Text}>ON SITE</Text>
         <Text style={styles.TextDeskripsi}>
@@ -26,7 +30,7 @@ const CardPilihAbsenProject = ({navigation, namaTempat, alamat}) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.CardPilihProject}
-        onPress={() => moveTo('absensi')}>
+        onPress={() => moveTo('absensi', namaTempat, alamat, projectId)}>
         <Text style={styles.Text}>WORK FROM HOME</Text>
         <Text style={styles.TextDeskripsi}>
           jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.

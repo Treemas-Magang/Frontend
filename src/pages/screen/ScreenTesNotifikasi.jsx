@@ -1,11 +1,15 @@
 /* eslint-disable prettier/prettier */
 import { View, Text, TouchableOpacity, Alert } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Color } from '../../utils/color';
 import { notification } from '../../utils/notifikasi';
+import axios from 'axios';
 
 const ScreenTesNotifikasi = () => {
-    const pushPesan = () => {
+const [dataAllPengumuman, setDataAllPengumuman] = useState([]);
+
+
+    const pushPesan = (judul, isi) => {
         notification.configure();
         notification.buatChannel('channel_4');
         notification.kirimNotifikasi(

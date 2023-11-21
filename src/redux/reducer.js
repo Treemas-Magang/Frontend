@@ -232,7 +232,6 @@ const initialStateAbsensi = {
     noteTelatMsk: '',
     gpsLatitudeMsk: null,
     gpsLongitudeMsk: null,
-    image64: '',
   },
 };
 const FormAbsensiReducer = (state = initialStateAbsensi, action) => {
@@ -251,6 +250,7 @@ const initialStateClaim = {
   form_claim: {
     nik: '',
     nama: '',
+    projectId: '',
     keterangan: '',
     nominal: 0,
     id_claim: '',
@@ -346,25 +346,21 @@ const UpdateAbsenReducer = (state = initialStateUpdateAbsen, action) => {
   return state;
 };
 const initialStateAbsenPulang = {
-  form: {
-    gps_latitude_plg: null,
-    gps_longitude_plg: null,
-    lokasi_plg: '',
-    jarak_plg: '',
-    jam_plg: '',
-    note_telat_plg: '',
-    note_pekerjaan: '',
-    note_plg_cepat: '',
-    total_jam_kerja: 0,
-    is_lembur: 0,
+  formAbsenPulang: {
+    NotePekerjaan: '',
+    gpsLatitudePlg: null,
+    gpsLongitudePlg: null,
+    lokasiPlg: '',
+    jarakPlg: '',
+    notePlgCepat: '',
   },
 };
 const AbsenPulangReducer = (state = initialStateAbsenPulang, action) => {
   if (action.type === 'SET_FORM_ABSEN_PULANG') {
     return {
       ...state,
-      form: {
-        ...state.form,
+      formAbsenPulang: {
+        ...state.formAbsenPulang,
         [action.inputType]: action.inputValue,
       },
     };

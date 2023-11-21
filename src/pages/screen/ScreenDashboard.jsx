@@ -5,6 +5,7 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useRoute} from '@react-navigation/native';
+import BackgroundTimer from 'react-native-background-timer';
 import {Color} from '../../utils/color';
 import StatistikTahunIni from '../../components/organisms/StatistikTahunIni';
 import ButtonLogout from '../../components/atoms/ButtonLogout';
@@ -17,20 +18,34 @@ import {
 } from 'react-native-responsive-screen';
 import { useSelector } from 'react-redux';
 import { cekToken } from '../../utils/cekToken';
+import { tracking } from '../../utils/tracking';
 const ScreenDashboard = ({navigation}) => {
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
   const {approval} = useSelector(state => state.JumlahApprovalReducer);
-  const [jmlBlmBaca, setJmlBlmBaca] = useState(0)
+  const [jmlBlmBaca, setJmlBlmBaca] = useState(0);
 
   useEffect(() => {
-    cekToken()
-  }, [])
+    cekToken();
+  }, []);
 
+  useEffect(() => {
+    const totalNotif = pengumuman + approval;
+    setJmlBlmBaca(totalNotif);
+  }, [approval, pengumuman]);
 
-useEffect(() => {
-  const totalNotif = pengumuman + approval
-  setJmlBlmBaca(totalNotif)
-}, [approval, pengumuman])
+  // Start a timer that runs continuous after X milliseconds
+
+  // const intervalId = BackgroundTimer.setInterval(() => {
+  //   console.log('tik')
+  // }, 1000)
+  // // Cleanup the interval when the component unmounts
+  // useEffect(() => {
+  //   return () => {
+  //     // Stop the interval when the component unmounts
+  //     BackgroundTimer.clearInterval(intervalId);
+  //   };
+  // }, [intervalId]);
+
 
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>

@@ -15,49 +15,90 @@ import {
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 const UpdateListProject = ({navigation}) => {
-  const [checkboxes, setCheckboxes] = useState([
-    {
-      title: 'ARTHAASIA FINANCE',
-      alamat:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      value: false,
-    },
-    {
-      title: 'BANK OF TOKYO',
-      alamat:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      value: false,
-    },
-    {
-      title: 'BANK BTPN',
-      alamat:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      value: false,
-    },
-    {
-      title: 'BANK BTPN',
-      alamat:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      value: false,
-    },
-    {
-      title: 'BANK BTPN',
-      alamat:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      value: false,
-    },
-    {
-      title: 'TREEMAS SOLUSI UTAMA',
-      alamat:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      value: false,
-    },
-  ]);
+  const [dataAllProject, setDataAllProject] = useState([]);
+  const [patch, setPatch] = useState([]);
+  const getData = async headers => {
+    const res = await axios.get(
+      'http://192.168.10.31:8081/api/absen/get-all-projects',
+      {headers},
+    );
+    console.log('data : ', res.data.success);
+    const dataApi = res.data.data;
+
+    const newData = dataApi.map(item => ({
+      ...item,
+      value: item.active === '1' ? true : false,
+    }));
+
+    console.log('data baru : ', newData);
+
+    setDataAllProject(newData);
+  };
+
+  useEffect(() => {
+    const patchData = dataAllProject.map(item => ({
+      active: item.value ? '1' : '0',
+      projectId: item.projectId,
+    }));
+    setPatch(patchData);
+  }, [dataAllProject]);
+  console.log('ini pacth project : ', patch);
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        console.log(token);
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          contentType: 'application/json', // Use camelCase
+        };
+        getData(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
+  console.log('data aja : ', dataAllProject);
 
   const toggleCheckbox = index => {
-    const updatedCheckboxes = [...checkboxes];
+    const updatedCheckboxes = [...dataAllProject];
     updatedCheckboxes[index].value = !updatedCheckboxes[index].value;
-    setCheckboxes(updatedCheckboxes);
+    updatedCheckboxes[index].active = updatedCheckboxes[index].value
+      ? '1'
+      : '0';
+    setDataAllProject(updatedCheckboxes);
+  };
+
+  const dataYangAkanDikirim = async (headers, patch) => {
+    try {
+      const res = await axios.patch(
+        'http://192.168.10.31:8081/api/absen/update-penempatan',
+        {selectedProjects: patch},
+        {headers},
+      );
+
+      if (res.data.success) {
+        console.log('success :', res.data.success);
+      } else {
+        console.log('success :', res.data.success);
+        console.log('Gagal');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const sandData = async () => {
+    try {
+      const token = await getDataFromSession('token');
+      console.log(token);
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json', // Menggunakan camelCase sesuai standar HTTP
+      };
+
+      await dataYangAkanDikirim(headers, patch);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -92,13 +133,13 @@ const UpdateListProject = ({navigation}) => {
           DAFTAR PROJECT
         </Text>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {checkboxes.map((checkbox, index) => (
+          {dataAllProject.map((dataProjects, index) => (
             <View key={index}>
               <CardUpdateProject
-                alamat={checkbox.alamat}
-                title={checkbox.title}
+                alamat={dataProjects.projectAddress}
+                title={dataProjects.projectName}
                 onValueChange={() => toggleCheckbox(index)}
-                value={checkbox.value}
+                value={dataProjects.value}
               />
             </View>
           ))}
@@ -115,6 +156,7 @@ const UpdateListProject = ({navigation}) => {
         <ButtonAction
           title="UPDATE"
           style={{marginVertical: 10, width: wp('75%'), height: hp('8%')}}
+          onPress={sandData}
         />
       </View>
     </View>
