@@ -30,7 +30,7 @@ const DropdownClaim = ({data, idTypeClaim, dataType}) => {
 
 
   return (
-    <ScrollView style={{height: 200}}>
+    <ScrollView style={{height: 200}} nestedScrollEnabled={true}>
       {dataClaim?.length ? (
         dataClaim.map((claims, index) => (
           <TouchableOpacity

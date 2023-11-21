@@ -13,6 +13,11 @@ const DropdownCuti = ({data, idTypeCuti, dataType}) => {
   const [type, setType] = useState('');
   const [idType, setIdtype] = useState('');
   const [dataCuti, setDataCuti] = useState([]);
+
+  useEffect(() => {
+    data(type);
+    idTypeCuti(idType);
+  }, [type, idType, data, idTypeCuti]);
   const handlePilihType = (cutiDesc, id) => {
     setType(cutiDesc);
     setIdtype(id);
@@ -25,7 +30,7 @@ const DropdownCuti = ({data, idTypeCuti, dataType}) => {
 
   console.log(dataCuti);
   return (
-    <ScrollView style={{height: 200}}>
+    <ScrollView style={{height: 200}} nestedScrollEnabled={true}>
       {dataCuti?.length ? (
         dataCuti.map((cutis, index) => (
           <TouchableOpacity
