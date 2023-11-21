@@ -6,6 +6,7 @@ import { Color } from '../../utils/color';
 import { text } from '../../utils/text';
 import moment from 'moment';
 import axios from 'axios';
+import { getDataFromSession } from '../../utils/getDataSession';
 const KalenderRange = (props) => {
 const [selectedStartDate, setSelectedStartDate] = useState(null);
 const [selectedEndDate, setSelectedEndDate] = useState(null);
@@ -21,10 +22,12 @@ const formatDate = (date) => {
 //get data tanggal libur dari API
 
 useEffect(() => {
-  const getData = async () => {
+  getDataFromSession('token')
+  .then(token => {
+      getData(token);
+  });
+  const getData = async (token) => {
     // setIsLoading(true);
-    const token =
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMDAxIiwiaWF0IjoxNzAwMDM4Nzc2LCJleHAiOjE3MDAxMjUxNzZ9.DVH7JQtomcx6B1RKOjrPZxLbjbn-u1NCBAWmdD17x0U';
     try {
       const headers = {
         // Authorization: `Bearer ${token}`,
@@ -53,7 +56,7 @@ useEffect(() => {
       console.error('Terjadi kesalahan:', error);
     }
   };
-  getData()
+
 }, []);
 
 console.log('tgl merah : ', dataTglLibur)

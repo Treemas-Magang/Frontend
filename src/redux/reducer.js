@@ -179,14 +179,15 @@ const CatatanKerjaReducer = (state = initialStateCatatanKerja, action) => {
 };
 const initialStateFormCuti = {
   form: {
-    nik: '',
-    jenis_cuti: '',
-    tanggal_cuti: '',
-    tanggal_selesai: '',
-    tanggal_masuk: '',
-    jml_cuti: '',
-    keperluan_cuti: '',
-    alamat_cuti: '',
+    tglMulai: '',
+    tglSelesai: '',
+    tglKembaliKerja: '',
+    keperluanCuti: '',
+    alamatCuti: '',
+    jmlCutiBersama: null,
+    jmlCutiKhusus: null,
+    selectedMasterCutiId: '',
+    jmlCuti: null,
   },
 };
 const FormCutiReducer = (state = initialStateFormCuti, action) => {

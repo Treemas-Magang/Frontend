@@ -12,7 +12,6 @@ import {
 import VectorAtasBesar from '../../components/atoms/VectorAtasBesar';
 
 const ScreenFormCuti = ({navigation}) => {
-  const [isDropdownAktif, setIsDropdownAktif] = useState(false)
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -26,7 +25,6 @@ const ScreenFormCuti = ({navigation}) => {
             styleCard={styles.ukuranCard}
             styleInfo={styles.styleInfo}
             styleTitle={styles.titleInfo}
-            opnDropDown={data => setIsDropdownAktif}
           />
         </View>
       </ScrollView>

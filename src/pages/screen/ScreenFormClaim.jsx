@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
 import {ScrollView, StyleSheet, View, Image} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import {Color} from '../../utils/color';
 import FormClaim from '../../components/organisms/FormClaim';
 import ButtonBack from '../../components/atoms/ButtonBack';

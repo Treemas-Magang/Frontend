@@ -30,7 +30,6 @@ const FormCuti = ({
   styleContainerCard,
   styleInfo,
   styleTitle,
-  opnDropDown,
 }) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.FormCutiReducer);
@@ -49,16 +48,20 @@ const FormCuti = ({
   const [openDropdown, setOpenDropdown] = useState(false);
   const [dataId, setDataId] = useState('');
   const [cutiDesc, setCutiDesc] = useState('');
+  // console.log(dataId)
   const handleOpenDropdown = () => {
     setOpenDropdown(!openDropdown);
-    opnDropDown(!openDropdown);
   };
   useEffect(() => {
     if (cutiDesc !== '') {
       setOpenDropdown(false);
-      opnDropDown(!openDropdown);
+      // isDropdown(!openDropdown);
+      // dispatch(setFormCuti('jenis_cuti', cutiDesc))
     }
-  }, [cutiDesc, opnDropDown, openDropdown]);
+  }, [cutiDesc, openDropdown]);
+  useEffect(() => {
+    dispatch(setFormCuti('selectedMasterCutiId', dataId));
+  }, [dispatch, dataId])
   const openKalender = () => {
     setShowKalender(!showKalender);
   };
@@ -74,16 +77,24 @@ const FormCuti = ({
       newData.endDate !== data.endDate
     ) {
       setData(newData);
-      dispatch(setFormCuti('tanggal_cuti', newData.startDate));
-      dispatch(setFormCuti('tanggal_selesai', newData.endDate));
-      dispatch(setFormCuti('tanggal_masuk', newData.tanggalMasuk));
-      dispatch(setFormCuti('jml_cuti', newData.jumlahCutiAtauSakit));
+      dispatch(setFormCuti('tglMulai', newData.startDate));
+      dispatch(setFormCuti('tglSelesai', newData.endDate));
+      dispatch(setFormCuti('tglKembaliKerja', newData.tanggalMasuk));
+      dispatch(setFormCuti('jmlCuti', newData.jumlahCutiAtauSakit));
       setAwalCuti(newData.startDate);
     }
   };
   const onChangeText = (value, inputType) => {
     dispatch(setFormCuti(inputType, value));
   };
+
+  useEffect(() => {
+    if (data.jumlahCutiBersama > 0 || data.jumlahTanggalMerah > 0) {
+      dispatch(setFormCuti('jmlCutiBersama', data.jumlahCutiBersama + data.jumlahTanggalMerah));
+      // dispatch(setFormCuti('jmlCutiBersama', data.jumlahCutiBersama));
+    }
+  }, [data, dispatch])
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -168,7 +179,7 @@ const FormCuti = ({
                   onPress={handleOpenDropdown}
                   style={styles.tombolDropdown}>
                   <Text style={styles.textDropdown}>
-                    {cutiDesc === '' ? 'Pilih Type Cuti' : cutiDesc}
+                    {String(cutiDesc) === '' ? 'Pilih Type Cuti' : cutiDesc}
                   </Text>
                   <FontAwesomeIcon
                     icon={faCaretDown}
@@ -178,7 +189,7 @@ const FormCuti = ({
                 </TouchableOpacity>
                 {openDropdown ? (
                   <DropdownCuti
-                    data={data => setCutiDesc(data)}
+                    data={dataCt => setCutiDesc(dataCt)}
                     idTypeCuti={dt => setDataId(dt)}
                     dataType={dataCuti}
                   />
@@ -194,7 +205,7 @@ const FormCuti = ({
               secureTextEntry={false}
             /> */}
               <FakeTextInput
-                value={`${form.tanggal_cuti} - ${form.tanggal_selesai}`}
+                value={`${form.tglMulai} - ${form.tglSelesai}`}
                 label="Tgl Awal - Akhir Cuti"
               />
               <TouchableOpacity
@@ -214,21 +225,21 @@ const FormCuti = ({
               </TouchableOpacity>
               {/* <CustomTextInput label="tgl masuk kerja" editable={false} /> */}
               <FakeTextInput
-                value={form.tanggal_masuk}
+                value={form.tglKembaliKerja}
                 label="Tgl Masuk Kerja"
               />
               <CustomTextInput
                 label="Keperluan Cuti"
                 secureTextEntry={false}
-                value={form.keperluan_cuti}
-                onTextChange={value => onChangeText(value, 'keperluan_cuti')}
+                value={form.keperluanCuti}
+                onTextChange={value => onChangeText(value, 'keperluanCuti')}
               />
 
               <CustomTextInput
                 label="Alamat Cuti"
                 secureTextEntry={false}
-                value={form.alamat_cuti}
-                onTextChange={value => onChangeText(value, 'alamat_cuti')}
+                value={form.alamatCuti}
+                onTextChange={value => onChangeText(value, 'alamatCuti')}
               />
             </View>
             <View style={styles.catatanCuti}>
