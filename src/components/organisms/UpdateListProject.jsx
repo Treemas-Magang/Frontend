@@ -59,7 +59,7 @@ console.log('ini pacth project : ',patch)
   const toggleCheckbox = index => {
     const updatedCheckboxes = [...dataAllProject];
     updatedCheckboxes[index].value = !updatedCheckboxes[index].value;
-    updatedCheckboxes[index].active = updatedCheckboxes[index].value ? '1' : '0'
+    updatedCheckboxes[index].active = updatedCheckboxes[index].value ? '1' : '0';
     setDataAllProject(updatedCheckboxes);
   };
 
