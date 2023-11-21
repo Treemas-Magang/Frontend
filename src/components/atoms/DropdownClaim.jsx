@@ -9,19 +9,25 @@ import {
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
-const DropdownCustom = ({data, idTypeClaim, dataType}) => {
+const DropdownClaim = ({data, idTypeClaim, dataType}) => {
   const [type, setType] = useState('');
   const [idType, setIdtype] = useState('');
   const [dataClaim, setDataClaim] = useState([]);
+
+  useEffect(() => {
+    data(type);
+    idTypeClaim(idType);
+  }, [type, idType, data, idTypeClaim]);
+
   const handlePilihType = (keterangan, id) => {
     setType(keterangan);
     setIdtype(id);
   };
-  data(type);
-  idTypeClaim(idType);
+
   useEffect(() => {
     setDataClaim(dataType);
   }, [dataType]);
+
 
   return (
     <ScrollView style={{height: 200}}>
@@ -42,7 +48,7 @@ const DropdownCustom = ({data, idTypeClaim, dataType}) => {
   );
 };
 
-export default DropdownCustom;
+export default DropdownClaim;
 
 const styles = StyleSheet.create({
   item: {

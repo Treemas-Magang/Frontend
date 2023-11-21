@@ -80,4 +80,4 @@ class Notifikasi {
     };
 }
 
-export const notification = new Notifikasi()
+export const notification = new Notifikasi();

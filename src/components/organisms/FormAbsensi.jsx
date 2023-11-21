@@ -92,10 +92,20 @@ const kirimDataAbsensi = async () => {
         {headers}
       )
       .then((res) => {
-        console.log(res.success);
-        console.log(res);
+        if (res.data.success) {
+          console.log('berhasil absen');
+          navigation.replace('dashboard');
+            try {
+              AsyncStorage.setItem('sudah_absen', 'true');
+              console.log('berhasil menyimpan status sudah absen');
+            } catch (error) {
+              console.log('gagal menyimpan status sudah absen', error);
+            }
+        } else {
+          console.log('gagal absen');
+        }
       })
-      .catch(error => console.log(error));
+      .catch(error => console.log('gagal absen'));
 
       // const response = await axios.post(
       //   'http://192.168.10.31:8081/api/absen/input-absen',
@@ -138,23 +148,23 @@ const sendData = async () => {
     console.log('kirim data : ', formAbsensi);
     // await kirimDataDanFotoKeAPI(); // Uncomment if kirimDataDanFotoKeAPI is an asynchronous function
     await sudahAbsen()
-    .then(() => {
-      try {
-        AsyncStorage.setItem('sudah_absen', 'true');
-        console.log('berhasil menyimpan status sudah absen');
-      } catch (error) {
-        console.log('gagal menyimpan status sudah absen', error);
-      }
-    })
-    .catch(() => {
-      try {
-        AsyncStorage.setItem('sudah_absen', 'false');
-        console.log('berhasil menyimpan status sudah absen');
-      } catch (error) {
-        console.log('gagal menyimpan status sudah absen', error);
-      }
-    });
-    navigation.replace('dashboard');
+    // .then(() => {
+    //   try {
+    //     AsyncStorage.setItem('sudah_absen', 'true');
+    //     console.log('berhasil menyimpan status sudah absen');
+    //   } catch (error) {
+    //     console.log('gagal menyimpan status sudah absen', error);
+    //   }
+    // })
+    // .catch(() => {
+    //   try {
+    //     AsyncStorage.setItem('sudah_absen', 'false');
+    //     console.log('berhasil menyimpan status sudah absen');
+    //   } catch (error) {
+    //     console.log('gagal menyimpan status sudah absen', error);
+    //   }
+    // });
+    
   } catch (error) {
     console.error('Error in sendData:', error);
   }

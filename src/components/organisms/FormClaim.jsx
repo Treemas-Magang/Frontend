@@ -20,7 +20,7 @@ import {faCamera, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormClaim} from '../../redux';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
-import DropdownCustom from '../atoms/DropdownCustom';
+import DropdownClaim from '../atoms/DropdownClaim';
 import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 
@@ -31,16 +31,16 @@ const FormClaim = ({navigation}) => {
   const [capturedImage, setCapturedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   console.log('loading : ', isLoading);
-  const [openDropdownCustom, setOpenDropdownCustom] = useState(false);
+  const [openDropdownClaim, setOpenDropdownClaim] = useState(false);
   const [keterangan, setKeterangan] = useState('');
   const [dataId, setDataId] = useState('');
   const [dataClaim, setDataClaim] = useState([]);
-  const handleOpenDropdownCustom = () => {
-    setOpenDropdownCustom(!openDropdownCustom);
+  const handleOpenDropdownClaim = () => {
+    setOpenDropdownClaim(!openDropdownClaim);
   };
   useEffect(() => {
     if (keterangan !== '') {
-      setOpenDropdownCustom(false);
+      setOpenDropdownClaim(false);
     }
   }, [keterangan]);
   let base64ImageData = null;
@@ -64,9 +64,12 @@ const FormClaim = ({navigation}) => {
     dispatch(setFormClaim('id_claim', dataId));
   }, [dispatch, dataId]);
 
-  const onChangeText = (value, inputType) => {
-    dispatch(setFormClaim(inputType, value));
-  };
+const onChangeText = (value, inputType) => {
+  // Konversi nilai numerik ke string jika diperlukan
+  const convertedValue = typeof value === 'number' ? value.toString() : value;
+
+  dispatch(setFormClaim(inputType, convertedValue));
+};
   const openKamera = () => {
     setCapturedImage(null);
     setIsLoading(true);
@@ -136,9 +139,9 @@ const FormClaim = ({navigation}) => {
       <Text style={styles.textJudul}>form claim</Text>
       <View style={styles.wrapDropdown}>
         <View
-          style={openDropdownCustom ? styles.dropdownTrue : styles.dropdown}>
+          style={openDropdownClaim ? styles.dropdownTrue : styles.dropdown}>
           <TouchableOpacity
-            onPress={handleOpenDropdownCustom}
+            onPress={handleOpenDropdownClaim}
             style={styles.tombolDropdown}>
             <Text style={styles.textDropdown}>
               {keterangan === '' ? 'Pilih Type Claim' : keterangan}
@@ -146,11 +149,11 @@ const FormClaim = ({navigation}) => {
             <FontAwesomeIcon
               icon={faCaretDown}
               size={25}
-              color={openDropdownCustom ? Color.white : Color.green}
+              color={openDropdownClaim ? Color.white : Color.green}
             />
           </TouchableOpacity>
-          {openDropdownCustom ? (
-            <DropdownCustom
+          {openDropdownClaim ? (
+            <DropdownClaim
               data={data => setKeterangan(data)}
               idTypeClaim={dt => setDataId(dt)}
               dataType={dataClaim}
