@@ -13,7 +13,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEye, faEyeSlash} from '@fortawesome/free-regular-svg-icons';
 import {text} from '../../utils/text';
 // Buat komponen TextInput kustom
-const CustomTextInput = ({label, value, onTextChange, ...rest}) => {
+const CustomTextInput = ({label, value, onTextChange, textColor, ...rest}) => {
   const [isInputActive, setInputActive] = useState(false);
   const [textInputValue, setTextInputValue] = useState(value);
   const [hidePassword, setHidePassword] = useState(true);
@@ -52,6 +52,7 @@ const CustomTextInput = ({label, value, onTextChange, ...rest}) => {
       <Text
         style={[
           styles.label,
+          {color: textColor},
           isInputActive || textInputValue ? {top: -6, fontSize: 19} : null,
         ]}>
         {label}
@@ -80,7 +81,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderBottomColor: Color.green,
     borderBottomWidth: 1,
-    color: Color.text,
     paddingBottom: -10,
   },
   label: {
@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     left: 9,
     fontSize: 19,
     fontFamily: text.light,
-    color: Color.blue,
     zIndex: -1,
   },
   toggle: {

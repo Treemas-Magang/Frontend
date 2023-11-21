@@ -5,10 +5,15 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const DropdownClaim = ({data, idTypeClaim, dataType}) => {
   const [type, setType] = useState('');
   const [idType, setIdtype] = useState('');
@@ -28,7 +33,6 @@ const DropdownClaim = ({data, idTypeClaim, dataType}) => {
     setDataClaim(dataType);
   }, [dataType]);
 
-
   return (
     <ScrollView style={{height: 200}} nestedScrollEnabled={true}>
       {dataClaim?.length ? (
@@ -41,7 +45,7 @@ const DropdownClaim = ({data, idTypeClaim, dataType}) => {
           </TouchableOpacity>
         ))
       ) : (
-        <Text>Loading . . .</Text>
+        <ActivityIndicator size="large" color={Color.white} />
       )}
       <View style={styles.batasBawah} />
     </ScrollView>
