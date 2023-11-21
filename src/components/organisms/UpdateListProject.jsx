@@ -14,10 +14,7 @@ import {
 } from 'react-native-responsive-screen';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
-import {getDataFromSession} from '../../utils/getDataSession';
-import axios from 'axios';
 const UpdateListProject = ({navigation}) => {
-  const [dataAllProject, setDataAllProject] = useState([]);
   const [checkboxes, setCheckboxes] = useState([
     {
       title: 'ARTHAASIA FINANCE',
@@ -56,25 +53,6 @@ const UpdateListProject = ({navigation}) => {
       value: false,
     },
   ]);
-  useEffect(() => {
-    getDataFromSession('token')
-      .then(token => {
-        console.log(token);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-        const response = axios.get(
-          'http://192.168.10.31:8081/api/absen/get-all-projects',
-          {headers},
-        );
-        // const message = response._j.data.message;
-        const {data, message} = response;
-        console.log('data : ', message);
-        setDataAllProject(response);
-        console.log('data project :', dataAllProject);
-      })
-      .catch(error => console.log(error));
-  }, []);
 
   const toggleCheckbox = index => {
     const updatedCheckboxes = [...checkboxes];
