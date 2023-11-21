@@ -274,7 +274,7 @@ const ListPengumuman = ({navigation}) => {
               <SkeletonCardNotif />
               <SkeletonCardNotif />
             </>
-          ) : (
+          ) : dataGabungan.length > 0 ? (
             dataGabungan
               .sort((a, b) => b.id - a.id)
               .map((Pengumuman, index) => (
@@ -299,6 +299,24 @@ const ListPengumuman = ({navigation}) => {
                   status={Pengumuman.status}
                 />
               ))
+          ) : (
+            <View
+              style={{
+                width: wp('100%'),
+                height: hp('50%'),
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontFamily: text.lightItalic,
+                  textTransform: 'uppercase',
+                  fontSize: 20,
+                  color: Color.blue,
+                }}>
+                Tidak Ada Pengumuman
+              </Text>
+            </View>
           )}
         </ScrollView>
       </View>

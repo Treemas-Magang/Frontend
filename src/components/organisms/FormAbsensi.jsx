@@ -14,21 +14,21 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setFormAbsensi} from '../../redux';
 import axios from 'axios';
 import {getTanggalSekarang} from '../../utils/getTanggalSekarang';
-import { checkMockLocation } from '../../utils/checkMockLocation';
-import { useRoute } from '@react-navigation/native';
-import { jamSekarang } from '../../utils/jamSekarang';
+import {checkMockLocation} from '../../utils/checkMockLocation';
+import {useRoute} from '@react-navigation/native';
+import {jamSekarang} from '../../utils/jamSekarang';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
 
 const FormAbsensi = ({navigation}) => {
-  const {namaTempat} = useRoute().params
+  const {namaTempat} = useRoute().params;
   const dispatch = useDispatch();
   const {formAbsensi} = useSelector(state => state.FormAbsensiReducer);
   console.log(formAbsensi);
   const [isWFH, setIsWFH] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [terlambat, setTerlambat] = useState(true);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const {date, time, dayName} = getTanggalSekarang();
@@ -42,7 +42,7 @@ const FormAbsensi = ({navigation}) => {
     dispatch(setFormAbsensi(inputType, value));
   };
 
-  useEffect
+  useEffect;
   // Fungsi untuk mengirim data dan foto ke API
   // const kirimDataDanFotoKeAPI = async () => {
   //   try {
@@ -75,100 +75,98 @@ const FormAbsensi = ({navigation}) => {
   //   }
   // };
 
+  const kirimDataAbsensi = async () => {
+    try {
+      const token = await getDataFromSession('token');
 
+      if (token !== null) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
 
-const kirimDataAbsensi = async () => {
-  try {
-    const token = await getDataFromSession('token');
-
-    if (token !== null) {
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-
-      axios.post(
-        'http://192.168.10.31:8081/api/absen/input-absen',
-        formAbsensi,
-        {headers}
-      )
-      .then((res) => {
-        if (res.data.success) {
-          console.log('berhasil absen');
-          navigation.replace('dashboard');
-            try {
-              AsyncStorage.setItem('sudah_absen', 'true');
-              console.log('berhasil menyimpan status sudah absen');
-            } catch (error) {
-              console.log('gagal menyimpan status sudah absen', error);
+        axios
+          .post(
+            'http://192.168.10.31:8081/api/absen/input-absen',
+            formAbsensi,
+            {headers},
+          )
+          .then(res => {
+            if (res.data.success) {
+              console.log('berhasil absen');
+              navigation.replace('dashboard');
+              try {
+                AsyncStorage.setItem('sudah_absen', 'true');
+                console.log('berhasil menyimpan status sudah absen');
+              } catch (error) {
+                console.log('gagal menyimpan status sudah absen', error);
+              }
+            } else {
+              console.log('gagal absen');
             }
-        } else {
-          console.log('gagal absen');
-        }
-      })
-      .catch(error => console.log('gagal absen'));
+          })
+          .catch(error => console.log('gagal absen'));
 
-      // const response = await axios.post(
-      //   'http://192.168.10.31:8081/api/absen/input-absen',
-      //   formAbsensi,
-      //   {headers},
-      // );
+        // const response = await axios.post(
+        //   'http://192.168.10.31:8081/api/absen/input-absen',
+        //   formAbsensi,
+        //   {headers},
+        // );
 
-      // if (response.success) {
-      //   console.log('message berhasil : ', response);
-      //   // try {
-      //   //   await AsyncStorage.setItem('sudah_absen', 'true');
-      //   //   console.log('berhasil menyimpan status sudah absen');
-      //   // } catch (error) {
-      //   //   console.log('gagal menyimpan status sudah absen', error);
-      //   // }
-      // } else {
-      //   console.log('message gagal : ', response);
-      //   // try {
-      //   //   await AsyncStorage.setItem('sudah_absen', 'false');
-      //   //   console.log('berhasil menyimpan status sudah absen');
-      //   // } catch (error) {
-      //   //   console.log('gagal menyimpan status sudah absen', error);
-      //   // }
-      // }
-    } else {
-      console.log('Data tidak ditemukan di session.');
+        // if (response.success) {
+        //   console.log('message berhasil : ', response);
+        //   // try {
+        //   //   await AsyncStorage.setItem('sudah_absen', 'true');
+        //   //   console.log('berhasil menyimpan status sudah absen');
+        //   // } catch (error) {
+        //   //   console.log('gagal menyimpan status sudah absen', error);
+        //   // }
+        // } else {
+        //   console.log('message gagal : ', response);
+        //   // try {
+        //   //   await AsyncStorage.setItem('sudah_absen', 'false');
+        //   //   console.log('berhasil menyimpan status sudah absen');
+        //   // } catch (error) {
+        //   //   console.log('gagal menyimpan status sudah absen', error);
+        //   // }
+        // }
+      } else {
+        console.log('Data tidak ditemukan di session.');
+      }
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
     }
-  } catch (error) {
-    console.error('Terjadi kesalahan:', error);
-  }
-};
+  };
 
-const sudahAbsen = async () => {
-  await kirimDataAbsensi();
-};
+  const sudahAbsen = async () => {
+    await kirimDataAbsensi();
+  };
 
-const sendData = async () => {
-  try {
-    // checkMockLocation();
-    console.log('kirim data : ', formAbsensi);
-    // await kirimDataDanFotoKeAPI(); // Uncomment if kirimDataDanFotoKeAPI is an asynchronous function
-    await sudahAbsen()
-    // .then(() => {
-    //   try {
-    //     AsyncStorage.setItem('sudah_absen', 'true');
-    //     console.log('berhasil menyimpan status sudah absen');
-    //   } catch (error) {
-    //     console.log('gagal menyimpan status sudah absen', error);
-    //   }
-    // })
-    // .catch(() => {
-    //   try {
-    //     AsyncStorage.setItem('sudah_absen', 'false');
-    //     console.log('berhasil menyimpan status sudah absen');
-    //   } catch (error) {
-    //     console.log('gagal menyimpan status sudah absen', error);
-    //   }
-    // });
-    
-  } catch (error) {
-    console.error('Error in sendData:', error);
-  }
-};
+  const sendData = async () => {
+    try {
+      // checkMockLocation();
+      console.log('kirim data : ', formAbsensi);
+      // await kirimDataDanFotoKeAPI(); // Uncomment if kirimDataDanFotoKeAPI is an asynchronous function
+      await sudahAbsen();
+      // .then(() => {
+      //   try {
+      //     AsyncStorage.setItem('sudah_absen', 'true');
+      //     console.log('berhasil menyimpan status sudah absen');
+      //   } catch (error) {
+      //     console.log('gagal menyimpan status sudah absen', error);
+      //   }
+      // })
+      // .catch(() => {
+      //   try {
+      //     AsyncStorage.setItem('sudah_absen', 'false');
+      //     console.log('berhasil menyimpan status sudah absen');
+      //   } catch (error) {
+      //     console.log('gagal menyimpan status sudah absen', error);
+      //   }
+      // });
+    } catch (error) {
+      console.error('Error in sendData:', error);
+    }
+  };
 
   return (
     <View style={styles.congtainerForm}>
@@ -178,11 +176,13 @@ const sendData = async () => {
         secureTextEntry={false}
         value={namaTempat}
         onTextChange={value => onChangeText(value, 'lokasi_project')}
+        editable={false}
       />
       <CustomTextInput
         label="Waktu"
         secureTextEntry={false}
         value={jamSekarang()}
+        editable={false}
       />
       <CustomTextInput
         label="Lokasi"
@@ -250,6 +250,7 @@ export default FormAbsensi;
 const styles = StyleSheet.create({
   congtainerForm: {
     width: 320,
+    marginTop: 30,
     paddingVertical: 20,
     backgroundColor: Color.white,
     gap: 20,

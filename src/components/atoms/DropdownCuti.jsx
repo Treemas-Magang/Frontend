@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
@@ -41,7 +42,7 @@ const DropdownCuti = ({data, idTypeCuti, dataType}) => {
           </TouchableOpacity>
         ))
       ) : (
-        <Text>Loading . . .</Text>
+        <ActivityIndicator size="large" color={Color.white} />
       )}
       <View style={styles.batasBawah} />
     </ScrollView>

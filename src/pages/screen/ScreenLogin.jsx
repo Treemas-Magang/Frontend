@@ -18,7 +18,12 @@ import {Color} from '../../utils/color';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFingerprint} from '@fortawesome/free-solid-svg-icons';
 import {useSelector, useDispatch} from 'react-redux';
-import {setForm, setFormLoginFingerPrint, setJumlahApproval, setJumlahPengumuman} from '../../redux';
+import {
+  setForm,
+  setFormLoginFingerPrint,
+  setJumlahApproval,
+  setJumlahPengumuman,
+} from '../../redux';
 import {checkBiometryType} from '../../utils/checkBiometricType';
 import ReactNativeBiometrics from 'react-native-biometrics';
 import axios from 'axios';
@@ -29,9 +34,12 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {LoginFingerprint} from '../../config/prosesLogin';
-import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
+import {
+  countDataWithFalseStatus,
+  getToken,
+} from '../../utils/buatStatusPengumumanFalse';
 import ButtonLoading from '../../components/atoms/ButtonLoading';
-import { checkMockLocation } from '../../utils/checkMockLocation';
+import {checkMockLocation} from '../../utils/checkMockLocation';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [deviceId, setDeviceId] = useState('');
@@ -41,8 +49,8 @@ const ScreenLogin = ({navigation}) => {
   // const {location} = useSelector(state => state.SplashReducer);
   const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
-  const routeAPI = 'https://treemas-api-403500.et.r.appspot.com';
-  // const routeAPI = 'http://192.168.10.31:8081';
+  // const routeAPI = 'https://treemas-api-403500.et.r.appspot.com';
+  const routeAPI = 'http://192.168.10.31:8081';
   useEffect(() => {
     checkBiometryType(dispatch);
     getDataFromSession('deviceId')
@@ -101,8 +109,8 @@ const ScreenLogin = ({navigation}) => {
     dispatch(setFormLoginFingerPrint('isWebAccess', '0'));
   }, [dispatch]);
   const sendData = async () => {
-    setIsLoading(true)
-    console.log(formLogin)
+    setIsLoading(true);
+    console.log(formLogin);
     try {
       const response = await axios.post(
         `${routeAPI}/api/auth/login`,
@@ -110,9 +118,9 @@ const ScreenLogin = ({navigation}) => {
       );
       const dataLogin = response.data.data;
       console.log(dataLogin);
-      
+
       if (response.status === 200) {
-        console.log(response.data.data)
+        console.log(response.data.data);
         // const [{ token }]\ = dataLogin;
         const token = dataLogin.token;
         const role = dataLogin.user.role;
@@ -128,26 +136,21 @@ const ScreenLogin = ({navigation}) => {
         await AsyncStorage.setItem('role', role);
         setIsLoading(false);
         // render notif //
-                getToken().then(() => {
-                  countDataWithFalseStatus().then(
-                    jumlahDataDenganStatusFalse => {
-                      console.log(
-                        'Jumlah ID dengan status false:',
-                        jumlahDataDenganStatusFalse,
-                      );
-                      // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
-                      dispatch(
-                        setJumlahPengumuman(
-                          'pengumuman',
-                          +jumlahDataDenganStatusFalse,
-                        ),
-                      );
-                      ////////////////////////////////////////////
-                      // ini untuk jumlah Approval
-                      dispatch(setJumlahApproval('approval', 10));
-                    },
-                  );
-                });
+        getToken().then(() => {
+          countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
+            console.log(
+              'Jumlah ID dengan status false:',
+              jumlahDataDenganStatusFalse,
+            );
+            // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
+            dispatch(
+              setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse),
+            );
+            ////////////////////////////////////////////
+            // ini untuk jumlah Approval
+            dispatch(setJumlahApproval('approval', 10));
+          });
+        });
         /////////////////
         navigation.replace('dashboard');
       } else {
@@ -155,8 +158,8 @@ const ScreenLogin = ({navigation}) => {
         setIsLoading(false);
       }
     } catch (error) {
-      console.log('gagal login');//masih proses
-       setIsLoading(false);
+      console.log('gagal login'); //masih proses
+      setIsLoading(false);
     }
   };
 
@@ -165,7 +168,7 @@ const ScreenLogin = ({navigation}) => {
   };
   const rnBiometrics = new ReactNativeBiometrics();
   const handleFingerprint = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     // checkMockLocation();
     try {
       const result = await rnBiometrics.simplePrompt({
@@ -192,7 +195,7 @@ const ScreenLogin = ({navigation}) => {
             await AsyncStorage.setItem('nama', nama);
             await AsyncStorage.setItem('token', token);
             await AsyncStorage.setItem('role', role);
-            setIsLoading(false)
+            setIsLoading(false);
 
             // render notif //
             getToken().then(() => {
@@ -218,11 +221,11 @@ const ScreenLogin = ({navigation}) => {
             navigation.replace('dashboard');
           } else {
             console.log('message : ', response.data.message);
-             setIsLoading(false);
+            setIsLoading(false);
           }
         } catch (error) {
           console.error('Terjadi kesalahan:', error);
-           setIsLoading(false);
+          setIsLoading(false);
         }
 
         ///////////////////////////////////////
@@ -238,11 +241,11 @@ const ScreenLogin = ({navigation}) => {
         // }
       } else if (result.error) {
         // Pemindaian gagal
-         setIsLoading(false);
+        setIsLoading(false);
         console.log('Otentikasi gagal');
       }
     } catch (error) {
-       setIsLoading(false);
+      setIsLoading(false);
       navigation.navigate('gagalSidikJari');
     }
   };
@@ -271,6 +274,7 @@ const ScreenLogin = ({navigation}) => {
             onTextChange={value => onChangeText(value, 'nik')}
             secureTextEntry={false}
             keyboardType={'numeric'}
+            textColor={Color.blue}
             maxLength={10}
           />
           <CustomTextInput
@@ -278,8 +282,29 @@ const ScreenLogin = ({navigation}) => {
             type="password"
             value={formLogin.password}
             onTextChange={value => onChangeText(value, 'password')}
+            textColor={Color.blue}
             maxLength={10}
           />
+          {/* <CustomTextInput
+            label="NIK"
+            value={formLogin.nik}
+            onTextChange={value => onChangeText(value, 'nik')}
+            secureTextEntry={false}
+            keyboardType={'numeric'}
+            maxLength={10}
+            textColor={Color.red}
+            style={styles.nikSalah}
+          />
+          <CustomTextInput
+            label="Password"
+            type="password"
+            value={formLogin.password}
+            onTextChange={value => onChangeText(value, 'password')}
+            maxLength={10}
+            textColor={Color.red}
+            style={styles.passSalah}
+          />
+          <Text style={styles.labelSalah}>NIK dan Password Salah!</Text> */}
           <View style={{flexDirection: 'row', gap: 20}}>
             {isLoading ? (
               <ButtonLoading />
@@ -357,6 +382,28 @@ const styles = StyleSheet.create({
     bottom: -20,
     right: 0,
     zIndex: -1,
+  },
+  nikSalah: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.red,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  passSalah: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.red,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  labelSalah: {
+    fontFamily: text.semiBold,
+    fontSize: 14,
+    color: Color.red,
+    textAlign: 'center',
   },
 });
 

@@ -19,19 +19,22 @@ import axios from 'axios';
 const UpdateListProject = ({navigation}) => {
   const [dataAllProject, setDataAllProject] = useState([]);
   const [patch, setPatch] = useState([]);
-  const getData = async (headers) => {
-    const res = await axios.get('http://192.168.10.31:8081/api/absen/get-all-projects',{headers});
+  const getData = async headers => {
+    const res = await axios.get(
+      'http://192.168.10.31:8081/api/absen/get-all-projects',
+      {headers},
+    );
     console.log('data : ', res.data.success);
     const dataApi = res.data.data;
 
-  const newData = dataApi.map(item => ({
-    ...item,
-    value: item.active === '1' ? true : false,
-  }));
+    const newData = dataApi.map(item => ({
+      ...item,
+      value: item.active === '1' ? true : false,
+    }));
 
-    console.log('data baru : ',newData)
+    console.log('data baru : ', newData);
 
-    setDataAllProject(newData)
+    setDataAllProject(newData);
   };
 
   useEffect(() => {
@@ -39,65 +42,66 @@ const UpdateListProject = ({navigation}) => {
       active: item.value ? '1' : '0',
       projectId: item.projectId,
     }));
-    setPatch(patchData)
-  }, [dataAllProject])
-console.log('ini pacth project : ',patch)
+    setPatch(patchData);
+  }, [dataAllProject]);
+  console.log('ini pacth project : ', patch);
   useEffect(() => {
     getDataFromSession('token')
       .then(token => {
         console.log(token);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        contentType: 'application/json', // Use camelCase
-      };
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          contentType: 'application/json', // Use camelCase
+        };
         getData(headers);
       })
       .catch(error => console.log(error));
   }, []);
-  console.log('data aja : ', dataAllProject)
+  console.log('data aja : ', dataAllProject);
 
   const toggleCheckbox = index => {
     const updatedCheckboxes = [...dataAllProject];
     updatedCheckboxes[index].value = !updatedCheckboxes[index].value;
-    updatedCheckboxes[index].active = updatedCheckboxes[index].value ? '1' : '0';
+    updatedCheckboxes[index].active = updatedCheckboxes[index].value
+      ? '1'
+      : '0';
     setDataAllProject(updatedCheckboxes);
   };
 
-const dataYangAkanDikirim = async (headers, patch) => {
-  try {
-    const res = await axios.patch(
-      'http://192.168.10.31:8081/api/absen/update-penempatan',
-      {selectedProjects: patch},
-      {headers},
-    );
+  const dataYangAkanDikirim = async (headers, patch) => {
+    try {
+      const res = await axios.patch(
+        'http://192.168.10.31:8081/api/absen/update-penempatan',
+        {selectedProjects: patch},
+        {headers},
+      );
 
-    if (res.data.success) {
-      console.log('success :', res.data.success);
-    } else {
-      console.log('success :',res.data.success);
-      console.log('Gagal');
+      if (res.data.success) {
+        console.log('success :', res.data.success);
+      } else {
+        console.log('success :', res.data.success);
+        console.log('Gagal');
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
+  };
 
-const sandData = async () => {
-  try {
-    const token = await getDataFromSession('token');
-    console.log(token);
+  const sandData = async () => {
+    try {
+      const token = await getDataFromSession('token');
+      console.log(token);
 
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json', // Menggunakan camelCase sesuai standar HTTP
-    };
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json', // Menggunakan camelCase sesuai standar HTTP
+      };
 
-    await dataYangAkanDikirim(headers, patch);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
+      await dataYangAkanDikirim(headers, patch);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View
@@ -131,25 +135,36 @@ const sandData = async () => {
           DAFTAR PROJECT
         </Text>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {dataAllProject.map((dataProjects, index) => (
-            <View key={index}>
-              <CardUpdateProject
-                alamat={dataProjects.projectAddress}
-                title={dataProjects.projectName}
-                onValueChange={() => toggleCheckbox(index)}
-                value={dataProjects.value}
-              />
+          {dataAllProject.length > 0 ? (
+            dataAllProject.map((dataProjects, index) => (
+              <View key={index}>
+                <CardUpdateProject
+                  alamat={dataProjects.projectAddress}
+                  title={dataProjects.projectName}
+                  onValueChange={() => toggleCheckbox(index)}
+                  value={dataProjects.value}
+                />
+              </View>
+            ))
+          ) : (
+            <View
+              style={{
+                width: wp('50%'),
+                height: hp('45%'),
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontFamily: text.lightItalic,
+                  textTransform: 'uppercase',
+                  fontSize: 20,
+                  color: Color.blue,
+                }}>
+                Tidak Ada Data
+              </Text>
             </View>
-          ))}
-          {/* <Text>Selected options:</Text>
-      {checkboxes
-        .filter(checkbox => checkbox.value)
-        .map((checkbox, index) => (
-          <View key={index}>
-            <Text>{checkbox.title}</Text>
-            <Text>{checkbox.alamat}</Text>
-          </View>
-        ))} */}
+          )}
         </ScrollView>
         <ButtonAction
           title="UPDATE"
@@ -162,45 +177,3 @@ const sandData = async () => {
 };
 
 export default UpdateListProject;
-
-// <View>
-//   <Text>Select multiple options:</Text>
-//   {checkboxes.map((checkbox, index) => (
-//     <View key={index} style={{flexDirection: 'column'}}>
-//       <View
-//         style={{
-//           backgroundColor: Color.green,
-//           height: 90,
-//           width: 295,
-//           flexDirection: 'row',
-//           justifyContent: 'center',
-//           alignItems: 'center',
-//           marginVertical: 10,
-//           gap: 8
-//         }}>
-//         <FontAwesomeIcon
-//           icon={faFileInvoice}
-//           size={50}
-//           color={Color.white}
-//         />
-//         <View style={{width: 180}}>
-//           <Text>{checkbox.title}</Text>
-//           <Text style={{textAlign:'justify'}} numberOfLines={3}>{checkbox.alamat}</Text>
-//         </View>
-//         <CheckBox
-//           value={checkbox.value}
-//           onValueChange={() => toggleCheckbox(index)}
-//         />
-//       </View>
-//     </View>
-//   ))}
-//   <Text>Selected options:</Text>
-//   {checkboxes
-//     .filter(checkbox => checkbox.value)
-//     .map((checkbox, index) => (
-//       <View key={index}>
-//         <Text>{checkbox.title}</Text>
-//         <Text>{checkbox.alamat}</Text>
-//       </View>
-//     ))}
-// </View>
