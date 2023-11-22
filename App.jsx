@@ -11,11 +11,11 @@ export default function App() {
   useEffect(() => {
     StatusBar.setBackgroundColor(Color.black);
     const fetchData = () => {
-      // checkMockLocation();
+      checkMockLocation();
     };
 
     // Jalankan `fetchData` setiap 10 detik
-    const cekMockLocation = setInterval(fetchData, 30000); // 30,000 milidetik = 30 detik
+    const cekMockLocation = setInterval(fetchData, 10000); // 30,000 milidetik = 30 detik
     return () => {
       clearInterval(cekMockLocation);
     };

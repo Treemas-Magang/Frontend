@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {
   ALERT_TYPE,
@@ -9,6 +10,7 @@ export const AlertNotificationSuccess = ({
   titleAlert,
   textBodyAlert,
   buttonAlert,
+  onPress
 }) => {
   return (
     <AlertNotificationRoot>
@@ -17,6 +19,7 @@ export const AlertNotificationSuccess = ({
         title: titleAlert,
         textBody: textBodyAlert,
         button: buttonAlert,
+        onPressButton: onPress,
       })}
     </AlertNotificationRoot>
   );

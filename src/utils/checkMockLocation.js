@@ -2,6 +2,7 @@
 import { isMockingLocation, MockLocationDetectorErrorCode, MockLocationDetectorError } from 'react-native-turbo-mock-location-detector';
 import { Alert, BackHandler } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AlertNotificationDanger } from '../components/atoms/AlertNotification';
 
 const exit = () => {
   BackHandler.exitApp();

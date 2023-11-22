@@ -40,10 +40,14 @@ import {
 } from '../../utils/buatStatusPengumumanFalse';
 import ButtonLoading from '../../components/atoms/ButtonLoading';
 import {checkMockLocation} from '../../utils/checkMockLocation';
+import { AlertNotificationSuccess } from '../../components/atoms/AlertNotification';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
-  const [deviceId, setDeviceId] = useState('');
+  const [idDvcSdhDipakai, setIdDvcSdhDipakai] = useState(false);
+  const [gagalLogin, setGagalLogin] = useState(false);
+  const [inputKosong, setInputKosong] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const {formLogin} = useSelector(state => state.LoginReducer);
   const {formLoginFP} = useSelector(state => state.LoginFingerPrintReducer);
   // const {location} = useSelector(state => state.SplashReducer);
@@ -56,7 +60,7 @@ const ScreenLogin = ({navigation}) => {
     getDataFromSession('deviceId')
       .then(idDevice => {
         if (idDevice !== null) {
-          setDeviceId(idDevice);
+          // setDeviceId(idDevice);
           dispatch(setForm('handsetImei', idDevice));
           dispatch(setFormLoginFingerPrint('handsetImei', idDevice));
         } else {
@@ -109,6 +113,13 @@ const ScreenLogin = ({navigation}) => {
     dispatch(setFormLoginFingerPrint('isWebAccess', '0'));
   }, [dispatch]);
   const sendData = async () => {
+    if (formLogin.nik === '' || formLogin.password === '') {
+      console.log('nik/pass masih kosong');
+      setGagalLogin(false)
+      setInputKosong(true)
+      return;
+    }
+    setInputKosong(false)
     setIsLoading(true);
     console.log(formLogin);
     try {
@@ -120,6 +131,7 @@ const ScreenLogin = ({navigation}) => {
       console.log(dataLogin);
 
       if (response.status === 200) {
+        setGagalLogin(false)
         console.log(response.data.data);
         // const [{ token }]\ = dataLogin;
         const token = dataLogin.token;
@@ -158,7 +170,19 @@ const ScreenLogin = ({navigation}) => {
         setIsLoading(false);
       }
     } catch (error) {
-      console.log('gagal login'); //masih proses
+      console.log('gagal login', error.response.status); //masih proses
+      const codeError = error.response.status;
+      switch (codeError) {
+        case 401:
+          setGagalLogin(true);
+          break;
+        case 403:
+          setIdDvcSdhDipakai(true);
+          break;
+        default:
+          console.log('gagal Login');
+          break;
+      }
       setIsLoading(false);
     }
   };
@@ -169,7 +193,7 @@ const ScreenLogin = ({navigation}) => {
   const rnBiometrics = new ReactNativeBiometrics();
   const handleFingerprint = async () => {
     setIsLoading(true);
-    // checkMockLocation();
+    checkMockLocation();
     try {
       const result = await rnBiometrics.simplePrompt({
         promptMessage: 'Gunakan sidik jari untuk login',
@@ -186,6 +210,7 @@ const ScreenLogin = ({navigation}) => {
           );
           const dataLogin = response.data.data;
           if (response.status === 200) {
+            setIsLogin(true);
             // const [{ token }] = dataLogin;
             const token = dataLogin.token;
             const role = dataLogin.user.role;
@@ -218,7 +243,7 @@ const ScreenLogin = ({navigation}) => {
             });
 
             /////////////////
-            navigation.replace('dashboard');
+            // navigation.replace('dashboard');
           } else {
             console.log('message : ', response.data.message);
             setIsLoading(false);
@@ -249,7 +274,9 @@ const ScreenLogin = ({navigation}) => {
       navigation.navigate('gagalSidikJari');
     }
   };
-
+  const toDashboard = () => {
+    navigation.replace('dashboard');
+  }
   return (
     <View style={{flex: 1}}>
       <ScrollView
@@ -274,7 +301,10 @@ const ScreenLogin = ({navigation}) => {
             onTextChange={value => onChangeText(value, 'nik')}
             secureTextEntry={false}
             keyboardType={'numeric'}
-            textColor={Color.blue}
+            textColor={gagalLogin || inputKosong ? Color.red : Color.blue}
+            style={
+              gagalLogin || inputKosong ? styles.nikSalah : styles.nikBenar
+            }
             maxLength={10}
           />
           <CustomTextInput
@@ -282,29 +312,36 @@ const ScreenLogin = ({navigation}) => {
             type="password"
             value={formLogin.password}
             onTextChange={value => onChangeText(value, 'password')}
-            textColor={Color.blue}
+            textColor={gagalLogin || inputKosong ? Color.red : Color.blue}
+            style={
+              gagalLogin || inputKosong ? styles.passSalah : styles.passBenar
+            }
             maxLength={10}
           />
-          {/* <CustomTextInput
-            label="NIK"
-            value={formLogin.nik}
-            onTextChange={value => onChangeText(value, 'nik')}
-            secureTextEntry={false}
-            keyboardType={'numeric'}
-            maxLength={10}
-            textColor={Color.red}
-            style={styles.nikSalah}
-          />
-          <CustomTextInput
-            label="Password"
-            type="password"
-            value={formLogin.password}
-            onTextChange={value => onChangeText(value, 'password')}
-            maxLength={10}
-            textColor={Color.red}
-            style={styles.passSalah}
-          />
-          <Text style={styles.labelSalah}>NIK dan Password Salah!</Text> */}
+          {gagalLogin ? (
+            <Text style={styles.labelSalah}>NIK dan Password Salah!</Text>
+          ) : (
+            ''
+          )}
+          {inputKosong ? (
+            <Text style={styles.labelSalah}>Nik dan Password Tidak Boleh Kosong!</Text>
+          ) : (
+            ''
+          )}
+          {idDvcSdhDipakai ? (
+            <Text style={styles.labelSalah}>Akun sudah terpasang di device lain!</Text>
+          ) : (
+            ''
+          )}
+          {
+            isLogin ? (
+              <View style={{position: 'absolute'}}>
+                <AlertNotificationSuccess buttonAlert='Ok' textBodyAlert='Login Berhasil' titleAlert='Success' onPress={toDashboard} />
+              </View>
+            ) : (
+              ''
+            )
+          }
           <View style={{flexDirection: 'row', gap: 20}}>
             {isLoading ? (
               <ButtonLoading />
@@ -396,6 +433,22 @@ const styles = StyleSheet.create({
     height: 50,
     paddingHorizontal: 10,
     borderBottomColor: Color.red,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  nikBenar: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.green,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  passBenar: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.green,
     borderBottomWidth: 1,
     paddingBottom: -10,
   },
