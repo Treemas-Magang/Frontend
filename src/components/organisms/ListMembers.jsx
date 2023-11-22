@@ -44,9 +44,15 @@ const ListMembers = ({navigation}) => {
               color={Color.blue}
             />
           </TouchableOpacity>
-          <View style={{alignItems: 'center'}}>
-            <Text style={styles.judul}>MEMBER</Text>
-            <Text style={styles.judul}>MANDI RI</Text>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '74%',
+              // height: '15%',
+            }}>
+            <Text style={styles.judul}>Member</Text>
+            <Text style={styles.judul}>TREEMAS SOLUSI UTAMA</Text>
           </View>
           <View style={styles.wrapStatus}>
             <View style={styles.labelKet}>
@@ -120,13 +126,15 @@ const styles = StyleSheet.create({
   },
   judul: {
     fontFamily: text.semiBold,
-    fontSize: 24,
+    fontSize: 20,
     color: Color.blue,
+    textAlign: 'center',
+    textTransform: 'uppercase',
   },
   iconDrop: {
     position: 'absolute',
-    left: 30,
-    top: 25,
+    left: 15,
+    top: 20,
   },
   wrapStatus: {
     flexDirection: 'row',

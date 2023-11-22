@@ -28,6 +28,9 @@ const ListMemberProject = ({navigation}) => {
     {
       nama: 'PT TREEMAS SOLUSI UTAMA',
     },
+    {
+      nama: 'PT TREEMAS SOLUSI UTAMA INDONESIA MERDEKA JAYA ABADI INSYAALLAH AMANAH GAN',
+    },
   ]);
   return (
     <View style={styles.listMember}>
