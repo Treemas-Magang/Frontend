@@ -16,8 +16,10 @@ import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
+import SkeletonCardUpdateProject from '../skeleton/SkeletonCardUpdateProject';
 const UpdateListProject = ({navigation}) => {
   const [dataAllProject, setDataAllProject] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [patch, setPatch] = useState([]);
   const getData = async headers => {
     const res = await axios.get(
@@ -35,6 +37,7 @@ const UpdateListProject = ({navigation}) => {
     console.log('data baru : ', newData);
 
     setDataAllProject(newData);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -46,6 +49,7 @@ const UpdateListProject = ({navigation}) => {
   }, [dataAllProject]);
   console.log('ini pacth project : ', patch);
   useEffect(() => {
+    setIsLoading(true);
     getDataFromSession('token')
       .then(token => {
         console.log(token);
@@ -87,7 +91,7 @@ const UpdateListProject = ({navigation}) => {
     }
   };
 
-  const sandData = async () => {
+  const sendData = async () => {
     try {
       const token = await getDataFromSession('token');
       console.log(token);
@@ -135,7 +139,13 @@ const UpdateListProject = ({navigation}) => {
           DAFTAR PROJECT
         </Text>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {dataAllProject.length > 0 ? (
+          {isLoading ? (
+            <View style={{gap: 15}}>
+              <SkeletonCardUpdateProject />
+              <SkeletonCardUpdateProject />
+              <SkeletonCardUpdateProject />
+            </View>
+          ) : dataAllProject.length > 0 ? (
             dataAllProject.map((dataProjects, index) => (
               <View key={index}>
                 <CardUpdateProject
@@ -146,6 +156,8 @@ const UpdateListProject = ({navigation}) => {
                 />
               </View>
             ))
+          ) : isLoading ? (
+            ''
           ) : (
             <View
               style={{
@@ -169,7 +181,7 @@ const UpdateListProject = ({navigation}) => {
         <ButtonAction
           title="UPDATE"
           style={{marginVertical: 10, width: wp('75%'), height: hp('8%')}}
-          onPress={sandData}
+          onPress={sendData}
         />
       </View>
     </View>

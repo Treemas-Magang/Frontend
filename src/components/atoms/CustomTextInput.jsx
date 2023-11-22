@@ -52,7 +52,7 @@ const CustomTextInput = ({label, value, onTextChange, textColor, ...rest}) => {
       <Text
         style={[
           styles.label,
-          {color: textColor},
+          {color: textColor || Color.blue},
           isInputActive || textInputValue ? {top: -6, fontSize: 19} : null,
         ]}>
         {label}

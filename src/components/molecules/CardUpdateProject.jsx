@@ -26,11 +26,10 @@ const CardUpdateProject = ({title, alamat, value, onValueChange}) => {
           <Text style={styles.textTitle}>{title}</Text>
           <Text
             style={{
-              textAlign: 'justify',
               fontFamily: text.semiBold,
               fontSize: 12,
             }}
-            numberOfLines={2}>
+            numberOfLines={3}>
             {alamat}
           </Text>
         </View>
@@ -57,6 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: Color.black,
     textTransform: 'uppercase',
+    width: wp('50%'),
   },
 });
 
