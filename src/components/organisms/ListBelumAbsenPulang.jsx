@@ -17,7 +17,8 @@ const ListBelumAbsenPulang = ({navigation}) => {
     {
       tanggal: 'Selasa 05 April',
       jam_masuk: '10:00',
-      project: 'TREEMAS SOLUSI UTAMA',
+      project:
+        'TREEMAS SOLUSI UTAMA JAYA ABADI BLA BLA BLA BLA INDONESIA MERDEKA 1945',
       note_telat: 'Kesiangan',
       lokasi:
         'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
@@ -41,8 +42,8 @@ const ListBelumAbsenPulang = ({navigation}) => {
     {
       tanggal: 'Selasa 08 April',
       jam_masuk: '07:00',
-      project: 'MANDIRI',
-      note_telat: 'Kesiangan',
+      project: 'MANDIRI AJA NIH GAN SOAL NYA GA ADA PASANGAN',
+      note_telat: 'Tadi macet di jalan ',
       lokasi:
         'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
     },

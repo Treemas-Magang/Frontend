@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
@@ -15,16 +14,19 @@ const CardBelumAbsenPulang = ({
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
+
+  // Fungsi untuk mengambil 3 kata pertama dari teks
+  const getFirstThreeWordsWithEllipsis = text => {
+    const words = text.split(' ');
+    return words.length > 3 ? `${words.slice(0, 3).join(' ')}...` : text;
+  };
+
   return (
     <View>
       <TouchableOpacity
         style={styles.CardBelumAbsenPulangStyle}
         onPress={() => moveTo('formBelumAbsenPulang')}>
-        <View
-          style={{
-            width: '100%',
-            paddingLeft: 20,
-          }}>
+        <View style={{width: '100%', paddingLeft: 20}}>
           <Text
             style={{
               fontFamily: text.semiBold,
@@ -43,7 +45,9 @@ const CardBelumAbsenPulang = ({
             </View>
             <View>
               <Text style={styles.textTitle}>Project</Text>
-              <Text style={styles.textDeskripsi}>{project}</Text>
+              <Text style={styles.textDeskripsiProject}>
+                {getFirstThreeWordsWithEllipsis(project)}
+              </Text>
             </View>
           </View>
           <Text style={styles.textTitle}>Note Telat</Text>
@@ -92,6 +96,12 @@ const styles = StyleSheet.create({
   textDeskripsi: {
     fontFamily: text.semiBold,
     fontSize: 12,
+    color: Color.black,
+  },
+  textDeskripsiProject: {
+    fontFamily: text.semiBold,
+    fontSize: 12,
+    textTransform: 'uppercase',
     color: Color.black,
   },
 });

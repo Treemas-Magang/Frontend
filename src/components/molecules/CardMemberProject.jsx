@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderColor: Color.green,
     borderWidth: 2,
-    width: 280,
+    width: 300,
     minHeight: 50,
     borderRadius: 5,
     marginVertical: 10,
@@ -35,5 +35,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Color.green,
     textTransform: 'uppercase',
+    textAlign: 'center',
   },
 });

@@ -49,11 +49,6 @@ const ScreenDashboard = ({navigation}) => {
 
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
-      <AlertNotificationSuccess
-        titleAlert="Success"
-        textBodyAlert="Anda berhasil Login"
-        buttonAlert="Close"
-      />
       <View>
         <ButtonLogout
           navigation={navigation}

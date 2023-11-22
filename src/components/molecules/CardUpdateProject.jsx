@@ -23,7 +23,9 @@ const CardUpdateProject = ({title, alamat, value, onValueChange}) => {
           color={Color.white}
         />
         <View style={{width: wp('45%')}}>
-          <Text style={styles.textTitle}>{title}</Text>
+          <Text style={styles.textTitle} numberOfLines={2}>
+            {title}
+          </Text>
           <Text
             style={{
               fontFamily: text.semiBold,
