@@ -11,7 +11,7 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
       nama: 'PT TREEMAS SOLUSI UTAMA',
       alamat:
         'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15326, Indonesia',
-      projectId: 'PROJ001',
+      projectId: 'PROJ004',
     },
     {
       nama: 'Bank UOB',

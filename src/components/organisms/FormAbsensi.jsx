@@ -104,7 +104,24 @@ const FormAbsensi = ({navigation}) => {
               console.log('gagal absen');
             }
           })
-          .catch(error => console.log('gagal absen'));
+          .catch(error => {
+            console.log(error.response);
+            const errorCode = error.response.code;
+            switch (errorCode) {
+              case 403:
+                console.log('project tidak tepat');
+                break;
+              case 404:
+                console.log('Kesalahan server');
+                break;
+              case 500:
+                console.log('Kesalahan server');
+                break;
+              default:
+                console.log('gagal absen');
+                break;
+            }
+          });
 
         // const response = await axios.post(
         //   'http://192.168.10.31:8081/api/absen/input-absen',
