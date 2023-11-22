@@ -42,11 +42,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   TextDeskripsi: {
-    fontFamily: text.extraLight,
-    fontSize: 10,
+    fontFamily: text.light,
+    fontSize: 14,
     marginBottom: 20,
     color: Color.black,
     paddingHorizontal: 20,
-    textAlign: 'justify',
   },
 });
