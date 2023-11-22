@@ -19,6 +19,7 @@ import {useRoute} from '@react-navigation/native';
 import {jamSekarang} from '../../utils/jamSekarang';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getDataFromSession} from '../../utils/getDataSession';
+import { AlertNotificationSuccess } from '../atoms/AlertNotification';
 
 const FormAbsensi = ({navigation}) => {
   const {namaTempat} = useRoute().params;
@@ -29,6 +30,7 @@ const FormAbsensi = ({navigation}) => {
   const [capturedImage, setCapturedImage] = useState(null);
   const [terlambat, setTerlambat] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadBerhasil, setUploadBerhasil] = useState(false)
 
   useEffect(() => {
     const {date, time, dayName} = getTanggalSekarang();
@@ -92,8 +94,9 @@ const FormAbsensi = ({navigation}) => {
           )
           .then(res => {
             if (res.data.success) {
+              setUploadBerhasil(true);
               console.log('berhasil absen');
-              navigation.replace('dashboard');
+              // navigation.replace('dashboard');
               try {
                 AsyncStorage.setItem('sudah_absen', 'true');
                 console.log('berhasil menyimpan status sudah absen');
@@ -154,13 +157,16 @@ const FormAbsensi = ({navigation}) => {
     }
   };
 
+  const toDashboard = () => {
+    navigation.replace('dashboard');
+  };
   const sudahAbsen = async () => {
     await kirimDataAbsensi();
   };
 
   const sendData = async () => {
     try {
-      // checkMockLocation();
+      checkMockLocation();
       console.log('kirim data : ', formAbsensi);
       // await kirimDataDanFotoKeAPI(); // Uncomment if kirimDataDanFotoKeAPI is an asynchronous function
       await sudahAbsen();
@@ -188,6 +194,15 @@ const FormAbsensi = ({navigation}) => {
   return (
     <View style={styles.congtainerForm}>
       <Text style={styles.textJudul}>melakukan absensi</Text>
+      {
+        uploadBerhasil ? (
+          <View style={{position: 'absolute'}}>
+            <AlertNotificationSuccess buttonAlert='Close' textBodyAlert='Berhasil Melakukan Absen' titleAlert='Success' onPress={toDashboard} />
+          </View>
+        ) : (
+          ''
+        )
+      }
       <CustomTextInput
         label="Lokasi Project"
         secureTextEntry={false}

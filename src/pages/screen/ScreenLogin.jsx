@@ -40,12 +40,14 @@ import {
 } from '../../utils/buatStatusPengumumanFalse';
 import ButtonLoading from '../../components/atoms/ButtonLoading';
 import {checkMockLocation} from '../../utils/checkMockLocation';
+import { AlertNotificationSuccess } from '../../components/atoms/AlertNotification';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [idDvcSdhDipakai, setIdDvcSdhDipakai] = useState(false);
   const [gagalLogin, setGagalLogin] = useState(false);
   const [inputKosong, setInputKosong] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const {formLogin} = useSelector(state => state.LoginReducer);
   const {formLoginFP} = useSelector(state => state.LoginFingerPrintReducer);
   // const {location} = useSelector(state => state.SplashReducer);
@@ -191,7 +193,7 @@ const ScreenLogin = ({navigation}) => {
   const rnBiometrics = new ReactNativeBiometrics();
   const handleFingerprint = async () => {
     setIsLoading(true);
-    // checkMockLocation();
+    checkMockLocation();
     try {
       const result = await rnBiometrics.simplePrompt({
         promptMessage: 'Gunakan sidik jari untuk login',
@@ -208,6 +210,7 @@ const ScreenLogin = ({navigation}) => {
           );
           const dataLogin = response.data.data;
           if (response.status === 200) {
+            setIsLogin(true);
             // const [{ token }] = dataLogin;
             const token = dataLogin.token;
             const role = dataLogin.user.role;
@@ -240,7 +243,7 @@ const ScreenLogin = ({navigation}) => {
             });
 
             /////////////////
-            navigation.replace('dashboard');
+            // navigation.replace('dashboard');
           } else {
             console.log('message : ', response.data.message);
             setIsLoading(false);
@@ -271,7 +274,9 @@ const ScreenLogin = ({navigation}) => {
       navigation.navigate('gagalSidikJari');
     }
   };
-
+  const toDashboard = () => {
+    navigation.replace('dashboard');
+  }
   return (
     <View style={{flex: 1}}>
       <ScrollView
@@ -328,6 +333,15 @@ const ScreenLogin = ({navigation}) => {
           ) : (
             ''
           )}
+          {
+            isLogin ? (
+              <View style={{position: 'absolute'}}>
+                <AlertNotificationSuccess buttonAlert='Ok' textBodyAlert='Login Berhasil' titleAlert='Success' onPress={toDashboard} />
+              </View>
+            ) : (
+              ''
+            )
+          }
           <View style={{flexDirection: 'row', gap: 20}}>
             {isLoading ? (
               <ButtonLoading />

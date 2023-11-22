@@ -149,7 +149,7 @@ console.log('sudah absen ? ',isAbsen)
     }
   }, [lokasiPerusahaan, currentLocation]);
   const handleMasuk = () => {
-    // checkMockLocation();
+    checkMockLocation();
     navigation.navigate('formAbsensi', {namaTempat: namaTempat});
     console.log('data absen masuk : ', form);
   };

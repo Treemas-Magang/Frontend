@@ -72,22 +72,23 @@ const UpdateListProject = ({navigation}) => {
     setDataAllProject(updatedCheckboxes);
   };
 
-  const dataYangAkanDikirim = async (headers, patch) => {
+  const dataYangAkanDikirim = async (headers, dtPatch) => {
     try {
       const res = await axios.patch(
         'http://192.168.10.31:8081/api/absen/update-penempatan',
-        {selectedProjects: patch},
+        {projectTerpilih: dtPatch},
         {headers},
       );
 
       if (res.data.success) {
         console.log('success :', res.data.success);
+        console.log('success :', res.data.respose);
       } else {
         console.log('success :', res.data.success);
         console.log('Gagal');
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:', error.respose);
     }
   };
 
