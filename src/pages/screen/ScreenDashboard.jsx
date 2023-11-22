@@ -16,9 +16,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useSelector } from 'react-redux';
-import { cekToken } from '../../utils/cekToken';
-import { tracking } from '../../utils/tracking';
+import {useSelector} from 'react-redux';
+import {cekToken} from '../../utils/cekToken';
+import {tracking} from '../../utils/tracking';
+import {AlertNotificationSuccess} from '../../components/atoms/AlertNotification';
 const ScreenDashboard = ({navigation}) => {
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
   const {approval} = useSelector(state => state.JumlahApprovalReducer);
@@ -46,9 +47,13 @@ const ScreenDashboard = ({navigation}) => {
   //   };
   // }, [intervalId]);
 
-
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
+      <AlertNotificationSuccess
+        titleAlert="Success"
+        textBodyAlert="Anda berhasil Login"
+        buttonAlert="Close"
+      />
       <View>
         <ButtonLogout
           navigation={navigation}
