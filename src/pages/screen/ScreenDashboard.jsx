@@ -19,7 +19,7 @@ import {
 import {useSelector} from 'react-redux';
 import {cekToken} from '../../utils/cekToken';
 import {tracking} from '../../utils/tracking';
-import {AlertNotificationSuccess} from '../../components/atoms/AlertNotification';
+import { cekTelatMasuk } from '../../utils/cekJamTelatDanPulangCepat';
 const ScreenDashboard = ({navigation}) => {
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
   const {approval} = useSelector(state => state.JumlahApprovalReducer);
@@ -46,6 +46,7 @@ const ScreenDashboard = ({navigation}) => {
   //     BackgroundTimer.clearInterval(intervalId);
   //   };
   // }, [intervalId]);
+
 
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>

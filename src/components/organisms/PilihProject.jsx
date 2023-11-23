@@ -47,11 +47,16 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
       .catch(error => console.log(error));
   }, []);
 
-  const moveTo = (tujuan, namaTempat, alamat, projectId) => {
+  const moveTo = (tujuan, namaTempat, alamat, projectId, gpsLatProj, gpsLongProj, jrkMax, jmMsk, jmklr) => {
     navigation.navigate(tujuan, {
       namaTempat: namaTempat,
       alamat: alamat,
       projectId: projectId,
+      gpsLatProj: gpsLatProj,
+      gpsLongProj: gpsLongProj,
+      jrkMax: jrkMax,
+      jamMasuk: jmMsk,
+      jamKeluar: jmklr,
     });
   };
   return (
@@ -67,22 +72,27 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
             </View>
           ) : pilihProjects.length > 0 ? (
             pilihProjects.map((pilihProject, index) => (
-              <View key={index}>
-                <CardPilihProject
-                  nama={pilihProject.projectName}
-                  alamat={pilihProject.projectAddress}
-                  navigation={navigation}
-                  onPress={() =>
-                    moveTo(
-                      'pilihAbsenProject',
-                      pilihProject.projectName,
-                      pilihProject.projectAddress,
-                      pilihProject.projectId,
-                    )
-                  }
-                />
-              </View>
-            ))
+            <View key={index}>
+              <CardPilihProject
+                nama={pilihProject.projectName}
+                alamat={pilihProject.projectAddress}
+                navigation={navigation}
+                onPress={() =>
+                  moveTo(
+                    'pilihAbsenProject',
+                    pilihProject.projectName,
+                    pilihProject.projectAddress,
+                    pilihProject.projectId,
+                    pilihProject.gpsLatitude,
+                    pilihProject.gpsLongitude,
+                    pilihProject.jrkMax,
+                    pilihProject.jamMasuk,
+                    pilihProject.jamKeluar,
+                  )
+                }
+              />
+            </View>
+          ))
           ) : (
             <View style={styles.wrapDataNotFound}>
               <LottieView
@@ -95,6 +105,7 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
               <Text style={styles.textDataNotFound}>Tidak Ada Data</Text>
             </View>
           )}
+
         </ScrollView>
       </View>
     </View>

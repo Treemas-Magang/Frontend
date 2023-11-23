@@ -29,25 +29,28 @@ const initialLokasiUser = {
   longitudeDelta: 0.001,
 };
 const initialLokasiPerusahaan = {
-  latitude: -6.245091550324631,
-  longitude: 106.6712797641271,
+  // latitude: -6.245091550324631,
+  // longitude: 106.6712797641271,
+  latitude: null,
+  longitude: null,
   latitudeDelta: 0.001,
   longitudeDelta: 0.001,
 };
 
 
 const MapPreview = ({navigation}) => {
-  const {namaTempat, alamat, projectId} = useRoute().params;
+  const {namaTempat, alamat, projectId, gpsLatProj, gpsLongProj, jrkMax, jamMasuk, jamKeluar} = useRoute().params;
   console.log('project id :', projectId)
+  console.log('project jarak :', jrkMax)
+  console.log('project jamMasuk :', jamMasuk)
+  console.log('project jamkeluar :', jamKeluar)
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.AbsenMasukReducer);
   const [isAbsen, setIsAbsen] = useState(false);
   const [isPerbarui, setIsPerbarui] = useState(false);
   const [isPulang, setIsPulang] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(initialLokasiUser);
-  const [lokasiPerusahaan, setLokasiPerusahaan] = useState(
-    initialLokasiPerusahaan,
-  );
+  const [lokasiPerusahaan, setLokasiPerusahaan] = useState(initialLokasiPerusahaan);
   const [locationLoaded, setLocationLoaded] = useState(false);
 
   const project_id = 'TMS';
@@ -55,7 +58,16 @@ const MapPreview = ({navigation}) => {
   const nama = 'Rizki febriansyah';
   let is_absen = 1;
   let is_wfh = 0;
-  
+
+  useEffect(() => {
+    setLokasiPerusahaan({
+    ...lokasiPerusahaan,
+      latitude: gpsLatProj,
+      longitude: gpsLongProj,
+    });
+  }, []);
+
+
   useEffect(() => {
     getDataFromSession('sudah_absen')
     .then(data => {
@@ -130,7 +142,9 @@ console.log('sudah absen ? ',isAbsen)
       console.log(`Jarak antara kedua titik adalah ${jarakBulat} meter.`);
       dispatch(setFormAbsensi('jarakMsk', `${jarakBulat} meter`));
       //jarak user ke kantor 100 = 100 meter
-      if (jarakBulat > 100) {
+      const jarakMaxMasuk = parseInt(jrkMax)
+      console.log('jarak max masuk : ', jarakMaxMasuk);
+      if (jarakBulat > jarakMaxMasuk) {
         Alert.alert(
           'Peringatan',
           'Jarak Anda ke tempat kerja lebih dari 100 meter. Anda tidak dapat melakukan absen.',
@@ -150,7 +164,7 @@ console.log('sudah absen ? ',isAbsen)
   }, [lokasiPerusahaan, currentLocation]);
   const handleMasuk = () => {
     checkMockLocation();
-    navigation.navigate('formAbsensi', {namaTempat: namaTempat});
+    navigation.navigate('formAbsensi', {namaTempat: namaTempat, jamMasuk: jamMasuk, jamKeluar: jamKeluar});
     console.log('data absen masuk : ', form);
   };
 
@@ -167,11 +181,12 @@ console.log('sudah absen ? ',isAbsen)
   //////////////////////////////////////////////
 
   const handlePerbarui = async () => {
-    await sudahAbsen()
+    await sudahAbsen();
     // setIsPerbarui(true);
   };
   const handlePulang = () => {
     // setIsPulang(true);
+    navigation.navigate('formAbsenPulang');
   };
   return (
     <View style={{flex: 1, position: 'relative'}}>
@@ -223,6 +238,7 @@ console.log('sudah absen ? ',isAbsen)
                   backgroundColor: Color.cardPulangCepat,
                 }}
                 title="pulang"
+                onPress={handlePulang}
               />
             </View>
           ) : (

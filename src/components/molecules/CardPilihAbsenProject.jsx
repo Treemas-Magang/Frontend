@@ -10,18 +10,23 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-const CardPilihAbsenProject = ({navigation, namaTempat, alamat, projectId}) => {
-  const moveTo = (tujuan, namaTempat, alamat, prjId) => {
+const CardPilihAbsenProject = ({navigation, namaTempat, alamat, projectId, gpsLatProj, gpsLongProj, jrkMax, jamMasuk, jamKeluar}) => {
+  const moveTo = (tujuan, namaTempat, alamat, prjId, gpsLatitude, gpsLongitude, jarak, jmMsk, jmklr) => {
     navigation.navigate(tujuan, {
       namaTempat: namaTempat,
       alamat: alamat,
       projectId: prjId,
+      gpsLatProj: gpsLatitude,
+      gpsLongProj: gpsLongitude,
+      jrkMax: jarak,
+      jamMasuk: jmMsk,
+      jamKeluar: jmklr,
     });
   };
   return (
     <View>
       <TouchableOpacity
-        onPress={() => moveTo('absensi', namaTempat, alamat, projectId)}
+        onPress={() => moveTo('absensi', namaTempat, alamat, projectId, gpsLatProj, gpsLongProj, jrkMax, jamMasuk, jamKeluar)}
         style={styles.CardPilihProject}>
         <Text style={styles.Text}>ON SITE</Text>
         <Text style={styles.TextDeskripsi}>

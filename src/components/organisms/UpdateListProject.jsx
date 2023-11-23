@@ -21,10 +21,14 @@ import LottieView from 'lottie-react-native';
 import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 
 const UpdateListProject = ({navigation}) => {
-  const [dataAllProject, setDataAllProject] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [dataAllProject, setDataAllProject] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [patch, setPatch] = useState([]);
+  const [patchBlmUpdt, setPatchBlmUpdt] = useState([]);
+  const [initialDataAllProjectBlmUpdt, setInitialDataAllProjectBlmUpdt] =
+    useState([]);
+  const [changedDataState, setChangedDataState] = useState([]);
 
   const getData = async headers => {
     try {
@@ -41,8 +45,8 @@ const UpdateListProject = ({navigation}) => {
       }));
 
       console.log('data baru : ', newData);
-      // const dataKosong = [];
       setDataAllProject(newData);
+      setInitialDataAllProjectBlmUpdt(JSON.parse(JSON.stringify(newData))); // Deep copy of the array
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -56,7 +60,14 @@ const UpdateListProject = ({navigation}) => {
       projectId: item.projectId,
     }));
     setPatch(patchData);
-  }, [dataAllProject]);
+
+    // Using deep copy for the initial data
+    const patchDataBlmUpdt = initialDataAllProjectBlmUpdt.map(item => ({
+      active: item.value ? '1' : '0',
+      projectId: item.projectId,
+    }));
+    setPatchBlmUpdt(patchDataBlmUpdt);
+  }, [dataAllProject, initialDataAllProjectBlmUpdt]);
 
   useEffect(() => {
     getDataFromSession('token')
@@ -94,7 +105,6 @@ const UpdateListProject = ({navigation}) => {
       if (res.data.success) {
         console.log('success :', res.data.success);
         console.log('success :', res.data.respose);
-        setUpdateSuccess(true);
       } else {
         console.log('success :', res.data.success);
         console.log('Gagal');
@@ -104,6 +114,66 @@ const UpdateListProject = ({navigation}) => {
     }
   };
 
+  useEffect(() => {
+    // Assuming patchDataBlmUpdt and patchData are your original arrays
+    const findChangedData = () => {
+      const changedData = [];
+
+      patchBlmUpdt.forEach(itemBlmUpdt => {
+        const correspondingItem = patch.find(
+          item => item.projectId === itemBlmUpdt.projectId,
+        );
+
+        // Check if the corresponding item exists and has a different 'active' value
+        if (
+          correspondingItem &&
+          itemBlmUpdt.active !== correspondingItem.active
+        ) {
+          changedData.push(itemBlmUpdt);
+        }
+      });
+
+      return changedData;
+    };
+
+    // Call findChangedData to get the initial changed data
+    const initialChangedData = findChangedData();
+
+    // Set the state with the initial changed data
+    setChangedDataState(initialChangedData);
+  }, [patchBlmUpdt, patch]);
+
+  // Watch for changes in patchBlmUpdt
+  useEffect(() => {
+    // Assuming patchDataBlmUpdt and patchData are your original arrays
+    const findChangedData = () => {
+      const changedData = [];
+
+      patch.forEach(itemPatch => {
+        const correspondingItem = patchBlmUpdt.find(
+          item => item.projectId === itemPatch.projectId,
+        );
+
+        // Check if the corresponding item exists and has a different 'active' value
+        if (
+          correspondingItem &&
+          itemPatch.active !== correspondingItem.active
+        ) {
+          changedData.push(itemPatch);
+        }
+      });
+
+      return changedData;
+    };
+
+    // Call findChangedData to get the changed data
+    const updatedChangedData = findChangedData();
+
+    // Set the state with the changed data
+    setChangedDataState(updatedChangedData);
+  }, [patchBlmUpdt, patch]);
+
+  console.log('Changed Data State:', changedDataState);
   const sendData = async () => {
     try {
       const token = await getDataFromSession('token');
@@ -114,7 +184,7 @@ const UpdateListProject = ({navigation}) => {
         'Content-Type': 'application/json',
       };
 
-      await dataYangAkanDikirim(headers, patch);
+      await dataYangAkanDikirim(headers, changedDataState);
     } catch (error) {
       console.log(error);
     }
