@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   Text: {
     fontFamily: text.semiBold,
-    fontSize: 14,
+    fontSize: 15,
     color: Color.green,
     paddingVertical: 10,
     textTransform: 'uppercase',
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   TextDeskripsi: {
     fontFamily: text.light,
-    fontSize: 14,
+    fontSize: 12,
     marginBottom: 20,
     color: Color.black,
     paddingHorizontal: 20,
