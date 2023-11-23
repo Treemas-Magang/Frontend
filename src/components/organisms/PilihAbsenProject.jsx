@@ -11,8 +11,12 @@ import {
 } from 'react-native-responsive-screen';
 import { useRoute } from '@react-navigation/native';
 const PilihAbsenProject = ({navigation}) => {
-  const {namaTempat, alamat, projectId} = useRoute().params;
+  const {namaTempat, alamat, projectId, gpsLatProj, gpsLongProj, jrkMax, jamMasuk, jamKeluar} = useRoute().params;
   console.log('project id : ', projectId);
+  console.log('project latitude : ', gpsLatProj);
+  console.log('project jrkMax : ', jrkMax);
+  console.log('project jamMsk : ', jamMasuk);
+  console.log('project jamKlr : ', jamKeluar);
   return (
     <View style={styles.CardUpdateTimesheet}>
       <Text
@@ -24,7 +28,17 @@ const PilihAbsenProject = ({navigation}) => {
         }}>
         MEMILIH LOKASI ABSENSI PROJECT
       </Text>
-      <CardPilihAbsenProject alamat={alamat} namaTempat={namaTempat} projectId={projectId} navigation={navigation} />
+      <CardPilihAbsenProject
+        alamat={alamat}
+        namaTempat={namaTempat}
+        projectId={projectId}
+        gpsLatProj={gpsLatProj}
+        jrkMax={jrkMax}
+        gpsLongProj={gpsLongProj}
+        jamMasuk={jamMasuk}
+        jamKeluar={jamKeluar}
+        navigation={navigation}
+      />
     </View>
   );
 };

@@ -9,29 +9,7 @@ import {getDataFromSession} from '../../utils/getDataSession';
 
 const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   const [pilihProjects, setPilihProject] = useState([]);
-  // const [pilihProjects, setPilihProject] = useState([
-  //   {
-  //     nama: 'PT TREEMAS SOLUSI UTAMA',
-  //     alamat:
-  //       'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15326, Indonesia',
-  //     projectId: 'PROJ001',
-  //   },
-  //   {
-  //     nama: 'Bank UOB',
-  //     alamat:
-  //       'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15327, Indonesia',
-  //   },
-  //   {
-  //     nama: 'BANK ANDALAN RAKYAT',
-  //     alamat:
-  //       'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15328, Indonesia',
-  //   },
-  //   {
-  //     nama: 'Bank MEGA',
-  //     alamat:
-  //       'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15329, Indonesia',
-  //   },
-  // ]);
+
   const getDataPenempatan = async headers => {
     try {
       const response = await axios.get(
@@ -57,11 +35,16 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
       .catch(error => console.log(error));
   }, []);
 
-  const moveTo = (tujuan, namaTempat, alamat, projectId) => {
+  const moveTo = (tujuan, namaTempat, alamat, projectId, gpsLatProj, gpsLongProj, jrkMax, jmMsk, jmklr) => {
     navigation.navigate(tujuan, {
       namaTempat: namaTempat,
       alamat: alamat,
       projectId: projectId,
+      gpsLatProj: gpsLatProj,
+      gpsLongProj: gpsLongProj,
+      jrkMax: jrkMax,
+      jamMasuk: jmMsk,
+      jamKeluar: jmklr,
     });
   };
   return (
@@ -89,6 +72,11 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
                     pilihProject.projectName,
                     pilihProject.projectAddress,
                     pilihProject.projectId,
+                    pilihProject.gpsLatitude,
+                    pilihProject.gpsLongitude,
+                    pilihProject.jrkMax,
+                    pilihProject.jamMasuk,
+                    pilihProject.jamKeluar,
                   )
                 }
               />

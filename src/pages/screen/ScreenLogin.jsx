@@ -9,7 +9,6 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  KeyboardAvoidingView,
 } from 'react-native';
 import CustomTextInput from '../../components/atoms/CustomTextInput';
 import {getDataFromSession} from '../../utils/getDataSession';
@@ -171,6 +170,7 @@ const ScreenLogin = ({navigation}) => {
       }
     } catch (error) {
       console.log('gagal login', error.response.status); //masih proses
+      console.log('gagal login', error.response); //masih proses
       const codeError = error.response.status;
       switch (codeError) {
         case 401:
@@ -276,7 +276,7 @@ const ScreenLogin = ({navigation}) => {
   };
   const toDashboard = () => {
     navigation.replace('dashboard');
-  }
+  };
   return (
     <View style={{flex: 1}}>
       <ScrollView
