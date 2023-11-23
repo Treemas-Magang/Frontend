@@ -6,32 +6,17 @@ import CardPilihProject from '../molecules/CardPilihProject';
 import {text} from '../../utils/text';
 import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
+import SkeletonCardPilihProject from '../skeleton/SkeletonCardPilihProject';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import LottieView from 'lottie-react-native';
 
 const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   const [pilihProjects, setPilihProject] = useState([]);
-  // const [pilihProjects, setPilihProject] = useState([
-  //   {
-  //     nama: 'PT TREEMAS SOLUSI UTAMA',
-  //     alamat:
-  //       'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15326, Indonesia',
-  //     projectId: 'PROJ001',
-  //   },
-  //   {
-  //     nama: 'Bank UOB',
-  //     alamat:
-  //       'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15327, Indonesia',
-  //   },
-  //   {
-  //     nama: 'BANK ANDALAN RAKYAT',
-  //     alamat:
-  //       'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15328, Indonesia',
-  //   },
-  //   {
-  //     nama: 'Bank MEGA',
-  //     alamat:
-  //       'jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec Serpong utara Kota Tangerang Selatan, Banten 15329, Indonesia',
-  //   },
-  // ]);
+  const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
+
   const getDataPenempatan = async headers => {
     try {
       const response = await axios.get(
@@ -41,9 +26,14 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
       console.log(response.data.data);
       const dataAPI = response.data.data;
       const newData = dataAPI.filter(item => item.active === '1');
+      // const dataKosong = [];
       setPilihProject(newData);
+      setIsLoading(false);
       console.log('data : ', newData);
-    } catch (error) {}
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -67,33 +57,44 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   return (
     <View>
       <View style={[styles.wrappPilihProject, ukuranWrappPilihProject]}>
-        <Text
-          style={{
-            fontFamily: text.semiBold,
-            textTransform: 'uppercase',
-            fontSize: 17,
-            color: Color.blue,
-          }}>
-          Project Yang Di Pilih
-        </Text>
+        <Text style={styles.textPilihProject}>Project Yang Di Pilih</Text>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {pilihProjects.map((pilihProject, index) => (
-            <View key={index}>
-              <CardPilihProject
-                nama={pilihProject.projectName}
-                alamat={pilihProject.projectAddress}
-                navigation={navigation}
-                onPress={() =>
-                  moveTo(
-                    'pilihAbsenProject',
-                    pilihProject.projectName,
-                    pilihProject.projectAddress,
-                    pilihProject.projectId,
-                  )
-                }
-              />
+          {isLoading ? (
+            <View style={{gap: 1}}>
+              <SkeletonCardPilihProject />
+              <SkeletonCardPilihProject />
+              <SkeletonCardPilihProject />
             </View>
-          ))}
+          ) : pilihProjects.length > 0 ? (
+            pilihProjects.map((pilihProject, index) => (
+              <View key={index}>
+                <CardPilihProject
+                  nama={pilihProject.projectName}
+                  alamat={pilihProject.projectAddress}
+                  navigation={navigation}
+                  onPress={() =>
+                    moveTo(
+                      'pilihAbsenProject',
+                      pilihProject.projectName,
+                      pilihProject.projectAddress,
+                      pilihProject.projectId,
+                    )
+                  }
+                />
+              </View>
+            ))
+          ) : (
+            <View style={styles.wrapDataNotFound}>
+              <LottieView
+                source={require('../../assets/animation/dataNotFound.json')}
+                autoPlay
+                style={{
+                  width: '100%',
+                  height: '70%',
+                }}></LottieView>
+              <Text style={styles.textDataNotFound}>Tidak Ada Data</Text>
+            </View>
+          )}
         </ScrollView>
       </View>
     </View>
@@ -108,5 +109,23 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     paddingVertical: 30,
+  },
+  wrapDataNotFound: {
+    width: wp('50%'),
+    height: hp('50%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
+    textTransform: 'uppercase',
+  },
+  textPilihProject: {
+    fontFamily: text.semiBold,
+    textTransform: 'uppercase',
+    fontSize: 17,
+    color: Color.blue,
   },
 });

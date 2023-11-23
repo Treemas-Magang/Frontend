@@ -2,7 +2,7 @@
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable comma-dangle */
 import React, {useState, useEffect} from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import {Color} from '../../utils/color';
 import CardUpdateProject from '../molecules/CardUpdateProject';
 import ButtonAction from '../atoms/ButtonAction';
@@ -17,27 +17,37 @@ import ButtonHome from '../atoms/ButtonHome';
 import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import SkeletonCardUpdateProject from '../skeleton/SkeletonCardUpdateProject';
+import LottieView from 'lottie-react-native';
+import {AlertNotificationSuccess} from '../atoms/AlertNotification';
+
 const UpdateListProject = ({navigation}) => {
   const [dataAllProject, setDataAllProject] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
+  const [updateSuccess, setUpdateSuccess] = useState(false);
   const [patch, setPatch] = useState([]);
+
   const getData = async headers => {
-    const res = await axios.get(
-      'http://192.168.10.31:8081/api/absen/get-all-projects',
-      {headers},
-    );
-    console.log('data : ', res.data.success);
-    const dataApi = res.data.data;
+    try {
+      const res = await axios.get(
+        'http://192.168.10.31:8081/api/absen/get-all-projects',
+        {headers},
+      );
+      console.log('data : ', res.data.success);
+      const dataApi = res.data.data;
 
-    const newData = dataApi.map(item => ({
-      ...item,
-      value: item.active === '1' ? true : false,
-    }));
+      const newData = dataApi.map(item => ({
+        ...item,
+        value: item.active === '1' ? true : false,
+      }));
 
-    console.log('data baru : ', newData);
-
-    setDataAllProject(newData);
-    setIsLoading(false);
+      console.log('data baru : ', newData);
+      // const dataKosong = [];
+      setDataAllProject(newData);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -47,21 +57,22 @@ const UpdateListProject = ({navigation}) => {
     }));
     setPatch(patchData);
   }, [dataAllProject]);
-  console.log('ini pacth project : ', patch);
+
   useEffect(() => {
-    setIsLoading(true);
     getDataFromSession('token')
       .then(token => {
         console.log(token);
         const headers = {
           Authorization: `Bearer ${token}`,
-          contentType: 'application/json', // Use camelCase
+          contentType: 'application/json',
         };
         getData(headers);
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+        setIsLoading(false); // Set loading to false in case of error
+      });
   }, []);
-  console.log('data aja : ', dataAllProject);
 
   const toggleCheckbox = index => {
     const updatedCheckboxes = [...dataAllProject];
@@ -83,12 +94,13 @@ const UpdateListProject = ({navigation}) => {
       if (res.data.success) {
         console.log('success :', res.data.success);
         console.log('success :', res.data.respose);
+        setUpdateSuccess(true);
       } else {
         console.log('success :', res.data.success);
         console.log('Gagal');
       }
     } catch (error) {
-      console.error('Error:', error.respose);
+      console.error('Error:', error.response);
     }
   };
 
@@ -99,7 +111,7 @@ const UpdateListProject = ({navigation}) => {
 
       const headers = {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json', // Menggunakan camelCase sesuai standar HTTP
+        'Content-Type': 'application/json',
       };
 
       await dataYangAkanDikirim(headers, patch);
@@ -109,36 +121,12 @@ const UpdateListProject = ({navigation}) => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: Color.green,
-        paddingTop: 50,
-      }}>
+    <View style={styles.wrapScreenDaftarProject}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
       <VectorAtasBesar />
-      <View
-        style={{
-          backgroundColor: Color.white,
-          width: wp('85%'),
-          height: hp('67%'),
-          alignItems: 'center',
-          borderRadius: 10,
-        }}>
-        <Text
-          style={{
-            fontFamily: text.semiBold,
-            textTransform: 'uppercase',
-            fontSize: 26,
-            color: Color.blue,
-            textAlign: 'center',
-            marginVertical: 10,
-          }}>
-          DAFTAR PROJECT
-        </Text>
+      <View style={styles.wrapCardDaftarProject}>
+        <Text style={styles.textTitleDaftarProject}>DAFTAR PROJECT</Text>
         <ScrollView showsVerticalScrollIndicator={false}>
           {isLoading ? (
             <View style={{gap: 15}}>
@@ -157,25 +145,16 @@ const UpdateListProject = ({navigation}) => {
                 />
               </View>
             ))
-          ) : isLoading ? (
-            ''
           ) : (
-            <View
-              style={{
-                width: wp('50%'),
-                height: hp('45%'),
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Text
+            <View style={styles.wrapDataNotFound}>
+              <LottieView
+                source={require('../../assets/animation/dataNotFound.json')}
+                autoPlay
                 style={{
-                  fontFamily: text.lightItalic,
-                  textTransform: 'uppercase',
-                  fontSize: 20,
-                  color: Color.blue,
-                }}>
-                Tidak Ada Data
-              </Text>
+                  width: '100%',
+                  height: '70%',
+                }}></LottieView>
+              <Text style={styles.textDataNotFound}>Tidak Ada Data</Text>
             </View>
           )}
         </ScrollView>
@@ -185,8 +164,56 @@ const UpdateListProject = ({navigation}) => {
           onPress={sendData}
         />
       </View>
+      {updateSuccess ? (
+        <View style={{position: 'absolute'}}>
+          <AlertNotificationSuccess
+            buttonAlert="Ok"
+            textBodyAlert="Update Berhasil"
+            titleAlert="Success"
+          />
+        </View>
+      ) : (
+        ''
+      )}
     </View>
   );
 };
 
 export default UpdateListProject;
+
+const styles = StyleSheet.create({
+  wrapScreenDaftarProject: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Color.green,
+    paddingTop: 50,
+  },
+  wrapCardDaftarProject: {
+    backgroundColor: Color.white,
+    width: wp('85%'),
+    height: hp('67%'),
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  textTitleDaftarProject: {
+    fontFamily: text.semiBold,
+    textTransform: 'uppercase',
+    fontSize: 26,
+    color: Color.blue,
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+  wrapDataNotFound: {
+    width: wp('50%'),
+    height: hp('45%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
+    textTransform: 'uppercase',
+  },
+});
