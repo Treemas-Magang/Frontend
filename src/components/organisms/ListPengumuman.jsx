@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import ButtonBackBaru from '../atoms/ButtonBackBaru';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
+import LottieView from 'lottie-react-native';
 
 const ListPengumuman = ({navigation}) => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const ListPengumuman = ({navigation}) => {
   const [dataPengumumanStorage, setDataPengumumanStorage] = useState([]);
   const [dataGabungan, setDataGabungan] = useState([]);
   // const [suksesSaveToStorage, setSuksesSavetoStorage] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [role, setRole] = useState('');
   useEffect(() => {
     getDataFromSession('role')
@@ -59,6 +60,7 @@ const ListPengumuman = ({navigation}) => {
         {headers},
       );
       const data = response.data.data;
+      // const dataKosong = [];
       setDataPengumuman(data);
       setIsLoading(false);
       const processedData = data.map(item => ({
@@ -300,22 +302,15 @@ const ListPengumuman = ({navigation}) => {
                 />
               ))
           ) : (
-            <View
-              style={{
-                width: wp('100%'),
-                height: hp('50%'),
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Text
+            <View style={styles.wrapDataNotFound}>
+              <LottieView
+                source={require('../../assets/animation/dataNotFound.json')}
+                autoPlay
                 style={{
-                  fontFamily: text.lightItalic,
-                  textTransform: 'uppercase',
-                  fontSize: 20,
-                  color: Color.blue,
-                }}>
-                Tidak Ada Pengumuman
-              </Text>
+                  width: '100%',
+                  height: '70%',
+                }}></LottieView>
+              <Text style={styles.textDataNotFound}>Tidak Ada Pengumuman</Text>
             </View>
           )}
         </ScrollView>
@@ -341,6 +336,18 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     fontSize: wp('6%'),
     color: Color.blue,
+    textTransform: 'uppercase',
+  },
+  wrapDataNotFound: {
+    width: wp('100%'),
+    height: hp('50%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
     textTransform: 'uppercase',
   },
 });
