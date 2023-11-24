@@ -102,18 +102,12 @@ const UpdateListProject = ({navigation}) => {
         {headers},
       );
 
-      if (res.data.success) {
-        console.log('success :', res.data.success);
-        console.log('success :', res.data.respose);
-      } else {
-        console.log('success :', res.data.success);
-        console.log('Gagal');
-      }
+      console.log('success :', res.data.success);
     } catch (error) {
       console.error('Error:', error.response);
     }
   };
-
+  console.log('updateSuccess : ', updateSuccess)
   useEffect(() => {
     // Assuming patchDataBlmUpdt and patchData are your original arrays
     const findChangedData = () => {
@@ -184,12 +178,23 @@ const UpdateListProject = ({navigation}) => {
         'Content-Type': 'application/json',
       };
 
-      await dataYangAkanDikirim(headers, changedDataState);
+      await dataYangAkanDikirim(headers, changedDataState)
+      setUpdateSuccess(true);
     } catch (error) {
       console.log(error);
     }
   };
+    useEffect(() => {
+      // Automatically hide the success alert after 3000 milliseconds (3 seconds)
+      if (updateSuccess) {
+        const timeoutId = setTimeout(() => {
+          setUpdateSuccess(false);
+        }, 3000);
 
+        // Clear the timeout to avoid memory leaks
+        return () => clearTimeout(timeoutId);
+      }
+    }, [updateSuccess]);
   return (
     <View style={styles.wrapScreenDaftarProject}>
       <ButtonBack navigation={navigation} />
@@ -234,7 +239,7 @@ const UpdateListProject = ({navigation}) => {
           onPress={sendData}
         />
       </View>
-      {updateSuccess ? (
+      {updateSuccess && (
         <View style={{position: 'absolute'}}>
           <AlertNotificationSuccess
             buttonAlert="Ok"
@@ -242,8 +247,6 @@ const UpdateListProject = ({navigation}) => {
             titleAlert="Success"
           />
         </View>
-      ) : (
-        ''
       )}
     </View>
   );
