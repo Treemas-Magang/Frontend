@@ -1,6 +1,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
@@ -15,33 +22,78 @@ import {setFormAbsensi} from '../../redux';
 import axios from 'axios';
 import {getTanggalSekarang} from '../../utils/getTanggalSekarang';
 import {checkMockLocation} from '../../utils/checkMockLocation';
-import {useRoute} from '@react-navigation/native';
 import {jamSekarang} from '../../utils/jamSekarang';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getDataFromSession} from '../../utils/getDataSession';
 import { AlertNotificationSuccess } from '../atoms/AlertNotification';
 import { cekTelatMasuk } from '../../utils/cekJamTelatDanPulangCepat';
 import ButtonLoading from '../atoms/ButtonLoading';
+import { openCamera, openGalerImg } from '../../utils/getPhoto';
 
 const FormAbsensi = ({navigation}) => {
-  const {namaTempat, jamMasuk, jamKeluar} = useRoute().params;
-  console.log('jam masuk: ', jamMasuk)
   const dispatch = useDispatch();
   const {formAbsensi} = useSelector(state => state.FormAbsensiReducer);
+  const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
+  const {isWFH} = useSelector(state => state.IsWFHReducer);
+  console.log('project id :', dataProject);
   console.log(formAbsensi);
-  const [isWFH, setIsWFH] = useState(false);
+  // const [isWFH, setIsWFH] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [terlambat, setTerlambat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
 
-  useEffect(() => {
-    const {date, time, dayName} = getTanggalSekarang();
-    console.log('tanggal : ', date);
-    console.log('hari : ', dayName);
-    console.log('waktu : ', time);
-    // dispatch(setFormAbsensi('foto', capturedImage));
-  }, [dispatch, capturedImage]);
+    let base64ImageData = null;
+  if (capturedImage && capturedImage.base64 && capturedImage.fileSize) {
+    base64ImageData = `data:image/jpeg;base64,${capturedImage.base64}`;
+    console.log('ini file size : ', capturedImage.fileSize);
+  } else {
+    console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
+  }
+  // console.log('ini base64Image : ', base64ImageData);
+
+    const openKamera = () => {
+      setCapturedImage(null);
+      setIsLoading(true);
+      openCamera()
+        .then(imageData => {
+          setCapturedImage(imageData);
+          dispatch(setFormAbsensi('photoAbsen', imageData.base64));
+          setIsLoading(false);
+          // Lakukan sesuatu dengan imageData (misalnya, tampilkan gambar)
+        })
+        .catch(error => {
+          // Tangani kesalahan
+          setIsLoading(false);
+          // console.error(error);
+        });
+    };
+    const openGalery = () => {
+      setCapturedImage(null);
+      setIsLoading(true);
+      openGalerImg()
+        .then(imageData => {
+          setCapturedImage(imageData);
+          dispatch(setFormAbsensi('photoAbsen', imageData.base64));
+          setIsLoading(false);
+        })
+        .catch(error => {
+          // Tangani kesalahan
+          setIsLoading(false);
+          // console.error(error);
+        });
+    };
+
+      const moveToPreview = () => {
+        navigation.navigate('previewPhoto', {photo: base64ImageData});
+      };
+
+  // useEffect(() => {
+  //   const {date, time, dayName} = getTanggalSekarang();
+  //   console.log('tanggal : ', date);
+  //   console.log('hari : ', dayName);
+  //   console.log('waktu : ', time);
+  // }, []);
   const onChangeText = (value, inputType) => {
     dispatch(setFormAbsensi(inputType, value));
   };
@@ -104,11 +156,14 @@ const FormAbsensi = ({navigation}) => {
   };
   //kondisi telat masuk
 useEffect(() => {
-  const cekTelat = cekTelatMasuk(jamMasuk);
+  const cekTelat = cekTelatMasuk(dataProject.jamMasuk);
   console.log('cek telat', cekTelat);
   setTerlambat(cekTelat);
-}, [jamMasuk]);
+}, [dataProject]);
 
+  useEffect(() => {
+    dispatch(setFormAbsensi('isWfh', isWFH))
+  }, [dispatch, isWFH])
   const toDashboard = () => {
     navigation.replace('dashboard');
   };
@@ -152,8 +207,7 @@ useEffect(() => {
       <CustomTextInput
         label="Lokasi Project"
         secureTextEntry={false}
-        value={namaTempat}
-        onTextChange={value => onChangeText(value, 'lokasi_project')}
+        value={dataProject.namaTempat}
         editable={false}
       />
       <CustomTextInput
@@ -188,37 +242,41 @@ useEffect(() => {
       ) : (
         ''
       )}
-      {isWFH ? (
+      {isWFH > 0 ? (
         <>
           <View style={styles.kotakPreviewKosong}>
             <View style={styles.previewKosong}>
-              {capturedImage === null ? (
+              {base64ImageData === null ? (
                 <>
-                  <FontAwesomeIcon icon={faCamera} size={50} />
-                  <Text>Preview</Text>
+                  {isLoading ? (
+                    <ActivityIndicator size="large" color={Color.black} />
+                  ) : (
+                    <>
+                      <FontAwesomeIcon icon={faCamera} size={50} />
+                      <Text>Preview</Text>
+                    </>
+                  )}
                 </>
               ) : (
-                <Image
-                  source={{uri: capturedImage.uri}}
-                  style={{height: '100%', width: '100%', borderRadius: 10}}
-                />
+                <TouchableOpacity
+                  style={styles.previewKosong}
+                  onPress={moveToPreview}>
+                  <Image
+                    source={{uri: base64ImageData}}
+                    style={{
+                      height: '100%',
+                      width: '100%',
+                      borderRadius: 10,
+                    }}
+                  />
+                </TouchableOpacity>
               )}
             </View>
           </View>
-          {terlambat ? (
-            <CustomTextInput
-              label="Alasan Telat Masuk"
-              secureTextEntry={false}
-              value={formAbsensi.noteTelatMsk}
-              onTextChange={value => onChangeText(value, 'noteTelatMsk')}
-            />
-          ) : (
-            ''
-          )}
-
           <View style={styles.wrapperButton}>
-            <ButtonCamera onImageCapture={image => setCapturedImage(image)} />
-            <ButtonGalery onImageGalery={image => setCapturedImage(image)} />
+            <ButtonCamera onPress={openKamera} />
+            {/* <ButtonGalery onPress={openGalery} /> */}
+            <ButtonGalery onPress={openGalery} />
             <ButtonAction
               title="kirim"
               style={{width: 148}}
@@ -226,12 +284,10 @@ useEffect(() => {
             />
           </View>
         </>
+      ) : isLoading ? (
+        <ButtonLoading />
       ) : (
-        isLoading ? (
-          <ButtonLoading />
-        ) : (
         <ButtonAction title="kirim" style={{width: 269}} onPress={sendData} />
-        )
       )}
     </View>
   );
