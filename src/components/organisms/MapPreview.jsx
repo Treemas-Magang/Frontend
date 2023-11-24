@@ -10,7 +10,7 @@ import ButtonAction from '../atoms/ButtonAction';
 import {getAlamat} from '../../utils/getAlamat';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
-import {setAbsenMasuk, setFormAbsensi} from '../../redux';
+import {setAbsenMasuk, setAbsenPulang, setFormAbsensi} from '../../redux';
 import {getTanggalSekarang} from '../../utils/getTanggalSekarang';
 import {
   widthPercentageToDP as wp,
@@ -39,13 +39,12 @@ const initialLokasiPerusahaan = {
 
 
 const MapPreview = ({navigation}) => {
-  const {namaTempat, alamat, projectId, gpsLatProj, gpsLongProj, jrkMax, jamMasuk, jamKeluar} = useRoute().params;
-  console.log('project id :', projectId)
-  console.log('project jarak :', jrkMax)
-  console.log('project jamMasuk :', jamMasuk)
-  console.log('project jamkeluar :', jamKeluar)
+  const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
+  console.log('project id :', dataProject);
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.AbsenMasukReducer);
+  const {isWFH} = useSelector(state => state.IsWFHReducer);
+  console.log('isWFH :', isWFH)
   const [isAbsen, setIsAbsen] = useState(false);
   const [isPerbarui, setIsPerbarui] = useState(false);
   const [isPulang, setIsPulang] = useState(false);
@@ -53,17 +52,11 @@ const MapPreview = ({navigation}) => {
   const [lokasiPerusahaan, setLokasiPerusahaan] = useState(initialLokasiPerusahaan);
   const [locationLoaded, setLocationLoaded] = useState(false);
 
-  const project_id = 'TMS';
-  const nik = '222222';
-  const nama = 'Rizki febriansyah';
-  let is_absen = 1;
-  let is_wfh = 0;
-
   useEffect(() => {
     setLokasiPerusahaan({
-    ...lokasiPerusahaan,
-      latitude: gpsLatProj,
-      longitude: gpsLongProj,
+      ...lokasiPerusahaan,
+      latitude: dataProject.gpsLatProj,
+      longitude: dataProject.gpsLongProj,
     });
   }, []);
 
@@ -94,9 +87,14 @@ console.log('sudah absen ? ',isAbsen)
               dispatch(
                 setFormAbsensi('gpsLongitudeMsk', locationData.longitude),
               );
+              dispatch(setFormAbsensi('projectId', dataProject.projectId));
+              //absenPulang
+              dispatch(setAbsenPulang('lokasiPlg', data));
+              dispatch(setAbsenPulang('gpsLatitudePlg', locationData.latitude));
               dispatch(
-                setFormAbsensi('projectId', projectId),
+                setAbsenPulang('gpsLongitudePlg', locationData.longitude),
               );
+              dispatch(setAbsenPulang('projectId', dataProject.projectId));
         })
         .catch(error => console.log(error));
         setCurrentLocation({
@@ -104,16 +102,6 @@ console.log('sudah absen ? ',isAbsen)
           latitude: locationData.latitude,
           longitude: locationData.longitude,
         });
-        dispatch(setAbsenMasuk('project_id', project_id));
-        dispatch(setAbsenMasuk('nik', nik));
-        dispatch(setAbsenMasuk('nama', nama));
-        dispatch(setAbsenMasuk('gps_latitude_msk', locationData.latitude));
-        dispatch(setAbsenMasuk('gps_longitude_msk', locationData.longitude));
-        dispatch(setAbsenMasuk('hari', dayName));
-        dispatch(setAbsenMasuk('tgl_absen', date));
-        dispatch(setAbsenMasuk('jam_msk', time));
-        dispatch(setAbsenMasuk('is_absen', is_absen));
-        dispatch(setAbsenMasuk('is_wfh', is_wfh));
         setLocationLoaded(true);
       } catch (error) {
         console.error('Kesalahan saat mengambil lokasi:', error);
@@ -141,22 +129,25 @@ console.log('sudah absen ? ',isAbsen)
       console.log(`Jarak antara kedua titik adalah ${jarakMeter} meter.`);
       console.log(`Jarak antara kedua titik adalah ${jarakBulat} meter.`);
       dispatch(setFormAbsensi('jarakMsk', `${jarakBulat} meter`));
+      dispatch(setAbsenPulang('jarakPlg', `${jarakBulat} meter`));
       //jarak user ke kantor 100 = 100 meter
-      const jarakMaxMasuk = parseInt(jrkMax)
+      const jarakMaxMasuk = parseInt(dataProject.jrkMax)
       console.log('jarak max masuk : ', jarakMaxMasuk);
-      if (jarakBulat > jarakMaxMasuk) {
-        Alert.alert(
-          'Peringatan',
-          'Jarak Anda ke tempat kerja lebih dari 100 meter. Anda tidak dapat melakukan absen.',
-          [
-            {
-              text: 'Kembali',
-              onPress: () => {
-                navigation.navigate('dashboard');
+      if (isWFH > 0) {
+        if (jarakBulat > jarakMaxMasuk) {
+          Alert.alert(
+            'Peringatan',
+            'Jarak Anda ke tempat kerja lebih dari 100 meter. Anda tidak dapat melakukan absen.',
+            [
+              {
+                text: 'Kembali',
+                onPress: () => {
+                  navigation.navigate('dashboard');
+                },
               },
-            },
-          ],
-        );
+            ],
+          );
+        }
       }
     } else {
       console.log('Salah satu lokasi tidak valid, jarak tidak dapat dihitung.');
@@ -164,7 +155,7 @@ console.log('sudah absen ? ',isAbsen)
   }, [lokasiPerusahaan, currentLocation]);
   const handleMasuk = () => {
     checkMockLocation();
-    navigation.navigate('formAbsensi', {namaTempat: namaTempat, jamMasuk: jamMasuk, jamKeluar: jamKeluar});
+    navigation.navigate('formAbsensi');
     console.log('data absen masuk : ', form);
   };
 

@@ -6,25 +6,76 @@ import {
   KeyboardAvoidingView,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import CustomTextInput from '../atoms/CustomTextInput';
 import ButtonAction from '../../components/atoms/ButtonAction';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import {useSelector, useDispatch} from 'react-redux';
-import {setFormCatatanKerja} from '../../redux';
+import {setAbsenPulang, setFormCatatanKerja} from '../../redux';
+import { useRoute } from '@react-navigation/native';
+import { cekPulangCepat } from '../../utils/cekJamTelatDanPulangCepat';
+import { getDataFromSession } from '../../utils/getDataSession';
+import axios from 'axios';
 
 const CardCatatanKerjaHariini = () => {
+  const {namaTempat, jamMasuk, jamKeluar} = useRoute().params;
+  console.log('jam keluar : ', jamKeluar)
   const [pulangCepat, setPulangCepat] = useState(false);
   const dispatch = useDispatch();
-  const {form} = useSelector(state => state.CatatanKerjaReducer);
+  const {formPulang} = useSelector(state => state.AbsenPulangReducer);
 
   const onChangeText = (value, inputType) => {
-    dispatch(setFormCatatanKerja(inputType, value));
+    dispatch(setAbsenPulang(inputType, value));
   };
 
-  const sendData = () => {
-    console.log('kirim data : ', form);
+  useEffect(() => {
+    const cekPlgCpt = cekPulangCepat(jamKeluar);
+    console.log('cek telat', cekPlgCpt);
+    setPulangCepat(cekPlgCpt);
+  }, [jamKeluar]);
+
+  const uploadData = async (data) => {
+    const token = await getDataFromSession('token');
+
+    if (token !== null) {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      try {
+        const response = await axios.post(
+          'http://192.168.10.31:8081/api/absen/input-absen-pulang',
+          data,
+          {headers},
+        );
+        console.log(response.data.success);
+      } catch (error) {
+        console.log(error.response);
+        const errorCode = error.response ? error.response.code : null;
+        switch (errorCode) {
+          case 403:
+            console.log('project tidak tepat');
+            // setIsLoading(false);
+            break;
+          case 404:
+            // setIsLoading(false);
+            break;
+          case 500:
+            // setIsLoading(false);
+            console.log('Kesalahan server');
+            break;
+          default:
+            // setIsLoading(false);
+            console.log('gagal absen');
+            break;
+        }
+      }
+    }
+  };
+
+  const sendData = async () => {
+    console.log('kirim data : ', formPulang);
+    await uploadData(formPulang);
   };
 
   return (
@@ -44,15 +95,15 @@ const CardCatatanKerjaHariini = () => {
         </Text>
         <CustomTextInput
           label="Timesheet"
-          value={form.keterangan}
-          onTextChange={value => onChangeText(value, 'timesheet')}
+          value={formPulang.notePekerjaan}
+          onTextChange={value => onChangeText(value, 'notePekerjaan')}
           secureTextEntry={false}
         />
         {pulangCepat ? (
           <CustomTextInput
             label="Catan Pulang Cepat"
-            value={form.keterangan}
-            onTextChange={value => onChangeText(value, 'catatanPulangKerja')}
+            value={formPulang.notePlgCepat}
+            onTextChange={value => onChangeText(value, 'notePlgCepat')}
             secureTextEntry={false}
           />
         ) : (

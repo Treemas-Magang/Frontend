@@ -3,8 +3,8 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import FormCatatanKerjaHariini from '../../components/organisms/FormCatatanKerjaHariini';
 
-const ScreenFormAbsenPulang = () => {
-  return <FormCatatanKerjaHariini />;
+const ScreenFormAbsenPulang = ({navigation}) => {
+  return <FormCatatanKerjaHariini navigation={navigation} />;
 };
 
 export default ScreenFormAbsenPulang;

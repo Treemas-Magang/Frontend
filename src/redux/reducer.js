@@ -159,18 +159,23 @@ const userReducer = (state = initialStateUser, action) => {
 //     return state
 // }
 
-const initialStateCatatanKerja = {
-  form: {
-    timesheet: '',
-    catatanPulangKerja: '',
+const initialStateAbsenPulang = {
+  formPulang: {
+    notePekerjaan: '',
+    projectId: '',
+    lokasiPlg: '',
+    jarakPlg: '',
+    notePlgCepat: '',
+    gpsLatitudePlg: null,
+    gpsLongitudePlg: null,
   },
 };
-const CatatanKerjaReducer = (state = initialStateCatatanKerja, action) => {
-  if (action.type === 'SET_FORM_CATATAN_KERJA') {
+const AbsenPulangReducer = (state = initialStateAbsenPulang, action) => {
+  if (action.type === 'SET_FORM_ABSEN_PULANG') {
     return {
       ...state,
-      form: {
-        ...state.form,
+      formPulang: {
+        ...state.formPulang,
         [action.inputType]: action.inputValue,
       },
     };
@@ -233,6 +238,8 @@ const initialStateAbsensi = {
     noteTelatMsk: '',
     gpsLatitudeMsk: null,
     gpsLongitudeMsk: null,
+    isWfh: '',
+    photoAbsen: ''
   },
 };
 const FormAbsensiReducer = (state = initialStateAbsensi, action) => {
@@ -346,28 +353,28 @@ const UpdateAbsenReducer = (state = initialStateUpdateAbsen, action) => {
   }
   return state;
 };
-const initialStateAbsenPulang = {
-  formAbsenPulang: {
-    NotePekerjaan: '',
-    gpsLatitudePlg: null,
-    gpsLongitudePlg: null,
-    lokasiPlg: '',
-    jarakPlg: '',
-    notePlgCepat: '',
-  },
-};
-const AbsenPulangReducer = (state = initialStateAbsenPulang, action) => {
-  if (action.type === 'SET_FORM_ABSEN_PULANG') {
-    return {
-      ...state,
-      formAbsenPulang: {
-        ...state.formAbsenPulang,
-        [action.inputType]: action.inputValue,
-      },
-    };
-  }
-  return state;
-};
+// const initialStateAbsenPulang = {
+//   formAbsenPulang: {
+//     NotePekerjaan: '',
+//     gpsLatitudePlg: null,
+//     gpsLongitudePlg: null,
+//     lokasiPlg: '',
+//     jarakPlg: '',
+//     notePlgCepat: '',
+//   },
+// };
+// const AbsenPulangReducer = (state = initialStateAbsenPulang, action) => {
+//   if (action.type === 'SET_FORM_ABSEN_PULANG') {
+//     return {
+//       ...state,
+//       formAbsenPulang: {
+//         ...state.formAbsenPulang,
+//         [action.inputType]: action.inputValue,
+//       },
+//     };
+//   }
+//   return state;
+// };
 
 const initialStateUpdatepassword = {
   title: 'Login Page',
@@ -417,7 +424,7 @@ const JumlahApprovalReducer = (
   if (action.type === 'SET_JUMLAH_APPROVAL') {
     return {
       ...state,
-      approval: action.inputValue,
+      [action.inputType]: action.inputValue,
     };
   }
   return state;
@@ -440,7 +447,48 @@ const JumlahApprovalReducer = (
 //   }
 //   return state;
 // };
+const initialStateProjectYangDipilih = {
+  dataProject : {
+    namaTempat: '',
+    alamat: '',
+    projectId: '',
+    gpsLatProj: null,
+    gpsLongProj: null,
+    jrkMax: null,
+    jamMasuk: '',
+    jamKeluar: '',
+  }
+};
 
+const ProjectYangDipilihReducer = (
+  state = initialStateProjectYangDipilih,
+  action,
+) => {
+  if (action.type === 'SET_PROJECT_YANG_DIPILIH') {
+    return {
+      ...state,
+      dataProject: {
+        ...state.dataProject,
+        [action.inputType]: action.inputValue,
+      },
+    };
+  }
+  return state;
+};
+
+const initialStateIsWFH = {
+  isWFH: '',
+};
+
+const IsWFHReducer = (state = initialStateIsWFH, action) => {
+  if (action.type === 'SET_IS_WFH') {
+    return {
+      ...state,
+      isWFH: action.inputValue,
+    };
+  }
+  return state;
+};
 
 const reducer = combineReducers({
   LoginReducer,
@@ -448,7 +496,7 @@ const reducer = combineReducers({
   TimesheetReducer,
   CheckBiometricTypeReducer,
   userReducer,
-  CatatanKerjaReducer,
+  // CatatanKerjaReducer,
   FormCutiReducer,
   FormSakitReducer,
   FormAbsensiReducer,
@@ -461,6 +509,8 @@ const reducer = combineReducers({
   UpdatePasswordReducer,
   JumlahPengumumanReducer,
   JumlahApprovalReducer,
+  ProjectYangDipilihReducer,
+  IsWFHReducer,
   // SudahMasukReducer,
 });
 

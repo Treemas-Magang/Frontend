@@ -58,13 +58,13 @@ export const fetchDataUserError = error => {
   };
 };
 
-export const setFormCatatanKerja = (inputType, value) => {
-  return {
-    type: 'SET_FORM_CATATAN_KERJA',
-    inputType: inputType,
-    inputValue: value,
-  };
-};
+// export const setFormCatatanKerja = (inputType, value) => {
+//   return {
+//     type: 'SET_FORM_CATATAN_KERJA',
+//     inputType: inputType,
+//     inputValue: value,
+//   };
+// };
 export const setFormCuti = (inputType, value) => {
   return {type: 'SET_FORM_CUTI', inputType: inputType, inputValue: value};
 };
@@ -122,6 +122,21 @@ export const setJumlahPengumuman = (inputType, value) => {
 export const setJumlahApproval = (inputType, value) => {
   return {
     type: 'SET_JUMLAH_APPROVAL',
+    inputType: inputType,
+    inputValue: value,
+  };
+};
+
+export const setProjectYangDipilih = (inputType, value) => {
+  return {
+    type: 'SET_PROJECT_YANG_DIPILIH',
+    inputType: inputType,
+    inputValue: value,
+  };
+};
+export const setIsWFH = (inputType, value) => {
+  return {
+    type: 'SET_IS_WFH',
     inputType: inputType,
     inputValue: value,
   };
