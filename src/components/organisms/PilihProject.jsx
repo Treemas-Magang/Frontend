@@ -12,8 +12,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import LottieView from 'lottie-react-native';
+import { useDispatch } from 'react-redux';
+import { setProjectYangDipilih } from '../../redux';
 
 const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
+  const dispatch = useDispatch();
   const [pilihProjects, setPilihProject] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
 
@@ -48,16 +51,15 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   }, []);
 
   const moveTo = (tujuan, namaTempat, alamat, projectId, gpsLatProj, gpsLongProj, jrkMax, jmMsk, jmklr) => {
-    navigation.navigate(tujuan, {
-      namaTempat: namaTempat,
-      alamat: alamat,
-      projectId: projectId,
-      gpsLatProj: gpsLatProj,
-      gpsLongProj: gpsLongProj,
-      jrkMax: jrkMax,
-      jamMasuk: jmMsk,
-      jamKeluar: jmklr,
-    });
+    dispatch(setProjectYangDipilih('namaTempat', namaTempat));
+    dispatch(setProjectYangDipilih('alamat', alamat));
+    dispatch(setProjectYangDipilih('projectId', projectId));
+    dispatch(setProjectYangDipilih('gpsLatProj', gpsLatProj));
+    dispatch(setProjectYangDipilih('gpsLongProj', gpsLongProj));
+    dispatch(setProjectYangDipilih('jrkMax', jrkMax));
+    dispatch(setProjectYangDipilih('jamMasuk', jmMsk));
+    dispatch(setProjectYangDipilih('jamKeluar', jmklr));
+    navigation.navigate(tujuan);
   };
   return (
     <View>
