@@ -1,41 +1,35 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
-import ButtonBack from '../atoms/ButtonBack';
-import ButtonHome from '../atoms/ButtonHome';
 import {text} from '../../utils/text';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-const CardPilihAbsenProject = ({navigation, namaTempat, alamat, projectId, gpsLatProj, gpsLongProj, jrkMax, jamMasuk, jamKeluar}) => {
-  const moveTo = (tujuan, namaTempat, alamat, prjId, gpsLatitude, gpsLongitude, jarak, jmMsk, jmklr) => {
-    navigation.navigate(tujuan, {
-      namaTempat: namaTempat,
-      alamat: alamat,
-      projectId: prjId,
-      gpsLatProj: gpsLatitude,
-      gpsLongProj: gpsLongitude,
-      jrkMax: jarak,
-      jamMasuk: jmMsk,
-      jamKeluar: jmklr,
-    });
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsWFH } from '../../redux';
+const CardPilihAbsenProject = ({navigation}) => {
+    const dispatch = useDispatch();
+    const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
+    console.log('dataProject dari reducer : ', dataProject);
+  const moveTo = (tujuan, isWFH) => {
+    dispatch(setIsWFH('isWFH', isWFH));
+    navigation.navigate(tujuan);
   };
   return (
     <View>
       <TouchableOpacity
-        onPress={() => moveTo('absensi', namaTempat, alamat, projectId, gpsLatProj, gpsLongProj, jrkMax, jamMasuk, jamKeluar)}
+        onPress={() => moveTo('absensi', '0')}
         style={styles.CardPilihProject}>
         <Text style={styles.Text}>ON SITE</Text>
         <Text style={styles.TextDeskripsi}>
-          {alamat}
+          {dataProject.alamat}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.CardPilihProject}
-        onPress={() => moveTo('absensi', namaTempat, alamat, projectId)}>
+        onPress={() => moveTo('absensi', '1')}>
         <Text style={styles.Text}>WORK FROM HOME</Text>
         <Text style={styles.TextDeskripsi}>
           jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
