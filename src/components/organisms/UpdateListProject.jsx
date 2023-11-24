@@ -19,11 +19,13 @@ import axios from 'axios';
 import SkeletonCardUpdateProject from '../skeleton/SkeletonCardUpdateProject';
 import LottieView from 'lottie-react-native';
 import {AlertNotificationSuccess} from '../atoms/AlertNotification';
+import ButtonLoading from '../atoms/ButtonLoading';
 
 const UpdateListProject = ({navigation}) => {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [dataAllProject, setDataAllProject] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
   const [patch, setPatch] = useState([]);
   const [patchBlmUpdt, setPatchBlmUpdt] = useState([]);
   const [initialDataAllProjectBlmUpdt, setInitialDataAllProjectBlmUpdt] =
@@ -105,12 +107,15 @@ const UpdateListProject = ({navigation}) => {
       if (res.data.success) {
         console.log('success :', res.data.success);
         console.log('success :', res.data.respose);
+        setBtnLoading(false);
       } else {
         console.log('success :', res.data.success);
         console.log('Gagal');
+        setBtnLoading(false);
       }
     } catch (error) {
       console.error('Error:', error.response);
+      setBtnLoading(false);
     }
   };
 
@@ -174,7 +179,9 @@ const UpdateListProject = ({navigation}) => {
   }, [patchBlmUpdt, patch]);
 
   console.log('Changed Data State:', changedDataState);
+
   const sendData = async () => {
+    setBtnLoading(true);
     try {
       const token = await getDataFromSession('token');
       console.log(token);
@@ -187,6 +194,7 @@ const UpdateListProject = ({navigation}) => {
       await dataYangAkanDikirim(headers, changedDataState);
     } catch (error) {
       console.log(error);
+      setBtnLoading(false);
     }
   };
 
@@ -228,11 +236,17 @@ const UpdateListProject = ({navigation}) => {
             </View>
           )}
         </ScrollView>
-        <ButtonAction
-          title="UPDATE"
-          style={{marginVertical: 10, width: wp('75%'), height: hp('8%')}}
-          onPress={sendData}
-        />
+        {btnLoading ? (
+          <ButtonLoading
+            style={{marginVertical: 10, width: wp('75%'), height: hp('8%')}}
+          />
+        ) : (
+          <ButtonAction
+            title="UPDATE"
+            style={{marginVertical: 10, width: wp('75%'), height: hp('8%')}}
+            onPress={sendData}
+          />
+        )}
       </View>
       {updateSuccess ? (
         <View style={{position: 'absolute'}}>
