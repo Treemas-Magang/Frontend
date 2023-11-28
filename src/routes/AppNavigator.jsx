@@ -48,6 +48,7 @@ import {
   ScreenTesNotifikasi,
   ScreenFormAbsenPulang,
   ScreenFormUpdateTimesheet,
+  ScreenFormUpdateAbsensi,
 } from '../pages/index';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
@@ -248,6 +249,11 @@ const screens = [
   {
     name: 'formUpdateTimesheet',
     component: ScreenFormUpdateTimesheet,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formUpdateAbsensi',
+    component: ScreenFormUpdateAbsensi,
     gestureEnabled: true,
   },
 ];
