@@ -40,7 +40,7 @@ import {
 } from '../../utils/buatStatusPengumumanFalse';
 import ButtonLoading from '../../components/atoms/ButtonLoading';
 import {checkMockLocation} from '../../utils/checkMockLocation';
-import { AlertNotificationSuccess } from '../../components/atoms/AlertNotification';
+import {AlertNotificationSuccess} from '../../components/atoms/AlertNotification';
 import {API_URL, API_URL_WEB} from '@env';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
@@ -55,10 +55,8 @@ const ScreenLogin = ({navigation}) => {
   // const {location} = useSelector(state => state.SplashReducer);
   const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
-  // const routeAPI = 'https://treemas-api-403500.et.r.appspot.com';
-  // const routeAPI = 'http://192.168.10.31:8081';
-  // const routeAPI = API_URL;
-  const routeAPI = API_URL_WEB;
+  const routeAPI = API_URL;
+  // const routeAPI = API_URL_WEB;
   useEffect(() => {
     checkBiometryType(dispatch);
     getDataFromSession('deviceId')
@@ -118,11 +116,11 @@ const ScreenLogin = ({navigation}) => {
   const sendData = async () => {
     if (formLogin.nik === '' || formLogin.password === '') {
       console.log('nik/pass masih kosong');
-      setGagalLogin(false)
-      setInputKosong(true)
+      setGagalLogin(false);
+      setInputKosong(true);
       return;
     }
-    setInputKosong(false)
+    setInputKosong(false);
     setIsLoading(true);
     console.log(formLogin);
     try {
@@ -134,18 +132,26 @@ const ScreenLogin = ({navigation}) => {
       console.log(dataLogin);
 
       if (response.status === 200) {
-        setGagalLogin(false)
-        console.log('response login : ',response.data.data);
+        setGagalLogin(false);
+        console.log('response login : ', response.data.data);
         // const [{ token }]\ = dataLogin;
         const token = dataLogin.token;
         const role = dataLogin.user.role;
         const nama = dataLogin.user.full_name;
-        dispatch(setDataUser('alamatKaryawan', response.data.data.user.alamatKaryawan));
+        dispatch(
+          setDataUser('alamatKaryawan', response.data.data.user.alamatKaryawan),
+        );
         dispatch(setDataUser('email', response.data.data.user.email));
         dispatch(setDataUser('full_name', response.data.data.user.full_name));
-        dispatch(setDataUser('is_pass_chg', response.data.data.user.is_pass_chg));
-        dispatch(setDataUser('jenisKelamin', response.data.data.user.jenisKelamin));
-        dispatch(setDataUser('karyawanImg', response.data.data.user.karyawanImg));
+        dispatch(
+          setDataUser('is_pass_chg', response.data.data.user.is_pass_chg),
+        );
+        dispatch(
+          setDataUser('jenisKelamin', response.data.data.user.jenisKelamin),
+        );
+        dispatch(
+          setDataUser('karyawanImg', response.data.data.user.karyawanImg),
+        );
         dispatch(setDataUser('nik', response.data.data.user.nik));
         dispatch(setDataUser('role', response.data.data.user.role));
 
@@ -268,7 +274,7 @@ const ScreenLogin = ({navigation}) => {
           switch (codeError) {
             case 401:
               setGagalLogin(true);
-              setIsWranLogin(true)
+              setIsWranLogin(true);
               break;
             case 403:
               setIdDvcSdhDipakai(true);
@@ -352,24 +358,31 @@ const ScreenLogin = ({navigation}) => {
             ''
           )}
           {inputKosong ? (
-            <Text style={styles.labelSalah}>Nik dan Password Tidak Boleh Kosong!</Text>
+            <Text style={styles.labelSalah}>
+              Nik dan Password Tidak Boleh Kosong!
+            </Text>
           ) : (
             ''
           )}
           {idDvcSdhDipakai ? (
-            <Text style={styles.labelSalah}>Akun sudah terpasang di device lain!</Text>
+            <Text style={styles.labelSalah}>
+              Akun sudah terpasang di device lain!
+            </Text>
           ) : (
             ''
           )}
-          {
-            isLogin ? (
-              <View style={{position: 'absolute'}}>
-                <AlertNotificationSuccess buttonAlert='Ok' textBodyAlert='Login Berhasil' titleAlert='Success' onPress={toDashboard} />
-              </View>
-            ) : (
-              ''
-            )
-          }
+          {isLogin ? (
+            <View style={{position: 'absolute'}}>
+              <AlertNotificationSuccess
+                buttonAlert="Ok"
+                textBodyAlert="Login Berhasil"
+                titleAlert="Success"
+                onPress={toDashboard}
+              />
+            </View>
+          ) : (
+            ''
+          )}
           <View style={{flexDirection: 'row', gap: 20}}>
             {isLoading ? (
               <ButtonLoading />

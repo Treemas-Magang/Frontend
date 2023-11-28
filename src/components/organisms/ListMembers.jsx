@@ -18,15 +18,22 @@ import DropdownList from '../atoms/DropdownList';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import axios from 'axios';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
+import SkeletonCardMember from '../skeleton/SkeletonCardMember';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import LottieView from 'lottie-react-native';
 
 const ListMembers = ({navigation}) => {
-  const {projectId} = useRoute().params;
+  const {projectId, projectName} = useRoute().params;
   console.log(projectId);
   const [isDropdown, setIsDropdown] = useState(false);
   const [dataListMembers, setDataListMembers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
   const handleDropdown = () => {
     setIsDropdown(!isDropdown);
     console.log(isDropdown);
@@ -35,25 +42,23 @@ const ListMembers = ({navigation}) => {
     setIsDropdown(false);
   };
 
-const getDataMembers = async headers => {
-  try {
-    const projId = projectId;
-    console.log('ini project id : ', projId);
-    const response = await axios.get(
-      `http://192.168.10.31:8081/api/member/get-member-project?projectId=${projId}`,
-      {headers},
-    );
-    const dataAPI = response.data.data;
-    setDataListMembers(dataAPI);
-    console.log(
-      `data member dari project ${projectId} :`, dataAPI
-    );
-  } catch (error) {
-    console.log(error.response);
-  }
-};
-
-
+  const getDataMembers = async headers => {
+    try {
+      const projId = projectId;
+      console.log('ini project id : ', projId);
+      const response = await axios.get(
+        `http://192.168.10.31:8081/api/member/get-member-project?projectId=${projId}`,
+        {headers},
+      );
+      const dataAPI = response.data.data;
+      setDataListMembers(dataAPI);
+      setIsLoading(false);
+      console.log(`data member dari project ${projectId} :`, dataAPI);
+    } catch (error) {
+      console.log(error.response);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     getDataFromSession('token')
@@ -65,7 +70,6 @@ const getDataMembers = async headers => {
       })
       .catch(error => console.log(error));
   }, []);
-
 
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
@@ -91,7 +95,7 @@ const getDataMembers = async headers => {
               // height: '15%',
             }}>
             <Text style={styles.judul}>Member</Text>
-            <Text style={styles.judul}>TREEMAS SOLUSI UTAMA</Text>
+            <Text style={styles.judul}>{projectName}</Text>
           </View>
           <View style={styles.wrapStatus}>
             <View style={styles.labelKet}>
@@ -129,20 +133,37 @@ const getDataMembers = async headers => {
             </View>
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
-          {
-            dataListMembers.map((member, index) => (
-            <View style={{gap: 20}}>
-              <CardMember navigation={navigation} jamMsk={member.jamMsk} nama={member.nama} jamPlg={member.jamPlg} />
-              {/* <CardMember status="tidakMasuk" navigation={navigation} />
-              <CardMember status="sakit" navigation={navigation} />
-              <CardMember status="tidakMasuk" navigation={navigation} />
-              <CardMember status="hadir" navigation={navigation} />
-              <CardMember status="cuti" navigation={navigation} />
-              <CardMember status="hadir" navigation={navigation} />
-              <CardMember status="cuti" navigation={navigation} /> */}
-            </View>
-            ))
-          }
+            {isLoading ? (
+              <View style={{gap: 20}}>
+                <SkeletonCardMember />
+                <SkeletonCardMember />
+                <SkeletonCardMember />
+              </View>
+            ) : dataListMembers.length > 0 ? (
+              dataListMembers.map((member, index) => (
+                <View style={{gap: 20}}>
+                  <CardMember
+                    navigation={navigation}
+                    jamMsk={member.jamMsk}
+                    nama={member.nama}
+                    jamPlg={member.jamPlg}
+                  />
+                </View>
+              ))
+            ) : (
+              <View style={styles.wrapDataNotFound}>
+                <LottieView
+                  source={require('../../assets/animation/dataNotFound.json')}
+                  autoPlay
+                  style={{
+                    width: '100%',
+                    height: '70%',
+                  }}></LottieView>
+                <Text style={styles.textDataNotFound}>
+                  Belum Ada Yang Absen
+                </Text>
+              </View>
+            )}
           </ScrollView>
         </View>
       </View>
@@ -194,5 +215,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
+  },
+  wrapDataNotFound: {
+    width: wp('70%'),
+    height: hp('55%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
+    textTransform: 'uppercase',
   },
 });

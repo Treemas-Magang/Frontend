@@ -7,66 +7,70 @@ import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
 import CardMemberProject from '../molecules/CardMemberProject';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
+import SkeletonCardMemberProject from '../skeleton/SkeletonCardMemberProject';
 
 const ListMemberProject = ({navigation}) => {
   const [namaProjectMembers, setNamaProjectMember] = useState([]);
   const [isRole, setIsRole] = useState('');
-const getDataFromSessionAndSetRole = async () => {
-  try {
-    const data = await getDataFromSession('role');
-    console.log('role: ', data);
-    setIsRole(data);
-  } catch (error) {
-    console.log('Error fetching role:', error);
-  }
-};
-
-const getDataProjects = async (headers, url) => {
-  try {
-    const response = await axios.get(url, {headers});
-    const dataAPI = response.data.data;
-    console.log(dataAPI);
-    setNamaProjectMember(dataAPI);
-  } catch (error) {
-    console.log(`Error fetching projects: ${url}`, error);
-  }
-};
-
-useEffect(() => {
-  const fetchData = async () => {
+  const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
+  const getDataFromSessionAndSetRole = async () => {
     try {
-      const token = await getDataFromSession('token');
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-
-      if (isRole === 'LEADER') {
-        await getDataProjects(
-          headers,
-          'http://192.168.10.31:8081/api/member/get-project',
-        );
-      }
-      if (isRole === 'HEAD') {
-        await getDataProjects(
-          headers,
-          'http://192.168.10.31:8081/api/absen/get-all-projects',
-        );
-      }
+      const data = await getDataFromSession('role');
+      console.log('role: ', data);
+      setIsRole(data);
     } catch (error) {
-      console.log('Error fetching data:', error);
+      console.log('Error fetching role:', error);
     }
   };
 
-  fetchData();
-}, [isRole]);
+  const getDataProjects = async (headers, url) => {
+    try {
+      const response = await axios.get(url, {headers});
+      const dataAPI = response.data.data;
+      console.log(dataAPI);
+      setNamaProjectMember(dataAPI);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(`Error fetching projects: ${url}`, error);
+      setIsLoading(false);
+    }
+  };
 
-useEffect(() => {
-  getDataFromSessionAndSetRole();
-}, []);
-  const moveTo = (tujuan, projId) => {
-    navigation.navigate(tujuan, {projectId: projId});
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = await getDataFromSession('token');
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        if (isRole === 'LEADER') {
+          await getDataProjects(
+            headers,
+            'http://192.168.10.31:8081/api/member/get-project',
+          );
+        }
+        if (isRole === 'HEAD') {
+          await getDataProjects(
+            headers,
+            'http://192.168.10.31:8081/api/absen/get-all-projects',
+          );
+        }
+      } catch (error) {
+        console.log('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [isRole]);
+
+  useEffect(() => {
+    getDataFromSessionAndSetRole();
+  }, []);
+  const moveTo = (tujuan, projId, namaProj) => {
+    navigation.navigate(tujuan, {projectId: projId, projectName: namaProj});
   };
   return (
     <View style={styles.listMember}>
@@ -109,14 +113,30 @@ useEffect(() => {
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {namaProjectMembers.map((namaProjMember, index) => (
-            <View key={index}>
-              <CardMemberProject
-                nama={namaProjMember.projectName}
-                onPress={() => moveTo('listMembers', namaProjMember.projectId)}
-              />
+          {isLoading ? (
+            <View>
+              <SkeletonCardMemberProject />
+              <SkeletonCardMemberProject />
+              <SkeletonCardMemberProject />
+              <SkeletonCardMemberProject />
+              <SkeletonCardMemberProject />
             </View>
-          ))}
+          ) : (
+            namaProjectMembers.map((namaProjMember, index) => (
+              <View key={index}>
+                <CardMemberProject
+                  nama={namaProjMember.projectName}
+                  onPress={() =>
+                    moveTo(
+                      'listMembers',
+                      namaProjMember.projectId,
+                      namaProjMember.projectName,
+                    )
+                  }
+                />
+              </View>
+            ))
+          )}
         </ScrollView>
       </View>
     </View>
