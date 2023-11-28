@@ -258,7 +258,7 @@ const screens = [
   },
 ];
 
-const routeName = 'formUpdateAbsensi';
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {
