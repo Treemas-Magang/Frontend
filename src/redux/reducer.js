@@ -325,28 +325,21 @@ const AbsenMasukReducer = (state = initialStateAbsenMasuk, action) => {
   return state;
 };
 const initialStateUpdateAbsen = {
-  form: {
-    project_id: '',
-    nik: '',
-    nama: '',
-    hari: '',
-    tgl_absen: '',
-    gps_latitude_msk: null,
-    gps_longitude_msk: null,
-    lokasi_msk: '',
-    jarak_msk: '',
-    jam_msk: '',
-    note_telat_msk: '',
-    is_absen: 0,
-    is_wfh: 0,
+  formUpdateMasuk: {
+    lokasiMsk: '',
+    jarakMsk: '',
+    gpsLatitudeMsk: null,
+    gpsLongitudeMsk: null,
+    isWfh: '',
+    photoAbsen: '',
   },
 };
 const UpdateAbsenReducer = (state = initialStateUpdateAbsen, action) => {
   if (action.type === 'SET_FORM_UPDATE_ABSEN') {
     return {
       ...state,
-      form: {
-        ...state.form,
+      formUpdateMasuk: {
+        ...state.formUpdateMasuk,
         [action.inputType]: action.inputValue,
       },
     };
@@ -503,6 +496,19 @@ const IsAbsenReducer = (state = initialStateIsAbsen, action) => {
   }
   return state;
 };
+const initialStateIsPulang = {
+  isPulang: '',
+};
+
+const IsPulangReducer = (state = initialStateIsPulang, action) => {
+  if (action.type === 'SET_IS_PULANG') {
+    return {
+      ...state,
+      isPulang: action.inputValue,
+    };
+  }
+  return state;
+};
 
 const initialStateDataUser = {
   dataUser: {
@@ -556,6 +562,7 @@ const reducer = combineReducers({
   IsWFHReducer,
   DataUserReducer,
   IsAbsenReducer,
+  IsPulangReducer,
   // SudahMasukReducer,
 });
 

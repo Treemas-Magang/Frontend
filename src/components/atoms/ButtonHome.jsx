@@ -8,7 +8,7 @@ import {Color} from '../../utils/color';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 const ButtonHome = ({navigation, style}) => {
   const goHome = () => {
-    navigation.navigate('dashboard');
+    navigation.replace('dashboard');
   };
   return (
     <TouchableOpacity style={styles.ButtonHome} onPress={goHome}>

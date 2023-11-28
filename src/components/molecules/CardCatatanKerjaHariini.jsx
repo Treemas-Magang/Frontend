@@ -12,15 +12,19 @@ import ButtonAction from '../../components/atoms/ButtonAction';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import {useSelector, useDispatch} from 'react-redux';
-import {setAbsenPulang, setFormCatatanKerja} from '../../redux';
-import { useRoute } from '@react-navigation/native';
+import {setAbsenPulang} from '../../redux';
 import { cekPulangCepat } from '../../utils/cekJamTelatDanPulangCepat';
 import { getDataFromSession } from '../../utils/getDataSession';
 import axios from 'axios';
+import { checkMockLocation } from '../../utils/checkMockLocation';
+import { AlertNotificationSuccess } from '../atoms/AlertNotification';
 
-const CardCatatanKerjaHariini = () => {
-  const {namaTempat, jamMasuk, jamKeluar} = useRoute().params;
-  console.log('jam keluar : ', jamKeluar)
+const CardCatatanKerjaHariini = ({navigation}) => {
+  // const {jamKeluar} = useRoute().params;
+  // console.log('jam keluar : ', jamKeluar)
+  const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
   const [pulangCepat, setPulangCepat] = useState(false);
   const dispatch = useDispatch();
   const {formPulang} = useSelector(state => state.AbsenPulangReducer);
@@ -30,12 +34,12 @@ const CardCatatanKerjaHariini = () => {
   };
 
   useEffect(() => {
-    const cekPlgCpt = cekPulangCepat(jamKeluar);
+    const cekPlgCpt = cekPulangCepat(dataProject.jamKeluar);
     console.log('cek telat', cekPlgCpt);
     setPulangCepat(cekPlgCpt);
-  }, [jamKeluar]);
+  }, [dataProject]);
 
-  const uploadData = async (data) => {
+  const uploadData = async data => {
     const token = await getDataFromSession('token');
 
     if (token !== null) {
@@ -49,23 +53,27 @@ const CardCatatanKerjaHariini = () => {
           {headers},
         );
         console.log(response.data.success);
+        console.log('berhasil absen pulang');
+        console.log(uploadBerhasil);
+        setUploadBerhasil(true);
+        setIsLoading(false);
       } catch (error) {
         console.log(error.response);
         const errorCode = error.response ? error.response.code : null;
         switch (errorCode) {
           case 403:
             console.log('project tidak tepat');
-            // setIsLoading(false);
+            setIsLoading(false);
             break;
           case 404:
-            // setIsLoading(false);
+            setIsLoading(false);
             break;
           case 500:
-            // setIsLoading(false);
+            setIsLoading(false);
             console.log('Kesalahan server');
             break;
           default:
-            // setIsLoading(false);
+            setIsLoading(false);
             console.log('gagal absen');
             break;
         }
@@ -73,7 +81,12 @@ const CardCatatanKerjaHariini = () => {
     }
   };
 
+  const toDashboard = () => {
+    navigation.replace('dashboard');
+  };
+
   const sendData = async () => {
+    checkMockLocation();
     console.log('kirim data : ', formPulang);
     await uploadData(formPulang);
   };
@@ -84,6 +97,18 @@ const CardCatatanKerjaHariini = () => {
       keyboardVerticalOffset={-500}
       style={styles.container}>
       <View style={styles.CardCatatanKerja}>
+        {uploadBerhasil ? (
+          <View style={{position: 'absolute'}}>
+            <AlertNotificationSuccess
+              buttonAlert="Close"
+              textBodyAlert="Berhasil Melakukan Absen"
+              titleAlert="Success"
+              onPress={toDashboard}
+            />
+          </View>
+        ) : (
+          ''
+        )}
         <Text
           style={{
             fontFamily: text.semiBold,

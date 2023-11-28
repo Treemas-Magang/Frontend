@@ -26,6 +26,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const ScreenDashboard = ({navigation}) => {
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
+  const {dataUser} = useSelector(state => state.DataUserReducer);
+  console.log(dataUser)
   const {approval} = useSelector(state => state.JumlahApprovalReducer);
   const [jamMasuk, setJamMasuk] = useState('0')
   const [jmlBlmBaca, setJmlBlmBaca] = useState(0);
@@ -40,22 +42,37 @@ const ScreenDashboard = ({navigation}) => {
   }, [approval, pengumuman]);
 
   const getDataIsAbsen = async (headers) => {
-    const response = await axios.get('http://192.168.10.31:8081/api/absen/get-is-absen', {headers});
-    const dataAPI = response.data.data;
-    console.log('ini data API Absen : ', dataAPI);
-    if (dataAPI.length > 0) {
-      try {
-        AsyncStorage.setItem('sudah_absen', 'true');
-      } catch (error) {
-        console.log(error)
+try {
+  const response = await axios.get(
+    'http://192.168.10.31:8081/api/absen/get-is-absen',
+    {headers},
+  );
+  const dataAPI = response.data.data;
+  console.log('Ini data API Absen:', dataAPI);
+
+  if (dataAPI.length > 0) {
+    try {
+      await AsyncStorage.setItem('sudah_absen', 'true');
+
+      if (dataAPI[0].jamPlg !== null) {
+        await AsyncStorage.setItem('sudah_pulang', 'true');
+      } else {
+        await AsyncStorage.setItem('sudah_pulang', 'false');
       }
-    }else{
-      try {
-        AsyncStorage.setItem('sudah_absen', 'false');
-      } catch (error) {
-        console.log(error);
-      }
+    } catch (error) {
+      console.error(error);
     }
+  } else {
+    try {
+      await AsyncStorage.setItem('sudah_absen', 'false');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+} catch (error) {
+  console.error(error);
+}
+
 
   }
   useEffect(() => {
