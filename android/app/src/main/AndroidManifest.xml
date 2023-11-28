@@ -45,7 +45,7 @@
 
       <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyByMFGn8i353SjJL_H0_hEfTmpUPx3_lC8" />
+        android:value="@string/API_KEY_MAPS" />
         <!-- Change the value to true to enable pop-up for in foreground on receiving remote notifications (for prevent duplicating while showing local notifications set this to false) -->
         <meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground"
                     android:value="false"/>

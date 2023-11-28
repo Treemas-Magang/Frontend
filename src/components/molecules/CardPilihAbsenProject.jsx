@@ -32,14 +32,14 @@ const CardPilihAbsenProject = ({navigation}) => {
       {isAbsen === 'true' ? (
         <>
           <TouchableOpacity
-            onPress={() => moveTo('formAbsensi', '0')}
+            onPress={() => moveTo('formUpdateAbsensi', '0')}
             style={styles.CardPilihProject}>
             <Text style={styles.Text}>ON SITE</Text>
             <Text style={styles.TextDeskripsi}>{dataProject.alamat}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.CardPilihProject}
-            onPress={() => moveTo('formAbsensi', '1')}>
+            onPress={() => moveTo('formUpdateAbsensi', '1')}>
             <Text style={styles.Text}>WORK FROM HOME</Text>
             <Text style={styles.TextDeskripsi}>
               jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.

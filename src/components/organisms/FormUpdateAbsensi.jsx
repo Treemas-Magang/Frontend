@@ -20,13 +20,11 @@ import {faCamera} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormAbsensi} from '../../redux';
 import axios from 'axios';
-import {getTanggalSekarang} from '../../utils/getTanggalSekarang';
 import {checkMockLocation} from '../../utils/checkMockLocation';
 import {jamSekarang} from '../../utils/jamSekarang';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getDataFromSession} from '../../utils/getDataSession';
 import {AlertNotificationSuccess} from '../atoms/AlertNotification';
-import {cekTelatMasuk} from '../../utils/cekJamTelatDanPulangCepat';
 import ButtonLoading from '../atoms/ButtonLoading';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
 
@@ -36,7 +34,6 @@ const FormUpdateAbsensi = ({navigation}) => {
   const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
   const {isWFH} = useSelector(state => state.IsWFHReducer);
   const [capturedImage, setCapturedImage] = useState(null);
-  const [terlambat, setTerlambat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
 
@@ -95,81 +92,81 @@ const FormUpdateAbsensi = ({navigation}) => {
     dispatch(setFormAbsensi(inputType, value));
   };
 
-  //   //fungsi untuk menangani saat mau mengirim data Absen
-  //   const kirimDataAbsensi = async () => {
-  //     try {
-  //       //mengambil token untuk otorisasi
-  //       const token = await getDataFromSession('token');
-  //       if (token !== null) {
-  //         const headers = {
-  //           Authorization: `Bearer ${token}`,
-  //         };
+    //fungsi untuk menangani saat mau mengirim data Absen
+    const kirimDataAbsensi = async () => {
+      try {
+        //mengambil token untuk otorisasi
+        const token = await getDataFromSession('token');
+        if (token !== null) {
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
 
-  //         try {
-  //           //melakukan hit ke API untuk kirim data Absen
-  //           const response = await axios.post(
-  //             'http://192.168.10.31:8081/api/absen/input-absen',
-  //             formAbsensi,
-  //             {headers},
-  //           );
-  //           console.log(response.data.success);
-  //           console.log('berhasil absen');
-  //           console.log(uploadBerhasil);
-  //           setUploadBerhasil(true);
-  //           setIsLoading(false);
-  //           //saat berhasil kirim data kosongkan reducer
-  //           dispatch(setFormAbsensi('namaTempat', ''));
-  //           dispatch(setFormAbsensi('jarakMsk', ''));
-  //           dispatch(setFormAbsensi('noteTelatMsk', ''));
-  //           dispatch(setFormAbsensi('gpsLatitudeMsk', ''));
-  //           dispatch(setFormAbsensi('gpsLongitudeMsk', ''));
-  //           dispatch(setFormAbsensi('photoAbsen', ''));
-  //           dispatch(setFormAbsensi('isWfh', ''));
+          try {
+            //melakukan hit ke API untuk kirim data Absen
+            const response = await axios.post(
+              'http://192.168.10.31:8081/api/absen/input-absen',
+              formAbsensi,
+              {headers},
+            );
+            console.log(response.data.success);
+            console.log('berhasil absen');
+            console.log(uploadBerhasil);
+            setUploadBerhasil(true);
+            setIsLoading(false);
+            //saat berhasil kirim data kosongkan reducer
+            dispatch(setFormAbsensi('namaTempat', ''));
+            dispatch(setFormAbsensi('jarakMsk', ''));
+            dispatch(setFormAbsensi('noteTelatMsk', ''));
+            dispatch(setFormAbsensi('gpsLatitudeMsk', ''));
+            dispatch(setFormAbsensi('gpsLongitudeMsk', ''));
+            dispatch(setFormAbsensi('photoAbsen', ''));
+            dispatch(setFormAbsensi('isWfh', ''));
 
-  //           // navigation.replace('dashboard');
-  //           try {
-  //             await AsyncStorage.setItem('sudah_absen', 'true');
-  //             console.log('berhasil menyimpan status sudah absen');
-  //           } catch (error) {
-  //             console.log('gagal menyimpan status sudah absen', error);
-  //           }
-  //         } catch (error) {
-  //           console.log(error.response);
-  //           const errorCode = error.response.status;
-  //           //saat gagal kirim data kosongkan reducer
-  //           // dispatch(setFormAbsensi('namaTempat', ''));
-  //           // dispatch(setFormAbsensi('jarakMsk', ''));
-  //           // dispatch(setFormAbsensi('noteTelatMsk', ''));
-  //           // dispatch(setFormAbsensi('gpsLatitudeMsk', ''));
-  //           // dispatch(setFormAbsensi('gpsLongitudeMsk', ''));
-  //           // dispatch(setFormAbsensi('photoAbsen', ''));
-  //           // dispatch(setFormAbsensi('isWfh', ''));
-  //           switch (errorCode) {
-  //             case 403:
-  //               console.log('project tidak tepat');
-  //               setIsLoading(false);
-  //               break;
-  //             case 404:
-  //               setIsLoading(false);
-  //               break;
-  //             case 500:
-  //               setIsLoading(false);
-  //               console.log('Kesalahan server');
-  //               break;
-  //             default:
-  //               setIsLoading(false);
-  //               console.log(error.response);
-  //               console.log('gagal absen');
-  //               break;
-  //           }
-  //         }
-  //       } else {
-  //         console.log('Data tidak ditemukan di session.');
-  //       }
-  //     } catch (error) {
-  //       console.error('Terjadi kesalahan:', error);
-  //     }
-  //   };
+            // navigation.replace('dashboard');
+            try {
+              await AsyncStorage.setItem('sudah_absen', 'true');
+              console.log('berhasil menyimpan status sudah absen');
+            } catch (error) {
+              console.log('gagal menyimpan status sudah absen', error);
+            }
+          } catch (error) {
+            console.log(error.response);
+            const errorCode = error.response.status;
+            //saat gagal kirim data kosongkan reducer
+            // dispatch(setFormAbsensi('namaTempat', ''));
+            // dispatch(setFormAbsensi('jarakMsk', ''));
+            // dispatch(setFormAbsensi('noteTelatMsk', ''));
+            // dispatch(setFormAbsensi('gpsLatitudeMsk', ''));
+            // dispatch(setFormAbsensi('gpsLongitudeMsk', ''));
+            // dispatch(setFormAbsensi('photoAbsen', ''));
+            // dispatch(setFormAbsensi('isWfh', ''));
+            switch (errorCode) {
+              case 403:
+                console.log('project tidak tepat');
+                setIsLoading(false);
+                break;
+              case 404:
+                setIsLoading(false);
+                break;
+              case 500:
+                setIsLoading(false);
+                console.log('Kesalahan server');
+                break;
+              default:
+                setIsLoading(false);
+                console.log(error.response);
+                console.log('gagal absen');
+                break;
+            }
+          }
+        } else {
+          console.log('Data tidak ditemukan di session.');
+        }
+      } catch (error) {
+        console.error('Terjadi kesalahan:', error);
+      }
+    };
 
   //fungsi untuk pindah ke dashboard di jalankan setelah berhasil absen dan update
   const toDashboard = () => {
@@ -181,14 +178,8 @@ const FormUpdateAbsensi = ({navigation}) => {
 
     try {
       checkMockLocation();
-      console.log('kirim data : ', formAbsensi);
-
-      if (terlambat && formAbsensi.noteTelatMsk === '') {
-        console.log('alasan telat masuk tidak boleh kosong');
-        setIsLoading(false);
-      } else {
+      console.log('kirim data update : ', formAbsensi);
         await kirimDataAbsensi();
-      }
     } catch (error) {
       console.error('Error in sendData:', error);
     }
@@ -237,16 +228,6 @@ const FormUpdateAbsensi = ({navigation}) => {
         value={formAbsensi.jarakMsk}
         onTextChange={value => onChangeText(value, 'jarak')}
       />
-      {terlambat ? (
-        <CustomTextInput
-          label="Alasan Telat Masuk"
-          secureTextEntry={false}
-          value={formAbsensi.noteTelatMsk}
-          onTextChange={value => onChangeText(value, 'noteTelatMsk')}
-        />
-      ) : (
-        ''
-      )}
       {isWFH > 0 ? (
         <>
           <View style={styles.kotakPreviewKosong}>

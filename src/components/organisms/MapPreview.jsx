@@ -8,9 +8,9 @@ import getLocation from '../../utils/getLocation';
 import {Color} from '../../utils/color';
 import ButtonAction from '../atoms/ButtonAction';
 import {getAlamat} from '../../utils/getAlamat';
-import axios from 'axios';
+// import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
-import {setAbsenMasuk, setAbsenPulang, setFormAbsensi} from '../../redux';
+import {setAbsenPulang, setFormAbsensi} from '../../redux';
 import {getTanggalSekarang} from '../../utils/getTanggalSekarang';
 import {
   widthPercentageToDP as wp,
@@ -18,8 +18,6 @@ import {
 } from 'react-native-responsive-screen';
 import {hitungJarak} from '../../utils/hitungJarak';
 import { checkMockLocation } from '../../utils/checkMockLocation';
-import { useRoute } from '@react-navigation/native';
-import { jamSekarang } from '../../utils/jamSekarang';
 import { getDataFromSession } from '../../utils/getDataSession';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const initialLokasiUser = {
@@ -45,7 +43,7 @@ const MapPreview = ({navigation}) => {
   const {form} = useSelector(state => state.AbsenMasukReducer);
   const {isWFH} = useSelector(state => state.IsWFHReducer);
   console.log('isWFH :', isWFH)
-  const [isAbsen, setIsAbsen] = useState(false);
+  const [isAbsen, setIsAbsen] = useState('');
   const [isPerbarui, setIsPerbarui] = useState(false);
   const [isPulang, setIsPulang] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(initialLokasiUser);
@@ -133,7 +131,7 @@ console.log('sudah absen ? ',isAbsen)
       //jarak user ke kantor 100 = 100 meter
       const jarakMaxMasuk = parseInt(dataProject.jrkMax)
       console.log('jarak max masuk : ', jarakMaxMasuk);
-      if (isWFH === '0') {
+      if (isWFH === '0' || isAbsen === 'true') {
         if (jarakBulat > jarakMaxMasuk) {
           Alert.alert(
             'Peringatan',
