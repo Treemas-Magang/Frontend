@@ -48,6 +48,7 @@ import {
   ScreenTesNotifikasi,
   ScreenFormAbsenPulang,
   ScreenFormUpdateTimesheet,
+  ScreenFormUpdateAbsensi,
 } from '../pages/index';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
@@ -250,9 +251,14 @@ const screens = [
     component: ScreenFormUpdateTimesheet,
     gestureEnabled: true,
   },
+  {
+    name: 'formUpdateAbsensi',
+    component: ScreenFormUpdateAbsensi,
+    gestureEnabled: true,
+  },
 ];
 
-const routeName = 'splash';
+const routeName = 'formUpdateAbsensi';
 const Stack = createNativeStackNavigator();
 
 function App() {

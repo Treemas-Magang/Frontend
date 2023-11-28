@@ -105,12 +105,13 @@ const UpdateListProject = ({navigation}) => {
       );
 
       console.log('success :', res.data.success);
+      setBtnLoading(false);
     } catch (error) {
       console.error('Error:', error.response);
       setBtnLoading(false);
     }
   };
-  console.log('updateSuccess : ', updateSuccess)
+  console.log('updateSuccess : ', updateSuccess);
   useEffect(() => {
     // Assuming patchDataBlmUpdt and patchData are your original arrays
     const findChangedData = () => {
@@ -183,24 +184,24 @@ const UpdateListProject = ({navigation}) => {
         'Content-Type': 'application/json',
       };
 
-      await dataYangAkanDikirim(headers, changedDataState)
+      await dataYangAkanDikirim(headers, changedDataState);
       setUpdateSuccess(true);
     } catch (error) {
       console.log(error);
       setBtnLoading(false);
     }
   };
-    useEffect(() => {
-      // Automatically hide the success alert after 3000 milliseconds (3 seconds)
-      if (updateSuccess) {
-        const timeoutId = setTimeout(() => {
-          setUpdateSuccess(false);
-        }, 3000);
+  useEffect(() => {
+    // Automatically hide the success alert after 3000 milliseconds (3 seconds)
+    if (updateSuccess) {
+      const timeoutId = setTimeout(() => {
+        setUpdateSuccess(false);
+      }, 3000);
 
-        // Clear the timeout to avoid memory leaks
-        return () => clearTimeout(timeoutId);
-      }
-    }, [updateSuccess]);
+      // Clear the timeout to avoid memory leaks
+      return () => clearTimeout(timeoutId);
+    }
+  }, [updateSuccess]);
   return (
     <View style={styles.wrapScreenDaftarProject}>
       <ButtonBack navigation={navigation} />
@@ -235,7 +236,9 @@ const UpdateListProject = ({navigation}) => {
                   width: '100%',
                   height: '70%',
                 }}></LottieView>
-              <Text style={styles.textDataNotFound}>Tidak Ada Data</Text>
+              <Text style={styles.textDataNotFound}>
+                Tidak Ada Data Project
+              </Text>
             </View>
           )}
         </ScrollView>
@@ -290,7 +293,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   wrapDataNotFound: {
-    width: wp('50%'),
+    width: wp('70%'),
     height: hp('45%'),
     alignItems: 'center',
     justifyContent: 'center',

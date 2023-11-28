@@ -1,5 +1,11 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {Color} from '../../utils/color';
 import CardPilihProject from '../molecules/CardPilihProject';
@@ -11,9 +17,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import LottieView from 'lottie-react-native';
-import { useDispatch } from 'react-redux';
-import { setProjectYangDipilih } from '../../redux';
+import {useDispatch} from 'react-redux';
+import {setProjectYangDipilih} from '../../redux';
 
 const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   const dispatch = useDispatch();
@@ -50,7 +55,17 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
       .catch(error => console.log(error));
   }, []);
 
-  const moveTo = (tujuan, namaTempat, alamat, projectId, gpsLatProj, gpsLongProj, jrkMax, jmMsk, jmklr) => {
+  const moveTo = (
+    tujuan,
+    namaTempat,
+    alamat,
+    projectId,
+    gpsLatProj,
+    gpsLongProj,
+    jrkMax,
+    jmMsk,
+    jmklr,
+  ) => {
     dispatch(setProjectYangDipilih('namaTempat', namaTempat));
     dispatch(setProjectYangDipilih('alamat', alamat));
     dispatch(setProjectYangDipilih('projectId', projectId));
@@ -72,42 +87,39 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
               <SkeletonCardPilihProject />
               <SkeletonCardPilihProject />
             </View>
-          ) : pilihProjects.length > 0 ? (
-            pilihProjects.map((pilihProject, index) => (
-            <View key={index}>
-              <CardPilihProject
-                nama={pilihProject.projectName}
-                alamat={pilihProject.projectAddress}
-                navigation={navigation}
-                onPress={() =>
-                  moveTo(
-                    'pilihAbsenProject',
-                    pilihProject.projectName,
-                    pilihProject.projectAddress,
-                    pilihProject.projectId,
-                    pilihProject.gpsLatitude,
-                    pilihProject.gpsLongitude,
-                    pilihProject.jrkMax,
-                    pilihProject.jamMasuk,
-                    pilihProject.jamKeluar,
-                  )
-                }
-              />
-            </View>
-          ))
           ) : (
-            <View style={styles.wrapDataNotFound}>
-              <LottieView
-                source={require('../../assets/animation/dataNotFound.json')}
-                autoPlay
-                style={{
-                  width: '100%',
-                  height: '70%',
-                }}></LottieView>
-              <Text style={styles.textDataNotFound}>Tidak Ada Data</Text>
-            </View>
+            pilihProjects.map((pilihProject, index) => (
+              <View key={index}>
+                <CardPilihProject
+                  nama={pilihProject.projectName}
+                  alamat={pilihProject.projectAddress}
+                  navigation={navigation}
+                  onPress={() =>
+                    moveTo(
+                      'pilihAbsenProject',
+                      pilihProject.projectName,
+                      pilihProject.projectAddress,
+                      pilihProject.projectId,
+                      pilihProject.gpsLatitude,
+                      pilihProject.gpsLongitude,
+                      pilihProject.jrkMax,
+                      pilihProject.jamMasuk,
+                      pilihProject.jamKeluar,
+                    )
+                  }
+                />
+              </View>
+            ))
           )}
-
+          <TouchableOpacity
+            style={styles.CardPilihProject}
+            onPress={() => moveTo('pilihAbsenProject')}>
+            <Text style={styles.Text}>Other</Text>
+            <Text style={styles.TextDeskripsi}>
+              Dipilih Jika (mas/mba) (nama lengkap) Berada Diluar Project Yang
+              Telah Disediakan Seperti Kunjungan atau Dinas
+            </Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     </View>
@@ -140,5 +152,32 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     fontSize: 17,
     color: Color.blue,
+  },
+  CardPilihProject: {
+    backgroundColor: 'transparent',
+    borderColor: Color.green,
+    borderWidth: 2,
+    width: wp('70%'),
+    minHeight: hp('15%'),
+    borderRadius: 5,
+    marginVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  Text: {
+    fontFamily: text.semiBold,
+    fontSize: 15,
+    color: Color.green,
+    paddingVertical: 10,
+    textTransform: 'uppercase',
+    width: wp('60%'),
+    textAlign: 'center',
+  },
+  TextDeskripsi: {
+    fontFamily: text.light,
+    fontSize: 12,
+    marginBottom: 20,
+    color: Color.black,
+    paddingHorizontal: 20,
   },
 });
