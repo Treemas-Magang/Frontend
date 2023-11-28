@@ -49,6 +49,7 @@ import {
   ScreenFormAbsenPulang,
   ScreenFormUpdateTimesheet,
   ScreenFormUpdateAbsensi,
+  ScreenFormAbsensiOther,
 } from '../pages/index';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
@@ -254,6 +255,11 @@ const screens = [
   {
     name: 'formUpdateAbsensi',
     component: ScreenFormUpdateAbsensi,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formAbsensiOther',
+    component: ScreenFormAbsensiOther,
     gestureEnabled: true,
   },
 ];

@@ -86,6 +86,8 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
               <SkeletonCardPilihProject />
               <SkeletonCardPilihProject />
               <SkeletonCardPilihProject />
+              <SkeletonCardPilihProject />
+              <SkeletonCardPilihProject />
             </View>
           ) : (
             pilihProjects.map((pilihProject, index) => (

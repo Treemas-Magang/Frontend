@@ -44,6 +44,7 @@ import ScreenTesNotifikasi from './screen/ScreenTesNotifikasi';
 import ScreenFormAbsenPulang from './screen/ScreenFormAbsenPulang';
 import ScreenFormUpdateTimesheet from './screen/ScreenFormUpdateTimesheet';
 import ScreenFormUpdateAbsensi from './screen/ScreenFormUpdateAbsensi';
+import ScreenFormAbsensiOther from './screen/ScreenFormAbsensiOther';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -90,4 +91,5 @@ export {
   ScreenFormAbsenPulang,
   ScreenFormUpdateTimesheet,
   ScreenFormUpdateAbsensi,
+  ScreenFormAbsensiOther,
 };
