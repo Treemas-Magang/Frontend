@@ -1,7 +1,14 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
-import {StyleSheet, View, ActivityIndicator, Image, Alert} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Image,
+  Alert,
+  Text,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import getLocation from '../../utils/getLocation';
@@ -209,6 +216,7 @@ const MapPreview = ({navigation}) => {
                     borderColor: Color.green,
                   }}
                 />
+                <Text style={{textAlign: 'center'}}>{dataProject.namaTempat}</Text>
               </Marker>
             )}
         </MapView>
