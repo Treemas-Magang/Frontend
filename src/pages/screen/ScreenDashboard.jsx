@@ -41,9 +41,9 @@ const ScreenDashboard = ({navigation}) => {
 
   const getDataIsAbsen = async (headers) => {
     const response = await axios.get('http://192.168.10.31:8081/api/absen/get-is-absen', {headers});
-    const dataAPI = response.data;
+    const dataAPI = response.data.data;
     console.log('ini data API Absen : ', dataAPI);
-    if (dataAPI > 0) {
+    if (dataAPI.length > 0) {
       try {
         AsyncStorage.setItem('sudah_absen', 'true');
       } catch (error) {

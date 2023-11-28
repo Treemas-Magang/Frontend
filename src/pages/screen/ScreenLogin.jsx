@@ -55,10 +55,8 @@ const ScreenLogin = ({navigation}) => {
   // const {location} = useSelector(state => state.SplashReducer);
   const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
-  // const routeAPI = 'https://treemas-api-403500.et.r.appspot.com';
-  // const routeAPI = 'http://192.168.10.31:8081';
-  // const routeAPI = API_URL;
-  const routeAPI = API_URL_WEB;
+  const routeAPI = API_URL;
+  // const routeAPI = API_URL_WEB;
   useEffect(() => {
     checkBiometryType(dispatch);
     getDataFromSession('deviceId')
