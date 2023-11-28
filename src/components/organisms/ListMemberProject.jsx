@@ -10,6 +10,11 @@ import CardMemberProject from '../molecules/CardMemberProject';
 import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import SkeletonCardMemberProject from '../skeleton/SkeletonCardMemberProject';
+import LottieView from 'lottie-react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const ListMemberProject = ({navigation}) => {
   const [namaProjectMembers, setNamaProjectMember] = useState([]);
@@ -121,7 +126,7 @@ const ListMemberProject = ({navigation}) => {
               <SkeletonCardMemberProject />
               <SkeletonCardMemberProject />
             </View>
-          ) : (
+          ) : namaProjectMembers.length > 0 ? (
             namaProjectMembers.map((namaProjMember, index) => (
               <View key={index}>
                 <CardMemberProject
@@ -136,6 +141,17 @@ const ListMemberProject = ({navigation}) => {
                 />
               </View>
             ))
+          ) : (
+            <View style={styles.wrapDataNotFound}>
+              <LottieView
+                source={require('../../assets/animation/dataNotFound.json')}
+                autoPlay
+                style={{
+                  width: '100%',
+                  height: '70%',
+                }}></LottieView>
+              <Text style={styles.textDataNotFound}>Data Member Tidak Ada</Text>
+            </View>
           )}
         </ScrollView>
       </View>
@@ -176,10 +192,16 @@ const styles = StyleSheet.create({
     height: 15,
     borderRadius: 15,
   },
-  VectorAtasKanan: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
+  wrapDataNotFound: {
+    width: wp('70%'),
+    height: hp('55%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
+    textTransform: 'uppercase',
   },
 });
