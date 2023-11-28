@@ -41,6 +41,7 @@ import {
 import ButtonLoading from '../../components/atoms/ButtonLoading';
 import {checkMockLocation} from '../../utils/checkMockLocation';
 import { AlertNotificationSuccess } from '../../components/atoms/AlertNotification';
+import {API_URL, API_URL_WEB} from '@env';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [idDvcSdhDipakai, setIdDvcSdhDipakai] = useState(false);
@@ -55,7 +56,9 @@ const ScreenLogin = ({navigation}) => {
   const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
   // const routeAPI = 'https://treemas-api-403500.et.r.appspot.com';
-  const routeAPI = 'http://192.168.10.31:8081';
+  // const routeAPI = 'http://192.168.10.31:8081';
+  // const routeAPI = API_URL;
+  const routeAPI = API_URL_WEB;
   useEffect(() => {
     checkBiometryType(dispatch);
     getDataFromSession('deviceId')
