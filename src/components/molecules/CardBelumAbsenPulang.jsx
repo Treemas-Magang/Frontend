@@ -53,14 +53,7 @@ const CardBelumAbsenPulang = ({
           <Text style={styles.textTitle}>Note Telat</Text>
           <Text style={styles.textDeskripsi}>{note_telat}</Text>
           <Text style={styles.textTitle}>Lokasi</Text>
-          <Text
-            style={{
-              fontFamily: text.semiBold,
-              fontSize: 12,
-              width: 224,
-              textAlign: 'justify',
-              color: Color.brown,
-            }}>
+          <Text style={styles.textLokasi} numberOfLines={4}>
             {lokasi}
           </Text>
         </View>
@@ -102,6 +95,13 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     fontSize: 12,
     textTransform: 'uppercase',
+    color: Color.black,
+  },
+  textLokasi: {
+    fontFamily: text.semiBold,
+    fontSize: 12,
+    width: 224,
+    textAlign: 'justify',
     color: Color.black,
   },
 });

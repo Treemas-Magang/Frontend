@@ -35,7 +35,6 @@ const initialLokasiPerusahaan = {
   longitudeDelta: 0.001,
 };
 
-
 const MapPreview = ({navigation}) => {
   const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
   console.log('project id :', dataProject);
@@ -47,7 +46,9 @@ const MapPreview = ({navigation}) => {
   const [isPerbarui, setIsPerbarui] = useState(false);
   const [isPulang, setIsPulang] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(initialLokasiUser);
-  const [lokasiPerusahaan, setLokasiPerusahaan] = useState(initialLokasiPerusahaan);
+  const [lokasiPerusahaan, setLokasiPerusahaan] = useState(
+    initialLokasiPerusahaan,
+  );
   const [locationLoaded, setLocationLoaded] = useState(false);
 
   useEffect(() => {
@@ -58,16 +59,15 @@ const MapPreview = ({navigation}) => {
     });
   }, []);
 
-
   useEffect(() => {
     getDataFromSession('sudah_absen')
-    .then(data => {
-      setIsAbsen(data);
-    })
-    .catch(error => console.log('gagal ambil data dari session'));
+      .then(data => {
+        setIsAbsen(data);
+      })
+      .catch(error => console.log('gagal ambil data dari session'));
   }, []);
 
-console.log('sudah absen ? ',isAbsen)
+  console.log('sudah absen ? ', isAbsen);
 
   useEffect(() => {
     const ambilLokasi = async () => {
@@ -75,26 +75,24 @@ console.log('sudah absen ? ',isAbsen)
       try {
         const locationData = await getLocation();
         console.log('Lokasi berhasil diambil:', locationData);
-        getAlamat(locationData.latitude, locationData.longitude, 'AIzaSyA1tH4Nq364y6knELo5DwSWIwyvxNRF2b8')
-        .then(data => {
-          console.log('alamat : ', data);
-              dispatch(
-                setFormAbsensi( 'lokasiMsk', data),
-              );
-              dispatch(setFormAbsensi('gpsLatitudeMsk', locationData.latitude));
-              dispatch(
-                setFormAbsensi('gpsLongitudeMsk', locationData.longitude),
-              );
-              dispatch(setFormAbsensi('projectId', dataProject.projectId));
-              //absenPulang
-              dispatch(setAbsenPulang('lokasiPlg', data));
-              dispatch(setAbsenPulang('gpsLatitudePlg', locationData.latitude));
-              dispatch(
-                setAbsenPulang('gpsLongitudePlg', locationData.longitude),
-              );
-              dispatch(setAbsenPulang('projectId', dataProject.projectId));
-        })
-        .catch(error => console.log(error));
+        getAlamat(
+          locationData.latitude,
+          locationData.longitude,
+          'AIzaSyA1tH4Nq364y6knELo5DwSWIwyvxNRF2b8',
+        )
+          .then(data => {
+            console.log('alamat : ', data);
+            dispatch(setFormAbsensi('lokasiMsk', data));
+            dispatch(setFormAbsensi('gpsLatitudeMsk', locationData.latitude));
+            dispatch(setFormAbsensi('gpsLongitudeMsk', locationData.longitude));
+            dispatch(setFormAbsensi('projectId', dataProject.projectId));
+            //absenPulang
+            dispatch(setAbsenPulang('lokasiPlg', data));
+            dispatch(setAbsenPulang('gpsLatitudePlg', locationData.latitude));
+            dispatch(setAbsenPulang('gpsLongitudePlg', locationData.longitude));
+            dispatch(setAbsenPulang('projectId', dataProject.projectId));
+          })
+          .catch(error => console.log(error));
         setCurrentLocation({
           ...currentLocation,
           latitude: locationData.latitude,
@@ -129,7 +127,7 @@ console.log('sudah absen ? ',isAbsen)
       dispatch(setFormAbsensi('jarakMsk', `${jarakBulat} meter`));
       dispatch(setAbsenPulang('jarakPlg', `${jarakBulat} meter`));
       //jarak user ke kantor 100 = 100 meter
-      const jarakMaxMasuk = parseInt(dataProject.jrkMax)
+      const jarakMaxMasuk = parseInt(dataProject.jrkMax);
       console.log('jarak max masuk : ', jarakMaxMasuk);
       if (isWFH === '0' || isAbsen === 'true') {
         if (jarakBulat > jarakMaxMasuk) {
