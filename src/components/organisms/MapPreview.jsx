@@ -21,16 +21,16 @@ import { checkMockLocation } from '../../utils/checkMockLocation';
 import { getDataFromSession } from '../../utils/getDataSession';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const initialLokasiUser = {
-  latitude: null,
-  longitude: null,
+  latitude: 0,
+  longitude: 0,
   latitudeDelta: 0.001,
   longitudeDelta: 0.001,
 };
 const initialLokasiPerusahaan = {
   // latitude: -6.245091550324631,
   // longitude: 106.6712797641271,
-  latitude: null,
-  longitude: null,
+  latitude: 0,
+  longitude: 0,
   latitudeDelta: 0.001,
   longitudeDelta: 0.001,
 };
@@ -46,9 +46,7 @@ const MapPreview = ({navigation}) => {
   const [isPerbarui, setIsPerbarui] = useState(false);
   const [isPulang, setIsPulang] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(initialLokasiUser);
-  const [lokasiPerusahaan, setLokasiPerusahaan] = useState(
-    initialLokasiPerusahaan,
-  );
+  const [lokasiPerusahaan, setLokasiPerusahaan] = useState(initialLokasiPerusahaan);
   const [locationLoaded, setLocationLoaded] = useState(false);
 
   useEffect(() => {
@@ -182,7 +180,7 @@ const MapPreview = ({navigation}) => {
       {locationLoaded ? (
         <MapView
           showsUserLocation
-          provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+          provider={PROVIDER_GOOGLE}
           style={{flex: 1}}
           region={currentLocation}>
           <Marker coordinate={currentLocation} anchor={{x: 0.5, y: 1.1}}>
@@ -197,6 +195,22 @@ const MapPreview = ({navigation}) => {
               }}
             />
           </Marker>
+
+          {lokasiPerusahaan.latitude !== null &&
+            lokasiPerusahaan.longitude !== null && (
+              <Marker coordinate={lokasiPerusahaan}>
+                <Image
+                  source={require('../../assets/vector/user.png')}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 50,
+                    borderWidth: 4,
+                    borderColor: Color.green,
+                  }}
+                />
+              </Marker>
+            )}
         </MapView>
       ) : (
         <View style={{flex: 1, justifyContent: 'center'}}>
