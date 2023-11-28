@@ -1,16 +1,18 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import CardInfo from '../molecules/CardInfo';
 import {Color} from '../../utils/color';
+import { getDataFromSession } from '../../utils/getDataSession';
+import axios from 'axios';
 
 const initialState = {
-  masuk: 28,
-  telat_masuk: 11,
-  pulang_cepat: 4,
-  cuti: 3,
-  sakit: 2,
-  tidak_masuk: 0,
+  totalCuti: 0,
+  totalMasuk: 0,
+  totalPulangCepat: 0,
+  totalSakit: 0,
+  totalTelatMasuk: 0,
+  totalTidakMasuk: 0,
 };
 
 const StatistikTahunIni = ({
@@ -21,12 +23,40 @@ const StatistikTahunIni = ({
   styleTitle,
 }) => {
   const [statistik, setStatistik] = useState(initialState);
+
+const getData = async headers => {
+  try {
+    const response = await axios.get(
+      'http://192.168.10.31:8081/api/dashboard/main',
+      {headers},
+    );
+    console.log(response.data.data);
+    const dataAPI = response.data.data;
+    setStatistik(dataAPI);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+useEffect(() => {
+  getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getData(headers);
+      })
+      .catch(error => console.log(error));
+}, [])
+
+
+
   return (
     <View style={[styles.info, style]}>
       <CardInfo
         color={Color.cardMasuk}
         title="masuk"
-        cardInfo={statistik.masuk}
+        cardInfo={statistik.totalMasuk}
         styleCard={styleCard}
         styleContainerCard={styleContainerCard}
         styleInfo={styleInfo}
@@ -35,7 +65,7 @@ const StatistikTahunIni = ({
       <CardInfo
         color={Color.cardTelatMasuk}
         title="telat masuk"
-        cardInfo={statistik.telat_masuk}
+        cardInfo={statistik.totalTelatMasuk}
         styleCard={styleCard}
         styleContainerCard={styleContainerCard}
         styleInfo={styleInfo}
@@ -44,7 +74,7 @@ const StatistikTahunIni = ({
       <CardInfo
         color={Color.cardPulangCepat}
         title="pulang cepat"
-        cardInfo={statistik.pulang_cepat}
+        cardInfo={statistik.totalPulangCepat}
         styleCard={styleCard}
         styleContainerCard={styleContainerCard}
         styleInfo={styleInfo}
@@ -53,7 +83,7 @@ const StatistikTahunIni = ({
       <CardInfo
         color={Color.cardCuti}
         title="cuti"
-        cardInfo={statistik.cuti}
+        cardInfo={statistik.totalCuti}
         styleCard={styleCard}
         styleContainerCard={styleContainerCard}
         styleInfo={styleInfo}
@@ -62,7 +92,7 @@ const StatistikTahunIni = ({
       <CardInfo
         color={Color.cardSakit}
         title="sakit"
-        cardInfo={statistik.sakit}
+        cardInfo={statistik.totalSakit}
         styleCard={styleCard}
         styleContainerCard={styleContainerCard}
         styleInfo={styleInfo}
@@ -71,7 +101,7 @@ const StatistikTahunIni = ({
       <CardInfo
         color={Color.cardTidakMasuk}
         title="tidak masuk"
-        cardInfo={statistik.tidak_masuk}
+        cardInfo={statistik.totalTidakMasuk}
         styleCard={styleCard}
         styleContainerCard={styleContainerCard}
         styleInfo={styleInfo}

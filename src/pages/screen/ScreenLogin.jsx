@@ -18,6 +18,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFingerprint} from '@fortawesome/free-solid-svg-icons';
 import {useSelector, useDispatch} from 'react-redux';
 import {
+  setDataUser,
   setForm,
   setFormLoginFingerPrint,
   setJumlahApproval,
@@ -47,6 +48,7 @@ const ScreenLogin = ({navigation}) => {
   const [inputKosong, setInputKosong] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [isWarnLogin, setIsWranLogin] = useState(false);
   const {formLogin} = useSelector(state => state.LoginReducer);
   const {formLoginFP} = useSelector(state => state.LoginFingerPrintReducer);
   // const {location} = useSelector(state => state.SplashReducer);
@@ -69,7 +71,6 @@ const ScreenLogin = ({navigation}) => {
       .catch(error => {
         console.error('Terjadi kesalahan dalam getDataFromSession:', error);
       });
-
     getDataFromSession('appVersion')
       .then(apkVersion => {
         if (apkVersion !== null) {
@@ -131,11 +132,19 @@ const ScreenLogin = ({navigation}) => {
 
       if (response.status === 200) {
         setGagalLogin(false)
-        console.log(response.data.data);
+        console.log('response login : ',response.data.data);
         // const [{ token }]\ = dataLogin;
         const token = dataLogin.token;
         const role = dataLogin.user.role;
         const nama = dataLogin.user.full_name;
+        dispatch(setDataUser('alamatKaryawan', response.data.data.user.alamatKaryawan));
+        dispatch(setDataUser('email', response.data.data.user.email));
+        dispatch(setDataUser('full_name', response.data.data.user.full_name));
+        dispatch(setDataUser('is_pass_chg', response.data.data.user.is_pass_chg));
+        dispatch(setDataUser('jenisKelamin', response.data.data.user.jenisKelamin));
+        dispatch(setDataUser('karyawanImg', response.data.data.user.karyawanImg));
+        dispatch(setDataUser('nik', response.data.data.user.nik));
+        dispatch(setDataUser('role', response.data.data.user.role));
 
         console.log('ini token :', token);
         // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
@@ -250,6 +259,22 @@ const ScreenLogin = ({navigation}) => {
           }
         } catch (error) {
           console.error('Terjadi kesalahan:', error);
+          console.log('gagal login', error.response.status); //masih proses
+          console.log('gagal login', error.response); //masih proses
+          const codeError = error.response.status;
+          switch (codeError) {
+            case 401:
+              setGagalLogin(true);
+              setIsWranLogin(true)
+              break;
+            case 403:
+              setIdDvcSdhDipakai(true);
+              break;
+            default:
+              console.log('gagal Login');
+              break;
+          }
+          setIsLoading(false);
           setIsLoading(false);
         }
 

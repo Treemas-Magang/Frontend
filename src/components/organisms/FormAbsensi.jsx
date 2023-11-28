@@ -35,140 +35,156 @@ const FormAbsensi = ({navigation}) => {
   const {formAbsensi} = useSelector(state => state.FormAbsensiReducer);
   const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
   const {isWFH} = useSelector(state => state.IsWFHReducer);
-  console.log('project id :', dataProject);
-  console.log(formAbsensi);
-  // const [isWFH, setIsWFH] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [terlambat, setTerlambat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
 
-    let base64ImageData = null;
+  //simpan data image jadi base64
+  let base64ImageData = null;
   if (capturedImage && capturedImage.base64 && capturedImage.fileSize) {
     base64ImageData = `data:image/jpeg;base64,${capturedImage.base64}`;
     console.log('ini file size : ', capturedImage.fileSize);
   } else {
     console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
   }
-  // console.log('ini base64Image : ', base64ImageData);
 
-    const openKamera = () => {
-      setCapturedImage(null);
-      setIsLoading(true);
-      openCamera()
-        .then(imageData => {
-          setCapturedImage(imageData);
-          dispatch(setFormAbsensi('photoAbsen', imageData.base64));
-          setIsLoading(false);
-          // Lakukan sesuatu dengan imageData (misalnya, tampilkan gambar)
-        })
-        .catch(error => {
-          // Tangani kesalahan
-          setIsLoading(false);
-          // console.error(error);
-        });
-    };
-    const openGalery = () => {
-      setCapturedImage(null);
-      setIsLoading(true);
-      openGalerImg()
-        .then(imageData => {
-          setCapturedImage(imageData);
-          dispatch(setFormAbsensi('photoAbsen', imageData.base64));
-          setIsLoading(false);
-        })
-        .catch(error => {
-          // Tangani kesalahan
-          setIsLoading(false);
-          // console.error(error);
-        });
-    };
+  //memanggil fungsi openKamera untuk mengambil foto lewat kamera
+  const openKamera = () => {
+    setCapturedImage(null);
+    setIsLoading(true);
+    openCamera()
+      .then(imageData => {
+        //tanganin saat berhasil dapat data
+        setCapturedImage(imageData);
+        dispatch(setFormAbsensi('photoAbsen', imageData.base64));
+        setIsLoading(false);
+      })
+      .catch(error => {
+        // Tangani kesalahan
+        setIsLoading(false);
+        // console.error(error);
+      });
+  };
 
-      const moveToPreview = () => {
-        navigation.navigate('previewPhoto', {photo: base64ImageData});
-      };
+  //memanggil fungsi openGalery untuk mengambil foto lewat galery
+  const openGalery = () => {
+    setCapturedImage(null);
+    setIsLoading(true);
+    openGalerImg()
+      .then(imageData => {
+        //tanganin saat berhasil dapat data
+        setCapturedImage(imageData);
+        dispatch(setFormAbsensi('photoAbsen', imageData.base64));
+        setIsLoading(false);
+      })
+      .catch(error => {
+        // Tangani kesalahan
+        setIsLoading(false);
+        // console.error(error);
+      });
+  };
 
-  // useEffect(() => {
-  //   const {date, time, dayName} = getTanggalSekarang();
-  //   console.log('tanggal : ', date);
-  //   console.log('hari : ', dayName);
-  //   console.log('waktu : ', time);
-  // }, []);
+  //fungsi untuk melihat preview foto secara full di screen previewPhoto
+  const moveToPreview = () => {
+    navigation.navigate('previewPhoto', {photo: base64ImageData});
+  };
+
+  //fungsi untuk menangkap perubahan pada InputText lalu mengirim ke reducer
   const onChangeText = (value, inputType) => {
     dispatch(setFormAbsensi(inputType, value));
   };
+
+  //fungsi untuk menangani saat mau mengirim data Absen
   const kirimDataAbsensi = async () => {
-  try {
-    const token = await getDataFromSession('token');
+    try {
+      //mengambil token untuk otorisasi
+      const token = await getDataFromSession('token');
+      if (token !== null) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
 
-    if (token !== null) {
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-
-      try {
-        const response = await axios.post(
-          'http://192.168.10.31:8081/api/absen/input-absen',
-          formAbsensi,
-          {headers},
-        );
+        try {
+          //melakukan hit ke API untuk kirim data Absen
+          const response = await axios.post(
+            'http://192.168.10.31:8081/api/absen/input-absen',
+            formAbsensi,
+            {headers},
+          );
           console.log(response.data.success);
           console.log('berhasil absen');
           console.log(uploadBerhasil);
           setUploadBerhasil(true);
           setIsLoading(false);
+          //saat berhasil kirim data kosongkan reducer
+          dispatch(setFormAbsensi('namaTempat', ''));
+          dispatch(setFormAbsensi('jarakMsk', ''));
+          dispatch(setFormAbsensi('noteTelatMsk', ''));
+          dispatch(setFormAbsensi('gpsLatitudeMsk', ''));
+          dispatch(setFormAbsensi('gpsLongitudeMsk', ''));
+          dispatch(setFormAbsensi('photoAbsen', ''));
+          dispatch(setFormAbsensi('isWfh', ''));
 
-        // navigation.replace('dashboard');
-        try {
-          await AsyncStorage.setItem('sudah_absen', 'true');
-          console.log('berhasil menyimpan status sudah absen');
+          // navigation.replace('dashboard');
+          try {
+            await AsyncStorage.setItem('sudah_absen', 'true');
+            console.log('berhasil menyimpan status sudah absen');
+          } catch (error) {
+            console.log('gagal menyimpan status sudah absen', error);
+          }
         } catch (error) {
-          console.log('gagal menyimpan status sudah absen', error);
-        }
-      } catch (error) {
-        console.log(error.response);
-        const errorCode = error.response ? error.response.code : null;
-
-        switch (errorCode) {
-          case 403:
-            console.log('project tidak tepat');
-            setIsLoading(false);
-            break;
+          console.log(error.response);
+          const errorCode = error.response.status;
+          //saat gagal kirim data kosongkan reducer
+          // dispatch(setFormAbsensi('namaTempat', ''));
+          // dispatch(setFormAbsensi('jarakMsk', ''));
+          // dispatch(setFormAbsensi('noteTelatMsk', ''));
+          // dispatch(setFormAbsensi('gpsLatitudeMsk', ''));
+          // dispatch(setFormAbsensi('gpsLongitudeMsk', ''));
+          // dispatch(setFormAbsensi('photoAbsen', ''));
+          // dispatch(setFormAbsensi('isWfh', ''));
+          switch (errorCode) {
+            case 403:
+              console.log('project tidak tepat');
+              setIsLoading(false);
+              break;
             case 404:
-            setIsLoading(false);
-            break;
+              setIsLoading(false);
+              break;
             case 500:
-            setIsLoading(false);
-            console.log('Kesalahan server');
-            break;
+              setIsLoading(false);
+              console.log('Kesalahan server');
+              break;
             default:
-            setIsLoading(false);
-            console.log('gagal absen');
-            break;
+              setIsLoading(false);
+              console.log(error.response);
+              console.log('gagal absen');
+              break;
+          }
         }
+      } else {
+        console.log('Data tidak ditemukan di session.');
       }
-    } else {
-      console.log('Data tidak ditemukan di session.');
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
     }
-  } catch (error) {
-    console.error('Terjadi kesalahan:', error);
-  }
   };
-  //kondisi telat masuk
-useEffect(() => {
-  const cekTelat = cekTelatMasuk(dataProject.jamMasuk);
-  console.log('cek telat', cekTelat);
-  setTerlambat(cekTelat);
-}, [dataProject]);
 
+  //kondisi telat masuk
   useEffect(() => {
-    dispatch(setFormAbsensi('isWfh', isWFH))
-  }, [dispatch, isWFH])
+    const cekTelat = cekTelatMasuk(dataProject.jamMasuk);
+    console.log('cek telat', cekTelat);
+    setTerlambat(cekTelat);
+  }, [dataProject]);
+  //kondisi wfh
+  useEffect(() => {
+    dispatch(setFormAbsensi('isWfh', isWFH));
+  }, [dispatch, isWFH]);
+
+  //fungsi untuk pindah ke dashboard di jalankan setelah berhasil absen dan update
   const toDashboard = () => {
     navigation.replace('dashboard');
-  };
-  const sudahAbsen = async () => {
-    await kirimDataAbsensi();
   };
 
   const sendData = async () => {
@@ -182,7 +198,7 @@ useEffect(() => {
         console.log('alasan telat masuk tidak boleh kosong');
         setIsLoading(false);
       } else {
-        await sudahAbsen();
+        await kirimDataAbsensi();
       }
     } catch (error) {
       console.error('Error in sendData:', error);

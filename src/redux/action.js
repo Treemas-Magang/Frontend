@@ -141,3 +141,17 @@ export const setIsWFH = (inputType, value) => {
     inputValue: value,
   };
 };
+export const setIsAbsen = (inputType, value) => {
+  return {
+    type: 'SET_IS_ABSEN',
+    inputType: inputType,
+    inputValue: value,
+  };
+};
+export const setDataUser = (inputType, value) => {
+  return {
+    type: 'SET_DATA_USER',
+    inputType: inputType,
+    inputValue: value,
+  };
+};

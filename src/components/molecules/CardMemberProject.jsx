@@ -1,16 +1,17 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardMemberProject = ({navigation, nama}) => {
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
-  };
+const CardMemberProject = ({onPress, nama}) => {
+  // const moveTo = tujuan => {
+  //   navigation.navigate(tujuan);
+  // };
   return (
     <TouchableOpacity
       style={styles.CardMemberProject}
-      onPress={() => moveTo('listMembers')}>
+      onPress={onPress}>
       <Text style={styles.Text}>{nama}</Text>
     </TouchableOpacity>
   );

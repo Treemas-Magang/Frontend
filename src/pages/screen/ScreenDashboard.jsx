@@ -20,9 +20,14 @@ import {useSelector} from 'react-redux';
 import {cekToken} from '../../utils/cekToken';
 import {tracking} from '../../utils/tracking';
 import { cekTelatMasuk } from '../../utils/cekJamTelatDanPulangCepat';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { getDataFromSession } from '../../utils/getDataSession';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const ScreenDashboard = ({navigation}) => {
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
   const {approval} = useSelector(state => state.JumlahApprovalReducer);
+  const [jamMasuk, setJamMasuk] = useState('0')
   const [jmlBlmBaca, setJmlBlmBaca] = useState(0);
 
   useEffect(() => {
@@ -33,6 +38,37 @@ const ScreenDashboard = ({navigation}) => {
     const totalNotif = pengumuman + approval;
     setJmlBlmBaca(totalNotif);
   }, [approval, pengumuman]);
+
+  const getDataIsAbsen = async (headers) => {
+    const response = await axios.get('http://192.168.10.31:8081/api/absen/get-is-absen', {headers});
+    const dataAPI = response.data;
+    console.log('ini data API Absen : ', dataAPI);
+    if (dataAPI > 0) {
+      try {
+        AsyncStorage.setItem('sudah_absen', 'true');
+      } catch (error) {
+        console.log(error)
+      }
+    }else{
+      try {
+        AsyncStorage.setItem('sudah_absen', 'false');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+  }
+  useEffect(() => {
+    getDataFromSession('token')
+    .then(token => {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      getDataIsAbsen(headers)
+    })
+    .catch(error => console.log(error));
+  }, [])
+
 
   // Start a timer that runs continuous after X milliseconds
 

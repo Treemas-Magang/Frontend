@@ -490,6 +490,49 @@ const IsWFHReducer = (state = initialStateIsWFH, action) => {
   return state;
 };
 
+const initialStateIsAbsen = {
+  isAbsen: '',
+};
+
+const IsAbsenReducer = (state = initialStateIsAbsen, action) => {
+  if (action.type === 'SET_IS_ABSEN') {
+    return {
+      ...state,
+      isAbsen: action.inputValue,
+    };
+  }
+  return state;
+};
+
+const initialStateDataUser = {
+  dataUser: {
+    alamatKaryawan: '',
+    email: '',
+    full_name: '',
+    is_pass_chg: '',
+    jenisKelamin: '',
+    karyawanImg: '',
+    nik: '',
+    role: '',
+  },
+};
+
+const DataUserReducer = (
+  state = initialStateDataUser,
+  action,
+) => {
+  if (action.type === 'SET_DATA_USER') {
+    return {
+      ...state,
+      dataUser: {
+        ...state.dataUser,
+        [action.inputType]: action.inputValue,
+      },
+    };
+  }
+  return state;
+};
+
 const reducer = combineReducers({
   LoginReducer,
   SplashReducer,
@@ -511,6 +554,8 @@ const reducer = combineReducers({
   JumlahApprovalReducer,
   ProjectYangDipilihReducer,
   IsWFHReducer,
+  DataUserReducer,
+  IsAbsenReducer,
   // SudahMasukReducer,
 });
 

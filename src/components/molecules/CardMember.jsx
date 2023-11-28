@@ -4,7 +4,15 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardMember = ({navigation, status}) => {
+const CardMember = ({
+  navigation,
+  status,
+  jamMsk,
+  jamPlg,
+  nama,
+  isCuti,
+  isSakit,
+}) => {
   let page = '';
   let background = styles.cardHadir;
   switch (status) {
@@ -38,15 +46,19 @@ const CardMember = ({navigation, status}) => {
         <View style={styles.wrapData}>
           <Text style={styles.labelData}>Jam Masuk</Text>
           <Text style={styles.titikDua}>:</Text>
-          <Text style={styles.data}>09:45</Text>
+          <Text style={styles.data}>
+            {jamMsk !== null ? jamMsk : 'Belum Absen Masuk'}
+          </Text>
         </View>
         <View style={styles.wrapData}>
           <Text style={styles.labelData}>Jam Pulang</Text>
           <Text style={styles.titikDua}>:</Text>
-          <Text style={styles.data}>Belum absen pulang</Text>
+          <Text style={styles.data}>
+            {jamPlg !== null ? jamPlg : 'Belum Absen Pulang'}
+          </Text>
         </View>
       </View>
-      <Text style={styles.nama}>Rizki febriansyah</Text>
+      <Text style={styles.nama}>{nama}</Text>
     </TouchableOpacity>
   );
 };

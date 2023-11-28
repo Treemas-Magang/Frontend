@@ -1,37 +1,73 @@
 /* eslint-disable prettier/prettier */
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
 import CardMemberProject from '../molecules/CardMemberProject';
+import { getDataFromSession } from '../../utils/getDataSession';
+import axios from 'axios';
 
 const ListMemberProject = ({navigation}) => {
-  const [namaMembers, setNamaMember] = useState([
-    {
-      nama: 'Bank UOB',
-    },
-    {
-      nama: 'GRAHA TELKOMSIGMA',
-    },
-    {
-      nama: 'BANK PERMATA',
-    },
-    {
-      nama: 'MANDIRI',
-    },
-    {
-      nama: 'PT MITRA TRANSAKSI INDONESIA',
-    },
-    {
-      nama: 'PT TREEMAS SOLUSI UTAMA',
-    },
-    {
-      nama: 'PT TREEMAS SOLUSI UTAMA INDONESIA MERDEKA JAYA ABADI INSYAALLAH AMANAH GAN',
-    },
-  ]);
+  const [namaProjectMembers, setNamaProjectMember] = useState([]);
+  const [isRole, setIsRole] = useState('');
+const getDataFromSessionAndSetRole = async () => {
+  try {
+    const data = await getDataFromSession('role');
+    console.log('role: ', data);
+    setIsRole(data);
+  } catch (error) {
+    console.log('Error fetching role:', error);
+  }
+};
+
+const getDataProjects = async (headers, url) => {
+  try {
+    const response = await axios.get(url, {headers});
+    const dataAPI = response.data.data;
+    console.log(dataAPI);
+    setNamaProjectMember(dataAPI);
+  } catch (error) {
+    console.log(`Error fetching projects: ${url}`, error);
+  }
+};
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const token = await getDataFromSession('token');
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      if (isRole === 'LEADER') {
+        await getDataProjects(
+          headers,
+          'http://192.168.10.31:8081/api/member/get-project',
+        );
+      }
+      if (isRole === 'HEAD') {
+        await getDataProjects(
+          headers,
+          'http://192.168.10.31:8081/api/absen/get-all-projects',
+        );
+      }
+    } catch (error) {
+      console.log('Error fetching data:', error);
+    }
+  };
+
+  fetchData();
+}, [isRole]);
+
+useEffect(() => {
+  getDataFromSessionAndSetRole();
+}, []);
+  const moveTo = (tujuan, projId) => {
+    navigation.navigate(tujuan, {projectId: projId});
+  };
   return (
     <View style={styles.listMember}>
       <ButtonBack navigation={navigation} />
@@ -73,11 +109,11 @@ const ListMemberProject = ({navigation}) => {
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {namaMembers.map((namaMember, index) => (
+          {namaProjectMembers.map((namaProjMember, index) => (
             <View key={index}>
               <CardMemberProject
-                nama={namaMember.nama}
-                navigation={navigation}
+                nama={namaProjMember.projectName}
+                onPress={() => moveTo('listMembers', namaProjMember.projectId)}
               />
             </View>
           ))}

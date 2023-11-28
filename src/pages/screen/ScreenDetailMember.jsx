@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet} from 'react-native';
 import React from 'react';
 import DetailMember from '../../components/organisms/DetailMember';

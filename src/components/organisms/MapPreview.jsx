@@ -160,9 +160,9 @@ console.log('sudah absen ? ',isAbsen)
   };
 
   //////////////////////////////////////////////
-  const sudahAbsen = async () => {
+  const perbaruiAbsen = async () => {
     try {
-      await AsyncStorage.setItem('sudah_absen', 'false');
+      await AsyncStorage.setItem('perbarui_absen', 'true');
       console.log('berhasil menyimpan status sudah absen');
     } catch (error) {
       console.log('gagal menyimpan status sudah absen', error);
@@ -172,8 +172,10 @@ console.log('sudah absen ? ',isAbsen)
   //////////////////////////////////////////////
 
   const handlePerbarui = async () => {
-    await sudahAbsen();
+    // await sudahAbsen();
     // setIsPerbarui(true);
+    await perbaruiAbsen();
+    navigation.navigate('pilihProject');
   };
   const handlePulang = () => {
     // setIsPulang(true);

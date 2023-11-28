@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 import {StyleSheet, View, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import IconMenu from '../atoms/IconMenu';
+import { getDataFromSession } from '../../utils/getDataSession';
 
 const MenuKehadiran = ({
   navigation,
@@ -13,6 +14,17 @@ const MenuKehadiran = ({
   box,
   scrollViewContent,
 }) => {
+  const [isAbsen, setIsAbsen] = useState('');
+  useEffect(() => {
+  getDataFromSession('sudah_absen')
+  .then(sudahAbsen => {
+    setIsAbsen(sudahAbsen);
+    console.log('sudah Absen', sudahAbsen)
+  })
+  .catch(error => console.log(error));
+  }, []);
+
+
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
@@ -26,14 +38,26 @@ const MenuKehadiran = ({
             },
             gap,
           ]}>
-          <IconMenu
-            image={require('../../assets/vector/kehadiran.png')}
-            title="Absensi"
-            onPress={() => moveTo('pilihProject')}
-            styleImage={styleImage}
-            styleNamaMenu={styleNamaMenu}
-            box={box}
-          />
+          {isAbsen === 'true' ? (
+            <IconMenu
+              image={require('../../assets/vector/kehadiran.png')}
+              title="Absensi"
+              onPress={() => moveTo('absensi')}
+              styleImage={styleImage}
+              styleNamaMenu={styleNamaMenu}
+              box={box}
+            />
+          ) : (
+            <IconMenu
+              image={require('../../assets/vector/kehadiran.png')}
+              title="Absensi"
+              onPress={() => moveTo('pilihProject')}
+              styleImage={styleImage}
+              styleNamaMenu={styleNamaMenu}
+              box={box}
+            />
+          )}
+
           <IconMenu
             image={require('../../assets/vector/member.png')}
             title="Member"

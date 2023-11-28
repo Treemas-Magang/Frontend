@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   ScrollView,
   StyleSheet,
@@ -6,9 +7,8 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import CardMember from '../molecules/CardMember';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
@@ -18,9 +18,15 @@ import DropdownList from '../atoms/DropdownList';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
+import { useRoute } from '@react-navigation/native';
+import axios from 'axios';
+import { getDataFromSession } from '../../utils/getDataSession';
 
 const ListMembers = ({navigation}) => {
+  const {projectId} = useRoute().params;
+  console.log(projectId);
   const [isDropdown, setIsDropdown] = useState(false);
+  const [dataListMembers, setDataListMembers] = useState([]);
   const handleDropdown = () => {
     setIsDropdown(!isDropdown);
     console.log(isDropdown);
@@ -28,6 +34,39 @@ const ListMembers = ({navigation}) => {
   const handleClickOutside = () => {
     setIsDropdown(false);
   };
+
+const getDataMembers = async headers => {
+  try {
+    const projId = projectId;
+    console.log('ini project id : ', projId);
+    const response = await axios.get(
+      `http://192.168.10.31:8081/api/member/get-member-project?projectId=${projId}`,
+      {headers},
+    );
+    const dataAPI = response.data.data;
+    setDataListMembers(dataAPI);
+    console.log(
+      `data member dari project ${projectId} :`, dataAPI
+    );
+  } catch (error) {
+    console.log(error.response);
+  }
+};
+
+
+
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataMembers(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
+
+
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.listMember}>
@@ -90,16 +129,20 @@ const ListMembers = ({navigation}) => {
             </View>
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
+          {
+            dataListMembers.map((member, index) => (
             <View style={{gap: 20}}>
-              <CardMember status="sakit" navigation={navigation} />
-              <CardMember status="tidakMasuk" navigation={navigation} />
+              <CardMember navigation={navigation} jamMsk={member.jamMsk} nama={member.nama} jamPlg={member.jamPlg} />
+              {/* <CardMember status="tidakMasuk" navigation={navigation} />
               <CardMember status="sakit" navigation={navigation} />
               <CardMember status="tidakMasuk" navigation={navigation} />
               <CardMember status="hadir" navigation={navigation} />
               <CardMember status="cuti" navigation={navigation} />
               <CardMember status="hadir" navigation={navigation} />
-              <CardMember status="cuti" navigation={navigation} />
+              <CardMember status="cuti" navigation={navigation} /> */}
             </View>
+            ))
+          }
           </ScrollView>
         </View>
       </View>
