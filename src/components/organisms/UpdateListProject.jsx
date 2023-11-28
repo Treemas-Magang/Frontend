@@ -22,7 +22,7 @@ import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
 
 const UpdateListProject = ({navigation}) => {
-  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const [dataAllProject, setDataAllProject] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
@@ -105,13 +105,13 @@ const UpdateListProject = ({navigation}) => {
       );
 
       console.log('success :', res.data.success);
+      setUploadBerhasil(true);
       setBtnLoading(false);
     } catch (error) {
       console.error('Error:', error.response);
       setBtnLoading(false);
     }
   };
-  console.log('updateSuccess : ', updateSuccess);
   useEffect(() => {
     // Assuming patchDataBlmUpdt and patchData are your original arrays
     const findChangedData = () => {
@@ -185,25 +185,28 @@ const UpdateListProject = ({navigation}) => {
       };
 
       await dataYangAkanDikirim(headers, changedDataState);
-      setUpdateSuccess(true);
     } catch (error) {
       console.log(error);
       setBtnLoading(false);
     }
   };
-  useEffect(() => {
-    // Automatically hide the success alert after 3000 milliseconds (3 seconds)
-    if (updateSuccess) {
-      const timeoutId = setTimeout(() => {
-        setUpdateSuccess(false);
-      }, 3000);
-
-      // Clear the timeout to avoid memory leaks
-      return () => clearTimeout(timeoutId);
-    }
-  }, [updateSuccess]);
+  const close = () => {
+    setUploadBerhasil(false);
+  };
   return (
     <View style={styles.wrapScreenDaftarProject}>
+      {uploadBerhasil ? (
+        <View style={{position: 'absolute'}}>
+          <AlertNotificationSuccess
+            buttonAlert="Close"
+            textBodyAlert="Project Berhasil Di Update"
+            titleAlert="Success"
+            onPress={close}
+          />
+        </View>
+      ) : (
+        ''
+      )}
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
       <VectorAtasBesar />
@@ -254,15 +257,6 @@ const UpdateListProject = ({navigation}) => {
           />
         )}
       </View>
-      {updateSuccess && (
-        <View style={{position: 'absolute'}}>
-          <AlertNotificationSuccess
-            buttonAlert="Ok"
-            textBodyAlert="Update Berhasil"
-            titleAlert="Success"
-          />
-        </View>
-      )}
     </View>
   );
 };
