@@ -24,8 +24,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {hitungJarak} from '../../utils/hitungJarak';
-import { checkMockLocation } from '../../utils/checkMockLocation';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {checkMockLocation} from '../../utils/checkMockLocation';
+import {getDataFromSession} from '../../utils/getDataSession';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const initialLokasiUser = {
   latitude: 0,
@@ -48,12 +48,14 @@ const MapPreview = ({navigation}) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.AbsenMasukReducer);
   const {isWFH} = useSelector(state => state.IsWFHReducer);
-  console.log('isWFH :', isWFH)
+  console.log('isWFH :', isWFH);
   const [isAbsen, setIsAbsen] = useState('');
   const [isPerbarui, setIsPerbarui] = useState(false);
   const [isPulang, setIsPulang] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(initialLokasiUser);
-  const [lokasiPerusahaan, setLokasiPerusahaan] = useState(initialLokasiPerusahaan);
+  const [lokasiPerusahaan, setLokasiPerusahaan] = useState(
+    initialLokasiPerusahaan,
+  );
   const [locationLoaded, setLocationLoaded] = useState(false);
 
   useEffect(() => {
@@ -207,7 +209,7 @@ const MapPreview = ({navigation}) => {
             lokasiPerusahaan.longitude !== null && (
               <Marker coordinate={lokasiPerusahaan}>
                 <Image
-                  source={require('../../assets/vector/user.png')}
+                  source={require('../../assets/vector/PerusahaanVector.png')}
                   style={{
                     width: 40,
                     height: 40,
@@ -216,7 +218,9 @@ const MapPreview = ({navigation}) => {
                     borderColor: Color.green,
                   }}
                 />
-                <Text style={{textAlign: 'center'}}>{dataProject.namaTempat}</Text>
+                <Text style={{textAlign: 'center'}}>
+                  {dataProject.namaTempat}
+                </Text>
               </Marker>
             )}
         </MapView>
