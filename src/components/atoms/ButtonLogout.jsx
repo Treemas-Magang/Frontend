@@ -1,27 +1,57 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
+
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 
-const ButtonLogout = ({navigation}) => {
+/**
+ * Komponen ButtonLogout digunakan untuk membuat tombol logout dengan efek muncul dari kanan ke kiri.
+ *
+ * @param {Object} navigation - Objek navigasi yang digunakan untuk mengganti halaman.
+ * @param {Object} style - Gaya tambahan yang dapat diterapkan pada tombol.
+ * @param {Object} posisiLogout - Gaya tambahan untuk menentukan posisi tombol logout.
+ * @returns {JSX.Element} - Komponen React untuk tombol logout dengan efek muncul dari kanan ke kiri.
+ */
+const ButtonLogout = ({navigation, style, posisiLogout}) => {
   const [isOpenLogout, setIsOpenLogout] = useState(false);
 
+  /**
+   * Fungsi openLogout digunakan untuk membuka atau menutup tombol logout.
+   */
   const openLogout = () => {
     setIsOpenLogout(!isOpenLogout); // Menggunakan !isOpenLogout untuk mengubah nilainya.
   };
 
-  const lebarLogout = {
-    lebarAwal: 43,
-    lebarAkhir: 133,
+  const lebarLogout = {lebarAwal: 43, lebarAkhir: 133};
+
+  /**
+   * Fungsi logout digunakan untuk keluar dari sesi pengguna dan menghapus token otentikasi dari AsyncStorage.
+   */
+  const logout = () => {
+    // Hapus token otentikasi dari AsyncStorage
+    AsyncStorage.removeItem('token')
+      .then(() => {
+        console.log('Token otentikasi berhasil dihapus.');
+        navigation.replace('login');
+      })
+      .catch(error => {
+        console.error(
+          'Terjadi kesalahan saat menghapus token otentikasi:',
+          error,
+        );
+      });
   };
+
   return (
-    <View style={{height: 224, width: '100%', position: 'relative'}}>
+    <View style={[styles.container, style]}>
       <View
         style={[
           styles.logout,
+          posisiLogout,
           !isOpenLogout
             ? {width: lebarLogout.lebarAwal}
             : {
@@ -41,16 +71,16 @@ const ButtonLogout = ({navigation}) => {
           {!isOpenLogout ? (
             ''
           ) : (
-            <TouchableOpacity onPress={() => navigation.replace('login')}>
-            <Text
-              style={{
-                marginHorizontal: 20,
-                fontWeight: 'bold',
-                color: Color.white,
-                width: '100%',
-              }}>
-              LOGOUT
-            </Text>
+            <TouchableOpacity onPress={() => logout()}>
+              <Text
+                style={{
+                  marginHorizontal: 20,
+                  fontWeight: 'bold',
+                  color: Color.white,
+                  width: '100%',
+                }}>
+                LOGOUT
+              </Text>
             </TouchableOpacity>
           )}
         </View>
@@ -72,6 +102,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    top: 25,
+  },
+  container: {
+    width: '100%',
+    position: 'relative',
   },
 });

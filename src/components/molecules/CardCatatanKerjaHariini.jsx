@@ -1,44 +1,104 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  KeyboardAvoidingView,
-  Image,
-} from 'react-native';
-import React, {useState} from 'react';
+/* eslint-disable prettier/prettier */
+import {StyleSheet, Text, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import CustomTextInput from '../atoms/CustomTextInput';
 import ButtonAction from '../../components/atoms/ButtonAction';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import {useSelector, useDispatch} from 'react-redux';
-import {setFormCatatanKerja} from '../../redux';
+import {setAbsenPulang} from '../../redux';
+import {cekPulangCepat} from '../../utils/cekJamTelatDanPulangCepat';
+import {getDataFromSession} from '../../utils/getDataSession';
+import axios from 'axios';
+import {checkMockLocation} from '../../utils/checkMockLocation';
+import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 
-const CardCatatanKerjaHariini = () => {
+const CardCatatanKerjaHariini = ({navigation}) => {
+  // const {jamKeluar} = useRoute().params;
+  // console.log('jam keluar : ', jamKeluar)
+  const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
   const [pulangCepat, setPulangCepat] = useState(false);
   const dispatch = useDispatch();
-  const {form} = useSelector(state => state.CatatanKerjaReducer);
+  const {formPulang} = useSelector(state => state.AbsenPulangReducer);
 
   const onChangeText = (value, inputType) => {
-    dispatch(setFormCatatanKerja(inputType, value));
+    dispatch(setAbsenPulang(inputType, value));
   };
 
-  const sendData = () => {
-    console.log('kirim data : ', form);
+  useEffect(() => {
+    const cekPlgCpt = cekPulangCepat(dataProject.jamKeluar);
+    console.log('cek telat', cekPlgCpt);
+    setPulangCepat(cekPlgCpt);
+  }, [dataProject]);
+
+  const uploadData = async data => {
+    const token = await getDataFromSession('token');
+
+    if (token !== null) {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      try {
+        const response = await axios.post(
+          'http://192.168.10.31:8081/api/absen/input-absen-pulang',
+          data,
+          {headers},
+        );
+        console.log(response.data.success);
+        console.log('berhasil absen pulang');
+        console.log(uploadBerhasil);
+        setUploadBerhasil(true);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error.response);
+        const errorCode = error.response ? error.response.code : null;
+        switch (errorCode) {
+          case 403:
+            console.log('project tidak tepat');
+            setIsLoading(false);
+            break;
+          case 404:
+            setIsLoading(false);
+            break;
+          case 500:
+            setIsLoading(false);
+            console.log('Kesalahan server');
+            break;
+          default:
+            setIsLoading(false);
+            console.log('gagal absen');
+            break;
+        }
+      }
+    }
+  };
+
+  const close = () => {
+    setUploadBerhasil(false);
+  };
+
+  const sendData = async () => {
+    checkMockLocation();
+    console.log('kirim data : ', formPulang);
+    await uploadData(formPulang);
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior="position"
-      keyboardVerticalOffset={-500}
-      style={styles.container}>
-      <Image
-        style={
-          pulangCepat
-            ? styles.VectorAtasKebalikFalse
-            : styles.VectorAtasKebalikTrue
-        }
-        source={require('../../assets/vector/VectorAtasKebalik.png')}
-      />
+    <View style={styles.container}>
+      {uploadBerhasil ? (
+        <View style={{position: 'absolute'}}>
+          <AlertNotificationSuccess
+            buttonAlert="Close"
+            textBodyAlert="Project Berhasil Di Update"
+            titleAlert="Success"
+            onPress={close}
+          />
+        </View>
+      ) : (
+        ''
+      )}
       <View style={styles.CardCatatanKerja}>
         <Text
           style={{
@@ -51,15 +111,15 @@ const CardCatatanKerjaHariini = () => {
         </Text>
         <CustomTextInput
           label="Timesheet"
-          value={form.keterangan}
-          onTextChange={value => onChangeText(value, 'timesheet')}
+          value={formPulang.notePekerjaan}
+          onTextChange={value => onChangeText(value, 'notePekerjaan')}
           secureTextEntry={false}
         />
         {pulangCepat ? (
           <CustomTextInput
-            label="Catan Pulang Kerja"
-            value={form.keterangan}
-            onTextChange={value => onChangeText(value, 'catatanPulangKerja')}
+            label="Catan Pulang Cepat"
+            value={formPulang.notePlgCepat}
+            onTextChange={value => onChangeText(value, 'notePlgCepat')}
             secureTextEntry={false}
           />
         ) : (
@@ -68,11 +128,7 @@ const CardCatatanKerjaHariini = () => {
 
         <ButtonAction onPress={() => sendData()} title="KIRIM" />
       </View>
-      <Image
-        style={pulangCepat ? styles.VectorBawahFalse : styles.VectorBawahTrue}
-        source={require('../../assets/vector/VectorBawah.png')}
-      />
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
@@ -87,34 +143,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 50,
     paddingVertical: 30,
-  },
-  VectorBawahFalse: {
-    position: 'absolute',
-    bottom: -277,
-    left: -36,
-    zIndex: -1,
-    width: '100%',
-  },
-  VectorBawahTrue: {
-    position: 'absolute',
-    bottom: -320,
-    left: -36,
-    zIndex: -1,
-    width: '100%',
-  },
-  VectorAtasKebalikFalse: {
-    position: 'absolute',
-    top: -199,
-    left: -36,
-    zIndex: -1,
-    width: '100%',
-  },
-  VectorAtasKebalikTrue: {
-    position: 'absolute',
-    top: -250,
-    left: -36,
-    zIndex: -1,
-    width: '100%',
   },
   container: {
     flex: 1,

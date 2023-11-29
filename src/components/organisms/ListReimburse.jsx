@@ -1,13 +1,29 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import CardReimburse from '../molecules/CardReimburse';
 import ButtonBack from '../atoms/ButtonBack';
-
+import ButtonHome from '../atoms/ButtonHome';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {
+  faAngleDoubleDown,
+  faAngleDoubleUp,
+} from '@fortawesome/free-solid-svg-icons';
+import VectorAtasKecil from '../atoms/VectorAtasKecil';
 const ListReimburse = ({navigation}) => {
-  const [reimburse, setReimburse] = useState([
+  const [reimburses, setReimburses] = useState([
     {
       tanggal: 'Senin 2 Mei',
       totalJam: 8,
@@ -44,21 +60,23 @@ const ListReimburse = ({navigation}) => {
       uangMakan: 150000,
     },
   ]);
+  const [isShowCatatanKerja, setIsShowCatatanKerja] = useState(false);
+  const showCatatanKerja = () => {
+    setIsShowCatatanKerja(!isShowCatatanKerja);
+  };
   return (
-    <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
-      <ButtonBack
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
-      />
-      <Image
-        style={styles.VectorAtas}
-        source={require('../../assets/vector/VectorAtas.png')}
-      />
-      <Text style={styles.Judul}>Reimburse</Text>
-      <View style={styles.backgroundCardReimburse}>
+    <View style={styles.container}>
+      <ButtonBack navigation={navigation} />
+      <ButtonHome navigation={navigation} />
+      <VectorAtasKecil />
+
+      <View style={styles.containerJudul}>
+        <Text style={styles.Judul}>reimburse</Text>
+      </View>
+      <View style={styles.content}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {reimburse.map((reimburse, index) => (
-            <View key={index} style={{flexDirection: 'column'}}>
+          {reimburses.map((reimburse, index) => (
+            <View key={index}>
               <CardReimburse
                 navigation={navigation}
                 tanggal={reimburse.tanggal}
@@ -70,34 +88,49 @@ const ListReimburse = ({navigation}) => {
             </View>
           ))}
         </ScrollView>
-        <View style={styles.catatanKerja}>
-          <View style={{alignItems: 'flex-start'}}>
-            <>
-              <Text style={{fontFamily: 'Poppins-LightItalic'}}>
-                Reimburse{' '}
-              </Text>
-              <Text style={styles.textValue}>Rp. 0</Text>
-            </>
-            <>
-              <Text style={{fontFamily: 'Poppins-LightItalic'}}>
-                Data + Voice{' '}
-              </Text>
-              <Text style={styles.textValue}>Rp. 150.000</Text>
-            </>
-            <>
-              <Text style={{fontFamily: 'Poppins-LightItalic'}}>
-                Lain-lain{' '}
-              </Text>
-              <Text style={styles.textValue}>Rp. 0</Text>
-            </>
-          </View>
-          <View style={{justifyContent: 'flex-end'}}>
-            <>
-              <Text style={{fontFamily: 'Poppins-LightItalic'}}>Total </Text>
-              <Text style={[styles.textValue, {fontSize: 16}]}>
-                Rp. 150.000
-              </Text>
-            </>
+
+        <TouchableOpacity
+          onPress={showCatatanKerja}
+          style={
+            isShowCatatanKerja ? styles.btnOnInvoice : styles.btnOffInvoice
+          }>
+          <FontAwesomeIcon
+            icon={isShowCatatanKerja ? faAngleDoubleDown : faAngleDoubleUp}
+            size={30}
+            color={Color.white}
+          />
+        </TouchableOpacity>
+        <View
+          style={
+            isShowCatatanKerja
+              ? styles.tampilkanCatatanKerja
+              : styles.dontShowCatatanKerja
+          }>
+          <View style={styles.catatanKerja}>
+            <View style={{alignItems: 'flex-start'}}>
+              <>
+                <Text style={{fontFamily: text.lightItalic}}>Reimburse </Text>
+                <Text style={styles.textValue}>Rp. 0</Text>
+              </>
+              <>
+                <Text style={{fontFamily: text.lightItalic}}>
+                  Data + Voice{' '}
+                </Text>
+                <Text style={styles.textValue}>Rp. 150.000</Text>
+              </>
+              <>
+                <Text style={{fontFamily: text.lightItalic}}>Lain-lain </Text>
+                <Text style={styles.textValue}>Rp. 0</Text>
+              </>
+            </View>
+            <View style={{justifyContent: 'flex-end'}}>
+              <>
+                <Text style={{fontFamily: text.lightItalic}}>Total </Text>
+                <Text style={[styles.textValue, {fontSize: 16}]}>
+                  Rp. 150.000
+                </Text>
+              </>
+            </View>
           </View>
         </View>
       </View>
@@ -108,47 +141,82 @@ const ListReimburse = ({navigation}) => {
 export default ListReimburse;
 
 const styles = StyleSheet.create({
-  backgroundCardReimburse: {
-    backgroundColor: Color.white,
-    paddingTop: 50,
-    alignItems: 'center',
+  container: {
+    backgroundColor: Color.green,
     flex: 1,
-    flexDirection: 'column',
-    gap: 10,
-    borderTopEndRadius: 35,
-    borderTopStartRadius: 35,
-    marginTop: -100,
   },
   Judul: {
     textAlign: 'center',
-    marginVertical: 112,
     fontFamily: text.semiBold,
-    fontSize: 26,
+    fontSize: wp('6%'),
     color: Color.blue,
     textTransform: 'uppercase',
-  },
-  VectorAtas: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
   },
   catatanKerja: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 10,
     backgroundColor: Color.white,
     borderRadius: 5,
-    borderWidth: 1,
+    borderWidth: 3,
     borderColor: Color.black,
-    width: 280,
-    marginVertical: 20,
-    padding: 10,
+    width: wp('80%'),
+    minHeight: hp('15%'),
     justifyContent: 'space-evenly',
   },
   textValue: {
     fontFamily: text.semiBold,
     color: Color.black,
     fontSize: 10,
+  },
+  dontShowCatatanKerja: {
+    backgroundColor: 'blue',
+    minHeight: hp('10%'),
+    width: wp('100%'),
+    position: 'absolute',
+    bottom: -150,
+    alignItems: 'center',
+  },
+  tampilkanCatatanKerja: {
+    // backgroundColor: 'blue',
+    minHeight: hp('10%'),
+    width: wp('100%'),
+    position: 'absolute',
+    bottom: 0,
+    alignItems: 'center',
+  },
+  btnOffInvoice: {
+    width: wp('12%'),
+    height: wp('12%'),
+    borderRadius: wp('12%'),
+    backgroundColor: Color.black,
+    position: 'absolute',
+    bottom: 10,
+    right: wp('5%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnOnInvoice: {
+    width: wp('12%'),
+    height: wp('12%'),
+    borderRadius: wp('12%'),
+    backgroundColor: Color.black,
+    position: 'absolute',
+    bottom: 140,
+    right: wp('5%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  content: {
+    backgroundColor: Color.white,
+    flex: 5,
+    position: 'relative',
+    alignItems: 'center',
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    paddingTop: 35,
+  },
+  containerJudul: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });

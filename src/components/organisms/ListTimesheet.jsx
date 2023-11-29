@@ -1,11 +1,28 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
+/* eslint-disable prettier/prettier */
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState} from 'react';
-import CardTimesheet from '../molecules/CardTimesheet';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
-
+import ButtonHome from '../atoms/ButtonHome';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {
+  faAngleDoubleDown,
+  faAngleDoubleUp,
+} from '@fortawesome/free-solid-svg-icons';
+import VectorAtasKecil from '../atoms/VectorAtasKecil';
+import CardTimesheet from '../molecules/CardTimesheet';
 const ListTimesheet = ({navigation}) => {
   const [timesheet, setTimesheet] = useState([
     {
@@ -45,20 +62,21 @@ const ListTimesheet = ({navigation}) => {
         'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
     },
   ]);
+  const [isShowCatatanKerja, setIsShowCatatanKerja] = useState(false);
+  const showCatatanKerja = () => {
+    setIsShowCatatanKerja(!isShowCatatanKerja);
+  };
   return (
-    <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
-      <ButtonBack
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
-      />
-      <Image
-        style={styles.VectorAtas}
-        source={require('../../assets/vector/VectorAtas.png')}
-      />
-      <Text style={styles.Judul}>TIMESHEET</Text>
-      <View style={styles.backgroundCardTimesheet}>
+    <View style={styles.container}>
+      <ButtonBack navigation={navigation} />
+      <ButtonHome navigation={navigation} />
+      <VectorAtasKecil />
+
+      <View style={styles.containerJudul}>
+        <Text style={styles.Judul}>Timesheet</Text>
+      </View>
+      <View style={styles.content}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {/* /////////////////////////////////////////////////////////////////// */}
           {timesheet.map((timesheet, index) => (
             <View key={index} style={{flexDirection: 'column'}}>
               <CardTimesheet
@@ -69,26 +87,48 @@ const ListTimesheet = ({navigation}) => {
               />
             </View>
           ))}
-          {/* /////////////////////////////////////////////////////////////////// */}
         </ScrollView>
-        <View style={styles.catatanKerja}>
-          <View style={{alignItems: 'center'}}>
-            <Text style={{fontFamily: 'Poppins-LightItalic'}}>
-              Total Jam Reguler
-            </Text>
-            <Text style={styles.textValue}>75 Jam</Text>
-          </View>
-          <View style={{alignItems: 'center'}}>
-            <Text style={{fontFamily: 'Poppins-LightItalic'}}>
-              Total Lembur
-            </Text>
-            <Text style={styles.textValue}>75 Jam</Text>
-          </View>
-          <View style={{alignItems: 'center'}}>
-            <Text style={{fontFamily: text.boldItalic, color: Color.black}}>
-              Total Jam Kerja
-            </Text>
-            <Text style={styles.textValue}>75 Jam</Text>
+
+        <TouchableOpacity
+          onPress={showCatatanKerja}
+          style={
+            isShowCatatanKerja ? styles.btnOnInvoice : styles.btnOffInvoice
+          }>
+          <FontAwesomeIcon
+            icon={isShowCatatanKerja ? faAngleDoubleDown : faAngleDoubleUp}
+            size={30}
+            color={Color.white}
+          />
+        </TouchableOpacity>
+        <View
+          style={
+            isShowCatatanKerja
+              ? styles.tampilkanCatatanKerja
+              : styles.dontShowCatatanKerja
+          }>
+          <View style={styles.catatanKerja}>
+            <View style={{alignItems: 'center'}}>
+              <>
+                <Text style={{fontFamily: text.lightItalic}}>
+                  Total Jam Reguler
+                </Text>
+                <Text style={styles.textValue}>75 Jam</Text>
+              </>
+            </View>
+            <View style={{alignItems: 'center'}}>
+              <>
+                <Text style={{fontFamily: text.lightItalic}}>
+                  Total Jam Reguler
+                </Text>
+                <Text style={styles.textValue}>75 Jam</Text>
+              </>
+            </View>
+            <View style={{justifyContent: 'center'}}>
+              <Text style={{fontFamily: text.boldItalic, color: Color.black}}>
+                Total Jam Kerja
+              </Text>
+              <Text style={styles.textValue}>75 Jam</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -99,45 +139,83 @@ const ListTimesheet = ({navigation}) => {
 export default ListTimesheet;
 
 const styles = StyleSheet.create({
-  backgroundCardTimesheet: {
-    backgroundColor: Color.white,
-    paddingTop: 50,
-    alignItems: 'center',
+  container: {
+    backgroundColor: Color.green,
     flex: 1,
-    flexDirection: 'column',
-    gap: 10,
-    borderTopEndRadius: 35,
-    borderTopStartRadius: 35,
-    marginTop: -100,
   },
   Judul: {
     textAlign: 'center',
-    marginVertical: 112,
     fontFamily: text.semiBold,
-    fontSize: 26,
+    fontSize: wp('6%'),
     color: Color.blue,
-  },
-  VectorAtas: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
+    textTransform: 'uppercase',
   },
   catatanKerja: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 10,
     backgroundColor: Color.white,
     borderRadius: 5,
-    borderWidth: 1,
+    borderWidth: 3,
     borderColor: Color.black,
-    width: 280,
-    marginVertical: 20,
-    padding: 10,
-    alignItems: 'center',
+    width: wp('80%'),
+    minHeight: hp('5%'),
+    justifyContent: 'space-evenly',
   },
   textValue: {
     fontFamily: text.semiBold,
     color: Color.black,
+    fontSize: wp('3.5%'),
+    textAlign: 'center',
+  },
+  dontShowCatatanKerja: {
+    backgroundColor: 'blue',
+    minHeight: hp('10%'),
+    width: wp('100%'),
+    position: 'absolute',
+    bottom: -150,
+    alignItems: 'center',
+  },
+  tampilkanCatatanKerja: {
+    // backgroundColor: 'blue',
+    minHeight: hp('10%'),
+    width: wp('100%'),
+    position: 'absolute',
+    bottom: 0,
+    alignItems: 'center',
+  },
+  btnOffInvoice: {
+    width: wp('12%'),
+    height: wp('12%'),
+    borderRadius: wp('12%'),
+    backgroundColor: Color.black,
+    position: 'absolute',
+    bottom: 10,
+    right: wp('5%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnOnInvoice: {
+    width: wp('12%'),
+    height: wp('12%'),
+    borderRadius: wp('12%'),
+    backgroundColor: Color.black,
+    position: 'absolute',
+    bottom: 100,
+    right: wp('5%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  content: {
+    backgroundColor: Color.white,
+    flex: 5,
+    position: 'relative',
+    alignItems: 'center',
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    paddingTop: 35,
+  },
+  containerJudul: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });

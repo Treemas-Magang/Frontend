@@ -1,26 +1,32 @@
-import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
+// /* eslint-disable prettier/prettier */
+/* eslint-disable prettier/prettier */
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
-import ButtonAction from '../atoms/ButtonAction';
 import ButtonBack from '../atoms/ButtonBack';
-
+import ButtonHome from '../atoms/ButtonHome';
+import VectorAtasKecil from '../atoms/VectorAtasKecil';
+import ButtonAction from '../atoms/ButtonAction';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const DetailTimesheet = ({navigation}) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
   return (
-    <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
-      <ButtonBack
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
-      />
-      <Image
-        style={styles.VectorAtas}
-        source={require('../../assets/vector/VectorAtas.png')}
-      />
-      <Text style={styles.Judul}>DETAIL TIMESHEET</Text>
-      <View style={styles.backgroundCardTimesheet}>
+    <View style={styles.container}>
+      <ButtonBack navigation={navigation} />
+      <ButtonHome navigation={navigation} />
+      <VectorAtasKecil />
+
+      <View style={styles.containerJudul}>
+        <Text style={styles.Judul}>Detail</Text>
+        <Text style={styles.Judul}>Timesheet</Text>
+      </View>
+      <View style={styles.content}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View>
             <Text style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
@@ -88,7 +94,7 @@ const DetailTimesheet = ({navigation}) => {
             <Text style={{fontFamily: text.light}}>7</Text>
           </View>
         </ScrollView>
-        <View style={styles.catatanKerja}>
+        <View style={styles.buttonUpdate}>
           <ButtonAction
             onPress={() => moveTo('formUpdateTimesheet')}
             title="UPDATE"
@@ -102,32 +108,43 @@ const DetailTimesheet = ({navigation}) => {
 export default DetailTimesheet;
 
 const styles = StyleSheet.create({
-  backgroundCardTimesheet: {
-    backgroundColor: Color.white,
-    paddingTop: 50,
-    paddingHorizontal: 29,
+  container: {
+    backgroundColor: Color.green,
     flex: 1,
-    borderTopEndRadius: 35,
-    borderTopStartRadius: 35,
-    marginTop: -50,
   },
   Judul: {
     textAlign: 'center',
-    marginVertical: 112,
-    fontFamily: 'Poppins-SemiBold',
-    fontSize: 26,
+    fontFamily: text.semiBold,
+    fontSize: wp('6%'),
     color: Color.blue,
+    textTransform: 'uppercase',
   },
-  VectorAtas: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
-  },
-  catatanKerja: {
+  buttonUpdate: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     backgroundColor: Color.white,
-    padding: 20,
-    margin: 8,
+    borderColor: Color.black,
+    width: wp('80%'),
+    minHeight: hp('10%'),
+    justifyContent: 'space-evenly',
+  },
+  textValue: {
+    fontFamily: text.semiBold,
+    color: Color.black,
+    fontSize: 10,
+  },
+  content: {
+    backgroundColor: Color.white,
+    flex: 5,
+    position: 'relative',
     alignItems: 'center',
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    paddingTop: 35,
+    paddingHorizontal: 15,
+  },
+  containerJudul: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });

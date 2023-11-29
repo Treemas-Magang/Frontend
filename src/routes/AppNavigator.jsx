@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import ListTimesheet from '../components/organisms/ListTimesheet';
 import {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -30,10 +29,28 @@ import {
   ScreenFormCuti,
   ScreenRekapCuti,
   ScreenFormClaim,
+  ScreenListMembers,
+  ScreenBelumAbsenPulang,
+  ScreenFormBelumAbsenPulang,
+  ScreenListMemberProject,
+  ScreenDetailMemberCuti,
+  ScreenDetailMemberSakit,
+  ScreenDetailMember,
+  ScreenFormSakit,
+  ScreenDetailMemberTidakMasuk,
+  ScreenApproval,
+  ScreenDetailApproval,
+  ScreenAbsensi,
+  ScreenRekapClaim,
+  ScreenListTimesheet,
+  ScreenUpdatePassword,
+  ScreenPreviewPhoto,
+  ScreenTesNotifikasi,
+  ScreenFormAbsenPulang,
+  ScreenFormUpdateTimesheet,
+  ScreenFormUpdateAbsensi,
+  ScreenFormAbsensiOther,
 } from '../pages/index';
-import CardUpdateTimesheet from '../components/molecules/CardUpdateTimesheet';
-import FormUpdateTimesheet from '../components/organisms/FormUpdateTimesheet';
-import FormCatatanKerjaHariini from '../components/organisms/FormCatatanKerjaHariini';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -49,20 +66,10 @@ const screens = [
     component: ScreenNotifPengumuman,
     gestureEnabled: true,
   },
-  {name: 'listTimesheet', component: ListTimesheet, gestureEnabled: true},
+  {name: 'listTimesheet', component: ScreenListTimesheet, gestureEnabled: true},
   {
     name: 'detailTimesheet',
     component: ScreenDetailTimesheet,
-    gestureEnabled: true,
-  },
-  {
-    name: 'cardUpdateTimesheet',
-    component: CardUpdateTimesheet,
-    gestureEnabled: true,
-  },
-  {
-    name: 'formUpdateTimesheet',
-    component: FormUpdateTimesheet,
     gestureEnabled: true,
   },
   {
@@ -103,11 +110,6 @@ const screens = [
   {
     name: 'dashboardKehadiran',
     component: ScreenDashboardKehadiran,
-    gestureEnabled: true,
-  },
-  {
-    name: 'formCatatanKerjaHariini',
-    component: FormCatatanKerjaHariini,
     gestureEnabled: true,
   },
   {
@@ -158,6 +160,106 @@ const screens = [
   {
     name: 'formClaim',
     component: ScreenFormClaim,
+    gestureEnabled: true,
+  },
+  {
+    name: 'listMembers',
+    component: ScreenListMembers,
+    gestureEnabled: true,
+  },
+  {
+    name: 'belumAbsenPulang',
+    component: ScreenBelumAbsenPulang,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formBelumAbsenPulang',
+    component: ScreenFormBelumAbsenPulang,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formSakit',
+    component: ScreenFormSakit,
+    gestureEnabled: true,
+  },
+  {
+    name: 'listMemberProject',
+    component: ScreenListMemberProject,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailMemberCuti',
+    component: ScreenDetailMemberCuti,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailMemberSakit',
+    component: ScreenDetailMemberSakit,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailMember',
+    component: ScreenDetailMember,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailMemberTidakMasuk',
+    component: ScreenDetailMemberTidakMasuk,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailApproval',
+    component: ScreenDetailApproval,
+    gestureEnabled: true,
+  },
+  {
+    name: 'approval',
+    component: ScreenApproval,
+    gestureEnabled: true,
+  },
+  {
+    name: 'absensi',
+    component: ScreenAbsensi,
+    gestureEnabled: true,
+  },
+  {
+    name: 'rekapClaim',
+    component: ScreenRekapClaim,
+    gestureEnabled: true,
+  },
+  {
+    name: 'updatePassword',
+    component: ScreenUpdatePassword,
+    gestureEnabled: true,
+  },
+  {
+    name: 'previewPhoto',
+    component: ScreenPreviewPhoto,
+    gestureEnabled: true,
+  },
+  {
+    name: 'testNotifikasi',
+    component: ScreenTesNotifikasi,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formAbsenPulang',
+    component: ScreenFormAbsenPulang,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formUpdateTimesheet',
+    component: ScreenFormUpdateTimesheet,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formUpdateAbsensi',
+    component: ScreenFormUpdateAbsensi,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formAbsensiOther',
+    component: ScreenFormAbsensiOther,
     gestureEnabled: true,
   },
 ];

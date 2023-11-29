@@ -29,19 +29,19 @@ const CardTimesheet = ({navigation, tanggal, penempatan, lokasi}) => {
           </Text>
         </View>
         <View style={styles.CardDalemTimesheetStyle}>
-          <Text style={{fontFamily: 'Poppins-LightItalic', fontSize: 12}}>
+          <Text style={{fontFamily: text.lightItalic, fontSize: 12}}>
             Penempatan
           </Text>
-          <Text style={{fontFamily: 'Poppins-SemiBold', fontSize: 12}}>
+          <Text style={{fontFamily: text.semiBold, fontSize: 12}}>
             {penempatan}
           </Text>
           <View style={{marginVertical: 5}}></View>
-          <Text style={{fontFamily: 'Poppins-LightItalic', fontSize: 12}}>
+          <Text style={{fontFamily: text.lightItalic, fontSize: 12}}>
             Lokasi
           </Text>
           <Text
             style={{
-              fontFamily: 'Poppins-SemiBold',
+              fontFamily: text.semiBold,
               fontSize: 12,
               width: 224,
               textAlign: 'justify',

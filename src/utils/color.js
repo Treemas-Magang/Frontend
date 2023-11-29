@@ -11,5 +11,8 @@ export const Color = {
   cardSakit: '#E28181',
   cardTidakMasuk: '#AEB7B6',
   red: '#E84F4F',
-  brown :'#5E4300'
+  brown: '#5E4300',
+  grey: '#D9D9D9',
+  skeleton: '#A9A9A9',
+  lightgrey: '#F1EFEF',
 };

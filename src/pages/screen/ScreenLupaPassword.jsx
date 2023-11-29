@@ -14,6 +14,7 @@ import CustomTextInput from '../../components/atoms/CustomTextInput';
 import {getDataFromSession} from '../../utils/getDataSession';
 import ButtonAction from '../../components/atoms/ButtonAction';
 import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
 const ScreenLupaPassword = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [form, setForm] = useState({
@@ -79,7 +80,7 @@ const ScreenLupaPassword = ({navigation}) => {
             <Text
               style={{
                 fontSize: 14,
-                fontFamily: 'Poppins-SemiBold',
+                fontFamily: text.semiBold,
                 color: Color.black,
               }}
               onPress={() => moveToLogin()}>

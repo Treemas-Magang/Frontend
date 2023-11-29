@@ -1,24 +1,32 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React from 'react';
 import ButtonBack from '../atoms/ButtonBack';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import CardRekapCuti from '../molecules/CardRekapCuti';
+import ButtonHome from '../atoms/ButtonHome';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import VectorAtasBesar from '../atoms/VectorAtasBesar';
 
 const ListRekapCuti = ({navigation}) => {
   return (
     <View style={styles.background}>
-      <ButtonBack
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
-      />
+      <ButtonBack navigation={navigation} />
+      <ButtonHome navigation={navigation} />
+      <VectorAtasBesar />
       <View style={styles.wrapKeteranganCuti}>
-        <Image
-          style={styles.VectorAtasKanan}
-          source={require('../../assets/vector/VectorKananAtas.png')}
-        />
-        <Text style={styles.judul}>KETERANGAN CUTI</Text>
+        <View
+          style={{
+            width: wp('100%'),
+            height: hp('30%'),
+            justifyContent: 'center',
+          }}>
+          <Text style={styles.Judul}>Keterangan Cuti</Text>
+        </View>
       </View>
       <View style={styles.wrapCardRekapCuti}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -60,10 +68,12 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 35,
     position: 'relative',
   },
-  judul: {
+  Judul: {
+    textAlign: 'center',
     fontFamily: text.semiBold,
-    fontSize: 26,
+    fontSize: wp('6%'),
     color: Color.blue,
+    textTransform: 'uppercase',
   },
   wrapStatus: {
     flexDirection: 'row',
@@ -78,11 +88,5 @@ const styles = StyleSheet.create({
     height: 15,
     backgroundColor: Color.cardSakit,
     borderRadius: 15,
-  },
-  VectorAtasKanan: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
   },
 });

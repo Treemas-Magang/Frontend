@@ -51,5 +51,25 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<!-- permission IOS -->
+	<!-- maps -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Aplikasi ini membutuhkan akses lokasi saat Anda menggunakannya untuk memberikan data peta yang relevan.</string>
+
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Aplikasi ini membutuhkan akses lokasi bahkan saat tidak digunakan untuk memberikan pembaruan data peta yang kontinu.</string>
+
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Aplikasi ini membutuhkan akses lokasi baik saat sedang digunakan maupun tidak untuk memberikan data peta secara lancar.</string>
+
+	<!-- image picker -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Aplikasi ini membutuhkan akses ke galeri foto Anda</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Aplikasi ini membutuhkan akses ke kamera Anda</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Aplikasi ini membutuhkan akses ke mikrofon Anda (untuk video)</string>
+
+
 </dict>
 </plist>

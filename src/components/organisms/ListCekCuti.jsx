@@ -5,7 +5,6 @@ import {
   Text,
   View,
   ScrollView,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
@@ -16,6 +15,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
 import Kalender from '../molecules/Kalender';
 import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
+import VectorAtasKecil from '../atoms/VectorAtasKecil';
 
 const ListCekCuti = ({navigation}) => {
   const [showKalender, setShowKalender] = useState(false);
@@ -60,14 +61,9 @@ const ListCekCuti = ({navigation}) => {
   console.log(showKalender);
   return (
     <View style={styles.background}>
-      <ButtonBack
-        navigation={navigation}
-        style={{position: 'absolute', top: 20, left: 20}}
-      />
-      <Image
-        style={styles.VectorAtas}
-        source={require('../../assets/vector/VectorAtas.png')}
-      />
+      <ButtonBack navigation={navigation} />
+      <ButtonHome navigation={navigation} />
+      <VectorAtasKecil />
       <View style={styles.wrapCekCuti}>
         <Text style={styles.judul}>CEK CUTI</Text>
       </View>
@@ -133,12 +129,6 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     fontSize: 26,
     color: Color.blue,
-  },
-  VectorAtas: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    zIndex: -1,
   },
   Kalender: {
     flexDirection: 'row',

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   StyleSheet,
   Text,
@@ -30,10 +31,6 @@ const CardUpdateTimesheet = () => {
       behavior="position"
       keyboardVerticalOffset={-500}
       style={styles.container}>
-      <Image
-        style={styles.VectorAtasKebalik}
-        source={require('../../assets/vector/VectorAtasKebalik.png')}
-      />
       <View style={styles.CardUpdateTimesheet}>
         <Text
           style={{
@@ -51,10 +48,6 @@ const CardUpdateTimesheet = () => {
         />
         <ButtonAction onPress={() => sendData()} title="UPDATE" />
       </View>
-      <Image
-        style={styles.VectorBawah}
-        source={require('../../assets/vector/VectorBawah.png')}
-      />
     </KeyboardAvoidingView>
   );
 };
@@ -71,20 +64,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 50,
-  },
-  VectorBawah: {
-    position: 'absolute',
-    bottom: -300,
-    left: -36,
-    zIndex: -1,
-    width: '100%',
-  },
-  VectorAtasKebalik: {
-    position: 'absolute',
-    top: -240,
-    left: -36,
-    zIndex: -1,
-    width: '100%',
   },
   container: {
     flex: 1,

@@ -1,134 +1,301 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable comma-dangle */
-import React, {useState} from 'react';
-import {View, Text, ScrollView} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import React, {useState, useEffect} from 'react';
+import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import {Color} from '../../utils/color';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faFileInvoice} from '@fortawesome/free-solid-svg-icons';
 import CardUpdateProject from '../molecules/CardUpdateProject';
 import ButtonAction from '../atoms/ButtonAction';
+import {text} from '../../utils/text';
+import VectorAtasBesar from '../atoms/VectorAtasBesar';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
+import {getDataFromSession} from '../../utils/getDataSession';
+import axios from 'axios';
+import SkeletonCardUpdateProject from '../skeleton/SkeletonCardUpdateProject';
+import LottieView from 'lottie-react-native';
+import {AlertNotificationSuccess} from '../atoms/AlertNotification';
+import ButtonLoading from '../atoms/ButtonLoading';
 
-const UpdateListProject = () => {
-  const [checkboxes, setCheckboxes] = useState([
-    {
-      title: 'ARTHAASIA FINANCE',
-      alamat:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      value: false,
-    },
-    {
-      title: 'BANK OF TOKYO',
-      alamat:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      value: false,
-    },
-    {
-      title: 'BANK BTPN',
-      alamat:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      value: false,
-    },
-    {
-      title: 'BANK BTPN',
-      alamat:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      value: false,
-    },
-    {
-      title: 'BANK BTPN',
-      alamat:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      value: false,
-    },
-    {
-      title: 'BANK BTPN',
-      alamat:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      value: false,
-    },
-  ]);
+const UpdateListProject = ({navigation}) => {
+  const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [dataAllProject, setDataAllProject] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
+  const [patch, setPatch] = useState([]);
+  const [patchBlmUpdt, setPatchBlmUpdt] = useState([]);
+  const [initialDataAllProjectBlmUpdt, setInitialDataAllProjectBlmUpdt] =
+    useState([]);
+  const [changedDataState, setChangedDataState] = useState([]);
 
-  const toggleCheckbox = index => {
-    const updatedCheckboxes = [...checkboxes];
-    updatedCheckboxes[index].value = !updatedCheckboxes[index].value;
-    setCheckboxes(updatedCheckboxes);
+  const getData = async headers => {
+    try {
+      const res = await axios.get(
+        'http://192.168.10.31:8081/api/absen/get-all-projects',
+        {headers},
+      );
+      console.log('data : ', res.data.success);
+      const dataApi = res.data.data;
+
+      const newData = dataApi.map(item => ({
+        ...item,
+        value: item.active === '1' ? true : false,
+      }));
+
+      console.log('data baru : ', newData);
+      setDataAllProject(newData);
+      setInitialDataAllProjectBlmUpdt(JSON.parse(JSON.stringify(newData))); // Deep copy of the array
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
+    }
   };
 
+  useEffect(() => {
+    const patchData = dataAllProject.map(item => ({
+      active: item.value ? '1' : '0',
+      projectId: item.projectId,
+    }));
+    setPatch(patchData);
+
+    // Using deep copy for the initial data
+    const patchDataBlmUpdt = initialDataAllProjectBlmUpdt.map(item => ({
+      active: item.value ? '1' : '0',
+      projectId: item.projectId,
+    }));
+    setPatchBlmUpdt(patchDataBlmUpdt);
+  }, [dataAllProject, initialDataAllProjectBlmUpdt]);
+
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        console.log(token);
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          contentType: 'application/json',
+        };
+        getData(headers);
+      })
+      .catch(error => {
+        console.log(error);
+        setIsLoading(false); // Set loading to false in case of error
+      });
+  }, []);
+
+  const toggleCheckbox = index => {
+    const updatedCheckboxes = [...dataAllProject];
+    updatedCheckboxes[index].value = !updatedCheckboxes[index].value;
+    updatedCheckboxes[index].active = updatedCheckboxes[index].value
+      ? '1'
+      : '0';
+    setDataAllProject(updatedCheckboxes);
+  };
+
+  const dataYangAkanDikirim = async (headers, dtPatch) => {
+    try {
+      const res = await axios.patch(
+        'http://192.168.10.31:8081/api/absen/update-penempatan',
+        {projectTerpilih: dtPatch},
+        {headers},
+      );
+
+      console.log('success :', res.data.success);
+      setUploadBerhasil(true);
+      setBtnLoading(false);
+    } catch (error) {
+      console.error('Error:', error.response);
+      setBtnLoading(false);
+    }
+  };
+  useEffect(() => {
+    // Assuming patchDataBlmUpdt and patchData are your original arrays
+    const findChangedData = () => {
+      const changedData = [];
+
+      patchBlmUpdt.forEach(itemBlmUpdt => {
+        const correspondingItem = patch.find(
+          item => item.projectId === itemBlmUpdt.projectId,
+        );
+
+        // Check if the corresponding item exists and has a different 'active' value
+        if (
+          correspondingItem &&
+          itemBlmUpdt.active !== correspondingItem.active
+        ) {
+          changedData.push(itemBlmUpdt);
+        }
+      });
+
+      return changedData;
+    };
+
+    // Call findChangedData to get the initial changed data
+    const initialChangedData = findChangedData();
+
+    // Set the state with the initial changed data
+    setChangedDataState(initialChangedData);
+  }, [patchBlmUpdt, patch]);
+
+  // Watch for changes in patchBlmUpdt
+  useEffect(() => {
+    // Assuming patchDataBlmUpdt and patchData are your original arrays
+    const findChangedData = () => {
+      const changedData = [];
+
+      patch.forEach(itemPatch => {
+        const correspondingItem = patchBlmUpdt.find(
+          item => item.projectId === itemPatch.projectId,
+        );
+
+        // Check if the corresponding item exists and has a different 'active' value
+        if (
+          correspondingItem &&
+          itemPatch.active !== correspondingItem.active
+        ) {
+          changedData.push(itemPatch);
+        }
+      });
+
+      return changedData;
+    };
+
+    // Call findChangedData to get the changed data
+    const updatedChangedData = findChangedData();
+
+    // Set the state with the changed data
+    setChangedDataState(updatedChangedData);
+  }, [patchBlmUpdt, patch]);
+
+  console.log('Changed Data State:', changedDataState);
+
+  const sendData = async () => {
+    setBtnLoading(true);
+    try {
+      const token = await getDataFromSession('token');
+      console.log(token);
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
+
+      await dataYangAkanDikirim(headers, changedDataState);
+    } catch (error) {
+      console.log(error);
+      setBtnLoading(false);
+    }
+  };
+  const close = () => {
+    setUploadBerhasil(false);
+  };
   return (
-    <View style={{width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: Color.green}}>
-    <View style={{backgroundColor: Color.white, width: 320, paddingVertical: 20, alignItems: 'center', borderRadius: 10}}>
-      <Text style={{
-            fontFamily: 'Poppins-SemiBold',
-            textTransform: 'uppercase',
-            fontSize: 26,
-            color: Color.blue,
-            textAlign: 'center',
-            marginVertical: 30
-          }}>DAFTAR PROJECT</Text>
-    <ScrollView style={{height: 500}} showsVerticalScrollIndicator={false}>
-      {checkboxes.map((checkbox, index) => (
-        <View key={index} style={{flexDirection: 'column'}}>
-          <CardUpdateProject alamat={checkbox.alamat} title={checkbox.title} onValueChange={() => toggleCheckbox(index)} value={checkbox.value}  />
+    <View style={styles.wrapScreenDaftarProject}>
+      {uploadBerhasil ? (
+        <View style={{position: 'absolute'}}>
+          <AlertNotificationSuccess
+            buttonAlert="Close"
+            textBodyAlert="Project Berhasil Di Update"
+            titleAlert="Success"
+            onPress={close}
+          />
         </View>
-      ))}
-      {/* <Text>Selected options:</Text>
-      {checkboxes
-        .filter(checkbox => checkbox.value)
-        .map((checkbox, index) => (
-          <View key={index}>
-            <Text>{checkbox.title}</Text>
-            <Text>{checkbox.alamat}</Text>
-          </View>
-        ))} */}
-    </ScrollView>
-    <ButtonAction title='UPDATE' style={{marginTop: 20}} />
-    </View>
+      ) : (
+        ''
+      )}
+      <ButtonBack navigation={navigation} />
+      <ButtonHome navigation={navigation} />
+      <VectorAtasBesar />
+      <View style={styles.wrapCardDaftarProject}>
+        <Text style={styles.textTitleDaftarProject}>DAFTAR PROJECT</Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {isLoading ? (
+            <View style={{gap: 15}}>
+              <SkeletonCardUpdateProject />
+              <SkeletonCardUpdateProject />
+              <SkeletonCardUpdateProject />
+            </View>
+          ) : dataAllProject.length > 0 ? (
+            dataAllProject.map((dataProjects, index) => (
+              <View key={index}>
+                <CardUpdateProject
+                  alamat={dataProjects.projectAddress}
+                  title={dataProjects.projectName}
+                  onValueChange={() => toggleCheckbox(index)}
+                  value={dataProjects.value}
+                />
+              </View>
+            ))
+          ) : (
+            <View style={styles.wrapDataNotFound}>
+              <LottieView
+                source={require('../../assets/animation/dataNotFound.json')}
+                autoPlay
+                style={{
+                  width: '100%',
+                  height: '70%',
+                }}></LottieView>
+              <Text style={styles.textDataNotFound}>
+                Tidak Ada Data Project
+              </Text>
+            </View>
+          )}
+        </ScrollView>
+        {btnLoading ? (
+          <ButtonLoading
+            style={{marginVertical: 10, width: wp('75%'), height: hp('8%')}}
+          />
+        ) : (
+          <ButtonAction
+            title="UPDATE"
+            style={{marginVertical: 10, width: wp('75%'), height: hp('8%')}}
+            onPress={sendData}
+          />
+        )}
+      </View>
     </View>
   );
 };
 
 export default UpdateListProject;
 
-    // <View>
-    //   <Text>Select multiple options:</Text>
-    //   {checkboxes.map((checkbox, index) => (
-    //     <View key={index} style={{flexDirection: 'column'}}>
-    //       <View
-    //         style={{
-    //           backgroundColor: Color.green,
-    //           height: 90,
-    //           width: 295,
-    //           flexDirection: 'row',
-    //           justifyContent: 'center',
-    //           alignItems: 'center',
-    //           marginVertical: 10,
-    //           gap: 8
-    //         }}>
-    //         <FontAwesomeIcon
-    //           icon={faFileInvoice}
-    //           size={50}
-    //           color={Color.white}
-    //         />
-    //         <View style={{width: 180}}>
-    //           <Text>{checkbox.title}</Text>
-    //           <Text style={{textAlign:'justify'}} numberOfLines={3}>{checkbox.alamat}</Text>
-    //         </View>
-    //         <CheckBox
-    //           value={checkbox.value}
-    //           onValueChange={() => toggleCheckbox(index)}
-    //         />
-    //       </View>
-    //     </View>
-    //   ))}
-    //   <Text>Selected options:</Text>
-    //   {checkboxes
-    //     .filter(checkbox => checkbox.value)
-    //     .map((checkbox, index) => (
-    //       <View key={index}>
-    //         <Text>{checkbox.title}</Text>
-    //         <Text>{checkbox.alamat}</Text>
-    //       </View>
-    //     ))}
-    // </View>
+const styles = StyleSheet.create({
+  wrapScreenDaftarProject: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Color.green,
+    paddingTop: 50,
+  },
+  wrapCardDaftarProject: {
+    backgroundColor: Color.white,
+    width: wp('85%'),
+    height: hp('67%'),
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  textTitleDaftarProject: {
+    fontFamily: text.semiBold,
+    textTransform: 'uppercase',
+    fontSize: 26,
+    color: Color.blue,
+    textAlign: 'center',
+    marginVertical: 10,
+  },
+  wrapDataNotFound: {
+    width: wp('70%'),
+    height: hp('45%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
+    textTransform: 'uppercase',
+  },
+});

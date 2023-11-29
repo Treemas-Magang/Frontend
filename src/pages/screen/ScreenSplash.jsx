@@ -1,80 +1,65 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
 import {ActivityIndicator, Image, StyleSheet, View} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Color} from '../../utils/color';
-import getLocation from '../../utils/getLocation';
 import requestLocationPermission from '../../utils/permissionService';
-import {useDispatch, useSelector} from 'react-redux';
-import {setLocation} from '../../redux';
-import Geolocation from '@react-native-community/geolocation';
 import getAppVersion from '../../utils/getAppVersion';
 import getIdDevice from '../../utils/getIdDevice';
+import { resetSudahAbsen } from '../../utils/resetSudahAbsen';
+import { getDataFromSession } from '../../utils/getDataSession';
+import { jamSekarang } from '../../utils/jamSekarang';
 const ScreenSplash = ({navigation}) => {
-  const dispatch = useDispatch();
-  const {location} = useSelector(state => state.SplashReducer);
-
   useEffect(() => {
-    // Geolocation.setRNConfiguration({
-    //   skipPermissionRequests: true, // Anda perlu mengurus izin sendiri
-    //   authorizationLevel: 'whenInUse', // Izin yang diperlukan saat aplikasi aktif
-    // });
-    getAppVersion()
-    getIdDevice()
-    const fetchData = async () => {
-      // ...
+        console.log(jamSekarang());
+        resetSudahAbsen();
+        const fetchData = async () => {
+          try {
+            // Dapatkan ID perangkat
+            const deviceId = await getIdDevice();
 
-      // Meminta izin lokasi dan mendapatkan lokasi
-      const hasPermission = await requestLocationPermission();
-      if (hasPermission) {
-        console.log('Izin lokasi diberikan.');
-        try {
-          const locationData = await getLocation();
-          console.log('Lokasi berhasil diambil:', locationData);
+            // Dapatkan versi aplikasi
+            const appVersion = await getAppVersion();
 
-          // Set nilai lokasi ke dalam reducer
-          dispatch(
-            setLocation(
-              locationData.latitude,
-              locationData.longitude,
-              locationData.accuracy,
-            ),
-          );
-        } catch (error) {
-          console.error('Kesalahan saat mengambil lokasi:', error);
-        }
-      } else {
-        console.log('Izin lokasi tidak diberikan.');
-      }
+            // Mintakan izin lokasi
+            await requestLocationPermission();
 
-      // ...
-
-      // Cek apakah data isAppVersion telah disimpan di AsyncStorage
-      AsyncStorage.getItem('appVersion')
-        .then(savedAppVersion => {
-          console.log('versi app : ',savedAppVersion)
-          const shouldNavigate = savedAppVersion !== null;
-          if (shouldNavigate && location !== null) {
-            // Jika data tersedia di AsyncStorage dan location tidak null, lanjutkan ke halaman login
+            // Navigasi ke layar login setelah berhasil mendapatkan semua informasi
+            if (deviceId && appVersion) {
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'login'}],
+              });
+            }
+          } catch (error) {
+            // Tangani kesalahan jika diperlukan
+            console.error('Error:', error);
+          }
+        };
+        getDataFromSession('token')
+        .then(token => {
+          if (token !== null) {
             navigation.reset({
               index: 0,
-              routes: [{name: 'login'}],
+              routes: [{name: 'dashboard'}],
             });
+          } else {
+                fetchData();
           }
         })
-        .catch(error => {
-          console.error(
-            'Gagal mengambil data versi aplikasi atau location',
-            error,
-          );
-        });
-    };
+        .catch(error => console.log(error))
+        // const token =
+        //   'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMDAzIiwiaWF0IjoxNzAwNzk0OTIyLCJleHAiOjE3MDA4ODEzMjJ9.MLVAc0CtlKJN__I4IozWiI_TloIIgtbjKXZ1QYfbuco';
+        //   if (token !== null) {
+        //     navigation.reset({
+        //       index: 0,
+        //       routes: [{name: 'dashboard'}],
+        //     });
+        //   } else {
+        //     fetchData();
+        //   }
 
-    fetchData();
-  }, [navigation, dispatch]);
-  console.log('dari redux: ',location)
+  }, [navigation]);
   return (
     <View
       style={{
