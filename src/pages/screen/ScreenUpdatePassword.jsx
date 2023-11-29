@@ -15,7 +15,7 @@ import {setFormUpdatePassword} from '../../redux';
 import {useRoute} from '@react-navigation/native';
 const ScreenUpdatePassword = ({navigation}) => {
   const route = useRoute();
-  const {nik} = route.params;
+  // const {nik} = route.params;
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.UpdatePasswordReducer);
   const [newPass, setNewPass] = useState('');
@@ -76,8 +76,8 @@ const ScreenUpdatePassword = ({navigation}) => {
         </View>
         <View
           style={{
+            height: hp('25%'),
             width: wp('100%'),
-            height: hp('20%'),
             position: 'relative',
           }}>
           <Image
