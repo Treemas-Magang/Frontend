@@ -93,7 +93,7 @@ export const setAbsenMasuk = (inputType, value) => {
 };
 export const setUpdateAbsen = (inputType, value) => {
   return {
-    type: 'SET_FORM_APDATE_ABSEN',
+    type: 'SET_FORM_UPDATE_ABSEN',
     inputType: inputType,
     inputValue: value,
   };

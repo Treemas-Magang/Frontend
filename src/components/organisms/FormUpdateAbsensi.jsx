@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import {
   StyleSheet,
@@ -7,6 +8,7 @@ import {
   Image,
   ActivityIndicator,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
@@ -18,7 +20,7 @@ import ButtonAction from '../atoms/ButtonAction';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCamera} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
-import {setFormAbsensi} from '../../redux';
+import {setUpdateAbsen} from '../../redux';
 import axios from 'axios';
 import {checkMockLocation} from '../../utils/checkMockLocation';
 import {jamSekarang} from '../../utils/jamSekarang';
@@ -27,15 +29,24 @@ import {getDataFromSession} from '../../utils/getDataSession';
 import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
+import { useRoute } from '@react-navigation/native';
 
 const FormUpdateAbsensi = ({navigation}) => {
   const dispatch = useDispatch();
-  const {formAbsensi} = useSelector(state => state.FormAbsensiReducer);
+  const {formUpdateMasuk} = useSelector(state => state.UpdateAbsenReducer);
   const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
   const {isWFH} = useSelector(state => state.IsWFHReducer);
   const [capturedImage, setCapturedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [isJarakTerlaluJauh, setIsJarakTerlaluJauh] = useState(false);
+  const {jarakTerlaluJauh} = useRoute().params;
+
+  //cek jarak terlalu jauh
+  useEffect(() => {
+    setIsJarakTerlaluJauh(jarakTerlaluJauh);
+  }, []);
+
 
   //simpan data image jadi base64
   let base64ImageData = null;
@@ -54,7 +65,7 @@ const FormUpdateAbsensi = ({navigation}) => {
       .then(imageData => {
         //tanganin saat berhasil dapat data
         setCapturedImage(imageData);
-        dispatch(setFormAbsensi('photoAbsen', imageData.base64));
+        dispatch(setUpdateAbsen('photoAbsen', imageData.base64));
         setIsLoading(false);
       })
       .catch(error => {
@@ -72,7 +83,7 @@ const FormUpdateAbsensi = ({navigation}) => {
       .then(imageData => {
         //tanganin saat berhasil dapat data
         setCapturedImage(imageData);
-        dispatch(setFormAbsensi('photoAbsen', imageData.base64));
+        dispatch(setUpdateAbsen('photoAbsen', imageData.base64));
         setIsLoading(false);
       })
       .catch(error => {
@@ -89,7 +100,7 @@ const FormUpdateAbsensi = ({navigation}) => {
 
   //fungsi untuk menangkap perubahan pada InputText lalu mengirim ke reducer
   const onChangeText = (value, inputType) => {
-    dispatch(setFormAbsensi(inputType, value));
+    dispatch(setUpdateAbsen(inputType, value));
   };
 
     //fungsi untuk menangani saat mau mengirim data Absen
@@ -105,8 +116,8 @@ const FormUpdateAbsensi = ({navigation}) => {
           try {
             //melakukan hit ke API untuk kirim data Absen
             const response = await axios.post(
-              'http://192.168.10.31:8081/api/absen/input-absen',
-              formAbsensi,
+              'http://192.168.10.31:8081/api/absen/update-absen',
+              formUpdateMasuk,
               {headers},
             );
             console.log(response.data.success);
@@ -115,13 +126,13 @@ const FormUpdateAbsensi = ({navigation}) => {
             setUploadBerhasil(true);
             setIsLoading(false);
             //saat berhasil kirim data kosongkan reducer
-            dispatch(setFormAbsensi('namaTempat', ''));
-            dispatch(setFormAbsensi('jarakMsk', ''));
-            dispatch(setFormAbsensi('noteTelatMsk', ''));
-            dispatch(setFormAbsensi('gpsLatitudeMsk', ''));
-            dispatch(setFormAbsensi('gpsLongitudeMsk', ''));
-            dispatch(setFormAbsensi('photoAbsen', ''));
-            dispatch(setFormAbsensi('isWfh', ''));
+            dispatch(setUpdateAbsen('namaTempat', ''));
+            dispatch(setUpdateAbsen('jarakMsk', ''));
+            dispatch(setUpdateAbsen('noteTelatMsk', ''));
+            dispatch(setUpdateAbsen('gpsLatitudeMsk', ''));
+            dispatch(setUpdateAbsen('gpsLongitudeMsk', ''));
+            dispatch(setUpdateAbsen('photoAbsen', ''));
+            dispatch(setUpdateAbsen('isWfh', ''));
 
             // navigation.replace('dashboard');
             try {
@@ -134,13 +145,13 @@ const FormUpdateAbsensi = ({navigation}) => {
             console.log(error.response);
             const errorCode = error.response.status;
             //saat gagal kirim data kosongkan reducer
-            // dispatch(setFormAbsensi('namaTempat', ''));
-            // dispatch(setFormAbsensi('jarakMsk', ''));
-            // dispatch(setFormAbsensi('noteTelatMsk', ''));
-            // dispatch(setFormAbsensi('gpsLatitudeMsk', ''));
-            // dispatch(setFormAbsensi('gpsLongitudeMsk', ''));
-            // dispatch(setFormAbsensi('photoAbsen', ''));
-            // dispatch(setFormAbsensi('isWfh', ''));
+            // dispatch(setUpdateAbsen('namaTempat', ''));
+            // dispatch(setUpdateAbsen('jarakMsk', ''));
+            // dispatch(setUpdateAbsen('noteTelatMsk', ''));
+            // dispatch(setUpdateAbsen('gpsLatitudeMsk', ''));
+            // dispatch(setUpdateAbsen('gpsLongitudeMsk', ''));
+            // dispatch(setUpdateAbsen('photoAbsen', ''));
+            // dispatch(setUpdateAbsen('isWfh', ''));
             switch (errorCode) {
               case 403:
                 console.log('project tidak tepat');
@@ -178,7 +189,7 @@ const FormUpdateAbsensi = ({navigation}) => {
 
     try {
       checkMockLocation();
-      console.log('kirim data update : ', formAbsensi);
+      console.log('kirim data update : ', formUpdateMasuk);
         await kirimDataAbsensi();
     } catch (error) {
       console.error('Error in sendData:', error);
@@ -218,14 +229,14 @@ const FormUpdateAbsensi = ({navigation}) => {
         multiline={true}
         style={styles.textArea}
         editable={false}
-        value={formAbsensi.lokasiMsk}
+        value={formUpdateMasuk.lokasiMsk}
         onTextChange={value => onChangeText(value, 'lokasi')}
       />
       <CustomTextInput
         label="Jarak"
         editable={false}
         secureTextEntry={false}
-        value={formAbsensi.jarakMsk}
+        value={formUpdateMasuk.jarakMsk}
         onTextChange={value => onChangeText(value, 'jarak')}
       />
       {isWFH > 0 ? (
@@ -273,7 +284,11 @@ const FormUpdateAbsensi = ({navigation}) => {
       ) : isLoading ? (
         <ButtonLoading />
       ) : (
+        isJarakTerlaluJauh ? (
+        <ButtonAction title="Jarak terlalu jauh" style={{width: 269}} />
+        ) : (
         <ButtonAction title="Update" style={{width: 269}} onPress={sendData} />
+        )
       )}
     </View>
   );

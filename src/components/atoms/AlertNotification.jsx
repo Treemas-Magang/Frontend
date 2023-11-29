@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+
 import React from 'react';
 import {
   ALERT_TYPE,
@@ -6,11 +7,20 @@ import {
   AlertNotificationRoot,
 } from 'react-native-alert-notification';
 
+/**
+ * Komponen AlertNotificationSuccess digunakan untuk menampilkan notifikasi sukses.
+ *
+ * @param {string} titleAlert - Judul notifikasi.
+ * @param {string} textBodyAlert - Isi teks notifikasi.
+ * @param {string} buttonAlert - Teks tombol notifikasi.
+ * @param {function} onPress - Fungsi yang akan dipanggil ketika tombol notifikasi ditekan.
+ * @returns {JSX.Element} - Komponen React untuk menampilkan notifikasi sukses.
+ */
 export const AlertNotificationSuccess = ({
   titleAlert,
   textBodyAlert,
   buttonAlert,
-  onPress
+  onPress,
 }) => {
   return (
     <AlertNotificationRoot>
@@ -25,6 +35,14 @@ export const AlertNotificationSuccess = ({
   );
 };
 
+/**
+ * Komponen AlertNotificationWarning digunakan untuk menampilkan notifikasi peringatan.
+ *
+ * @param {string} titleAlert - Judul notifikasi.
+ * @param {string} textBodyAlert - Isi teks notifikasi.
+ * @param {string} buttonAlert - Teks tombol notifikasi.
+ * @returns {JSX.Element} - Komponen React untuk menampilkan notifikasi peringatan.
+ */
 export const AlertNotificationWarning = ({
   titleAlert,
   textBodyAlert,
@@ -32,17 +50,24 @@ export const AlertNotificationWarning = ({
 }) => {
   return (
     <AlertNotificationRoot>
-      <AlertNotificationRoot>
-        {Dialog.show({
-          type: ALERT_TYPE.WARNING,
-          title: titleAlert,
-          textBody: textBodyAlert,
-          button: buttonAlert,
-        })}
-      </AlertNotificationRoot>
+      {Dialog.show({
+        type: ALERT_TYPE.WARNING,
+        title: titleAlert,
+        textBody: textBodyAlert,
+        button: buttonAlert,
+      })}
     </AlertNotificationRoot>
   );
 };
+
+/**
+ * Komponen AlertNotificationDanger digunakan untuk menampilkan notifikasi berbahaya.
+ *
+ * @param {string} titleAlert - Judul notifikasi.
+ * @param {string} textBodyAlert - Isi teks notifikasi.
+ * @param {string} buttonAlert - Teks tombol notifikasi.
+ * @returns {JSX.Element} - Komponen React untuk menampilkan notifikasi berbahaya.
+ */
 export const AlertNotificationDanger = ({
   titleAlert,
   textBodyAlert,

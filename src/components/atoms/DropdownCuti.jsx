@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+
 import {
   StyleSheet,
   Text,
@@ -10,26 +11,45 @@ import {
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
+
+/**
+ * Komponen DropdownCuti digunakan untuk membuat dropdown pilihan jenis cuti.
+ *
+ * @param {function} data - Fungsi untuk mengirim nilai jenis cuti yang dipilih ke komponen induk.
+ * @param {function} idTypeCuti - Fungsi untuk mengirim ID jenis cuti yang dipilih ke komponen induk.
+ * @param {Array} dataType - Array yang berisi data jenis cuti.
+ * @returns {JSX.Element} - Komponen React untuk dropdown pilihan jenis cuti.
+ */
 const DropdownCuti = ({data, idTypeCuti, dataType}) => {
   const [type, setType] = useState('');
   const [idType, setIdtype] = useState('');
   const [dataCuti, setDataCuti] = useState([]);
 
+  /**
+   * Fungsi useEffect pertama digunakan untuk mengirim nilai jenis cuti dan ID jenis cuti yang dipilih ke komponen induk.
+   */
   useEffect(() => {
     data(type);
     idTypeCuti(idType);
   }, [type, idType, data, idTypeCuti]);
+
+  /**
+   * Fungsi handlePilihType digunakan untuk menangani pemilihan jenis cuti.
+   * @param {string} cutiDesc - Deskripsi jenis cuti yang dipilih.
+   * @param {string} id - ID jenis cuti yang dipilih.
+   */
   const handlePilihType = (cutiDesc, id) => {
     setType(cutiDesc);
     setIdtype(id);
   };
-  data(type);
-  idTypeCuti(idType);
+
+  /**
+   * Fungsi useEffect kedua digunakan untuk mengatur data jenis cuti yang akan ditampilkan.
+   */
   useEffect(() => {
     setDataCuti(dataType);
   }, [dataType]);
 
-  console.log(dataCuti);
   return (
     <ScrollView style={{height: 200}} nestedScrollEnabled={true}>
       {dataCuti?.length ? (
@@ -49,8 +69,6 @@ const DropdownCuti = ({data, idTypeCuti, dataType}) => {
   );
 };
 
-export default DropdownCuti;
-
 const styles = StyleSheet.create({
   item: {
     borderBottomWidth: 1,
@@ -67,3 +85,5 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
+
+export default DropdownCuti;

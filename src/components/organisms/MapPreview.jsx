@@ -51,12 +51,23 @@ const MapPreview = ({navigation}) => {
   console.log('isWFH :', isWFH);
   const [isAbsen, setIsAbsen] = useState('');
   const [isPerbarui, setIsPerbarui] = useState(false);
-  const [isPulang, setIsPulang] = useState(false);
+  const [isPulang, setIsPulang] = useState('');
   const [currentLocation, setCurrentLocation] = useState(initialLokasiUser);
   const [lokasiPerusahaan, setLokasiPerusahaan] = useState(
     initialLokasiPerusahaan,
   );
   const [locationLoaded, setLocationLoaded] = useState(false);
+
+  useEffect(() => {
+    getDataFromSession('sudah_pulang')
+    .then(sudahPulang => {
+      setIsPulang(sudahPulang);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }, []);
+
 
   useEffect(() => {
     setLokasiPerusahaan({
@@ -136,7 +147,7 @@ const MapPreview = ({navigation}) => {
       //jarak user ke kantor 100 = 100 meter
       const jarakMaxMasuk = parseInt(dataProject.jrkMax);
       console.log('jarak max masuk : ', jarakMaxMasuk);
-      if (isWFH === '0' || isAbsen === 'true') {
+      if (isWFH === '0' || isAbsen === 'false') {
         if (jarakBulat > jarakMaxMasuk) {
           Alert.alert(
             'Peringatan',
@@ -231,7 +242,20 @@ const MapPreview = ({navigation}) => {
       )}
       {locationLoaded ? (
         <>
-          {isAbsen === 'true' ? (
+        {
+          isPulang === 'true' ? (
+            <ButtonAction
+              // onPress={handleMasuk}
+              style={{
+                position: 'absolute',
+                bottom: 50,
+                left: wp('12'),
+                width: wp('75%'),
+              }}
+              title="Batal pulang"
+            />
+          ) : (
+          isAbsen === 'true' ? (
             <View
               style={{
                 position: 'absolute',
@@ -267,7 +291,8 @@ const MapPreview = ({navigation}) => {
               }}
               title="masuk"
             />
-          )}
+          ))
+        }
         </>
       ) : (
         ''
