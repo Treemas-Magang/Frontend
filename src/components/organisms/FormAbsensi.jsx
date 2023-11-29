@@ -184,7 +184,11 @@ const FormAbsensi = ({navigation}) => {
 
   //fungsi untuk pindah ke dashboard di jalankan setelah berhasil absen dan update
   const toDashboard = () => {
-    navigation.replace('dashboard');
+    // navigation.replace('dashboard');
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'dashboard'}],
+    });
   };
 
   const sendData = async () => {
