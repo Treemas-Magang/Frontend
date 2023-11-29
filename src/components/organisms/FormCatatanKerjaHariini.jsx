@@ -4,13 +4,16 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import CardCatatanKerjaHariini from '../molecules/CardCatatanKerjaHariini';
 import ButtonBack from '../atoms/ButtonBack';
-import { useRoute } from '@react-navigation/native';
+import ButtonHome from '../atoms/ButtonHome';
+import VectorAtasBesar from '../atoms/VectorAtasBesar';
 
 const FormCatatanKerjaHariini = ({navigation}) => {
   return (
     <View style={styles.BackgroundCatatanKerja}>
       <ButtonBack navigation={navigation} />
-      <CardCatatanKerjaHariini  />
+      <ButtonHome navigation={navigation} />
+      <VectorAtasBesar />
+      <CardCatatanKerjaHariini />
     </View>
   );
 };

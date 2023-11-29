@@ -1,11 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {
-  StyleSheet,
-  Text,
-  View,
-  KeyboardAvoidingView,
-  Image,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import CustomTextInput from '../atoms/CustomTextInput';
 import ButtonAction from '../../components/atoms/ButtonAction';
@@ -13,11 +7,11 @@ import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import {useSelector, useDispatch} from 'react-redux';
 import {setAbsenPulang} from '../../redux';
-import { cekPulangCepat } from '../../utils/cekJamTelatDanPulangCepat';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {cekPulangCepat} from '../../utils/cekJamTelatDanPulangCepat';
+import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
-import { checkMockLocation } from '../../utils/checkMockLocation';
-import { AlertNotificationSuccess } from '../atoms/AlertNotification';
+import {checkMockLocation} from '../../utils/checkMockLocation';
+import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 
 const CardCatatanKerjaHariini = ({navigation}) => {
   // const {jamKeluar} = useRoute().params;
@@ -81,8 +75,8 @@ const CardCatatanKerjaHariini = ({navigation}) => {
     }
   };
 
-  const toDashboard = () => {
-    navigation.replace('dashboard');
+  const close = () => {
+    setUploadBerhasil(false);
   };
 
   const sendData = async () => {
@@ -92,23 +86,20 @@ const CardCatatanKerjaHariini = ({navigation}) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior="position"
-      keyboardVerticalOffset={-500}
-      style={styles.container}>
+    <View style={styles.container}>
+      {uploadBerhasil ? (
+        <View style={{position: 'absolute'}}>
+          <AlertNotificationSuccess
+            buttonAlert="Close"
+            textBodyAlert="Project Berhasil Di Update"
+            titleAlert="Success"
+            onPress={close}
+          />
+        </View>
+      ) : (
+        ''
+      )}
       <View style={styles.CardCatatanKerja}>
-        {uploadBerhasil ? (
-          <View style={{position: 'absolute'}}>
-            <AlertNotificationSuccess
-              buttonAlert="Close"
-              textBodyAlert="Berhasil Melakukan Absen"
-              titleAlert="Success"
-              onPress={toDashboard}
-            />
-          </View>
-        ) : (
-          ''
-        )}
         <Text
           style={{
             fontFamily: text.semiBold,
@@ -137,7 +128,7 @@ const CardCatatanKerjaHariini = ({navigation}) => {
 
         <ButtonAction onPress={() => sendData()} title="KIRIM" />
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
