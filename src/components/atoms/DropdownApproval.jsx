@@ -1,14 +1,28 @@
 /* eslint-disable prettier/prettier */
+
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
+/**
+ * Komponen DropdownApproval digunakan untuk membuat dropdown pilihan tempat proyek.
+ *
+ * @param {function} dataPilihanProjact - Fungsi untuk mengirim nilai tempat proyek yang dipilih ke komponen induk.
+ * @returns {JSX.Element} - Komponen React untuk dropdown pilihan tempat proyek.
+ */
 const DropdownApproval = ({dataPilihanProjact}) => {
   const [tempatProject, setTempatProject] = useState('');
+
+  /**
+   * Fungsi handlePilihTempatProject digunakan untuk menangani pemilihan tempat proyek.
+   * @param {string} value - Nilai tempat proyek yang dipilih.
+   */
   const handlePilihTempatProject = value => {
     setTempatProject(value);
   };
+
+  // Mengirim nilai tempat proyek yang dipilih ke komponen induk
   dataPilihanProjact(tempatProject);
 
   return (
@@ -43,8 +57,6 @@ const DropdownApproval = ({dataPilihanProjact}) => {
   );
 };
 
-export default DropdownApproval;
-
 const styles = StyleSheet.create({
   item: {
     borderBottomWidth: 1,
@@ -61,3 +73,5 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
+
+export default DropdownApproval;

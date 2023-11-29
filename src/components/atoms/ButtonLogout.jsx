@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
+
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
@@ -7,15 +8,29 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
 import {Color} from '../../utils/color';
 
+/**
+ * Komponen ButtonLogout digunakan untuk membuat tombol logout dengan efek muncul dari kanan ke kiri.
+ *
+ * @param {Object} navigation - Objek navigasi yang digunakan untuk mengganti halaman.
+ * @param {Object} style - Gaya tambahan yang dapat diterapkan pada tombol.
+ * @param {Object} posisiLogout - Gaya tambahan untuk menentukan posisi tombol logout.
+ * @returns {JSX.Element} - Komponen React untuk tombol logout dengan efek muncul dari kanan ke kiri.
+ */
 const ButtonLogout = ({navigation, style, posisiLogout}) => {
   const [isOpenLogout, setIsOpenLogout] = useState(false);
 
+  /**
+   * Fungsi openLogout digunakan untuk membuka atau menutup tombol logout.
+   */
   const openLogout = () => {
     setIsOpenLogout(!isOpenLogout); // Menggunakan !isOpenLogout untuk mengubah nilainya.
   };
 
   const lebarLogout = {lebarAwal: 43, lebarAkhir: 133};
 
+  /**
+   * Fungsi logout digunakan untuk keluar dari sesi pengguna dan menghapus token otentikasi dari AsyncStorage.
+   */
   const logout = () => {
     // Hapus token otentikasi dari AsyncStorage
     AsyncStorage.removeItem('token')
@@ -30,6 +45,7 @@ const ButtonLogout = ({navigation, style, posisiLogout}) => {
         );
       });
   };
+
   return (
     <View style={[styles.container, style]}>
       <View

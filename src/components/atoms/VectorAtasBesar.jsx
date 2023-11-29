@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+
 import {StyleSheet, Image} from 'react-native';
 import React from 'react';
 import {
@@ -5,6 +7,12 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+/**
+ * Komponen VectorAtasBesar digunakan untuk menampilkan gambar vektor besar
+ * di bagian atas sebelah kanan layar.
+ *
+ * @returns {JSX.Element} - Komponen React untuk vektor besar di bagian atas.
+ */
 const VectorAtasBesar = () => {
   return (
     <Image
@@ -15,8 +23,6 @@ const VectorAtasBesar = () => {
   );
 };
 
-export default VectorAtasBesar;
-
 const styles = StyleSheet.create({
   VectorAtasBesar: {
     position: 'absolute',
@@ -25,3 +31,5 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
 });
+
+export default VectorAtasBesar;

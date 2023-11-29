@@ -1,8 +1,15 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+
+import {StyleSheet, View, ActivityIndicator} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 
+/**
+ * Komponen ButtonLoading digunakan untuk membuat tombol dengan indikator loading.
+ *
+ * @param {Object} style - Gaya tambahan yang dapat diterapkan pada tombol.
+ * @returns {JSX.Element} - Komponen React untuk tombol dengan indikator loading.
+ */
 const ButtonLoading = ({style}) => {
   return (
     <View style={[styles.button, style]}>

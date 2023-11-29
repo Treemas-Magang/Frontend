@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+
 import {StyleSheet, Image} from 'react-native';
 import React from 'react';
 import {
@@ -5,6 +7,12 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+/**
+ * Komponen VectorAtasKecil digunakan untuk menampilkan gambar vektor kecil
+ * di bagian atas sebelah kanan layar.
+ *
+ * @returns {JSX.Element} - Komponen React untuk vektor kecil di bagian atas.
+ */
 const VectorAtasKecil = () => {
   return (
     <Image
@@ -15,8 +23,6 @@ const VectorAtasKecil = () => {
   );
 };
 
-export default VectorAtasKecil;
-
 const styles = StyleSheet.create({
   VectorAtasKecil: {
     position: 'absolute',
@@ -25,3 +31,5 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
 });
+
+export default VectorAtasKecil;

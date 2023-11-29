@@ -171,7 +171,6 @@ const FormCuti = ({
             />
           </View>
           <View style={styles.wrapInputForm}>
-            {/* <Dropdown nama_dropdown="Jenis cuti" jenis_cuti={jenis_cuti} /> */}
             <View style={styles.wrapDropdown}>
               <View
                 style={openDropdown ? styles.dropdownTrue : styles.dropdown}>

@@ -53,7 +53,7 @@ try {
   if (dataAPI.length > 0) {
     try {
       await AsyncStorage.setItem('sudah_absen', 'true');
-
+      await AsyncStorage.setItem('sudah_pulang', 'false');
       if (dataAPI[0].jamPlg !== null) {
         await AsyncStorage.setItem('sudah_pulang', 'true');
       } else {

@@ -1,40 +1,19 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
-import React, {useState} from 'react';
-import {View, TouchableOpacity, Image} from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faCamera,
-  faFileImage,
-  faImage,
-} from '@fortawesome/free-solid-svg-icons';
-import {Color} from '../../utils/color';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {faImages} from '@fortawesome/free-regular-svg-icons';
 
-const ButtonGalery = ({onPress}) => {
-  // const [imageGalery, setImageGalery] = useState(null);
-  // const opengalery = () => {
-  //   const option = {
-  //     mediaType: 'photo',
-  //     quality: 1,
-  //     maxWidth: 500,
-  //     maxHeight: 300,
-  //     maxFileSize: 1024 * 1024,
-  //   };
-  //   launchImageLibrary(option, res => {
-  //     if (res.didCancel) {
-  //       console.log('user cancel take photo');
-  //     } else if (res.errorCode) {
-  //       console.log(res.errorMessage);
-  //     } else {
-  //       const data = res.assets[0];
-  //       console.log(data);
-  //       // setImageGalery(data)
-  //       onImageGalery(data);
-  //     }
-  //   });
-  // };
+import React from 'react';
+import {View, TouchableOpacity} from 'react-native';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faImage} from '@fortawesome/free-solid-svg-icons';
+import {Color} from '../../utils/color';
+
+/**
+ * Komponen ButtonGallery digunakan untuk membuat tombol galeri dengan ikon gambar.
+ *
+ * @param {function} onPress - Fungsi yang akan dipanggil ketika tombol galeri ditekan.
+ * @returns {JSX.Element} - Komponen React untuk tombol galeri.
+ */
+const ButtonGallery = ({onPress}) => {
   return (
     <View>
       <TouchableOpacity onPress={onPress}>
@@ -44,4 +23,4 @@ const ButtonGalery = ({onPress}) => {
   );
 };
 
-export default ButtonGalery;
+export default ButtonGallery;
