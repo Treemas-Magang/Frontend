@@ -1,11 +1,23 @@
 /* eslint-disable prettier/prettier */
+
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const CardNotif = ({open, tanggal, judul, deskripsi, onPress, id, status}) => {
+/**
+ * Komponen CardNotif digunakan untuk menampilkan kartu notifikasi.
+ *
+ * @param {Object} props - Properti komponen.
+ * @param {string} props.tanggal - Tanggal notifikasi.
+ * @param {string} props.judul - Judul notifikasi.
+ * @param {string} props.deskripsi - Deskripsi notifikasi.
+ * @param {Function} props.onPress - Fungsi yang dipanggil ketika kartu ditekan.
+ * @param {boolean} props.status - Status notifikasi (terbuka atau belum terbuka).
+ *
+ * @returns {JSX.Element} - Komponen kartu notifikasi.
+ */
+const CardNotif = ({tanggal, judul, deskripsi, onPress, status}) => {
   return (
     <TouchableOpacity
       style={[
@@ -45,8 +57,6 @@ const CardNotif = ({open, tanggal, judul, deskripsi, onPress, id, status}) => {
   );
 };
 
-export default CardNotif;
-
 const styles = StyleSheet.create({
   CardNotifStyle: {
     width: 320,
@@ -61,3 +71,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
 });
+
+export default CardNotif;
