@@ -25,10 +25,10 @@ import {checkMockLocation} from '../../utils/checkMockLocation';
 import {jamSekarang} from '../../utils/jamSekarang';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getDataFromSession} from '../../utils/getDataSession';
-import { AlertNotificationSuccess } from '../atoms/AlertNotification';
-import { cekTelatMasuk } from '../../utils/cekJamTelatDanPulangCepat';
+import {AlertNotificationSuccess} from '../atoms/AlertNotification';
+import {cekTelatMasuk} from '../../utils/cekJamTelatDanPulangCepat';
 import ButtonLoading from '../atoms/ButtonLoading';
-import { openCamera, openGalerImg } from '../../utils/getPhoto';
+import {openCamera, openGalerImg} from '../../utils/getPhoto';
 
 const FormAbsensi = ({navigation}) => {
   const dispatch = useDispatch();
@@ -305,7 +305,9 @@ const FormAbsensi = ({navigation}) => {
           </View>
         </>
       ) : isLoading ? (
-        <ButtonLoading />
+        <ButtonLoading
+          style={{marginVertical: 10, width: wp('75%'), height: hp('8%')}}
+        />
       ) : (
         <ButtonAction title="kirim" style={{width: 269}} onPress={sendData} />
       )}

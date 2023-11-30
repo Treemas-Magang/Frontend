@@ -27,6 +27,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import LottieView from 'lottie-react-native';
+import {API_URL, API_URL_WEB} from '@env';
 
 const ListMembers = ({navigation}) => {
   const {projectId, projectName} = useRoute().params;
@@ -47,7 +48,7 @@ const ListMembers = ({navigation}) => {
       const projId = projectId;
       console.log('ini project id : ', projId);
       const response = await axios.get(
-        `http://192.168.10.31:8081/api/member/get-member-project?projectId=${projId}`,
+        API_URL + `/api/member/get-member-project?projectId=${projId}`,
         {headers},
       );
       const dataAPI = response.data.data;

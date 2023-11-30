@@ -19,6 +19,7 @@ import {
 } from 'react-native-responsive-screen';
 import {useDispatch} from 'react-redux';
 import {setProjectYangDipilih} from '../../redux';
+import {API_URL, API_URL_WEB} from '@env';
 
 const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   const getDataPenempatan = async headers => {
     try {
       const response = await axios.get(
-        'http://192.168.10.31:8081/api/absen/get-all-projects',
+        API_URL + '/api/absen/get-all-projects',
         {headers},
       );
       console.log(response.data.data);

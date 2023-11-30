@@ -17,9 +17,36 @@ const CardBelumAbsenPulang = ({
 
   // Fungsi untuk mengambil 3 kata pertama dari teks
   const getFirstThreeWordsWithEllipsis = text => {
+    if (!text) {
+      return ''; // Menangani kasus di mana teks tidak terdefinisi atau null
+    }
+
     const words = text.split(' ');
     return words.length > 3 ? `${words.slice(0, 3).join(' ')}...` : text;
   };
+
+  const formatDate = dateString => {
+    const options = {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      // year: 'numeric',
+    };
+    let formattedDate = new Date(dateString).toLocaleDateString(
+      'id-ID',
+      options,
+    );
+
+    // Hilangkan koma setelah nama hari
+    formattedDate = formattedDate.replace(',', '');
+
+    return formattedDate;
+  };
+
+  // Contoh penggunaan
+  const tanggalAwal = tanggal;
+  const tanggalYangDiinginkan = formatDate(tanggalAwal);
+  console.log(tanggalYangDiinginkan);
 
   return (
     <View>
@@ -34,7 +61,7 @@ const CardBelumAbsenPulang = ({
               color: Color.black,
               paddingTop: 10,
             }}>
-            {tanggal}
+            {tanggalYangDiinginkan}
           </Text>
         </View>
         <View style={styles.CardDalemTimesheetStyle}>
