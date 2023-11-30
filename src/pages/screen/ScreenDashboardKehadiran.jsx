@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   containerMenu: {
     width: wp('100%'),
-    height: hp('43%'),
+    height: hp('50%'),
     backgroundColor: Color.green,
     borderTopStartRadius: 35,
     borderTopEndRadius: 35,

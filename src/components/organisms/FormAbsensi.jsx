@@ -29,6 +29,10 @@ import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 import {cekTelatMasuk} from '../../utils/cekJamTelatDanPulangCepat';
 import ButtonLoading from '../atoms/ButtonLoading';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const FormAbsensi = ({navigation}) => {
   const dispatch = useDispatch();
