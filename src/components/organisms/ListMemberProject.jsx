@@ -15,6 +15,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {API_URL, API_URL_WEB} from '@env';
 
 const ListMemberProject = ({navigation}) => {
   const [namaProjectMembers, setNamaProjectMember] = useState([]);
@@ -52,15 +53,12 @@ const ListMemberProject = ({navigation}) => {
         };
 
         if (isRole === 'LEADER') {
-          await getDataProjects(
-            headers,
-            'http://192.168.10.31:8081/api/member/get-project',
-          );
+          await getDataProjects(headers, API_URL + '/api/member/get-project');
         }
         if (isRole === 'HEAD') {
           await getDataProjects(
             headers,
-            'http://192.168.10.31:8081/api/absen/get-all-projects',
+            API_URL + '/api/absen/get-all-projects',
           );
         }
       } catch (error) {

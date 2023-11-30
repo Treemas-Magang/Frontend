@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
@@ -11,43 +11,44 @@ import {
 } from 'react-native-responsive-screen';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import CardBelumAbsenPulang from '../molecules/CardBelumAbsenPulang';
+import {getDataFromSession} from '../../utils/getDataSession';
+import {API_URL, API_URL_WEB} from '@env';
+import axios from 'axios';
+import SkeletonCardAbsenBelumPulang from '../skeleton/SkeletonCardAbsenBelumPulang';
+import LottieView from 'lottie-react-native';
 
 const ListBelumAbsenPulang = ({navigation}) => {
-  const [AbsenBelumPulang, setAbsenBelumPulang] = useState([
-    {
-      tanggal: 'Selasa 05 April',
-      jam_masuk: '10:00',
-      project:
-        'TREEMAS SOLUSI UTAMA JAYA ABADI BLA BLA BLA BLA INDONESIA MERDEKA 1945',
-      note_telat: 'Kesiangan',
-      lokasi:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-    },
-    {
-      tanggal: 'Selasa 06 April',
-      jam_masuk: '08:00',
-      project: 'BANK BCA',
-      note_telat: 'Kesiangan',
-      lokasi:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-    },
-    {
-      tanggal: 'Selasa 07 April',
-      jam_masuk: '11:00',
-      project: 'BANK PTN',
-      note_telat: 'Kesiangan',
-      lokasi:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-    },
-    {
-      tanggal: 'Selasa 08 April',
-      jam_masuk: '07:00',
-      project: 'MANDIRI AJA NIH GAN SOAL NYA GA ADA PASANGAN',
-      note_telat: 'Tadi macet di jalan ',
-      lokasi:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-    },
-  ]);
+  const [AbsenBelumPulang, setAbsenBelumPulang] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
+
+  const getDataBelumAbsen = async headers => {
+    try {
+      const response = await axios.get(
+        API_URL + '/api/absen/get-absen-belum-pulang',
+        {headers},
+      );
+      console.log(response.data.data);
+      const dataAPI = response.data.data;
+      // const dataKosong = [];
+      setAbsenBelumPulang(dataAPI);
+      setIsLoading(false);
+      console.log('data : ', dataAPI);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataBelumAbsen(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -63,20 +64,40 @@ const ListBelumAbsenPulang = ({navigation}) => {
       </View>
       <View style={styles.backgroundCardBelumAbsenPulang}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {/* /////////////////////////////////////////////////////////////////// */}
-          {AbsenBelumPulang.map((AbsenBelumPulang, index) => (
-            <View key={index} style={{flexDirection: 'column'}}>
-              <CardBelumAbsenPulang
-                navigation={navigation}
-                jam_masuk={AbsenBelumPulang.jam_masuk}
-                project={AbsenBelumPulang.project}
-                note_telat={AbsenBelumPulang.note_telat}
-                lokasi={AbsenBelumPulang.lokasi}
-                tanggal={AbsenBelumPulang.tanggal}
-              />
+          {isLoading ? (
+            <View style={{gap: 15}}>
+              <SkeletonCardAbsenBelumPulang />
+              <SkeletonCardAbsenBelumPulang />
+              <SkeletonCardAbsenBelumPulang />
+              <SkeletonCardAbsenBelumPulang />
             </View>
-          ))}
-          {/* /////////////////////////////////////////////////////////////////// */}
+          ) : AbsenBelumPulang.length > 0 ? (
+            AbsenBelumPulang.map((AbsenBelumPulang, index) => (
+              <View key={index} style={{flexDirection: 'column'}}>
+                <CardBelumAbsenPulang
+                  navigation={navigation}
+                  jam_masuk={AbsenBelumPulang.jamMsk}
+                  project={AbsenBelumPulang.projectName}
+                  note_telat={AbsenBelumPulang.noteTelatMsk}
+                  lokasi={AbsenBelumPulang.lokasiProject}
+                  tanggal={AbsenBelumPulang.tglAbsen}
+                />
+              </View>
+            ))
+          ) : (
+            <View style={styles.wrapDataNotFound}>
+              <LottieView
+                source={require('../../assets/animation/ThumbUp.json')}
+                autoPlay
+                style={{
+                  width: '150%',
+                  height: '70%',
+                }}></LottieView>
+              <Text style={styles.textDataNotFound}>
+                Anda Sudah Absen Brooo
+              </Text>
+            </View>
+          )}
         </ScrollView>
       </View>
     </View>
@@ -107,5 +128,17 @@ const styles = StyleSheet.create({
   textValue: {
     fontFamily: text.semiBold,
     color: Color.black,
+  },
+  wrapDataNotFound: {
+    width: wp('70%'),
+    height: hp('60%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
+    textTransform: 'uppercase',
   },
 });

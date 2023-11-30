@@ -17,6 +17,7 @@ import {useDispatch} from 'react-redux';
 import ButtonBackBaru from '../atoms/ButtonBackBaru';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
 import LottieView from 'lottie-react-native';
+import {API_URL, API_URL_WEB} from '@env';
 
 const ListPengumuman = ({navigation}) => {
   const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const ListPengumuman = ({navigation}) => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        'https://treemas-api-403500.et.r.appspot.com/api/master-data/announcement-view',
+        API_URL_WEB + '/api/master-data/announcement-view',
         {headers},
       );
       const data = response.data.data;
