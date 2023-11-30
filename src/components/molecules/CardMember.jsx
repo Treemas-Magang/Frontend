@@ -10,23 +10,22 @@ const CardMember = ({
   jamMsk,
   jamPlg,
   nama,
-  isCuti,
-  isSakit,
 }) => {
+  console.log(status);
   let page = '';
   let background = styles.cardHadir;
   switch (status) {
     case 'sakit':
       background = styles.cardSakit;
-      page = 'detailMemberSakit';
+      page = 'detailMember';
       break;
     case 'cuti':
       background = styles.cardCuti;
-      page = 'detailMemberCuti';
+      page = 'detailMember';
       break;
     case 'tidakMasuk':
       background = styles.cardTidakMasuk;
-      page = 'detailMemberTidakMasuk';
+      page = 'detailMember';
       break;
     case 'hadir':
       background = styles.cardHadir;

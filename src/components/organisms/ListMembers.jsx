@@ -141,12 +141,25 @@ const ListMembers = ({navigation}) => {
               </View>
             ) : dataListMembers.length > 0 ? (
               dataListMembers.map((member, index) => (
-                <View style={{gap: 20}}>
+                <View style={{gap: 20}} key={index}>
                   <CardMember
                     navigation={navigation}
                     jamMsk={member.jamMsk}
                     nama={member.nama}
                     jamPlg={member.jamPlg}
+                    status={
+                      member.jamMsk !== null
+                        ? 'hadir'
+                        : member.isSakit !== null
+                        ? 'sakit'
+                        : member.isCuti !== null
+                        ? 'cuti'
+                        : member.jamMsk &&
+                          member.isSakit &&
+                          member.isCuti === null
+                        ? 'tidakMasuk'
+                        : ''
+                    }
                   />
                 </View>
               ))

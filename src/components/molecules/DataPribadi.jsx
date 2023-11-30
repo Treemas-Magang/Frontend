@@ -1,13 +1,8 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
-/* eslint-disable semi */
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable react-native/no-inline-styles */
+
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {setDataUserAPI, fetchDataUserError} from '../../redux';
-import React, {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
+import React from 'react';
 import {Color} from '../../utils/color';
 import {
   widthPercentageToDP as wp,
@@ -15,30 +10,16 @@ import {
 } from 'react-native-responsive-screen';
 import {text} from '../../utils/text';
 
-const dataUser = [
-  {
-    nik: 1343431291829,
-    nama_karyawan: 'rizki febriansyah',
-  },
-];
 const DataPribadi = ({stylePP, styleDataPribadi}) => {
-  const [isNik, setIsNik] = useState('');
-  const [isNama_karyawan, setIsNamaKaryawan] = useState('');
-  const dispatch = useDispatch();
-  const {data} = useSelector(state => state.userReducer);
-  useEffect(() => {
-    // Dispatch the action to set dataUser in Redux store
-    dispatch(setDataUserAPI(dataUser));
-  }, []);
+  const {dataUser} = useSelector(state => state.DataUserReducer);
 
-  useEffect(() => {
-    // Pastikan data sudah tersedia sebelum mengaksesnya
-    if (data && data.length > 0) {
-      const {nik, nama_karyawan} = data[0];
-      setIsNik(nik);
-      setIsNamaKaryawan(nama_karyawan);
-    }
-  }, [data]);
+  let base64ImageData = '';
+  if (dataUser.karyawanImg !== '') {
+    base64ImageData = `data:image/jpeg;base64,${dataUser.karyawanImg}`;
+  } else {
+    console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
+  }
+
   return (
     <View
       style={[
@@ -50,15 +31,27 @@ const DataPribadi = ({stylePP, styleDataPribadi}) => {
         styleDataPribadi,
       ]}>
       <View>
-        <Text style={[styles.textNama]}>{isNama_karyawan}</Text>
-        <Text style={[styles.textNik]}>{isNik}</Text>
+        <Text style={[styles.textNama]}>
+          {dataUser.full_name}
+        </Text>
+        <Text style={[styles.textNik]}>
+          {dataUser.nik}
+        </Text>
       </View>
       <View>
-        <Image
-          source={require('../../assets/vector/user.png')}
-          style={[styles.pp, stylePP]}
-          resizeMode="cover"
-        />
+        {base64ImageData !== '' ? (
+          <Image
+            source={{uri: base64ImageData}}
+            style={[styles.pp, stylePP]}
+            resizeMode="cover"
+          />
+        ) : (
+          <Image
+            source={require('../../assets/vector/user.png')}
+            style={[styles.pp, stylePP]}
+            resizeMode="cover"
+          />
+        )}
       </View>
     </View>
   );

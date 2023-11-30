@@ -22,9 +22,6 @@ import VectorAtasKecil from '../atoms/VectorAtasKecil';
 
 const DetailMember = ({navigation, stylePP}) => {
   const [isWFH, setIsWFH] = useState(true);
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
-  };
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />

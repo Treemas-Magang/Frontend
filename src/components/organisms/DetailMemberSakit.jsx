@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
