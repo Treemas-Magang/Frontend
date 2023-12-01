@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     color: Color.blue,
     fontSize: 16,
+    textAlign: 'center',
     textTransform: 'uppercase',
   },
 });

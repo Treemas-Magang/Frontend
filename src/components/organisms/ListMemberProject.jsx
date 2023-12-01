@@ -53,7 +53,10 @@ const ListMemberProject = ({navigation}) => {
         };
 
         if (isRole === 'LEADER') {
-          await getDataProjects(headers, API_GABUNGAN + '/api/member/get-project');
+          await getDataProjects(
+            headers,
+            API_GABUNGAN + '/api/member/get-project',
+          );
         }
         if (isRole === 'HEAD') {
           await getDataProjects(
@@ -63,6 +66,7 @@ const ListMemberProject = ({navigation}) => {
         }
       } catch (error) {
         console.log('Error fetching data:', error);
+        setIsLoading(false);
       }
     };
 
@@ -124,32 +128,39 @@ const ListMemberProject = ({navigation}) => {
               <SkeletonCardMemberProject />
               <SkeletonCardMemberProject />
             </View>
-          ) : namaProjectMembers.length > 0 ? (
-            namaProjectMembers.map((namaProjMember, index) => (
-              <View key={index}>
-                <CardMemberProject
-                  nama={namaProjMember.projectName}
-                  onPress={() =>
-                    moveTo(
-                      'listMembers',
-                      namaProjMember.projectId,
-                      namaProjMember.projectName,
-                    )
-                  }
-                />
-              </View>
-            ))
           ) : (
-            <View style={styles.wrapDataNotFound}>
-              <LottieView
-                source={require('../../assets/animation/dataNotFound.json')}
-                autoPlay
-                style={{
-                  width: '100%',
-                  height: '70%',
-                }}></LottieView>
-              <Text style={styles.textDataNotFound}>Data Member Tidak Ada</Text>
-            </View>
+            <>
+              {namaProjectMembers.length > 0 ? (
+                namaProjectMembers.map((namaProjMember, index) => (
+                  <View key={index}>
+                    <CardMemberProject
+                      nama={namaProjMember.projectName}
+                      onPress={() =>
+                        moveTo(
+                          'listMembers',
+                          namaProjMember.projectId,
+                          namaProjMember.projectName,
+                        )
+                      }
+                    />
+                  </View>
+                ))
+              ) : (
+                <View style={styles.wrapDataNotFound}>
+                  <LottieView
+                    source={require('../../assets/animation/dataNotFound.json')}
+                    autoPlay
+                    style={{
+                      width: '100%',
+                      height: '70%',
+                    }}
+                  />
+                  <Text style={styles.textDataNotFound}>
+                    Data Member Tidak Ada
+                  </Text>
+                </View>
+              )}
+            </>
           )}
         </ScrollView>
       </View>
