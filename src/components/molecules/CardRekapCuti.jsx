@@ -8,66 +8,93 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const CardRekapCuti = () => {
+const CardRekapCuti = ({
+  nmTempat,
+  tanggalAwal,
+  tanggalAkhir,
+  tanggalMasuk,
+  jmlhHari,
+  jmlhCutiBersama,
+  jmlhCutiKhusus,
+  keterangan,
+  catDisetujui,
+  tglDisetujui,
+  disetujuiOleh,
+  status,
+}) => {
+  let background = styles.cardBackground;
+  switch (status) {
+    case 'diterima':
+      background = styles.cardDiterima;
+      break;
+    case 'menunggu':
+      background = styles.cardMenunggu;
+      break;
+    case 'ditolak':
+      background = styles.cardDitolak;
+      break;
+    default:
+      break;
+  }
   return (
-    <View style={styles.cardRekapCuti}>
+    <View style={[styles.cardRekapCuti, background]}>
       <View style={styles.status}>
-        <Text style={styles.statusTextTitle}>Purwokerto</Text>
+        <Text style={styles.statusTextTitle}>{nmTempat}</Text>
       </View>
       <View style={styles.cardData}>
         <View style={styles.data}>
           <Text style={styles.lebelData}>Dari tanggal</Text>
-          <Text>:</Text>
-          <Text style={styles.textData}>02-03-2021</Text>
+          <Text style={{color: Color.black}}>:</Text>
+          <Text style={styles.textData}>{tanggalAwal}</Text>
         </View>
         <View style={styles.data}>
           <Text style={styles.lebelData}>Sampai tanggal</Text>
-          <Text>:</Text>
-          <Text style={styles.textData}>10-03-2021</Text>
+          <Text style={{color: Color.black}}>:</Text>
+          <Text style={styles.textData}>{tanggalAkhir}</Text>
         </View>
         <View style={styles.data}>
           <Text style={styles.lebelData}>Tanggal Masuk</Text>
-          <Text>:</Text>
-          <Text style={styles.textData}>03-03-2021</Text>
+          <Text style={{color: Color.black}}>:</Text>
+          <Text style={styles.textData}>{tanggalMasuk}</Text>
         </View>
         <View style={styles.data}>
           <Text style={styles.lebelData}>Jumlah Hari</Text>
-          <Text>:</Text>
-          <Text style={styles.textData}>1</Text>
+          <Text style={{color: Color.black}}>:</Text>
+          <Text style={styles.textData}>{jmlhHari}</Text>
         </View>
         <View style={styles.data}>
           <Text style={styles.lebelData}>Jumlah Cuti Bersama</Text>
-          <Text>:</Text>
-          <Text style={styles.textData}>1</Text>
+          <Text style={{color: Color.black}}>:</Text>
+          <Text style={styles.textData}>{jmlhCutiBersama}</Text>
         </View>
         <View style={styles.data}>
           <Text style={styles.lebelData}>Jumlah Cuti Khusus</Text>
-          <Text>:</Text>
-          <Text style={styles.textData}>1</Text>
+          <Text style={{color: Color.black}}>:</Text>
+          <Text style={styles.textData}>{jmlhCutiKhusus}</Text>
         </View>
         <View style={styles.data}>
           <Text style={styles.lebelData}>Keterangan</Text>
-          <Text>:</Text>
-          <Text style={styles.textData}>Pulang Kampung</Text>
+          <Text style={{color: Color.black}}>:</Text>
+          <Text style={styles.textData}>{keterangan}</Text>
         </View>
         <View style={styles.data}>
           <Text style={styles.lebelData}>Catatan Diseteujui</Text>
-          <Text>:</Text>
-          <Text style={styles.textData}>Bawa Oleh Oleh</Text>
+          <Text style={{color: Color.black}}>:</Text>
+          <Text style={styles.textData}>{catDisetujui}</Text>
         </View>
         <View style={styles.data}>
           <Text style={styles.lebelData}>Tanggal Disetujui</Text>
-          <Text>:</Text>
-          <Text style={styles.textData}>05-03-2021</Text>
+          <Text style={{color: Color.black}}>:</Text>
+          <Text style={styles.textData}>{tglDisetujui}</Text>
         </View>
         <View style={styles.data}>
           <Text style={styles.lebelData}>Disetujui Oleh</Text>
-          <Text>:</Text>
-          <Text style={styles.textData}>Pak Dede</Text>
+          <Text style={{color: Color.black}}>:</Text>
+          <Text style={styles.textData}>{disetujuiOleh}</Text>
         </View>
       </View>
       <View style={styles.status}>
-        <Text style={styles.statusText}>DISETUJUI</Text>
+        <Text style={styles.statusText}>{status}</Text>
       </View>
     </View>
   );
@@ -104,11 +131,13 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     fontSize: hp('5%'),
     color: Color.white,
+    textTransform: 'uppercase',
   },
   statusTextTitle: {
     fontFamily: text.semiBold,
-    fontSize: hp('2%'),
+    fontSize: hp('2.5%'),
     color: Color.white,
+    textTransform: 'uppercase',
   },
   data: {
     flexDirection: 'row',
@@ -117,9 +146,23 @@ const styles = StyleSheet.create({
   lebelData: {
     width: 140,
     fontSize: hp('2%'),
+    color: Color.black,
   },
   textData: {
     width: wp('28%'),
     fontSize: hp('2%'),
+    color: Color.black,
+  },
+  cardBackground: {
+    backgroundColor: Color.green,
+  },
+  cardDiterima: {
+    backgroundColor: Color.green,
+  },
+  cardMenunggu: {
+    backgroundColor: Color.cardCuti,
+  },
+  cardDitolak: {
+    backgroundColor: Color.red,
   },
 });

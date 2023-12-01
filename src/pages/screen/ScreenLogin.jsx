@@ -55,12 +55,13 @@ const ScreenLogin = ({navigation}) => {
   // const {location} = useSelector(state => state.SplashReducer);
   const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
-  const routeAPI = API_URL;
-  // const routeAPI = API_URL_WEB;
+  // const routeAPI = API_URL;
+  const routeAPI = API_URL_WEB;
   useEffect(() => {
     checkBiometryType(dispatch);
     getDataFromSession('deviceId')
       .then(idDevice => {
+        100;
         if (idDevice !== null) {
           // setDeviceId(idDevice);
           dispatch(setForm('handsetImei', idDevice));

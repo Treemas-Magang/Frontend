@@ -94,7 +94,7 @@ const ListBelumAbsenPulang = ({navigation}) => {
                   height: '70%',
                 }}></LottieView>
               <Text style={styles.textDataNotFound}>
-                Anda Sudah Absen Brooo
+                Tidak Ada Data Absen Pulang
               </Text>
             </View>
           )}

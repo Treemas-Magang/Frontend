@@ -19,18 +19,21 @@ const ListRekapClaim = ({navigation}) => {
       type: 'Lain-Lain',
       keterangan: 'Claim Makan Malam Sit CTBC Tgl 7 Oktober',
       nominalClaim: 250000,
+      image64: 'sadsad',
     },
     {
       tanggal: 'Senin 3 Mei 2023',
       type: 'Lain-Lain',
       keterangan: 'Test Claim 1',
       nominalClaim: 50000,
+      image64: null,
     },
     {
       tanggal: 'Senin 4 Mei',
       type: 'Lain-Lain',
       keterangan: 'Test Claim 2',
       nominalClaim: 100000,
+      image64: 'dasdasf',
     },
     {
       tanggal: 'Senin 5 Mei',
@@ -43,6 +46,7 @@ const ListRekapClaim = ({navigation}) => {
       type: 'Lain-Lain',
       keterangan: 'Test Claim 4',
       nominalClaim: 150000,
+      image64: 'dasdasdasfas',
     },
   ]);
   return (
@@ -70,6 +74,7 @@ const ListRekapClaim = ({navigation}) => {
                 type={claim.type}
                 keterangan={claim.keterangan}
                 nominalClaim={claim.nominalClaim}
+                image64={claim.image64}
               />
             </View>
           ))}
