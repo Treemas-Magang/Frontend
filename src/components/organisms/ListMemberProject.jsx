@@ -21,15 +21,19 @@ const ListMemberProject = ({navigation}) => {
   const [namaProjectMembers, setNamaProjectMember] = useState([]);
   const [isRole, setIsRole] = useState('');
   const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
-  const getDataFromSessionAndSetRole = async () => {
+  useEffect(() => {
     try {
-      const data = await getDataFromSession('role');
-      console.log('role: ', data);
-      setIsRole(data);
+      getDataFromSession('dataProfilUser')
+        .then(data => {
+          const dataProfileStorage = JSON.parse(data);
+          console.log('data profil : ', dataProfileStorage.role);
+          setIsRole(dataProfileStorage.role);
+        })
+        .catch(error => console.log(error));
     } catch (error) {
-      console.log('Error fetching role:', error);
+      console.log(error);
     }
-  };
+  }, []);
 
   const getDataProjects = async (headers, url) => {
     try {
@@ -69,9 +73,9 @@ const ListMemberProject = ({navigation}) => {
     fetchData();
   }, [isRole]);
 
-  useEffect(() => {
-    getDataFromSessionAndSetRole();
-  }, []);
+  // useEffect(() => {
+  //   getDataFromSessionAndSetRole();
+  // }, []);
   const moveTo = (tujuan, projId, namaProj) => {
     navigation.navigate(tujuan, {projectId: projId, projectName: namaProj});
   };
