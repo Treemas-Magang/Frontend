@@ -106,7 +106,7 @@ const FormCatatanKerjaHariini = ({navigation}) => {
       <ButtonHome navigation={navigation} />
       <VectorAtasBesar />
       {uploadBerhasil ? (
-        <View style={{position: 'absolute'}}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <AlertNotificationSuccess
             buttonAlert="Close"
             textBodyAlert="Berhasil Melakukan Absen Pulang"
