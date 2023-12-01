@@ -40,7 +40,10 @@ import {
 } from '../../utils/buatStatusPengumumanFalse';
 import ButtonLoading from '../../components/atoms/ButtonLoading';
 import {checkMockLocation} from '../../utils/checkMockLocation';
-import {AlertNotificationDanger, AlertNotificationSuccess} from '../../components/atoms/AlertNotification';
+import {
+  AlertNotificationDanger,
+  AlertNotificationSuccess,
+} from '../../components/atoms/AlertNotification';
 import {API_URL, API_GABUNGAN} from '@env';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
@@ -152,7 +155,7 @@ const ScreenLogin = ({navigation}) => {
         await AsyncStorage.setItem('token', token);
         await AsyncStorage.setItem('nik', formLogin.nik);
         await AsyncStorage.setItem('password', formLogin.password);
-        
+
         setIsLoading(false);
         // render notif //
         // getToken().then(() => {
@@ -198,7 +201,6 @@ const ScreenLogin = ({navigation}) => {
 
       setIsLoading(false);
     }
-
   };
 
   const moveToLupaPassword = () => {
@@ -367,7 +369,8 @@ const ScreenLogin = ({navigation}) => {
             ''
           )}
           {isLogin ? (
-            <View style={{position: 'absolute'}}>
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <AlertNotificationSuccess
                 buttonAlert="Ok"
                 textBodyAlert="Login Berhasil"
@@ -379,7 +382,8 @@ const ScreenLogin = ({navigation}) => {
             ''
           )}
           {isServerError ? (
-            <View style={{position: 'absolute'}}>
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <AlertNotificationDanger
                 buttonAlert="Ok"
                 textBodyAlert="Server Error"

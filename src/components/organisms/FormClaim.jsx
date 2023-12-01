@@ -24,6 +24,7 @@ import DropdownClaim from '../atoms/DropdownClaim';
 import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import {API_URL, API_GABUNGAN} from '@env';
+import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 
 const FormClaim = ({navigation}) => {
   // const [itemSelect, setItemSelect] = useState('');
@@ -36,7 +37,7 @@ const FormClaim = ({navigation}) => {
   const [keterangan, setKeterangan] = useState('');
   const [dataId, setDataId] = useState('');
   const [dataClaim, setDataClaim] = useState([]);
-    const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const handleOpenDropdownClaim = () => {
     setOpenDropdownClaim(!openDropdownClaim);
   };
@@ -74,12 +75,12 @@ const FormClaim = ({navigation}) => {
     dispatch(setFormClaim('selectedTipeClaim', dataId));
   }, [dispatch, dataId]);
 
-const onChangeText = (value, inputType) => {
-  // Konversi nilai numerik ke string jika diperlukan
-  const convertedValue = typeof value === 'number' ? value.toString() : value;
+  const onChangeText = (value, inputType) => {
+    // Konversi nilai numerik ke string jika diperlukan
+    const convertedValue = typeof value === 'number' ? value.toString() : value;
 
-  dispatch(setFormClaim(inputType, convertedValue));
-};
+    dispatch(setFormClaim(inputType, convertedValue));
+  };
   const openKamera = () => {
     setCapturedImage(null);
     setIsLoading(true);
@@ -142,7 +143,7 @@ const onChangeText = (value, inputType) => {
   }, []);
 
   const kirimDataKeAPI = async () => {
-try {
+    try {
       //mengambil token untuk otorisasi
       const token = await getDataFromSession('token');
       if (token !== null) {
@@ -163,7 +164,6 @@ try {
           setUploadBerhasil(true);
           setIsLoading(false);
           //saat berhasil kirim data kosongkan reducer
-
         } catch (error) {
           console.log(error.response);
           const errorCode = error.response.status;
@@ -192,14 +192,35 @@ try {
     } catch (error) {
       console.error('Terjadi kesalahan:', error);
     }
-  }
+  };
   const sendData = async () => {
     console.log('kirim data : ', form_claim);
+    setUploadBerhasil(false);
     // kirimDataDanFotoKeAPI();
     await kirimDataKeAPI();
   };
+
+  const toRekapClaim = () => {
+    navigation.navigate('rekapClaim');
+    // navigation.navigate({
+    //   index: 0,
+    //   routes: [{name: 'rekapClaim'}],
+    // });
+  };
   return (
     <View style={styles.congtainerForm}>
+      {uploadBerhasil ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <AlertNotificationSuccess
+            buttonAlert="Close"
+            textBodyAlert="Berhasil Melakukan Claim"
+            titleAlert="Success"
+            onPress={toRekapClaim}
+          />
+        </View>
+      ) : (
+        ''
+      )}
       <Text style={styles.textJudul}>form claim</Text>
       <View style={styles.wrapDropdown}>
         <View style={openDropdownClaim ? styles.dropdownTrue : styles.dropdown}>

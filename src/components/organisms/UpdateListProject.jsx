@@ -199,7 +199,7 @@ const UpdateListProject = ({navigation}) => {
   return (
     <View style={styles.wrapScreenDaftarProject}>
       {uploadBerhasil ? (
-        <View style={{position: 'absolute'}}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <AlertNotificationSuccess
             buttonAlert="Close"
             textBodyAlert="Project Berhasil Di Update"

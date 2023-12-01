@@ -29,7 +29,7 @@ import {getDataFromSession} from '../../utils/getDataSession';
 import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 
 const FormUpdateAbsensi = ({navigation}) => {
   const dispatch = useDispatch();
@@ -46,7 +46,6 @@ const FormUpdateAbsensi = ({navigation}) => {
   useEffect(() => {
     setIsJarakTerlaluJauh(jarakTerlaluJauh);
   }, []);
-
 
   //simpan data image jadi base64
   let base64ImageData = null;
@@ -103,89 +102,89 @@ const FormUpdateAbsensi = ({navigation}) => {
     dispatch(setUpdateAbsen(inputType, value));
   };
 
-    //fungsi untuk menangani saat mau mengirim data Absen
-    const kirimDataAbsensi = async () => {
-      try {
-        //mengambil token untuk otorisasi
-        const token = await getDataFromSession('token');
-        if (token !== null) {
-          const headers = {
-            Authorization: `Bearer ${token}`,
-          };
+  //fungsi untuk menangani saat mau mengirim data Absen
+  const kirimDataAbsensi = async () => {
+    try {
+      //mengambil token untuk otorisasi
+      const token = await getDataFromSession('token');
+      if (token !== null) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
 
+        try {
+          //melakukan hit ke API untuk kirim data Absen
+          const response = await axios.post(
+            'http://192.168.10.31:8081/api/absen/update-absen',
+            formUpdateMasuk,
+            {headers},
+          );
+          console.log(response.data.success);
+          console.log('berhasil absen');
+          console.log(uploadBerhasil);
+          setUploadBerhasil(true);
+          setIsLoading(false);
+          //saat berhasil kirim data kosongkan reducer
+          dispatch(setUpdateAbsen('namaTempat', ''));
+          dispatch(setUpdateAbsen('jarakMsk', ''));
+          dispatch(setUpdateAbsen('noteTelatMsk', ''));
+          dispatch(setUpdateAbsen('gpsLatitudeMsk', ''));
+          dispatch(setUpdateAbsen('gpsLongitudeMsk', ''));
+          dispatch(setUpdateAbsen('photoAbsen', ''));
+          dispatch(setUpdateAbsen('isWfh', ''));
+
+          // navigation.replace('dashboard');
           try {
-            //melakukan hit ke API untuk kirim data Absen
-            const response = await axios.post(
-              'http://192.168.10.31:8081/api/absen/update-absen',
-              formUpdateMasuk,
-              {headers},
-            );
-            console.log(response.data.success);
-            console.log('berhasil absen');
-            console.log(uploadBerhasil);
-            setUploadBerhasil(true);
-            setIsLoading(false);
-            //saat berhasil kirim data kosongkan reducer
-            dispatch(setUpdateAbsen('namaTempat', ''));
-            dispatch(setUpdateAbsen('jarakMsk', ''));
-            dispatch(setUpdateAbsen('noteTelatMsk', ''));
-            dispatch(setUpdateAbsen('gpsLatitudeMsk', ''));
-            dispatch(setUpdateAbsen('gpsLongitudeMsk', ''));
-            dispatch(setUpdateAbsen('photoAbsen', ''));
-            dispatch(setUpdateAbsen('isWfh', ''));
-
-            // navigation.replace('dashboard');
-            try {
-              await AsyncStorage.setItem('sudah_absen', 'true');
-              console.log('berhasil menyimpan status sudah absen');
-            } catch (error) {
-              console.log('gagal menyimpan status sudah absen', error);
-            }
+            await AsyncStorage.setItem('sudah_absen', 'true');
+            console.log('berhasil menyimpan status sudah absen');
           } catch (error) {
-            console.log(error.response);
-            const errorCode = error.response.status;
-            //saat gagal kirim data kosongkan reducer
-            // dispatch(setUpdateAbsen('namaTempat', ''));
-            // dispatch(setUpdateAbsen('jarakMsk', ''));
-            // dispatch(setUpdateAbsen('noteTelatMsk', ''));
-            // dispatch(setUpdateAbsen('gpsLatitudeMsk', ''));
-            // dispatch(setUpdateAbsen('gpsLongitudeMsk', ''));
-            // dispatch(setUpdateAbsen('photoAbsen', ''));
-            // dispatch(setUpdateAbsen('isWfh', ''));
-            switch (errorCode) {
-              case 403:
-                console.log('project tidak tepat');
-                setIsLoading(false);
-                break;
-              case 404:
-                setIsLoading(false);
-                break;
-              case 500:
-                setIsLoading(false);
-                console.log('Kesalahan server');
-                break;
-              default:
-                setIsLoading(false);
-                console.log(error.response);
-                console.log('gagal absen');
-                break;
-            }
+            console.log('gagal menyimpan status sudah absen', error);
           }
-        } else {
-          console.log('Data tidak ditemukan di session.');
+        } catch (error) {
+          console.log(error.response);
+          const errorCode = error.response.status;
+          //saat gagal kirim data kosongkan reducer
+          // dispatch(setUpdateAbsen('namaTempat', ''));
+          // dispatch(setUpdateAbsen('jarakMsk', ''));
+          // dispatch(setUpdateAbsen('noteTelatMsk', ''));
+          // dispatch(setUpdateAbsen('gpsLatitudeMsk', ''));
+          // dispatch(setUpdateAbsen('gpsLongitudeMsk', ''));
+          // dispatch(setUpdateAbsen('photoAbsen', ''));
+          // dispatch(setUpdateAbsen('isWfh', ''));
+          switch (errorCode) {
+            case 403:
+              console.log('project tidak tepat');
+              setIsLoading(false);
+              break;
+            case 404:
+              setIsLoading(false);
+              break;
+            case 500:
+              setIsLoading(false);
+              console.log('Kesalahan server');
+              break;
+            default:
+              setIsLoading(false);
+              console.log(error.response);
+              console.log('gagal absen');
+              break;
+          }
         }
-      } catch (error) {
-        console.error('Terjadi kesalahan:', error);
+      } else {
+        console.log('Data tidak ditemukan di session.');
       }
-    };
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
+    }
+  };
 
   //fungsi untuk pindah ke dashboard di jalankan setelah berhasil absen dan update
   const toDashboard = () => {
     // navigation.replace('dashboard');
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'dashboard'}],
-        });
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'dashboard'}],
+    });
   };
 
   const sendData = async () => {
@@ -194,7 +193,7 @@ const FormUpdateAbsensi = ({navigation}) => {
     try {
       checkMockLocation();
       console.log('kirim data update : ', formUpdateMasuk);
-        await kirimDataAbsensi();
+      await kirimDataAbsensi();
     } catch (error) {
       console.error('Error in sendData:', error);
     }
@@ -203,7 +202,7 @@ const FormUpdateAbsensi = ({navigation}) => {
   return (
     <View style={styles.congtainerForm}>
       {uploadBerhasil ? (
-        <View style={{position: 'absolute'}}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <AlertNotificationSuccess
             buttonAlert="Close"
             textBodyAlert="Berhasil Melakukan Absen"
@@ -287,12 +286,10 @@ const FormUpdateAbsensi = ({navigation}) => {
         </>
       ) : isLoading ? (
         <ButtonLoading />
-      ) : (
-        isJarakTerlaluJauh ? (
+      ) : isJarakTerlaluJauh ? (
         <ButtonAction title="Jarak terlalu jauh" style={{width: 269}} />
-        ) : (
+      ) : (
         <ButtonAction title="Update" style={{width: 269}} onPress={sendData} />
-        )
       )}
     </View>
   );
