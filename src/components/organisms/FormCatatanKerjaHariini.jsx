@@ -20,7 +20,7 @@ import {
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
-
+import {API_URL, API_GABUNGAN} from '@env';
 const FormCatatanKerjaHariini = ({navigation}) => {
   // const {jamKeluar} = useRoute().params;
   // console.log('jam keluar : ', jamKeluar)
@@ -52,7 +52,7 @@ const FormCatatanKerjaHariini = ({navigation}) => {
       };
       try {
         const response = await axios.post(
-          'http://192.168.10.31:8081/api/absen/input-absen-pulang',
+          API_GABUNGAN + '/api/absen/input-absen-pulang',
           data,
           {headers},
         );
