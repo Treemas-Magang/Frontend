@@ -13,14 +13,12 @@ import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
 import SkeletonCardNotif from '../skeleton/SkeletonCardNotif';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useDispatch} from 'react-redux';
 import ButtonBackBaru from '../atoms/ButtonBackBaru';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
 import LottieView from 'lottie-react-native';
 import {API_URL, API_URL_WEB} from '@env';
 
 const ListPengumuman = ({navigation}) => {
-  const dispatch = useDispatch();
   const [dataPengumuman, setDataPengumuman] = useState([]);
   const [dataPengumumanStorage, setDataPengumumanStorage] = useState([]);
   const [dataGabungan, setDataGabungan] = useState([]);
@@ -28,9 +26,11 @@ const ListPengumuman = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [role, setRole] = useState('');
   useEffect(() => {
-    getDataFromSession('role')
+    getDataFromSession('dataProfilUser')
       .then(data => {
-        setRole(data);
+        const dataProfile = JSON.parse(data);
+        console.log('data profil : ', dataProfile);
+        setRole(dataProfile.role);
       })
       .catch(error => console.log(error));
   }, []);

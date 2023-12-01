@@ -23,7 +23,7 @@ import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { getDataFromSession } from '../../utils/getDataSession';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {API_URL, API_URL_WEB} from '@env';
+import {API_URL, API_GABUNGAN} from '@env';
 import getLocation from '../../utils/getLocation';
 const ScreenDashboard = ({navigation}) => {
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
@@ -43,9 +43,12 @@ const ScreenDashboard = ({navigation}) => {
 
   const getDataIsAbsen = async headers => {
     try {
-      const response = await axios.get(API_URL + '/api/absen/get-is-absen', {
-        headers,
-      });
+      const response = await axios.get(
+        API_GABUNGAN + '/api/absen/get-is-absen',
+        {
+          headers,
+        },
+      );
       const dataAPI = response.data.data;
       console.log('Ini data API Absen:', dataAPI);
 

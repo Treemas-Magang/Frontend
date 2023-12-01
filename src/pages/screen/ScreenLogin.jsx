@@ -40,8 +40,8 @@ import {
 } from '../../utils/buatStatusPengumumanFalse';
 import ButtonLoading from '../../components/atoms/ButtonLoading';
 import {checkMockLocation} from '../../utils/checkMockLocation';
-import {AlertNotificationSuccess} from '../../components/atoms/AlertNotification';
-import {API_URL, API_URL_WEB} from '@env';
+import {AlertNotificationDanger, AlertNotificationSuccess} from '../../components/atoms/AlertNotification';
+import {API_URL, API_GABUNGAN} from '@env';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [idDvcSdhDipakai, setIdDvcSdhDipakai] = useState(false);
@@ -49,13 +49,14 @@ const ScreenLogin = ({navigation}) => {
   const [inputKosong, setInputKosong] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-  const [isWarnLogin, setIsWranLogin] = useState(false);
+  // const [isWarnLogin, setIsWranLogin] = useState(false);
+  const [isServerError, setIsServerError] = useState(false);
   const {formLogin} = useSelector(state => state.LoginReducer);
   const {formLoginFP} = useSelector(state => state.LoginFingerPrintReducer);
   // const {location} = useSelector(state => state.SplashReducer);
   const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
-  const routeAPI = API_URL;
+  const routeAPI = API_GABUNGAN;
   // const routeAPI = API_URL_WEB;
   useEffect(() => {
     checkBiometryType(dispatch);
@@ -106,14 +107,17 @@ const ScreenLogin = ({navigation}) => {
         console.error('Terjadi kesalahan dalam getDataFromSession:', error);
       });
   }, [biometricType, dispatch]);
+
   const onChangeText = (value, inputType) => {
     dispatch(setForm(inputType, value));
   };
+
   useEffect(() => {
     dispatch(setForm('isWebAccess', '0'));
     dispatch(setFormLoginFingerPrint('isWebAccess', '0'));
   }, [dispatch]);
   const sendData = async () => {
+    setIsServerError(false);
     if (formLogin.nik === '' || formLogin.password === '') {
       console.log('nik/pass masih kosong');
       setGagalLogin(false);
@@ -132,77 +136,68 @@ const ScreenLogin = ({navigation}) => {
       console.log(dataLogin);
 
       if (response.status === 200) {
+        setIsLogin(true);
         setGagalLogin(false);
         console.log('response login : ', response.data.data);
         // const [{ token }]\ = dataLogin;
         const token = dataLogin.token;
-        const role = dataLogin.user.role;
-        const nama = dataLogin.user.full_name;
-        dispatch(
-          setDataUser('alamatKaryawan', response.data.data.user.alamatKaryawan),
+        await AsyncStorage.setItem(
+          'dataProfilUser',
+          JSON.stringify(response.data.data.user),
         );
-        dispatch(setDataUser('email', response.data.data.user.email));
-        dispatch(setDataUser('full_name', response.data.data.user.full_name));
-        dispatch(
-          setDataUser('is_pass_chg', response.data.data.user.is_pass_chg),
-        );
-        dispatch(
-          setDataUser('jenisKelamin', response.data.data.user.jenisKelamin),
-        );
-        dispatch(
-          setDataUser('karyawanImg', response.data.data.user.karyawanImg),
-        );
-        dispatch(setDataUser('nik', response.data.data.user.nik));
-        dispatch(setDataUser('role', response.data.data.user.role));
-
         console.log('ini token :', token);
         // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
 
         await AsyncStorage.setItem('token', token);
-        await AsyncStorage.setItem('nama', nama);
         await AsyncStorage.setItem('nik', formLogin.nik);
         await AsyncStorage.setItem('password', formLogin.password);
-        await AsyncStorage.setItem('role', role);
+        
         setIsLoading(false);
         // render notif //
-        getToken().then(() => {
-          countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
-            console.log(
-              'Jumlah ID dengan status false:',
-              jumlahDataDenganStatusFalse,
-            );
-            // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
-            dispatch(
-              setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse),
-            );
-            ////////////////////////////////////////////
-            // ini untuk jumlah Approval
-            dispatch(setJumlahApproval('approval', 10));
-          });
-        });
+        // getToken().then(() => {
+        //   countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
+        //     console.log(
+        //       'Jumlah ID dengan status false:',
+        //       jumlahDataDenganStatusFalse,
+        //     );
+        //     // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
+        //     dispatch(
+        //       setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse),
+        //     );
+        //     ////////////////////////////////////////////
+        //     // ini untuk jumlah Approval
+        //     dispatch(setJumlahApproval('approval', 10));
+        //   });
+        // });
         /////////////////
-        navigation.replace('dashboard');
+        // navigation.replace('dashboard');
       } else {
         console.log('message : ', response.data.message);
         setIsLoading(false);
       }
     } catch (error) {
-      console.log('gagal login', error.response.status); //masih proses
-      console.log('gagal login', error.response); //masih proses
-      const codeError = error.response.status;
-      switch (codeError) {
-        case 401:
-          setGagalLogin(true);
-          break;
-        case 403:
-          setIdDvcSdhDipakai(true);
-          break;
-        default:
-          console.log('gagal Login');
-          break;
+      console.error('Error during login:', error);
+      setIsServerError(true);
+      if (error.response && error.response.status) {
+        const codeError = error.response.status;
+        switch (codeError) {
+          case 401:
+            setGagalLogin(true);
+            break;
+          case 403:
+            setIdDvcSdhDipakai(true);
+            break;
+          default:
+            console.log('gagal Login');
+            break;
+        }
+      } else {
+        console.log('Unexpected error:', error);
       }
+
       setIsLoading(false);
     }
+
   };
 
   const moveToLupaPassword = () => {
@@ -221,6 +216,7 @@ const ScreenLogin = ({navigation}) => {
       if (result.success) {
         // Pemindaian berhasil
         console.log('Otentikasi berhasil');
+        await sendData();
         try {
           const response = await axios.post(
             `${routeAPI}/api/auth/login`,
@@ -233,6 +229,7 @@ const ScreenLogin = ({navigation}) => {
             const token = dataLogin.token;
             const role = dataLogin.user.role;
             const nama = dataLogin.user.full_name;
+
             console.log('ini token fp : ', token);
             // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
             await AsyncStorage.setItem('nama', nama);
@@ -267,23 +264,25 @@ const ScreenLogin = ({navigation}) => {
             setIsLoading(false);
           }
         } catch (error) {
-          console.error('Terjadi kesalahan:', error);
-          console.log('gagal login', error.response.status); //masih proses
-          console.log('gagal login', error.response); //masih proses
-          const codeError = error.response.status;
-          switch (codeError) {
-            case 401:
-              setGagalLogin(true);
-              setIsWranLogin(true);
-              break;
-            case 403:
-              setIdDvcSdhDipakai(true);
-              break;
-            default:
-              console.log('gagal Login');
-              break;
+          console.error('Error during login:', error);
+          setIsServerError(true);
+          if (error.response && error.response.status) {
+            const codeError = error.response.status;
+            switch (codeError) {
+              case 401:
+                setGagalLogin(true);
+                break;
+              case 403:
+                setIdDvcSdhDipakai(true);
+                break;
+              default:
+                console.log('gagal Login');
+                break;
+            }
+          } else {
+            console.log('Unexpected error:', error);
           }
-          setIsLoading(false);
+
           setIsLoading(false);
         }
 
@@ -352,11 +351,6 @@ const ScreenLogin = ({navigation}) => {
             }
             maxLength={10}
           />
-          {gagalLogin ? (
-            <Text style={styles.labelSalah}>NIK dan Password Salah!</Text>
-          ) : (
-            ''
-          )}
           {inputKosong ? (
             <Text style={styles.labelSalah}>
               Nik dan Password Tidak Boleh Kosong!
@@ -378,6 +372,17 @@ const ScreenLogin = ({navigation}) => {
                 textBodyAlert="Login Berhasil"
                 titleAlert="Success"
                 onPress={toDashboard}
+              />
+            </View>
+          ) : (
+            ''
+          )}
+          {isServerError ? (
+            <View style={{position: 'absolute'}}>
+              <AlertNotificationDanger
+                buttonAlert="Ok"
+                textBodyAlert="Server Error"
+                titleAlert="FAILED"
               />
             </View>
           ) : (

@@ -20,7 +20,6 @@ import {faCamera} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormAbsensi} from '../../redux';
 import axios from 'axios';
-import {getTanggalSekarang} from '../../utils/getTanggalSekarang';
 import {checkMockLocation} from '../../utils/checkMockLocation';
 import {jamSekarang} from '../../utils/jamSekarang';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,6 +28,11 @@ import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 import {cekTelatMasuk} from '../../utils/cekJamTelatDanPulangCepat';
 import ButtonLoading from '../atoms/ButtonLoading';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {API_URL, API_GABUNGAN} from '@env';
 
 const FormAbsensi = ({navigation}) => {
   const dispatch = useDispatch();
@@ -108,7 +112,7 @@ const FormAbsensi = ({navigation}) => {
         try {
           //melakukan hit ke API untuk kirim data Absen
           const response = await axios.post(
-            'http://192.168.10.31:8081/api/absen/input-absen',
+            API_GABUNGAN + '/api/absen/input-absen',
             formAbsensi,
             {headers},
           );

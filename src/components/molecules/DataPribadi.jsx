@@ -2,23 +2,38 @@
 
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {text} from '../../utils/text';
+import { getDataFromSession } from '../../utils/getDataSession';
 
 const DataPribadi = ({stylePP, styleDataPribadi}) => {
-  const {dataUser} = useSelector(state => state.DataUserReducer);
-
+  const [dataProfile, setDataProfile] = useState([]);
+  console.log('ayam : ',dataProfile);
   let base64ImageData = '';
-  if (dataUser.karyawanImg !== '') {
-    base64ImageData = `data:image/jpeg;base64,${dataUser.karyawanImg}`;
+  if (dataProfile.karyawanImg !== null) {
+    base64ImageData = `data:image/jpeg;base64,${dataProfile.karyawanImg}`;
   } else {
     console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
   }
+
+  useEffect(() => {
+    try {
+      getDataFromSession('dataProfilUser')
+      .then(data => {
+        const dataProfileStorage = JSON.parse(data);
+        console.log('data profil : ', dataProfileStorage);
+        setDataProfile(dataProfileStorage);
+      })
+      .catch(error => console.log(error));
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <View
@@ -32,10 +47,10 @@ const DataPribadi = ({stylePP, styleDataPribadi}) => {
       ]}>
       <View>
         <Text style={[styles.textNama]}>
-          {dataUser.full_name}
+          {dataProfile.full_name}
         </Text>
         <Text style={[styles.textNik]}>
-          {dataUser.nik}
+          {dataProfile.nik}
         </Text>
       </View>
       <View>

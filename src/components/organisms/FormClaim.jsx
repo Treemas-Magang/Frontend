@@ -23,6 +23,7 @@ import {openCamera, openGalerImg} from '../../utils/getPhoto';
 import DropdownClaim from '../atoms/DropdownClaim';
 import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
+import {API_URL, API_GABUNGAN} from '@env';
 
 const FormClaim = ({navigation}) => {
   // const [itemSelect, setItemSelect] = useState('');
@@ -35,6 +36,7 @@ const FormClaim = ({navigation}) => {
   const [keterangan, setKeterangan] = useState('');
   const [dataId, setDataId] = useState('');
   const [dataClaim, setDataClaim] = useState([]);
+    const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const handleOpenDropdownClaim = () => {
     setOpenDropdownClaim(!openDropdownClaim);
   };
@@ -51,17 +53,25 @@ const FormClaim = ({navigation}) => {
     console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
   }
   useEffect(() => {
-    try {
-      getDataFromSession('nik')
-        .then(nik => dispatch(setFormClaim('nik', nik)))
-        .catch(() => console.log('gagal ambil nik'));
-      getDataFromSession('nama')
-        .then(nama => dispatch(setFormClaim('nama', nama)))
-        .catch(() => console.log('gagal ambil nama'));
-    } catch (error) {
-      console.log('code ambil data nik dan nama gagal');
-    }
-    dispatch(setFormClaim('id_claim', dataId));
+    // try {
+    //   // getDataFromSession('nik')
+    //   //   .then(nik => dispatch(setFormClaim('nik', nik)))
+    //   //   .catch(() => console.log('gagal ambil nik'));
+    //   // getDataFromSession('nama')
+    //   //   .then(nama => dispatch(setFormClaim('nama', nama)))
+    //   //   .catch(() => console.log('gagal ambil nama'));
+    //   // getDataFromSession('dataProfilUser')
+    //   //   .then(data => {
+    //   //     const dataProfile = JSON.parse(data);
+    //   //     console.log('data profil : ', dataProfile);
+    //   //     dispatch(setFormClaim('nik', dataProfile.nik))
+    //   //     dispatch(setFormClaim('nama', dataProfile.full_name));
+    //   //   })
+    //   //   .catch(error => console.log(error));
+    // } catch (error) {
+    //   console.log('code ambil data nik dan nama gagal');
+    // }
+    dispatch(setFormClaim('selectedTipeClaim', dataId));
   }, [dispatch, dataId]);
 
 const onChangeText = (value, inputType) => {
@@ -114,7 +124,7 @@ const onChangeText = (value, inputType) => {
             Authorization: `Bearer ${token}`,
           };
           const response = await axios.get(
-            'https://treemas-api-403500.et.r.appspot.com/api/master-data/claim-view',
+            API_GABUNGAN + '/api/master-data/claim-view',
             {headers},
           );
           const dtClaim = response.data.data;
@@ -130,16 +140,69 @@ const onChangeText = (value, inputType) => {
 
     fetchData();
   }, []);
-  const sendData = () => {
+
+  const kirimDataKeAPI = async () => {
+try {
+      //mengambil token untuk otorisasi
+      const token = await getDataFromSession('token');
+      if (token !== null) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        try {
+          //melakukan hit ke API untuk kirim data Absen
+          const response = await axios.post(
+            API_GABUNGAN + '/api/report-data/claim-form/add',
+            form_claim,
+            {headers},
+          );
+          console.log(response.data.success);
+          console.log('berhasil mengajukan claim');
+          console.log(uploadBerhasil);
+          setUploadBerhasil(true);
+          setIsLoading(false);
+          //saat berhasil kirim data kosongkan reducer
+
+        } catch (error) {
+          console.log(error.response);
+          const errorCode = error.response.status;
+          switch (errorCode) {
+            case 403:
+              console.log('error aja');
+              setIsLoading(false);
+              break;
+            case 404:
+              setIsLoading(false);
+              break;
+            case 500:
+              setIsLoading(false);
+              console.log('Kesalahan server');
+              break;
+            default:
+              setIsLoading(false);
+              console.log(error.response);
+              console.log('gagal ajukan claim');
+              break;
+          }
+        }
+      } else {
+        console.log('Data tidak ditemukan di session.');
+      }
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
+    }
+  }
+  const sendData = async () => {
     console.log('kirim data : ', form_claim);
     // kirimDataDanFotoKeAPI();
+    await kirimDataKeAPI();
   };
   return (
     <View style={styles.congtainerForm}>
       <Text style={styles.textJudul}>form claim</Text>
       <View style={styles.wrapDropdown}>
-        <View
-          style={openDropdownClaim ? styles.dropdownTrue : styles.dropdown}>
+        <View style={openDropdownClaim ? styles.dropdownTrue : styles.dropdown}>
           <TouchableOpacity
             onPress={handleOpenDropdownClaim}
             style={styles.tombolDropdown}>
@@ -173,6 +236,7 @@ const onChangeText = (value, inputType) => {
         label="Nominal"
         secureTextEntry={false}
         value={form_claim.nominal}
+        keyboardType={'numeric'}
         onTextChange={value => onChangeText(value, 'nominal')}
       />
       <View style={styles.kotakPreviewKosong}>

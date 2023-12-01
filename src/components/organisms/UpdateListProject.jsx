@@ -20,7 +20,7 @@ import SkeletonCardUpdateProject from '../skeleton/SkeletonCardUpdateProject';
 import LottieView from 'lottie-react-native';
 import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
-import {API_URL, API_URL_WEB} from '@env';
+import {API_URL, API_GABUNGAN} from '@env';
 
 const UpdateListProject = ({navigation}) => {
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
@@ -35,9 +35,12 @@ const UpdateListProject = ({navigation}) => {
 
   const getData = async headers => {
     try {
-      const res = await axios.get(API_URL + '/api/absen/get-all-projects', {
-        headers,
-      });
+      const res = await axios.get(
+        API_GABUNGAN + '/api/absen/get-all-projects',
+        {
+          headers,
+        },
+      );
       console.log('data : ', res.data.success);
       const dataApi = res.data.data;
 
@@ -99,7 +102,7 @@ const UpdateListProject = ({navigation}) => {
   const dataYangAkanDikirim = async (headers, dtPatch) => {
     try {
       const res = await axios.patch(
-        API_URL + '/api/absen/update-penempatan',
+        API_GABUNGAN + '/api/absen/update-penempatan',
         {projectTerpilih: dtPatch},
         {headers},
       );

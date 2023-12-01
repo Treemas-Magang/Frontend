@@ -12,7 +12,7 @@ import {
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import CardBelumAbsenPulang from '../molecules/CardBelumAbsenPulang';
 import {getDataFromSession} from '../../utils/getDataSession';
-import {API_URL, API_URL_WEB} from '@env';
+import {API_URL, API_GABUNGAN} from '@env';
 import axios from 'axios';
 import SkeletonCardAbsenBelumPulang from '../skeleton/SkeletonCardAbsenBelumPulang';
 import LottieView from 'lottie-react-native';
@@ -24,7 +24,7 @@ const ListBelumAbsenPulang = ({navigation}) => {
   const getDataBelumAbsen = async headers => {
     try {
       const response = await axios.get(
-        API_URL + '/api/absen/get-absen-belum-pulang',
+        API_GABUNGAN + '/api/absen/get-absen-belum-pulang',
         {headers},
       );
       console.log(response.data.data);

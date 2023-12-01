@@ -10,37 +10,34 @@ const CardMember = ({
   jamMsk,
   jamPlg,
   nama,
+  idMember,
+  onPress
 }) => {
-  console.log(status);
-  let page = '';
+  console.log(idMember);
   let background = styles.cardHadir;
   switch (status) {
     case 'sakit':
       background = styles.cardSakit;
-      page = 'detailMember';
       break;
     case 'cuti':
       background = styles.cardCuti;
-      page = 'detailMember';
       break;
     case 'tidakMasuk':
       background = styles.cardTidakMasuk;
-      page = 'detailMember';
       break;
     case 'hadir':
       background = styles.cardHadir;
-      page = 'detailMember';
       break;
     default:
       break;
   }
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
-  };
+  // const moveTo = tujuan => {
+  //   navigation.navigate(tujuan);
+  // };
   return (
     <TouchableOpacity
       style={[styles.cardMember, background]}
-      onPress={() => moveTo(page)}>
+      onPress={onPress}>
       <View style={styles.dataMember}>
         <View style={styles.wrapData}>
           <Text style={styles.labelData}>Jam Masuk</Text>

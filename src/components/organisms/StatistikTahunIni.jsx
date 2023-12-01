@@ -5,6 +5,7 @@ import CardInfo from '../molecules/CardInfo';
 import {Color} from '../../utils/color';
 import { getDataFromSession } from '../../utils/getDataSession';
 import axios from 'axios';
+import {API_URL, API_GABUNGAN} from '@env';
 
 const initialState = {
   totalCuti: 0,
@@ -27,7 +28,7 @@ const StatistikTahunIni = ({
 const getData = async headers => {
   try {
     const response = await axios.get(
-      'http://192.168.10.31:8081/api/dashboard/main',
+      API_GABUNGAN + '/api/dashboard/main',
       {headers},
     );
     console.log(response.data.data);

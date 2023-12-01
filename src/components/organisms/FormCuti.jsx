@@ -23,6 +23,7 @@ import FakeTextInput from '../atoms/FakeTextInput';
 import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import DropdownCuti from '../atoms/DropdownCuti';
+import {API_URL, API_GABUNGAN} from '@env';
 
 const FormCuti = ({
   style,
@@ -104,7 +105,7 @@ const FormCuti = ({
             Authorization: `Bearer ${token}`,
           };
           const response = await axios.get(
-            'https://treemas-api-403500.et.r.appspot.com/api/master-data/cuti-view',
+            API_GABUNGAN + '/api/master-data/cuti-view',
             {headers},
           );
           const dtCuti = response.data.data;

@@ -256,12 +256,9 @@ const FormAbsensiReducer = (state = initialStateAbsensi, action) => {
 };
 const initialStateClaim = {
   form_claim: {
-    nik: '',
-    nama: '',
-    projectId: '',
+    selectedTipeClaim: '',
     keterangan: '',
     nominal: 0,
-    id_claim: '',
     image64: '',
   },
 };

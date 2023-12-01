@@ -19,17 +19,31 @@ import {
 } from 'react-native-responsive-screen';
 import {useDispatch} from 'react-redux';
 import {setProjectYangDipilih} from '../../redux';
-import {API_URL, API_URL_WEB} from '@env';
+import {API_URL, API_GABUNGAN} from '@env';
 
 const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   const dispatch = useDispatch();
   const [pilihProjects, setPilihProject] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
+  const [dataProfile, setDataProfile] = useState([]);
+
+    useEffect(() => {
+      try {
+        getDataFromSession('dataProfilUser')
+          .then(data => {
+            const dataProfile = JSON.parse(data);
+            console.log('data profil : ', dataProfile);
+            setDataProfile(dataProfile);
+          })
+          .catch(error => console.log(error));
+      } catch (error) {}
+    }, []);
+
 
   const getDataPenempatan = async headers => {
     try {
       const response = await axios.get(
-        API_URL + '/api/absen/get-all-projects',
+        API_GABUNGAN + '/api/absen/get-all-projects',
         {headers},
       );
       console.log(response.data.data);

@@ -27,7 +27,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import LottieView from 'lottie-react-native';
-import {API_URL, API_URL_WEB} from '@env';
+import {API_URL, API_GABUNGAN} from '@env';
 
 const ListMembers = ({navigation}) => {
   const {projectId, projectName} = useRoute().params;
@@ -48,7 +48,7 @@ const ListMembers = ({navigation}) => {
       const projId = projectId;
       console.log('ini project id : ', projId);
       const response = await axios.get(
-        API_URL + `/api/member/get-member-project?projectId=${projId}`,
+        API_GABUNGAN + `/api/member/get-member-project?projectId=${projId}`,
         {headers},
       );
       const dataAPI = response.data.data;
@@ -72,6 +72,9 @@ const ListMembers = ({navigation}) => {
       .catch(error => console.log(error));
   }, []);
 
+    const moveTo = (tujuan, id) => {
+    navigation.navigate(tujuan, {idMember: id});
+  };
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.listMember}>
@@ -148,6 +151,8 @@ const ListMembers = ({navigation}) => {
                     jamMsk={member.jamMsk}
                     nama={member.nama}
                     jamPlg={member.jamPlg}
+                    idMember={member.id}
+                    onPress={() => moveTo('detailMember', member.id)}
                     status={
                       member.jamMsk !== null
                         ? 'hadir'

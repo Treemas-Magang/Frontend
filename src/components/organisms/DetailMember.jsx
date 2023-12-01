@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   StyleSheet,
   Text,
@@ -7,7 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
@@ -19,9 +20,46 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
+import {API_URL, API_GABUNGAN} from '@env';
+import axios from 'axios';
+import {getDataFromSession} from '../../utils/getDataSession';
+import { useRoute } from '@react-navigation/native';
 
 const DetailMember = ({navigation, stylePP}) => {
+  const {idMember} = useRoute().params;
+  console.log('id : ', idMember);
   const [isWFH, setIsWFH] = useState(true);
+
+    const getDataBelumAbsen = async headers => {
+      try {
+        const response = await axios.get(
+          API_GABUNGAN + `/api/member/get-data-absen?idAbsen=${idMember}`,
+          {headers},
+        );
+        console.log(response.data.data);
+        const dataAPI = response.data.data;
+        // const dataKosong = [];
+        // setAbsenBelumPulang(dataAPI);
+        // setIsLoading(false);
+        console.log('data : ', dataAPI);
+      } catch (error) {
+        console.log('Tidak dapat mengambil data ', error.response);
+        // setIsLoading(false);
+      }
+    };
+
+    useEffect(() => {
+      getDataFromSession('token')
+        .then(token => {
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          getDataBelumAbsen(headers);
+        })
+        .catch(error => console.log(error));
+    }, []);
+
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />

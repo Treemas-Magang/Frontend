@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {ScrollView, StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import IconMenu from '../atoms/IconMenu';
 import {Color} from '../../utils/color';
@@ -16,13 +16,15 @@ const MenuUtama = ({
   jml_blm_baca,
 }) => {
   const [isRole, setIsRole] = useState('');
+  console.log('isRole : ', isRole)
   useEffect(() => {
-    getDataFromSession('role')
-    .then((data) => {
-      console.log('role : ', data)
-      setIsRole(data)
-    })
-    .catch(error => console.log(error))
+    getDataFromSession('dataProfilUser')
+      .then(data => {
+        const dataProfile = JSON.parse(data);
+        console.log('data profil menu utama : ', dataProfile);
+        setIsRole(dataProfile.role);
+      })
+      .catch(error => console.log(error));
   }, []);
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
