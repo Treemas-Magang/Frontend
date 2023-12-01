@@ -6,30 +6,51 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardListAbsen = ({navigation, jam_masuk, lokasi_masuk, jam_pulang, lokasi_pulang}) => {
+const CardListAbsen = ({
+  navigation,
+  jam_masuk,
+  lokasi_masuk,
+  jam_pulang,
+  lokasi_pulang,
+  tanggal_absen,
+  status,
+}) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
+
+  let background = styles.cardBackground;
+  switch (status) {
+    case 'hadir':
+      background = styles.cardHadir;
+      break;
+    case 'sakit':
+      background = styles.cardSakit;
+      break;
+    default:
+      break;
+  }
+
   return (
-    <TouchableOpacity style={styles.card} onPress={() => moveTo('detailAbsen')}>
-      <Text style={styles.judul}>Selasa 27 April</Text>
+    <TouchableOpacity
+      style={[styles.card, background]}
+      onPress={() => moveTo('detailAbsen')}>
+      <Text style={styles.judul}>{tanggal_absen}</Text>
       <View style={styles.wrapper}>
         <View style={styles.wrap}>
           <Text style={styles.labelJam}>Jam Masuk</Text>
-          <Text style={styles.jam}>09:45</Text>
+          <Text style={styles.jam}>{jam_masuk}</Text>
           <Text style={styles.labelLokasi}>Lokasi Masuk</Text>
           <Text style={styles.alamat} numberOfLines={5}>
-            jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-            Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
+            {lokasi_masuk}
           </Text>
         </View>
         <View style={styles.wrap}>
           <Text style={styles.labelJam}>Jam Pulang</Text>
-          <Text style={styles.jam}>17:45</Text>
+          <Text style={styles.jam}>{jam_pulang}</Text>
           <Text style={styles.labelLokasi}>Lokasi Pulang</Text>
           <Text style={styles.alamat} numberOfLines={5}>
-            jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-            Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
+            {lokasi_pulang}
           </Text>
         </View>
       </View>
@@ -87,5 +108,14 @@ const styles = StyleSheet.create({
     fontFamily: text.light,
     fontSize: 12,
     textAlign: 'justify',
+  },
+  cardBackground: {
+    backgroundColor: Color.green,
+  },
+  cardHadir: {
+    backgroundColor: Color.green,
+  },
+  cardSakit: {
+    backgroundColor: Color.cardSakit,
   },
 });

@@ -62,6 +62,7 @@ const ScreenLogin = ({navigation}) => {
     checkBiometryType(dispatch);
     getDataFromSession('deviceId')
       .then(idDevice => {
+        100;
         if (idDevice !== null) {
           // setDeviceId(idDevice);
           dispatch(setForm('handsetImei', idDevice));

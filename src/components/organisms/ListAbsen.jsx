@@ -19,47 +19,25 @@ const ListAbsen = ({navigation}) => {
       jam_pulang: '09:45',
       lokasi_pulang:
         'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
+      status: 'hadir',
+    },
+    {
+      tanggal_absen: 'Selasa 28 April',
+      jam_masuk: '',
+      lokasi_masuk: '',
+      jam_pulang: '',
+      lokasi_pulang: '',
       status: 'sakit',
     },
     {
-      tanggal_absen: 'Selasa 27 April',
+      tanggal_absen: 'Selasa 29 April',
       jam_masuk: '09:45',
       lokasi_masuk:
         'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
       jam_pulang: '09:45',
       lokasi_pulang:
         'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      status: 'sakit',
-    },
-    {
-      tanggal_absen: 'Selasa 27 April',
-      jam_masuk: '09:45',
-      lokasi_masuk:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      jam_pulang: '09:45',
-      lokasi_pulang:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      status: 'sakit',
-    },
-    {
-      tanggal_absen: 'Selasa 27 April',
-      jam_masuk: '09:45',
-      lokasi_masuk:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      jam_pulang: '09:45',
-      lokasi_pulang:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      status: 'sakit',
-    },
-    {
-      tanggal_absen: 'Selasa 27 April',
-      jam_masuk: '09:45',
-      lokasi_masuk:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      jam_pulang: '09:45',
-      lokasi_pulang:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-      status: 'sakit',
+      status: 'hadir',
     },
   ]);
   return (
@@ -80,10 +58,18 @@ const ListAbsen = ({navigation}) => {
             <View key={index} style={{flexDirection: 'column'}}>
               <CardListAbsen
                 navigation={navigation}
+                tanggal_absen={dataAbsen.tanggal_absen}
                 jam_masuk={dataAbsen.jam_masuk}
                 jam_pulang={dataAbsen.jam_pulang}
                 lokasi_masuk={dataAbsen.lokasi_masuk}
                 lokasi_pulang={dataAbsen.lokasi_pulang}
+                status={
+                  dataAbsen.status === 'hadir'
+                    ? 'hadir'
+                    : dataAbsen.status === 'sakit'
+                    ? 'sakit'
+                    : ''
+                }
               />
             </View>
           ))}

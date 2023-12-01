@@ -3,7 +3,7 @@
 import {StyleSheet, View, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import IconMenu from '../atoms/IconMenu';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
 
 const MenuKehadiran = ({
   navigation,
@@ -16,14 +16,13 @@ const MenuKehadiran = ({
 }) => {
   const [isAbsen, setIsAbsen] = useState('');
   useEffect(() => {
-  getDataFromSession('sudah_absen')
-  .then(sudahAbsen => {
-    setIsAbsen(sudahAbsen);
-    console.log('sudah Absen', sudahAbsen)
-  })
-  .catch(error => console.log(error));
+    getDataFromSession('sudah_absen')
+      .then(sudahAbsen => {
+        setIsAbsen(sudahAbsen);
+        console.log('sudah Absen', sudahAbsen);
+      })
+      .catch(error => console.log(error));
   }, []);
-
 
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
@@ -96,7 +95,7 @@ const MenuKehadiran = ({
           />
           <View style={box} />
         </View>
-        <View style={{width: 70, height: 70, marginBottom: 5}} />
+        <View style={{width: 70, height: 60, marginBottom: 5}} />
       </View>
     </ScrollView>
   );

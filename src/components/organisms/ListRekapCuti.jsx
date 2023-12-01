@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import ButtonBack from '../atoms/ButtonBack';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
@@ -13,6 +13,50 @@ import {
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
 
 const ListRekapCuti = ({navigation}) => {
+  const [rekCuti, setRekCuti] = useState([
+    {
+      nmTempat: 'Purwokerto',
+      tglAwal: '02-03-2021',
+      tglAkhir: '10-03-2021',
+      tglMasuk: '11-03-2021',
+      jmlhHari: '1',
+      jmlhCutiBersama: '1',
+      jmlhCutiKhusus: '1',
+      keterangan: 'Back to Home in Kampung',
+      catDisetujui: 'bawa oleh-oleh',
+      tglDisetujui: '05-03-2021',
+      disetujuiOleh: 'Pak Dede',
+      status: 'disetujui',
+    },
+    {
+      nmTempat: 'Purwokerto',
+      tglAwal: '02-03-2021',
+      tglAkhir: '10-03-2021',
+      tglMasuk: '11-03-2021',
+      jmlhHari: '1',
+      jmlhCutiBersama: '1',
+      jmlhCutiKhusus: '1',
+      keterangan: 'Back to Home in Kampung',
+      catDisetujui: 'bawa oleh-oleh',
+      tglDisetujui: '05-03-2021',
+      disetujuiOleh: 'Pak Dede',
+      status: 'menunggu',
+    },
+    {
+      nmTempat: 'Purwokerto',
+      tglAwal: '02-03-2021',
+      tglAkhir: '10-03-2021',
+      tglMasuk: '11-03-2021',
+      jmlhHari: '1',
+      jmlhCutiBersama: '1',
+      jmlhCutiKhusus: '1',
+      keterangan: 'Back to Home in Kampung',
+      catDisetujui: 'bawa oleh-oleh',
+      tglDisetujui: '05-03-2021',
+      disetujuiOleh: 'Pak Dede',
+      status: 'ditolak',
+    },
+  ]);
   return (
     <View style={styles.background}>
       <ButtonBack navigation={navigation} />
@@ -30,13 +74,32 @@ const ListRekapCuti = ({navigation}) => {
       </View>
       <View style={styles.wrapCardRekapCuti}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <CardRekapCuti />
-          <CardRekapCuti />
-          <CardRekapCuti />
-          <CardRekapCuti />
-          <CardRekapCuti />
-          <CardRekapCuti />
-          <CardRekapCuti />
+          {rekCuti.map((cuti, index) => (
+            <View key={index}>
+              <CardRekapCuti
+                nmTempat={cuti.nmTempat}
+                tanggalAwal={cuti.tglAwal}
+                tanggalAkhir={cuti.tglAkhir}
+                tanggalMasuk={cuti.tglMasuk}
+                jmlhHari={cuti.jmlhHari}
+                jmlhCutiBersama={cuti.jmlhCutiBersama}
+                jmlhCutiKhusus={cuti.jmlhCutiKhusus}
+                keterangan={cuti.keterangan}
+                catDisetujui={cuti.catDisetujui}
+                tglDisetujui={cuti.tglDisetujui}
+                disetujuiOleh={cuti.disetujuiOleh}
+                status={
+                  cuti.status === 'disetujui'
+                    ? 'disetujui'
+                    : cuti.status === 'menunggu'
+                    ? 'menunggu'
+                    : cuti.status === 'ditolak'
+                    ? 'ditolak'
+                    : ''
+                }
+              />
+            </View>
+          ))}
         </ScrollView>
       </View>
     </View>

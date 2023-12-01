@@ -18,9 +18,19 @@ const CardRekapClaim = ({
   type,
   keterangan,
   nominalClaim,
+  image64,
 }) => {
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
+  let base64ImageData = null;
+  if (image64 && image64.base64 && image64.fileSize) {
+    base64ImageData = `data:image/jpeg;base64,${image64.base64}`;
+    console.log('ini file size : ', image64.fileSize);
+  } else {
+    console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
+  }
+  console.log('ini base64Image : ', base64ImageData);
+
+  const moveToPreview = () => {
+    navigation.navigate('previewPhoto', {photo: base64ImageData});
   };
 
   return (
@@ -41,16 +51,15 @@ const CardRekapClaim = ({
         </Text>
       </View>
       <View style={styles.CardDalemReimburseStyle}>
-        <TouchableOpacity
-          style={{
-            position: 'absolute',
-            zIndex: 2,
-            flexDirection: 'row',
-            gap: 5,
-            right: 5,
-          }}>
-          <FontAwesomeIcon icon={faImage} color={Color.green} size={40} />
-        </TouchableOpacity>
+        {image64 === null ? (
+          <View style={styles.wrapImage}></View>
+        ) : (
+          <View style={styles.wrapImage}>
+            <TouchableOpacity onPress={moveToPreview}>
+              <FontAwesomeIcon icon={faImage} color={Color.green} size={40} />
+            </TouchableOpacity>
+          </View>
+        )}
         <Text
           style={{
             fontFamily: text.lightItalic,
@@ -104,5 +113,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 5,
     paddingHorizontal: 10,
+  },
+  wrapImage: {
+    position: 'absolute',
+    zIndex: 2,
+    flexDirection: 'row',
+    gap: 5,
+    right: 5,
   },
 });
