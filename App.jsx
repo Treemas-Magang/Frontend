@@ -21,16 +21,6 @@ export default function App() {
       clearInterval(cekMockLocation);
     };
   }, []);
-  // useEffect(() => {
-  //   // Atur interval untuk memeriksa dan mengupdate nilai "isAbsen" setiap menit
-  //   const intervalId = setInterval(() => {
-  //     resetSudahAbsen();
-  //     console.log('memeriksa dan mengupdate nilai "sudah_absen"');
-  //   }, 60000); // Setiap 1 menit
-
-  //   // Membersihkan interval ketika komponen unmount
-  //   return () => clearInterval(intervalId);
-  // }, []);
   return (
     <Provider store={store}>
       <NavigationContainer>

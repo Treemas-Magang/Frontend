@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
 } from 'react-native';
 import {Color} from '../../utils/color';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -23,6 +24,11 @@ import {text} from '../../utils/text';
  * @returns {JSX.Element} - Komponen React untuk input teks kustom.
  */
 const CustomTextInput = ({label, value, onTextChange, textColor, ...rest}) => {
+  /// tambah ini ///
+  const theme = useColorScheme();
+  const isDarkTheme = theme === 'dark';
+  /// /// /// /// ///
+
   const [isInputActive, setInputActive] = useState(false);
   const [textInputValue, setTextInputValue] = useState(value);
   const [hidePassword, setHidePassword] = useState(true);
@@ -62,7 +68,10 @@ const CustomTextInput = ({label, value, onTextChange, textColor, ...rest}) => {
   return (
     <View style={{position: 'relative'}}>
       <TextInput
-        style={[styles.input, isInputActive || textInputValue ? {} : null]}
+        style={[
+          styles.input,
+          isInputActive || textInputValue ? {} : null,
+        ]}
         onFocus={handleTextInputFocus}
         onBlur={handleTextInputBlur}
         onChangeText={handleTextInputChange}

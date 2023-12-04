@@ -239,7 +239,7 @@ const initialStateAbsensi = {
     gpsLatitudeMsk: null,
     gpsLongitudeMsk: null,
     isWfh: '',
-    photoAbsen: ''
+    photoAbsen: null
   },
 };
 const FormAbsensiReducer = (state = initialStateAbsensi, action) => {
