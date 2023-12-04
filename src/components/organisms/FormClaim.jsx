@@ -38,6 +38,7 @@ const FormClaim = ({navigation}) => {
   const [dataId, setDataId] = useState('');
   const [dataClaim, setDataClaim] = useState([]);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [isServerError, setIsServerError] = useState(false);
   const handleOpenDropdownClaim = () => {
     setOpenDropdownClaim(!openDropdownClaim);
   };
@@ -143,6 +144,7 @@ const FormClaim = ({navigation}) => {
   }, []);
 
   const kirimDataKeAPI = async () => {
+    setIsServerError(false);
     try {
       //mengambil token untuk otorisasi
       const token = await getDataFromSession('token');
@@ -162,6 +164,10 @@ const FormClaim = ({navigation}) => {
           console.log('berhasil mengajukan claim');
           console.log(uploadBerhasil);
           setUploadBerhasil(true);
+          dispatch(setFormClaim('selectedTipeClaim', '')); //reducer nya tidak ke reset
+          dispatch(setFormClaim('keterangan', '')); //reducer nya tidak ke reset
+          dispatch(setFormClaim('nominal', '')); //reducer nya tidak ke reset
+          dispatch(setFormClaim('image64', '')); //reducer nya tidak ke reset
           setIsLoading(false);
           //saat berhasil kirim data kosongkan reducer
         } catch (error) {
@@ -177,6 +183,7 @@ const FormClaim = ({navigation}) => {
               break;
             case 500:
               setIsLoading(false);
+              setIsServerError(true);
               console.log('Kesalahan server');
               break;
             default:
@@ -195,18 +202,20 @@ const FormClaim = ({navigation}) => {
   };
   const sendData = async () => {
     console.log('kirim data : ', form_claim);
-    setUploadBerhasil(false);
     // kirimDataDanFotoKeAPI();
     await kirimDataKeAPI();
   };
-
-  const toRekapClaim = () => {
-    navigation.navigate('rekapClaim');
-    // navigation.navigate({
-    //   index: 0,
-    //   routes: [{name: 'rekapClaim'}],
-    // });
+  const close = () => {
+    setUploadBerhasil(false);
   };
+
+  // const toRekapClaim = () => {
+  //   navigation.navigate('rekapClaim');
+  //   // navigation.navigate({
+  //   //   index: 0,
+  //   //   routes: [{name: 'rekapClaim'}],
+  //   // });
+  // };
   return (
     <View style={styles.congtainerForm}>
       {uploadBerhasil ? (
@@ -215,7 +224,19 @@ const FormClaim = ({navigation}) => {
             buttonAlert="Close"
             textBodyAlert="Berhasil Melakukan Claim"
             titleAlert="Success"
-            onPress={toRekapClaim}
+            onPress={close}
+          />
+        </View>
+      ) : (
+        ''
+      )}
+      {isServerError ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <AlertNotificationDanger
+            buttonAlert="Close"
+            textBodyAlert="Server Error"
+            titleAlert="FAILED"
+            onPress={close}
           />
         </View>
       ) : (
