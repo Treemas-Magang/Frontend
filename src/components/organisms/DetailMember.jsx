@@ -23,7 +23,7 @@ import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import {API_URL, API_GABUNGAN} from '@env';
 import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import SkeletonDetailMember from '../skeleton/SkeletonDetailMember';
 
 const DetailMember = ({navigation, stylePP}) => {
@@ -33,40 +33,38 @@ const DetailMember = ({navigation, stylePP}) => {
   const [isWFH, setIsWFH] = useState(true);
   const [dataDetailMember, setDataDetailMember] = useState([]);
 
-    const getDataBelumAbsen = async headers => {
-      try {
-        const response = await axios.get(
-          API_GABUNGAN + `/api/member/get-data-absen?idAbsen=${idMember}`,
-          {headers},
-        );
-        console.log(response.data.data);
-        const dataAPI = response.data.data;
-        // const dataKosong = [];
-        setDataDetailMember(dataAPI.absenEntity);
-        setIsLoading(false);
-        console.log('data : ', dataAPI.absenEntity);
-      } catch (error) {
-        console.log('Tidak dapat mengambil data ', error.response);
-        setIsLoading(false);
-      }
-    };
+  const getDataBelumAbsen = async headers => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + `/api/member/get-data-absen?idAbsen=${idMember}`,
+        {headers},
+      );
+      console.log(response.data.data);
+      const dataAPI = response.data.data;
+      // const dataKosong = [];
+      setDataDetailMember(dataAPI.absenEntity);
+      setIsLoading(false);
+      console.log('data : ', dataAPI.absenEntity);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error.response);
+      setIsLoading(false);
+    }
+  };
 
-    useEffect(() => {
-      getDataFromSession('token')
-        .then(token => {
-          const headers = {
-            Authorization: `Bearer ${token}`,
-          };
-          getDataBelumAbsen(headers);
-        })
-        .catch(error => console.log(error));
-    }, []);
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataBelumAbsen(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
 
-
-  return (
-      isLoading ? (
-        <SkeletonDetailMember/>
-      ) : (
+  return isLoading ? (
+    <SkeletonDetailMember />
+  ) : (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
@@ -136,7 +134,12 @@ const DetailMember = ({navigation, stylePP}) => {
           </View>
           <View>
             <Text style={styles.TextTitle}>Lokasi Masuk</Text>
-            <Text style={{textAlign: 'justify'}}>
+            <Text
+              style={{
+                textAlign: 'justify',
+                fontFamily: text.light,
+                marginVertical: 2,
+              }}>
               {dataDetailMember.lokasiMsk}
             </Text>
           </View>
@@ -156,7 +159,12 @@ const DetailMember = ({navigation, stylePP}) => {
           </View>
           <View>
             <Text style={styles.TextTitle}>Lokasi Keluar</Text>
-            <Text style={{textAlign: 'justify'}}>
+            <Text
+              style={{
+                textAlign: 'justify',
+                fontFamily: text.light,
+                marginVertical: 2,
+              }}>
               {dataDetailMember.lokasiPlg === null
                 ? 'Belum Absen Keluar'
                 : dataDetailMember.lokasiPlg}
@@ -181,7 +189,6 @@ const DetailMember = ({navigation, stylePP}) => {
         </ScrollView>
       </View>
     </View>
-      )
   );
 };
 
