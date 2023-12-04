@@ -9,7 +9,6 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  useColorScheme,
 } from 'react-native';
 import CustomTextInput from '../../components/atoms/CustomTextInput';
 import {getDataFromSession} from '../../utils/getDataSession';
@@ -47,10 +46,6 @@ import {
 } from '../../components/atoms/AlertNotification';
 import {API_URL, API_GABUNGAN} from '@env';
 const ScreenLogin = ({navigation}) => {
-  /// tambah ini ///
-  const theme = useColorScheme();
-  const isDarkTheme = theme === 'dark';
-  /// /// /// /// ///
   const [appVersion, setAppVersion] = useState('');
   const [idDvcSdhDipakai, setIdDvcSdhDipakai] = useState(false);
   const [gagalLogin, setGagalLogin] = useState(false);
@@ -324,12 +319,7 @@ const ScreenLogin = ({navigation}) => {
   return (
     <View style={{flex: 1}}>
       <ScrollView
-        contentContainerStyle={[
-          styles.container,
-          isDarkTheme
-            ? {backgroundColor: Color.white}
-            : {backgroundColor: Color.white},
-        ]}
+        contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled">
         <View style={{height: hp('30%'), justifyContent: 'center'}}>
           <Image
@@ -440,9 +430,9 @@ const ScreenLogin = ({navigation}) => {
             width: wp('100%'),
             position: 'relative',
           }}>
-          <Text style={[styles.textInfo, isDarkTheme ? {color: Color.black} : {color: Color.black}]}>Mobile Absensi Karyawan</Text>
-          <Text style={[styles.textInfo, isDarkTheme ? {color: Color.black} : {color: Color.black}]}>Version : {appVersion}</Text>
-          <Text style={[styles.textInfo, isDarkTheme ? {color: Color.black} : {color: Color.black}]}>&copy;2023 PT TREEMAS</Text>
+          <Text style={styles.textInfo}>Mobile Absensi Karyawan</Text>
+          <Text style={styles.textInfo}>Version : {appVersion}</Text>
+          <Text style={styles.textInfo}>&copy;2023 PT TREEMAS</Text>
           <Image
             style={styles.vectorKiri}
             source={require('../../assets/vector/VectorKiri.png')}
@@ -465,11 +455,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     position: 'relative',
-    // backgroundColor: Color.white,
+    backgroundColor: Color.white,
   },
   textInfo: {
     textAlign: 'center',
-    // color: Color.black,
+    color: Color.black,
   },
   vectorKiri: {
     position: 'absolute',

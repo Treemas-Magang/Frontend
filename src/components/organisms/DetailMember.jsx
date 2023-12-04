@@ -24,11 +24,14 @@ import {API_URL, API_GABUNGAN} from '@env';
 import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
 import { useRoute } from '@react-navigation/native';
+import SkeletonDetailMember from '../skeleton/SkeletonDetailMember';
 
 const DetailMember = ({navigation, stylePP}) => {
   const {idMember} = useRoute().params;
   console.log('id : ', idMember);
+  const [isLoading, setIsLoading] = useState(true);
   const [isWFH, setIsWFH] = useState(true);
+  const [dataDetailMember, setDataDetailMember] = useState([]);
 
     const getDataBelumAbsen = async headers => {
       try {
@@ -39,12 +42,12 @@ const DetailMember = ({navigation, stylePP}) => {
         console.log(response.data.data);
         const dataAPI = response.data.data;
         // const dataKosong = [];
-        // setAbsenBelumPulang(dataAPI);
-        // setIsLoading(false);
-        console.log('data : ', dataAPI);
+        setDataDetailMember(dataAPI.absenEntity);
+        setIsLoading(false);
+        console.log('data : ', dataAPI.absenEntity);
       } catch (error) {
         console.log('Tidak dapat mengambil data ', error.response);
-        // setIsLoading(false);
+        setIsLoading(false);
       }
     };
 
@@ -61,6 +64,9 @@ const DetailMember = ({navigation, stylePP}) => {
 
 
   return (
+      isLoading ? (
+        <SkeletonDetailMember/>
+      ) : (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
@@ -108,50 +114,74 @@ const DetailMember = ({navigation, stylePP}) => {
           </View>
           <View>
             <Text style={styles.TextTitle}>Nik</Text>
-            <Text style={styles.TextDeskripsi}>2912312</Text>
+            <Text style={styles.TextDeskripsi}>{dataDetailMember.nik}</Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Nama</Text>
-            <Text style={styles.TextDeskripsi}>Azriel FachrulRezy</Text>
+            <Text style={styles.TextDeskripsi}>{dataDetailMember.nama}</Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Project</Text>
-            <Text style={styles.TextDeskripsi}>05-06-2023</Text>
+            <Text style={styles.TextDeskripsi}>
+              {dataDetailMember.projectId.namaProject}
+            </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Jam Masuk</Text>
-            <Text style={styles.TextDeskripsi}>09:00:00</Text>
+            <Text style={styles.TextDeskripsi}>
+              {dataDetailMember.jamMsk === null
+                ? 'Belum Absen Masuk'
+                : dataDetailMember.jamMsk}
+            </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Lokasi Masuk</Text>
             <Text style={{textAlign: 'justify'}}>
-              jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-              Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
+              {dataDetailMember.lokasiMsk}
             </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Catatan Telat</Text>
-            <Text style={styles.TextDeskripsi}>-</Text>
+            <Text style={styles.TextDeskripsi}>
+              {dataDetailMember.noteTelatMsk}
+            </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Jam Keluar</Text>
-            <Text style={styles.TextDeskripsi}>Belum Absen Keluar</Text>
+            <Text style={styles.TextDeskripsi}>
+              {dataDetailMember.jamPlg === null
+                ? 'Belum Absen Keluar'
+                : dataDetailMember.jamPlg}
+            </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Lokasi Keluar</Text>
-            <Text style={{textAlign: 'justify'}}>Belum Absen Keluar</Text>
+            <Text style={{textAlign: 'justify'}}>
+              {dataDetailMember.lokasiPlg === null
+                ? 'Belum Absen Keluar'
+                : dataDetailMember.lokasiPlg}
+            </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Catatan Pulang Cepat</Text>
-            <Text style={styles.TextDeskripsi}>Belum Absen Keluar</Text>
+            <Text style={styles.TextDeskripsi}>
+              {dataDetailMember.notePlgCepat === null
+                ? 'Belum Absen Keluar'
+                : dataDetailMember.notePlgCepat}
+            </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Timesheet</Text>
-            <Text style={styles.TextDeskripsi}>Belum Absen Keluar</Text>
+            <Text style={styles.TextDeskripsi}>
+              {dataDetailMember.notePekerjaan === null
+                ? 'Belum Absen Keluar'
+                : dataDetailMember.notePekerjaan}
+            </Text>
           </View>
         </ScrollView>
       </View>
     </View>
+      )
   );
 };
 

@@ -7,7 +7,6 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  useColorScheme,
 } from 'react-native';
 import {Color} from '../../utils/color';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -23,11 +22,7 @@ import {text} from '../../utils/text';
  * @param {string} textColor - Warna teks label (opsional).
  * @returns {JSX.Element} - Komponen React untuk input teks kustom.
  */
-
 const CustomTextInput = ({label, value, onTextChange, textColor, ...rest}) => {
-  const theme = useColorScheme();
-  const isDarkTheme = theme === 'dark';
-
   const [isInputActive, setInputActive] = useState(false);
   const [textInputValue, setTextInputValue] = useState(value);
   const [hidePassword, setHidePassword] = useState(true);
@@ -53,7 +48,7 @@ const CustomTextInput = ({label, value, onTextChange, textColor, ...rest}) => {
   const handleTextInputChange = text => {
     setTextInputValue(text);
     if (onTextChange) {
-      onTextChange(text);
+      onTextChange(text); // Mengirim nilai input kembali ke komponen induk
     }
   };
 
@@ -67,27 +62,23 @@ const CustomTextInput = ({label, value, onTextChange, textColor, ...rest}) => {
   return (
     <View style={{position: 'relative'}}>
       <TextInput
-        style={[
-          styles.input,
-          isInputActive || textInputValue ? {color: 'black'} : null,
-        ]}
+        style={[styles.input, isInputActive || textInputValue ? {} : null]}
         onFocus={handleTextInputFocus}
         onBlur={handleTextInputBlur}
         onChangeText={handleTextInputChange}
         value={textInputValue}
         secureTextEntry={hidePassword}
-        placeholderTextColor={isDarkTheme ? 'white' : 'black'} // Ganti dengan warna placeholder yang sesuai
         {...rest}
       />
       <Text
         style={[
           styles.label,
-          {color: textColor || (isDarkTheme ? 'white' : Color.red)},
+          {color: textColor || Color.blue},
           isInputActive || textInputValue ? {top: -6, fontSize: 19} : null,
         ]}>
         {label}
       </Text>
-      {['Password', 'Konfirmasi Password'].includes(label) ? (
+      {label === 'Password' || label === 'Konfirmasi Password' ? (
         <TouchableOpacity
           style={styles.toggle}
           onPress={togglePasswordVisibility}>
