@@ -30,6 +30,7 @@ export const AlertNotificationSuccess = ({
         textBody: textBodyAlert,
         button: buttonAlert,
         onPressButton: onPress,
+        onHide: onPress,
       })}
     </AlertNotificationRoot>
   );

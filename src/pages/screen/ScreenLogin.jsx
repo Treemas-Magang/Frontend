@@ -181,7 +181,6 @@ const ScreenLogin = ({navigation}) => {
       }
     } catch (error) {
       console.error('Error during login:', error);
-      setIsServerError(true);
       if (error.response && error.response.status) {
         const codeError = error.response.status;
         switch (codeError) {
@@ -190,6 +189,9 @@ const ScreenLogin = ({navigation}) => {
             break;
           case 403:
             setIdDvcSdhDipakai(true);
+            break;
+          case 500:
+            setIsServerError(true);
             break;
           default:
             console.log('gagal Login');
@@ -219,7 +221,7 @@ const ScreenLogin = ({navigation}) => {
       if (result.success) {
         // Pemindaian berhasil
         console.log('Otentikasi berhasil');
-        await sendData();
+        // await sendData();
         try {
           const response = await axios.post(
             `${routeAPI}/api/auth/login`,
@@ -268,7 +270,6 @@ const ScreenLogin = ({navigation}) => {
           }
         } catch (error) {
           console.error('Error during login:', error);
-          setIsServerError(true);
           if (error.response && error.response.status) {
             const codeError = error.response.status;
             switch (codeError) {
@@ -277,6 +278,9 @@ const ScreenLogin = ({navigation}) => {
                 break;
               case 403:
                 setIdDvcSdhDipakai(true);
+                break;
+              case 500:
+                setIsServerError(true);
                 break;
               default:
                 console.log('gagal Login');
@@ -360,6 +364,13 @@ const ScreenLogin = ({navigation}) => {
           {inputKosong ? (
             <Text style={styles.labelSalah}>
               Nik dan Password Tidak Boleh Kosong!
+            </Text>
+          ) : (
+            ''
+          )}
+          {gagalLogin ? (
+            <Text style={styles.labelSalah}>
+              Nik atau Password Salah!
             </Text>
           ) : (
             ''
