@@ -112,9 +112,30 @@ const UpdateListProject = ({navigation}) => {
       setUploadBerhasil(true);
       setBtnLoading(false);
     } catch (error) {
-      console.error('Error:', error.response);
-      setBtnLoading(false);
-      setShowErrorAlert(true);
+      // console.error('Error:', error.response);
+      // setBtnLoading(false);
+      // setShowErrorAlert(true);
+      console.log(error.response);
+      const errorCode = error.response.status;
+      switch (errorCode) {
+        case 403:
+          console.log('error aja');
+          setIsLoading(false);
+          break;
+        case 404:
+          setIsLoading(false);
+          break;
+        case 500:
+          setIsLoading(false);
+          console.log('Kesalahan server');
+          setShowErrorAlert(true);
+          break;
+        default:
+          setIsLoading(false);
+          console.log(error.response);
+          console.log('gagal ajukan claim');
+          break;
+      }
     }
   };
   useEffect(() => {
