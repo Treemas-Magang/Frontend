@@ -27,6 +27,7 @@ import {API_URL, API_GABUNGAN} from '@env';
 import {
   AlertNotificationDanger,
   AlertNotificationSuccess,
+  AlertNotificationWarning,
 } from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
 
@@ -43,9 +44,11 @@ const FormClaim = ({navigation}) => {
   const [dataClaim, setDataClaim] = useState([]);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const [isServerError, setIsServerError] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
   const handleOpenDropdownClaim = () => {
     setOpenDropdownClaim(!openDropdownClaim);
+    setShowErrorAlert(false);
   };
   useEffect(() => {
     if (keterangan !== '') {
@@ -88,6 +91,7 @@ const FormClaim = ({navigation}) => {
     dispatch(setFormClaim(inputType, convertedValue));
   };
   const openKamera = () => {
+    setShowErrorAlert(false);
     setCapturedImage(null);
     setIsLoading(true);
     openCamera()
@@ -104,6 +108,7 @@ const FormClaim = ({navigation}) => {
       });
   };
   const openGalery = () => {
+    setShowErrorAlert(false);
     setCapturedImage(null);
     setIsLoading(true);
     openGalerImg()
@@ -121,6 +126,7 @@ const FormClaim = ({navigation}) => {
 
   const moveToPreview = () => {
     navigation.navigate('previewPhoto', {photo: base64ImageData});
+    setShowErrorAlert(false);
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -196,6 +202,7 @@ const FormClaim = ({navigation}) => {
               setIsLoading(false);
               console.log(error.response);
               console.log('gagal ajukan claim');
+              setShowErrorAlert(true);
               break;
           }
         }
@@ -221,6 +228,7 @@ const FormClaim = ({navigation}) => {
   };
   const close = () => {
     setUploadBerhasil(false);
+    setShowErrorAlert(false);
   };
 
   // const toRekapClaim = () => {
@@ -241,20 +249,26 @@ const FormClaim = ({navigation}) => {
             onPress={close}
           />
         </View>
-      ) : (
-        ''
-      )}
-      {isServerError ? (
+      ) : // Kondisi di mana upload tidak berhasil, tetapi isServerError belum diketahui
+      isServerError ? (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <AlertNotificationDanger
             buttonAlert="Close"
             textBodyAlert="Server Error"
-            titleAlert="FAILED"
+            titleAlert="Failed"
             onPress={close}
           />
         </View>
       ) : (
-        ''
+        // Kondisi di mana upload tidak berhasil dan tidak ada kesalahan server
+        showErrorAlert && (
+          <AlertNotificationDanger
+            buttonAlert="Close"
+            textBodyAlert="Gagal Melakukan Claim"
+            titleAlert="Failed"
+            onPress={close}
+          />
+        )
       )}
       <Text style={styles.textJudul}>form claim</Text>
       <View style={styles.wrapDropdown}>
@@ -291,7 +305,11 @@ const FormClaim = ({navigation}) => {
       <CustomTextInput
         label="Nominal"
         secureTextEntry={false}
-        value={form_claim.nominal}
+        value={
+          form_claim.nominal.toString() === '0'
+            ? ''
+            : form_claim.nominal.toString()
+        }
         keyboardType={'numeric'}
         onTextChange={value => onChangeText(value, 'nominal')}
       />

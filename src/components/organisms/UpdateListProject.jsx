@@ -29,6 +29,7 @@ const UpdateListProject = ({navigation}) => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [patch, setPatch] = useState([]);
   const [patchBlmUpdt, setPatchBlmUpdt] = useState([]);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [initialDataAllProjectBlmUpdt, setInitialDataAllProjectBlmUpdt] =
     useState([]);
   const [changedDataState, setChangedDataState] = useState([]);
@@ -113,6 +114,7 @@ const UpdateListProject = ({navigation}) => {
     } catch (error) {
       console.error('Error:', error.response);
       setBtnLoading(false);
+      setShowErrorAlert(true);
     }
   };
   useEffect(() => {
@@ -195,6 +197,7 @@ const UpdateListProject = ({navigation}) => {
   };
   const close = () => {
     setUploadBerhasil(false);
+    setShowErrorAlert(false);
   };
   return (
     <View style={styles.wrapScreenDaftarProject}>
@@ -208,7 +211,14 @@ const UpdateListProject = ({navigation}) => {
           />
         </View>
       ) : (
-        ''
+        showErrorAlert && (
+          <AlertNotificationDanger
+            buttonAlert="Close"
+            textBodyAlert="Gagal Melakukan Claim"
+            titleAlert="Failed"
+            onPress={close}
+          />
+        )
       )}
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
