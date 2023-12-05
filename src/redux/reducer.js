@@ -208,22 +208,21 @@ const FormCutiReducer = (state = initialStateFormCuti, action) => {
   return state;
 };
 const initialStateFormSakit = {
-  form: {
-    nik: '',
-    tanggal_sakit: '',
-    tanggal_selesai: '',
-    tanggal_masuk: '',
-    jml_sakit: '',
-    alasan: '',
-    foto: {},
+  form_sakit: {
+    tglMulai: '',
+    tglSelesai: '',
+    tglKembaliKerja: '',
+    jmlCuti: '',
+    keperluanCuti: '',
+    image: '',
   },
 };
 const FormSakitReducer = (state = initialStateFormSakit, action) => {
   if (action.type === 'SET_FORM_SAKIT') {
     return {
       ...state,
-      form: {
-        ...state.form,
+      form_sakit: {
+        ...state.form_sakit,
         [action.inputType]: action.inputValue,
       },
     };

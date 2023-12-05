@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import CustomTextInput from '../atoms/CustomTextInput';
@@ -23,6 +23,9 @@ import FakeTextInput from '../atoms/FakeTextInput';
 import ButtonCamera from '../atoms/ButtonCamera';
 import ButtonGalery from '../atoms/ButtonGalery';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
+import { getDataFromSession } from '../../utils/getDataSession';
+import axios from 'axios';
+import {API_URL, API_GABUNGAN} from '@env';
 
 const FormSakit = ({navigation}) => {
   const [capturedImage, setCapturedImage] = useState(null);
@@ -35,11 +38,19 @@ const FormSakit = ({navigation}) => {
   } else {
     console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
   }
+  useEffect(() => {
+    if (capturedImage && capturedImage.base64) {
+      dispatch(setFormSakit('image', capturedImage.base64));
+    } else {
+      console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
+    }
+  }, [dispatch, capturedImage]);
   console.log('ini base64Image : ', base64ImageData);
   const dispatch = useDispatch();
-  const {form} = useSelector(state => state.FormSakitReducer);
+  const {form_sakit} = useSelector(state => state.FormSakitReducer);
   //   console.log('ini dari reducer : ', form);
   const [showKalender, setShowKalender] = useState(false);
+  const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const [adaSuratDokter, setAdaSuratDoker] = useState(false);
   const [data, setData] = useState({
     jumlahCutiAtauSakit: 0,
@@ -72,10 +83,10 @@ const FormSakit = ({navigation}) => {
       newData.endDate !== data.endDate
     ) {
       setData(newData);
-      dispatch(setFormSakit('tanggal_sakit', newData.startDate));
-      dispatch(setFormSakit('tanggal_selesai', newData.endDate));
-      dispatch(setFormSakit('tanggal_masuk', newData.tanggalMasuk));
-      dispatch(setFormSakit('jml_sakit', newData.jumlahCutiAtauSakit));
+      dispatch(setFormSakit('tglMulai', newData.startDate));
+      dispatch(setFormSakit('tglSelesai', newData.endDate));
+      dispatch(setFormSakit('tglKembaliKerja', newData.tanggalMasuk));
+      dispatch(setFormSakit('jmlCuti', newData.jumlahCutiAtauSakit));
     }
   };
   const onChangeText = (value, inputType) => {
@@ -116,8 +127,60 @@ const FormSakit = ({navigation}) => {
         // console.error(error);
       });
   };
-  const sendData = () => {
-    // console.log('kirim data : ', form);
+const kirimDataKeAPI = async () => {
+  try {
+    //mengambil token untuk otorisasi
+    const token = await getDataFromSession('token');
+    if (token !== null) {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      try {
+        //melakukan hit ke API untuk kirim data Absen
+        const response = await axios.post(
+          API_GABUNGAN + '/api/detail-data/sakit-form/add',
+          form_sakit,
+          {headers},
+        );
+        console.log(response.data.success);
+        console.log('berhasil mengajukan claim');
+        console.log(uploadBerhasil);
+        setUploadBerhasil(true);
+        setIsLoading(false);
+        //saat berhasil kirim data kosongkan reducer
+      } catch (error) {
+        console.log(error.response);
+        const errorCode = error.response.status;
+        switch (errorCode) {
+          case 403:
+            console.log('error aja');
+            setIsLoading(false);
+            break;
+          case 404:
+            setIsLoading(false);
+            break;
+          case 500:
+            setIsLoading(false);
+            console.log('Kesalahan server');
+            break;
+          default:
+            setIsLoading(false);
+            console.log(error.response);
+            console.log('gagal ajukan claim');
+            break;
+        }
+      }
+    } else {
+      console.log('Data tidak ditemukan di session.');
+    }
+  } catch (error) {
+    console.error('Terjadi kesalahan:', error);
+  }
+};
+  const sendData = async () => {
+    // console.log('kirim data : ', form_sakit);
+    await kirimDataKeAPI();
   };
   const handleClickOutside = () => {
     setShowKalender(false);
@@ -155,7 +218,7 @@ const FormSakit = ({navigation}) => {
                 </Text>
               </TouchableOpacity>
               <FakeTextInput
-                value={`${form.tanggal_sakit} - ${form.tanggal_selesai}`}
+                value={`${form_sakit.tglMulai} - ${form_sakit.tglSelesai}`}
                 label="tgl awal - akhir cuti"
               />
               <TouchableOpacity
@@ -175,15 +238,15 @@ const FormSakit = ({navigation}) => {
               </TouchableOpacity>
               {/* <CustomTextInput label="tgl masuk kerja" editable={false} /> */}
               <FakeTextInput
-                value={form.tanggal_masuk}
+                value={form_sakit.tglKembaliKerja}
                 label="tgl masuk kerja"
               />
-              <FakeTextInput value={form.jml_sakit} label="Jumlah hari" />
+              <FakeTextInput value={form_sakit.jmlCuti} label="Jumlah hari" />
               <CustomTextInput
                 label="Alasan"
                 secureTextEntry={false}
-                value={form.alasan}
-                onTextChange={value => onChangeText(value, 'alasan')}
+                value={form_sakit.keperluanCuti}
+                onTextChange={value => onChangeText(value, 'keperluanCuti')}
               />
             </View>
 

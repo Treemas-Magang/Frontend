@@ -24,7 +24,7 @@ import DropdownClaim from '../atoms/DropdownClaim';
 import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import {API_URL, API_GABUNGAN} from '@env';
-import {AlertNotificationSuccess} from '../atoms/AlertNotification';
+import {AlertNotificationDanger, AlertNotificationSuccess} from '../atoms/AlertNotification';
 
 const FormClaim = ({navigation}) => {
   // const [itemSelect, setItemSelect] = useState('');
