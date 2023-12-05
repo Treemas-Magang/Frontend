@@ -113,25 +113,31 @@ const KalenderRange = ({onDataReady, adaSuratDokter, iniFormSakit}) => {
     // console.log('Jumlah tanggal merah: ', jumlahTanggalMerah);
 
     // Cari tanggal setelah endDate yang juga bukan termasuk dalam cuti bersama atau tanggal merah
-    let nextDate = currentDate.clone();
-    let tanggalMasuk = '';
-    while (true) {
-      nextDate.add(1, 'days');
-      if (!nextDate.isValid()) {
-        // Tanggal tidak valid, hentikan perulangan
-        break;
-      }
-      if (
-        !cutiBersama.includes(nextDate.format('YYYY-MM-DD')) &&
-        !tanggalMerah.includes(nextDate.format('YYYY-MM-DD')) &&
-        nextDate.day() !== 6 &&
-        nextDate.day() !== 0
-      ) {
-        tanggalMasuk = nextDate.format('YYYY-MM-DD');
-        console.log('Tanggal Masuk : ', tanggalMasuk);
-        break;
-      }
-    }
+let nextDate = currentDate.clone();
+let tanggalMasuk = '';
+
+while (true) {
+  // Pindahkan pemeriksaan ini sebelum menambahkan nextDate
+  if (!nextDate.isValid()) {
+    // Tanggal tidak valid, hentikan perulangan
+    break;
+  }
+
+  if (
+    !cutiBersama.includes(nextDate.format('YYYY-MM-DD')) &&
+    !tanggalMerah.includes(nextDate.format('YYYY-MM-DD')) &&
+    nextDate.day() !== 6 &&
+    nextDate.day() !== 0
+  ) {
+    tanggalMasuk = nextDate.format('YYYY-MM-DD');
+    console.log('Tanggal Masuk : ', tanggalMasuk);
+    break;
+  }
+
+  // Tambahkan nextDate setelah pemeriksaan
+  nextDate.add(1, 'days');
+}
+
     if (onDataReady) {
       onDataReady({
         jumlahCutiAtauSakit,
