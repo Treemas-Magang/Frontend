@@ -179,8 +179,8 @@ const kirimDataKeAPI = async () => {
   }
 };
   const sendData = async () => {
-    // console.log('kirim data : ', form_sakit);
-    await kirimDataKeAPI();
+    console.log('kirim data : ', form_sakit);
+    // await kirimDataKeAPI();
   };
   const handleClickOutside = () => {
     setShowKalender(false);
@@ -193,7 +193,7 @@ const kirimDataKeAPI = async () => {
       <View style={styles.formCuti}>
         {showKalender && (
           <View style={{position: 'absolute', top: 0, right: 55, zIndex: 2}}>
-            <KalenderRange onDataReady={handleDataReady} />
+            <KalenderRange onDataReady={handleDataReady} adaSuratDokter={adaSuratDokter} iniFormSakit={true} />
           </View>
         )}
         <View style={styles.cardFormCuti}>

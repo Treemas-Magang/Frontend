@@ -31,7 +31,7 @@
     const [showKalender, setShowKalender] = useState(false);
     const [cekCutis, setcekCutis] = useState(null);
     const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
-    const [tglSekarang, setTglSekarang] = useState(null); // Set initial loading state to true
+    const [tglSekarang, setTglSekarang] = useState(null);
 
     console.log('tanggal sekarang dari f : ', getTanggalSekarang().date);
     useEffect(() => {

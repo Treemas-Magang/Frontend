@@ -13,14 +13,13 @@ import { getDataFromSession } from '../../utils/getDataSession';
 
 const DataPribadi = ({stylePP, styleDataPribadi}) => {
   const [dataProfile, setDataProfile] = useState([]);
-  console.log('ayam : ',dataProfile);
   let base64ImageData = '';
   if (dataProfile.karyawanImg !== null) {
     base64ImageData = `data:image/jpeg;base64,${dataProfile.karyawanImg}`;
   } else {
     console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
   }
-
+  
   useEffect(() => {
     try {
       getDataFromSession('dataProfilUser')
@@ -34,6 +33,7 @@ const DataPribadi = ({stylePP, styleDataPribadi}) => {
       console.log(error);
     }
   }, []);
+  console.log('ayam : ',dataProfile);
 
   return (
     <View
