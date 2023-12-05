@@ -24,7 +24,11 @@ import DropdownClaim from '../atoms/DropdownClaim';
 import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import {API_URL, API_GABUNGAN} from '@env';
-import {AlertNotificationDanger, AlertNotificationSuccess} from '../atoms/AlertNotification';
+import {
+  AlertNotificationDanger,
+  AlertNotificationSuccess,
+} from '../atoms/AlertNotification';
+import ButtonLoading from '../atoms/ButtonLoading';
 
 const FormClaim = ({navigation}) => {
   // const [itemSelect, setItemSelect] = useState('');
@@ -39,6 +43,7 @@ const FormClaim = ({navigation}) => {
   const [dataClaim, setDataClaim] = useState([]);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const [isServerError, setIsServerError] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const handleOpenDropdownClaim = () => {
     setOpenDropdownClaim(!openDropdownClaim);
   };
@@ -163,6 +168,7 @@ const FormClaim = ({navigation}) => {
           console.log(response.data.success);
           console.log('berhasil mengajukan claim');
           console.log(uploadBerhasil);
+          setBtnLoading(false);
           setUploadBerhasil(true);
           dispatch(setFormClaim('selectedTipeClaim', '')); //reducer nya tidak ke reset
           dispatch(setFormClaim('keterangan', '')); //reducer nya tidak ke reset
@@ -198,12 +204,20 @@ const FormClaim = ({navigation}) => {
       }
     } catch (error) {
       console.error('Terjadi kesalahan:', error);
+      setBtnLoading(false);
     }
   };
   const sendData = async () => {
     console.log('kirim data : ', form_claim);
     // kirimDataDanFotoKeAPI();
-    await kirimDataKeAPI();
+    try {
+      setBtnLoading(true); // Set btnLoading to true when starting the data submission
+
+      // Melakukan pengiriman data ke API
+      await kirimDataKeAPI();
+    } finally {
+      setBtnLoading(false); // Set btnLoading back to false when the process is completed (regardless of success or failure)
+    }
   };
   const close = () => {
     setUploadBerhasil(false);
@@ -313,7 +327,11 @@ const FormClaim = ({navigation}) => {
       <View style={styles.wrapperButton}>
         <ButtonCamera onPress={openKamera} />
         <ButtonGalery onPress={openGalery} />
-        <ButtonAction title="kirim" style={{width: 148}} onPress={sendData} />
+        {btnLoading ? (
+          <ButtonLoading style={{width: 148}} />
+        ) : (
+          <ButtonAction title="kirim" style={{width: 148}} onPress={sendData} />
+        )}
       </View>
     </View>
   );
