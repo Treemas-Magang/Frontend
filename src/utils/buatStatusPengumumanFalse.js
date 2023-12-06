@@ -3,7 +3,7 @@
 import axios from 'axios';
 import {getDataFromSession} from './getDataSession';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {API_URL, API_GABUNGAN} from '@env';
 // Objek untuk menyimpan data pengumuman
 const pengumumanData = {
   data: [],
@@ -31,7 +31,7 @@ export const getData = async token => {
       Authorization: `Bearer ${token}`,
     };
     const response = await axios.get(
-      'https://treemas-api-403500.et.r.appspot.com/api/master-data/announcement-view',
+      API_GABUNGAN + '/api/master-data/announcement-view',
       {headers},
     );
     const data = response.data.data;

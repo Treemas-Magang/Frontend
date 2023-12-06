@@ -15,7 +15,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {cekToken} from '../../utils/cekToken';
 import {tracking} from '../../utils/tracking';
 import { cekTelatMasuk } from '../../utils/cekJamTelatDanPulangCepat';
@@ -25,7 +25,10 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {API_URL, API_GABUNGAN} from '@env';
 import getLocation from '../../utils/getLocation';
+import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
+import { setJumlahPengumuman } from '../../redux';
 const ScreenDashboard = ({navigation}) => {
+  const dispatch = useDispatch();
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
   const {approval} = useSelector(state => state.JumlahApprovalReducer);
   const [jamMasuk, setJamMasuk] = useState('0');
@@ -80,6 +83,28 @@ const ScreenDashboard = ({navigation}) => {
       })
       .catch(error => console.log(error));
   }, []);
+  useEffect(() => {
+    // render notif //
+    getToken().then(() => {
+      countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
+        console.log(
+          'Jumlah ID dengan status false:',
+          jumlahDataDenganStatusFalse,
+        );
+        // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
+        dispatch(
+          setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse),
+        );
+        // setJmlPengumuman(+jumlahDataDenganStatusFalse);
+
+        ////////////////////////////////////////////
+        // ini untuk jumlah Approval
+        // setJumlahApproval(10);
+      });
+    });
+
+    /////////////////
+  }, [dispatch]);
 
 
   // Start a timer that runs continuous after X milliseconds

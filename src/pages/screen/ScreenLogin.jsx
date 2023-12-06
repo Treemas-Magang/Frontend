@@ -45,6 +45,7 @@ import {
   AlertNotificationSuccess,
 } from '../../components/atoms/AlertNotification';
 import {API_URL, API_GABUNGAN} from '@env';
+import { loginBiometric } from '../../utils/loginBiometric';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [idDvcSdhDipakai, setIdDvcSdhDipakai] = useState(false);
@@ -208,107 +209,19 @@ const ScreenLogin = ({navigation}) => {
   const moveToLupaPassword = () => {
     navigation.navigate('lupaPassword');
   };
-  const rnBiometrics = new ReactNativeBiometrics();
+  
   const handleFingerprint = async () => {
     setIsLoading(true);
     checkMockLocation();
     try {
-      const result = await rnBiometrics.simplePrompt({
-        promptMessage: 'Gunakan sidik jari untuk login',
-        cancelButtonText: 'Batal',
-      });
-
-      if (result.success) {
-        // Pemindaian berhasil
-        console.log('Otentikasi berhasil');
-        // await sendData();
-        try {
-          const response = await axios.post(
-            `${routeAPI}/api/auth/login`,
-            formLoginFP,
-          );
-          const dataLogin = response.data.data;
-          if (response.status === 200) {
-            setIsLogin(true);
-            // const [{ token }] = dataLogin;
-            const token = dataLogin.token;
-            const role = dataLogin.user.role;
-            const nama = dataLogin.user.full_name;
-
-            console.log('ini token fp : ', token);
-            // Lakukan sesuatu dengan token, seperti menyimpannya di AsyncStorage.
-            await AsyncStorage.setItem('nama', nama);
-            await AsyncStorage.setItem('token', token);
-            await AsyncStorage.setItem('role', role);
-            setIsLoading(false);
-
-            // render notif //
-            getToken().then(() => {
-              countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
-                console.log(
-                  'Jumlah ID dengan status false:',
-                  jumlahDataDenganStatusFalse,
-                );
-                // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
-                dispatch(
-                  setJumlahPengumuman(
-                    'pengumuman',
-                    +jumlahDataDenganStatusFalse,
-                  ),
-                );
-                ////////////////////////////////////////////
-                // ini untuk jumlah Approval
-                dispatch(setJumlahApproval('approval', 10));
-              });
-            });
-
-            /////////////////
-            // navigation.replace('dashboard');
-          } else {
-            console.log('message : ', response.data.message);
-            setIsLoading(false);
-          }
-        } catch (error) {
-          console.error('Error during login:', error);
-          if (error.response && error.response.status) {
-            const codeError = error.response.status;
-            switch (codeError) {
-              case 401:
-                setGagalLogin(true);
-                break;
-              case 403:
-                setIdDvcSdhDipakai(true);
-                break;
-              case 500:
-                setIsServerError(true);
-                break;
-              default:
-                console.log('gagal Login');
-                break;
-            }
-          } else {
-            console.log('Unexpected error:', error);
-          }
-
-          setIsLoading(false);
-        }
-
-        ///////////////////////////////////////
-        // await AsyncStorage.setItem('role', 'USER');
-        // await AsyncStorage.setItem('nik', '1298191281222');
-        // const is_pass_chg = '1';
-        // if (is_pass_chg === '0') {
-        //   navigation.replace('updatePassword', {
-        //     nik: '1298191281222',
-        //   });
-        // } else {
-        //   navigation.replace('dashboard');
-        // }
-      } else if (result.error) {
-        // Pemindaian gagal
-        setIsLoading(false);
-        console.log('Otentikasi gagal');
-      }
+      await loginBiometric(
+        formLoginFP,
+        setIsLoading,
+        setIsLogin,
+        navigation,
+        dispatch,
+        routeAPI,
+      );
     } catch (error) {
       setIsLoading(false);
       navigation.navigate('gagalSidikJari');

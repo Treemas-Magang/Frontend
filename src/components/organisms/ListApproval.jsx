@@ -18,10 +18,17 @@ import CardApproval from '../molecules/CardApproval';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
+import {API_URL, API_GABUNGAN} from '@env';
+import axios from 'axios';
+import { getDataFromSession } from '../../utils/getDataSession';
 
 const ListApproval = ({navigation}) => {
   const [openDropdownApproval, setOpenDropdownApproval] = useState(false);
   const [tempatProject, setTempatProject] = useState('');
+  const [idProject, setIdProject] = useState(null);
+  const [kategori, setKategori] = useState('sakit');
+  const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
+  const [dataApp, setDataApp] = useState([]);
   const handleOpenDropdownApproval = () => {
     setOpenDropdownApproval(!openDropdownApproval);
   };
@@ -30,6 +37,39 @@ const ListApproval = ({navigation}) => {
       setOpenDropdownApproval(false);
     }
   }, [tempatProject]);
+
+  const getDataApproval = async headers => {
+    try {
+      let apiUrl = `${API_GABUNGAN}/api/notif/get-approval?by=${kategori}&projectId=${idProject}`; // Change this to the appropriate API endpoint
+
+      const response = await axios.get(apiUrl, {
+        headers,
+      });
+
+      console.log('res : ', response.data.data);
+      const dataAPI = response.data;
+      // const dataAPI = response.data.data;
+      setDataApp(dataAPI);
+      setIsLoading(false);
+      console.log('data : ', dataAPI);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error.response);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataApproval(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
+  console.log('id : ', idProject);
+  console.log('data APP : ', dataApp);
   return (
     <View style={styles.listApproval}>
       <ButtonBack navigation={navigation} />
@@ -40,7 +80,7 @@ const ListApproval = ({navigation}) => {
       </View>
       <View style={styles.wrapList}>
         <View style={styles.kategoriApproval}>
-          <KategoriApproval />
+          <KategoriApproval keyKategori={key => setKategori(key)} />
         </View>
         <View style={styles.wrapDropdown}>
           <View style={styles.dropdown}>
@@ -59,6 +99,7 @@ const ListApproval = ({navigation}) => {
             {openDropdownApproval ? (
               <DropdownApproval
                 dataPilihanProjact={data => setTempatProject(data)}
+                idProject={id => setIdProject(id)}
               />
             ) : (
               ''
