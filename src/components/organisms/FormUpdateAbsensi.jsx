@@ -203,10 +203,15 @@ const FormUpdateAbsensi = ({navigation}) => {
   return (
     <View style={styles.congtainerForm}>
       {uploadBerhasil ? (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <AlertNotificationSuccess
             buttonAlert="Close"
-            textBodyAlert="Berhasil Melakukan Absen"
+            textBodyAlert="Berhasil Melakukan Update Absen"
             titleAlert="Success"
             onPress={toDashboard}
           />
@@ -308,6 +313,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+    position: 'relative',
   },
   textJudul: {
     fontFamily: text.semiBold,

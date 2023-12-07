@@ -18,7 +18,7 @@ import ButtonAction from '../atoms/ButtonAction';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCamera, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
-import {setFormClaim} from '../../redux';
+import {resetFormClaim, setFormClaim} from '../../redux';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
 import DropdownClaim from '../atoms/DropdownClaim';
 import {getDataFromSession} from '../../utils/getDataSession';
@@ -173,18 +173,12 @@ const FormClaim = ({navigation}) => {
           );
           console.log(response.data.success);
           console.log('berhasil mengajukan claim');
-          console.log(uploadBerhasil);
+          // console.log(uploadBerhasil);
           setBtnLoading(false);
           setUploadBerhasil(true);
           setIsLoading(false);
-
-          dispatch(setFormClaim('selectedTipeClaim', '')); //reducer nya tidak ke reset
-          dispatch(setFormClaim('keterangan', '')); //reducer nya tidak ke reset
-          dispatch(setFormClaim('nominal', '')); //reducer nya tidak ke reset
-          dispatch(setFormClaim('image64', '')); //reducer nya tidak ke reset
-          //saat berhasil kirim data kosongkan reducer
         } catch (error) {
-          console.log(error.response);
+          // console.log(error.response);
           const errorCode = error.response.status;
           switch (errorCode) {
             case 403:
@@ -217,15 +211,18 @@ const FormClaim = ({navigation}) => {
     }
   };
   const sendData = async () => {
-    console.log('kirim data : ', form_claim);
-    // kirimDataDanFotoKeAPI();
-    try {
-      setBtnLoading(true); // Set btnLoading to true when starting the data submission
+    // console.log('kirim data : ', form_claim);
 
-      // Melakukan pengiriman data ke API
+    try {
+      setBtnLoading(true);
+
       await kirimDataKeAPI();
+
+      // Reset form fields on successful data submission
+      dispatch(resetFormClaim());
+      setUploadBerhasil(true);
     } finally {
-      setBtnLoading(false); // Set btnLoading back to false when the process is completed (regardless of success or failure)
+      setBtnLoading(false);
     }
   };
   const close = () => {

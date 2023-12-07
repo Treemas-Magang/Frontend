@@ -71,11 +71,17 @@ export const setFormCuti = (inputType, value) => {
 export const setFormSakit = (inputType, value) => {
   return {type: 'SET_FORM_SAKIT', inputType: inputType, inputValue: value};
 };
+export const resetFormSakit = () => {
+  return {type: 'RESET_FORM_SAKIT'};
+};
 export const setFormAbsensi = (inputType, value) => {
   return {type: 'SET_FORM_ABSENSI', inputType: inputType, inputValue: value};
 };
 export const setFormClaim = (inputType, value) => {
   return {type: 'SET_FORM_CLAIM', inputType: inputType, inputValue: value};
+};
+export const resetFormClaim = () => {
+  return {type: 'RESET_FORM_CLAIM'};
 };
 export const setFormApproval = (inputType, value) => {
   return {

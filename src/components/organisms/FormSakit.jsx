@@ -18,14 +18,16 @@ import KalenderRange from '../molecules/KalenderRange';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCalendarDays, faCamera} from '@fortawesome/free-solid-svg-icons';
 import {useDispatch, useSelector} from 'react-redux';
-import {setFormSakit} from '../../redux';
+import {resetFormSakit, setFormSakit} from '../../redux';
 import FakeTextInput from '../atoms/FakeTextInput';
 import ButtonCamera from '../atoms/ButtonCamera';
 import ButtonGalery from '../atoms/ButtonGalery';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import {API_URL, API_GABUNGAN} from '@env';
+import {AlertNotificationSuccess} from '../atoms/AlertNotification';
+import ButtonLoading from '../atoms/ButtonLoading';
 
 const FormSakit = ({navigation}) => {
   const [capturedImage, setCapturedImage] = useState(null);
@@ -50,8 +52,9 @@ const FormSakit = ({navigation}) => {
   const {form_sakit} = useSelector(state => state.FormSakitReducer);
   //   console.log('ini dari reducer : ', form);
   const [showKalender, setShowKalender] = useState(false);
-  const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const [adaSuratDokter, setAdaSuratDoker] = useState(false);
+  const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const [data, setData] = useState({
     jumlahCutiAtauSakit: 0,
     jumlahCutiBersama: 0,
@@ -127,76 +130,128 @@ const FormSakit = ({navigation}) => {
         // console.error(error);
       });
   };
-const kirimDataKeAPI = async () => {
-  try {
-    //mengambil token untuk otorisasi
-    const token = await getDataFromSession('token');
-    if (token !== null) {
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
+  const kirimDataKeAPI = async () => {
+    try {
+      //mengambil token untuk otorisasi
+      const token = await getDataFromSession('token');
+      if (token !== null) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
 
-      try {
-        //melakukan hit ke API untuk kirim data Absen
-        const response = await axios.post(
-          API_GABUNGAN + '/api/detail-data/sakit-form/add',
-          form_sakit,
-          {headers},
-        );
-        console.log(response.data.success);
-        console.log('berhasil mengajukan izin sakit');
-        console.log(uploadBerhasil);
-        setUploadBerhasil(true);
-        setIsLoading(false);
-        //saat berhasil kirim data kosongkan reducer
-      } catch (error) {
-        console.log(error.response);
-        const errorCode = error.response.status;
-        switch (errorCode) {
-          case 403:
-            console.log('error aja');
-            setIsLoading(false);
-            break;
-          case 404:
-            setIsLoading(false);
-            break;
-          case 500:
-            setIsLoading(false);
-            console.log('Kesalahan server');
-            break;
-          default:
-            setIsLoading(false);
-            console.log(error.response);
-            console.log('gagal ajukan claim');
-            break;
+        try {
+          //melakukan hit ke API untuk kirim data Absen
+          const response = await axios.post(
+            API_GABUNGAN + '/api/detail-data/sakit-form/add',
+            form_sakit,
+            {headers},
+          );
+          console.log(response.data.success);
+          console.log('berhasil mengajukan izin sakit');
+          console.log(uploadBerhasil);
+          setBtnLoading(false);
+          setUploadBerhasil(true);
+          setIsLoading(false);
+          //saat berhasil kirim data kosongkan reducer
+        } catch (error) {
+          console.log(error.response);
+          const errorCode = error.response.status;
+          switch (errorCode) {
+            case 403:
+              console.log('error aja');
+              setIsLoading(false);
+              break;
+            case 404:
+              setIsLoading(false);
+              break;
+            case 500:
+              setIsLoading(false);
+              console.log('Kesalahan server');
+              break;
+            default:
+              setIsLoading(false);
+              console.log(error.response);
+              console.log('gagal ajukan claim');
+              break;
+          }
         }
+      } else {
+        console.log('Data tidak ditemukan di session.');
       }
-    } else {
-      console.log('Data tidak ditemukan di session.');
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
     }
-  } catch (error) {
-    console.error('Terjadi kesalahan:', error);
-  }
-};
+  };
+  // const sendData = async () => {
+  //   console.log('kirim data : ', form_sakit);
+  //   try {
+  //     setBtnLoading(true); // Set btnLoading to true when starting the data submission
+
+  //     // Melakukan pengiriman data ke API
+  //     await kirimDataKeAPI();
+  //     dispatch(setFormSakit('tglMulai', ''));
+  //     dispatch(setFormSakit('tglSelesai', ''));
+  //     dispatch(setFormSakit('tglKembaliKerja', ''));
+  //     dispatch(setFormSakit('jmlCuti', ''));
+  //     dispatch(setFormSakit('keperluanCuti', ''));
+  //     dispatch(setFormSakit('image', ''));
+  //   } finally {
+  //     setBtnLoading(false); // Set btnLoading back to false when the process is completed (regardless of success or failure)
+  //   }
+  // };
   const sendData = async () => {
     console.log('kirim data : ', form_sakit);
-    await kirimDataKeAPI();
+    try {
+      setBtnLoading(true);
+
+      // Melakukan pengiriman data ke API
+      await kirimDataKeAPI();
+
+      // Reset formulir setelah berhasil mengirim data
+      dispatch(resetFormSakit());
+    } finally {
+      setBtnLoading(false);
+    }
   };
+
   const handleClickOutside = () => {
     setShowKalender(false);
   };
   const moveToPreview = () => {
     navigation.navigate('previewPhoto', {photo: base64ImageData});
   };
+  const close = () => {
+    setUploadBerhasil(false);
+    // setShowErrorAlert(false);
+  };
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
-      <View style={styles.formCuti}>
+      <View style={styles.FormSakit}>
         {showKalender && (
-          <View style={{position: 'absolute', top: 0, right: 55, zIndex: 2}}>
-            <KalenderRange onDataReady={handleDataReady} adaSuratDokter={adaSuratDokter} iniFormSakit={true} />
+          <View style={{position: 'absolute', top: 0, right: 40, zIndex: 2}}>
+            <KalenderRange
+              onDataReady={handleDataReady}
+              adaSuratDokter={adaSuratDokter}
+              iniFormSakit={true}
+            />
           </View>
         )}
-        <View style={styles.cardFormCuti}>
+        {uploadBerhasil && (
+          <View
+            style={{
+              position: 'absolute',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <AlertNotificationSuccess
+              buttonAlert="Close"
+              textBodyAlert="Berhasil Mengajukan Izin Sakit"
+              titleAlert="Success"
+              onPress={close}
+            />
+          </View>
+        )}
+        <View style={styles.cardFormSakit}>
           <Text style={styles.judul}>Form Sakit</Text>
           <View style={styles.wrapInputForm}>
             <View style={{position: 'relative', gap: 10}}>
@@ -292,18 +347,24 @@ const kirimDataKeAPI = async () => {
                     // onImageGalery={image => setCapturedImage(image)}
                     onPress={openGalery}
                   />
-                  <ButtonAction
-                    title="kirim"
-                    style={{width: 148}}
-                    onPress={() => sendData()}
-                  />
+                  {btnLoading ? (
+                    <ButtonLoading style={{width: 148}} />
+                  ) : (
+                    <ButtonAction
+                      title="kirim"
+                      style={{width: 148}}
+                      onPress={() => sendData()}
+                    />
+                  )}
                 </View>
               </>
+            ) : btnLoading ? (
+              <ButtonLoading style={{width: 269}} />
             ) : (
               <ButtonAction
-                title="KIRIM"
-                onPress={() => sendData()}
+                title="kirim"
                 style={{width: 269}}
+                onPress={() => sendData()}
               />
             )}
           </View>
@@ -316,7 +377,7 @@ const kirimDataKeAPI = async () => {
 export default FormSakit;
 
 const styles = StyleSheet.create({
-  formCuti: {
+  FormSakit: {
     height: '100%',
     width: '100%',
     // paddingTop: 140,
@@ -324,17 +385,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'relative',
   },
-  cardFormCuti: {
+  cardFormSakit: {
     width: 320,
     paddingVertical: 20,
     backgroundColor: Color.white,
     borderRadius: 10,
-  },
-  wrapInfoCuti: {
-    flexDirection: 'row',
-    gap: 25,
-    justifyContent: 'center',
-    marginBottom: 20,
   },
   judul: {
     fontFamily: text.semiBold,
@@ -350,27 +405,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
-  catatanCuti: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-    backgroundColor: Color.white,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: Color.black,
-    width: 280,
-    marginVertical: 20,
-    padding: 10,
-    justifyContent: 'flex-start',
-  },
   label: {
     fontFamily: text.italic,
     color: Color.black,
     fontSize: 10,
-  },
-  textValue: {
-    fontFamily: text.semiBold,
-    color: Color.black,
   },
   kotakPreviewKosong: {
     width: 275,

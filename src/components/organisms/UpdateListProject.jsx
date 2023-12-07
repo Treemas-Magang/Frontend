@@ -223,7 +223,12 @@ const UpdateListProject = ({navigation}) => {
   return (
     <View style={styles.wrapScreenDaftarProject}>
       {uploadBerhasil ? (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <AlertNotificationSuccess
             buttonAlert="Close"
             textBodyAlert="Project Berhasil Di Update"
@@ -304,6 +309,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Color.green,
     paddingTop: 50,
+    position: 'relative',
   },
   wrapCardDaftarProject: {
     backgroundColor: Color.white,

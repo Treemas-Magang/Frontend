@@ -13,7 +13,7 @@ const initialStateLogin = {
     nik: '',
     password: '',
     handsetImei: '',
-    isWebAccess: ''
+    isWebAccess: '',
   },
 };
 const LoginReducer = (state = initialStateLogin, action) => {
@@ -35,7 +35,7 @@ const initialStateLoginFingerPrint = {
     nik: '',
     password: '',
     handsetImei: '',
-    isWebAccess: ''
+    isWebAccess: '',
   },
 };
 const LoginFingerPrintReducer = (
@@ -207,6 +207,30 @@ const FormCutiReducer = (state = initialStateFormCuti, action) => {
   }
   return state;
 };
+
+// const initialStateFormSakit = {
+//   form_sakit: {
+//     tglMulai: '',
+//     tglSelesai: '',
+//     tglKembaliKerja: '',
+//     jmlCuti: '',
+//     keperluanCuti: '',
+//     image: '',
+//   },
+// };
+// const FormSakitReducer = (state = initialStateFormSakit, action) => {
+//   if (action.type === 'SET_FORM_SAKIT') {
+//     return {
+//       ...state,
+//       form_sakit: {
+//         ...state.form_sakit,
+//         [action.inputType]: action.inputValue,
+//       },
+//     };
+//   }
+//   return state;
+// };
+
 const initialStateFormSakit = {
   form_sakit: {
     tglMulai: '',
@@ -217,6 +241,7 @@ const initialStateFormSakit = {
     image: '',
   },
 };
+
 const FormSakitReducer = (state = initialStateFormSakit, action) => {
   if (action.type === 'SET_FORM_SAKIT') {
     return {
@@ -226,6 +251,8 @@ const FormSakitReducer = (state = initialStateFormSakit, action) => {
         [action.inputType]: action.inputValue,
       },
     };
+  } else if (action.type === 'RESET_FORM_SAKIT') {
+    return initialStateFormSakit;
   }
   return state;
 };
@@ -238,7 +265,7 @@ const initialStateAbsensi = {
     gpsLatitudeMsk: null,
     gpsLongitudeMsk: null,
     isWfh: '',
-    photoAbsen: null
+    photoAbsen: null,
   },
 };
 const FormAbsensiReducer = (state = initialStateAbsensi, action) => {
@@ -270,6 +297,8 @@ const FormClaimReducer = (state = initialStateClaim, action) => {
         [action.inputType]: action.inputValue,
       },
     };
+  } else if (action.type === 'RESET_FORM_CLAIM') {
+    return initialStateFormSakit;
   }
   return state;
 };
@@ -406,10 +435,7 @@ const initialStateJumlahApproval = {
   approval: 0,
 };
 
-const JumlahApprovalReducer = (
-  state = initialStateJumlahApproval,
-  action,
-) => {
+const JumlahApprovalReducer = (state = initialStateJumlahApproval, action) => {
   if (action.type === 'SET_JUMLAH_APPROVAL') {
     return {
       ...state,
@@ -437,7 +463,7 @@ const JumlahApprovalReducer = (
 //   return state;
 // };
 const initialStateProjectYangDipilih = {
-  dataProject : {
+  dataProject: {
     namaTempat: '',
     alamat: '',
     projectId: '',
@@ -446,7 +472,7 @@ const initialStateProjectYangDipilih = {
     jrkMax: null,
     jamMasuk: '',
     jamKeluar: '',
-  }
+  },
 };
 
 const ProjectYangDipilihReducer = (
@@ -519,10 +545,7 @@ const initialStateDataUser = {
   },
 };
 
-const DataUserReducer = (
-  state = initialStateDataUser,
-  action,
-) => {
+const DataUserReducer = (state = initialStateDataUser, action) => {
   if (action.type === 'SET_DATA_USER') {
     return {
       ...state,

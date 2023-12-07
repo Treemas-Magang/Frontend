@@ -45,7 +45,7 @@ import {
   AlertNotificationSuccess,
 } from '../../components/atoms/AlertNotification';
 import {API_URL, API_GABUNGAN} from '@env';
-import { loginBiometric } from '../../utils/loginBiometric';
+import {loginBiometric} from '../../utils/loginBiometric';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [idDvcSdhDipakai, setIdDvcSdhDipakai] = useState(false);
@@ -209,7 +209,7 @@ const ScreenLogin = ({navigation}) => {
   const moveToLupaPassword = () => {
     navigation.navigate('lupaPassword');
   };
-  
+
   const handleFingerprint = async () => {
     setIsLoading(true);
     checkMockLocation();
@@ -282,9 +282,7 @@ const ScreenLogin = ({navigation}) => {
             ''
           )}
           {gagalLogin ? (
-            <Text style={styles.labelSalah}>
-              Nik atau Password Salah!
-            </Text>
+            <Text style={styles.labelSalah}>Nik atau Password Salah!</Text>
           ) : (
             ''
           )}
@@ -297,7 +295,11 @@ const ScreenLogin = ({navigation}) => {
           )}
           {isLogin ? (
             <View
-              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              style={{
+                position: 'absolute',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <AlertNotificationSuccess
                 buttonAlert="Ok"
                 textBodyAlert="Login Berhasil"
