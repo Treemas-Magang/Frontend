@@ -165,7 +165,6 @@ const FormClaim = ({navigation}) => {
         };
 
         try {
-          //melakukan hit ke API untuk kirim data Absen
           const response = await axios.post(
             API_GABUNGAN + '/api/report-data/claim-form/add',
             form_claim,
