@@ -27,8 +27,8 @@ import {useRoute} from '@react-navigation/native';
 import SkeletonDetailMember from '../skeleton/SkeletonDetailMember';
 
 const DetailMember = ({navigation, stylePP}) => {
-  const {idMember} = useRoute().params;
-  console.log('id : ', idMember);
+  const {nikMember} = useRoute().params;
+  console.log('nik : ', nikMember);
   const [isLoading, setIsLoading] = useState(true);
   const [isWFH, setIsWFH] = useState(true);
   const [dataDetailMember, setDataDetailMember] = useState([]);
@@ -36,7 +36,7 @@ const DetailMember = ({navigation, stylePP}) => {
   const getDataBelumAbsen = async headers => {
     try {
       const response = await axios.get(
-        API_GABUNGAN + `/api/member/get-data-absen?idAbsen=${idMember}`,
+        API_GABUNGAN + `/api/member/get-data-absen?nik=${nikMember}`,
         {headers},
       );
       console.log(response.data.data);
@@ -112,24 +112,24 @@ const DetailMember = ({navigation, stylePP}) => {
           </View>
           <View>
             <Text style={styles.TextTitle}>Nik</Text>
-            <Text style={styles.TextDeskripsi}>{dataDetailMember.nik}</Text>
+            {/* <Text style={styles.TextDeskripsi}>{dataDetailMember.nik}</Text> */}
           </View>
           <View>
             <Text style={styles.TextTitle}>Nama</Text>
-            <Text style={styles.TextDeskripsi}>{dataDetailMember.nama}</Text>
+            {/* <Text style={styles.TextDeskripsi}>{dataDetailMember.nama}</Text> */}
           </View>
           <View>
             <Text style={styles.TextTitle}>Project</Text>
             <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.projectId.namaProject}
+              {/* {dataDetailMember.projectId.namaProject} */}
             </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Jam Masuk</Text>
             <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.jamMsk === null
+              {/* {dataDetailMember.jamMsk === null */}
                 ? 'Belum Absen Masuk'
-                : dataDetailMember.jamMsk}
+                {/* : dataDetailMember.jamMsk} */}
             </Text>
           </View>
           <View>
@@ -140,21 +140,21 @@ const DetailMember = ({navigation, stylePP}) => {
                 fontFamily: text.light,
                 marginVertical: 2,
               }}>
-              {dataDetailMember.lokasiMsk}
+              {/* {dataDetailMember.lokasiMsk} */}
             </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Catatan Telat</Text>
             <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.noteTelatMsk}
+              {/* {dataDetailMember.noteTelatMsk} */}
             </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Jam Keluar</Text>
             <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.jamPlg === null
+              {/* {dataDetailMember.jamPlg === null */}
                 ? 'Belum Absen Keluar'
-                : dataDetailMember.jamPlg}
+                {/* : dataDetailMember.jamPlg} */}
             </Text>
           </View>
           <View>
@@ -165,25 +165,25 @@ const DetailMember = ({navigation, stylePP}) => {
                 fontFamily: text.light,
                 marginVertical: 2,
               }}>
-              {dataDetailMember.lokasiPlg === null
+              {/* {dataDetailMember.lokasiPlg === null */}
                 ? 'Belum Absen Keluar'
-                : dataDetailMember.lokasiPlg}
+                {/* : dataDetailMember.lokasiPlg} */}
             </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Catatan Pulang Cepat</Text>
             <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.notePlgCepat === null
+              {/* {dataDetailMember.notePlgCepat === null */}
                 ? 'Belum Absen Keluar'
-                : dataDetailMember.notePlgCepat}
+                {/* : dataDetailMember.notePlgCepat} */}
             </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Timesheet</Text>
             <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.notePekerjaan === null
+              {/* {dataDetailMember.notePekerjaan === null */}
                 ? 'Belum Absen Keluar'
-                : dataDetailMember.notePekerjaan}
+                {/* : dataDetailMember.notePekerjaan} */}
             </Text>
           </View>
         </ScrollView>

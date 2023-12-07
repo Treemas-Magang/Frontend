@@ -20,9 +20,10 @@ import {text} from '../../utils/text';
  * @param {Array} dataType - Array yang berisi data jenis cuti.
  * @returns {JSX.Element} - Komponen React untuk dropdown pilihan jenis cuti.
  */
-const DropdownCuti = ({data, idTypeCuti, dataType}) => {
+const DropdownCuti = ({data, idTypeCuti, dataType, valueCuti}) => {
   const [type, setType] = useState('');
   const [idType, setIdtype] = useState('');
+  const [value, setValue] = useState(0);
   const [dataCuti, setDataCuti] = useState([]);
 
   /**
@@ -31,16 +32,18 @@ const DropdownCuti = ({data, idTypeCuti, dataType}) => {
   useEffect(() => {
     data(type);
     idTypeCuti(idType);
-  }, [type, idType, data, idTypeCuti]);
+    valueCuti(value);
+  }, [type, idType, data, idTypeCuti, value, valueCuti]);
 
   /**
    * Fungsi handlePilihType digunakan untuk menangani pemilihan jenis cuti.
    * @param {string} cutiDesc - Deskripsi jenis cuti yang dipilih.
    * @param {string} id - ID jenis cuti yang dipilih.
    */
-  const handlePilihType = (cutiDesc, id) => {
+  const handlePilihType = (cutiDesc, id, value) => {
     setType(cutiDesc);
     setIdtype(id);
+    setValue(value)
   };
 
   /**
@@ -56,7 +59,7 @@ const DropdownCuti = ({data, idTypeCuti, dataType}) => {
         dataCuti.map((cutis, index) => (
           <TouchableOpacity
             key={index}
-            onPress={() => handlePilihType(cutis.cutiDesc, cutis.id)}
+            onPress={() => handlePilihType(cutis.cutiDesc, cutis.id, cutis.value)}
             style={styles.item}>
             <Text style={styles.tempatProject}>{cutis.cutiDesc}</Text>
           </TouchableOpacity>

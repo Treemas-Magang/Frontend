@@ -193,7 +193,7 @@ const kirimDataKeAPI = async () => {
       <View style={styles.formCuti}>
         {showKalender && (
           <View style={{position: 'absolute', top: 0, right: 55, zIndex: 2}}>
-            <KalenderRange onDataReady={handleDataReady} adaSuratDokter={adaSuratDokter} iniFormSakit={true} />
+            <KalenderRange onDataReady={handleDataReady} range={adaSuratDokter} iniFormSakit={true} />
           </View>
         )}
         <View style={styles.cardFormCuti}>

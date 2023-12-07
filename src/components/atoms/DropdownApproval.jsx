@@ -40,10 +40,10 @@ const DropdownApproval = ({dataPilihanProjact, idProject}) => {
             headers,
           },
         );
-        console.log('data : ', res.data.success);
+        // console.log('data : ', res.data.success);
         const dataApi = res.data.data;
 
-        console.log('data baru : ', dataApi);
+        // console.log('data baru : ', dataApi);
         setDataDropdown(dataApi);
         setIsLoading(false);
       } catch (error) {
