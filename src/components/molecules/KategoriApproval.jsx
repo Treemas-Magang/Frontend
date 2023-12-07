@@ -17,6 +17,8 @@ const KategoriApproval = ({keyKategori}) => {
     {key: 'sakit', label: 'SAKIT'},
     {key: 'general-param', label: 'GENERAL PARAM'},
     {key: 'cancel-cuti', label: 'CANCEL CUTI'},
+    {key: 'libur', label: 'LIBUR'},
+    {key: 'lembur', label: 'LEMBUR'},
   ];
   const handleTypeApproval = value => {
     setTypeApproval(value);

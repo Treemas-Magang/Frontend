@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import KategoriApproval from '../molecules/KategoriApproval';
@@ -28,33 +29,29 @@ const ListApproval = ({navigation}) => {
   const [tempatProject, setTempatProject] = useState('');
   const [idProject, setIdProject] = useState(null);
   const [kategori, setKategori] = useState('sakit');
-  const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
+  const [isLoading, setIsLoading] = useState(true);
   const [dataApp, setDataApp] = useState([]);
+
   const handleOpenDropdownApproval = () => {
     setOpenDropdownApproval(!openDropdownApproval);
   };
+
   useEffect(() => {
     if (tempatProject !== '') {
       setOpenDropdownApproval(false);
     }
   }, [tempatProject]);
 
-  const getDataApproval = async headers => {
+  const getDataApproval = async (headers, type, id) => {
     try {
-      let apiUrl = `${API_GABUNGAN}/api/notif/get-approval?by=${kategori}&projectId=${idProject}`; // Change this to the appropriate API endpoint
-
-      const response = await axios.get(apiUrl, {
-        headers,
-      });
-
-      console.log('res : ', response.data.data);
+      const apiUrl = `${API_GABUNGAN}/api/notif/get-approval?by=${type}&projectId=${id}`;
+      const response = await axios.get(apiUrl, {headers});
       const dataAPI = response.data;
-      // const dataAPI = response.data.data;
+      console.log('data app : ',dataAPI)
       setDataApp(dataAPI);
       setIsLoading(false);
-      console.log('data : ', dataAPI);
     } catch (error) {
-      console.log('Tidak dapat mengambil data ', error.response);
+      console.log('Error fetching data:', error);
       setIsLoading(false);
     }
   };
@@ -65,12 +62,10 @@ const ListApproval = ({navigation}) => {
         const headers = {
           Authorization: `Bearer ${token}`,
         };
-        getDataApproval(headers);
+        getDataApproval(headers, kategori, idProject);
       })
       .catch(error => console.log(error));
-  }, []);
-  console.log('id : ', idProject);
-  console.log('data APP : ', dataApp);
+  }, [kategori, idProject]);
   return (
     <View style={styles.listApproval}>
       <ButtonBack navigation={navigation} />
@@ -108,18 +103,26 @@ const ListApproval = ({navigation}) => {
           </View>
         </View>
         <View style={styles.wrapCardApproval}>
-          <ScrollView
-            style={{width: '90%'}}
-            showsVerticalScrollIndicator={false}>
-            <CardApproval navigation={navigation} />
-            <CardApproval navigation={navigation} />
-            <CardApproval navigation={navigation} />
-            <CardApproval navigation={navigation} />
-            <CardApproval navigation={navigation} />
-            <CardApproval navigation={navigation} />
-            <CardApproval navigation={navigation} />
-            <CardApproval navigation={navigation} />
-          </ScrollView>
+          {isLoading ? (
+            <ActivityIndicator size="large" color={Color.blue} />
+          ) : (
+            <ScrollView
+              style={{width: '90%'}}
+              showsVerticalScrollIndicator={false}>
+              {Array.isArray(dataApp) ? (
+                dataApp.map((item, index) => (
+                  <CardApproval
+                    key={index}
+                    data={item}
+                    navigation={navigation}
+                  />
+                ))
+              ) : (
+                // Handle the case when dataApp is not an array
+                <Text>No data available</Text>
+              )}
+            </ScrollView>
+          )}
         </View>
       </View>
     </View>
