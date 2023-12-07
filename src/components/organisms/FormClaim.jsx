@@ -176,11 +176,12 @@ const FormClaim = ({navigation}) => {
           console.log(uploadBerhasil);
           setBtnLoading(false);
           setUploadBerhasil(true);
+          setIsLoading(false);
+
           dispatch(setFormClaim('selectedTipeClaim', '')); //reducer nya tidak ke reset
           dispatch(setFormClaim('keterangan', '')); //reducer nya tidak ke reset
           dispatch(setFormClaim('nominal', '')); //reducer nya tidak ke reset
           dispatch(setFormClaim('image64', '')); //reducer nya tidak ke reset
-          setIsLoading(false);
           //saat berhasil kirim data kosongkan reducer
         } catch (error) {
           console.log(error.response);
@@ -188,6 +189,7 @@ const FormClaim = ({navigation}) => {
           switch (errorCode) {
             case 403:
               console.log('error aja');
+              90;
               setIsLoading(false);
               break;
             case 404:
