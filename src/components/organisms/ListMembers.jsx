@@ -72,8 +72,8 @@ const ListMembers = ({navigation}) => {
       .catch(error => console.log(error));
   }, []);
 
-    const moveTo = (tujuan, id) => {
-    navigation.navigate(tujuan, {idMember: id});
+    const moveTo = (tujuan, nik) => {
+    navigation.navigate(tujuan, {nikMember: nik});
   };
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
@@ -152,7 +152,7 @@ const ListMembers = ({navigation}) => {
                     nama={member.nama}
                     jamPlg={member.jamPlg}
                     idMember={member.id}
-                    onPress={() => moveTo('detailMember', member.id)}
+                    onPress={() => moveTo('detailMember', member.nik)}
                     status={
                       member.jamMsk !== null
                         ? 'hadir'

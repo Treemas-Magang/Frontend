@@ -24,6 +24,8 @@ import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import DropdownCuti from '../atoms/DropdownCuti';
 import {API_URL, API_GABUNGAN} from '@env';
+import { cekTglAkhirCutiSpesial } from '../../utils/cekTglAkhirCutiSpesial';
+import KalenderCuti from '../molecules/KalenderCuti';
 
 const FormCuti = ({
   style,
@@ -49,7 +51,21 @@ const FormCuti = ({
   const [openDropdown, setOpenDropdown] = useState(false);
   const [dataId, setDataId] = useState('');
   const [cutiDesc, setCutiDesc] = useState('');
+  const [jmlhValue, setJmlhValue] = useState(0);
+  const [isCutiIstimewa, setIsCutiIstimewa] = useState(true);
+  console.log('jumlah value : ', jmlhValue);
+  console.log('cuti istimewa : ', isCutiIstimewa);
+
+  useEffect(() => {
+    setIsCutiIstimewa(jmlhValue === 0);
+  }, [jmlhValue]);
   // console.log(dataId)
+
+  // useEffect(() => {
+  //   const tglAkhirCutiSpesial = cekTglAkhirCutiSpesial(form.tglMulai, jmlhValue);
+  //   console.log('tgl akhir : ', tglAkhirCutiSpesial);
+  // },[form, jmlhValue]);
+
   const handleOpenDropdown = () => {
     setOpenDropdown(!openDropdown);
   };
@@ -62,7 +78,7 @@ const FormCuti = ({
   }, [cutiDesc, openDropdown]);
   useEffect(() => {
     dispatch(setFormCuti('selectedMasterCutiId', dataId));
-  }, [dispatch, dataId])
+  }, [dispatch, dataId]);
   const openKalender = () => {
     setShowKalender(!showKalender);
   };
@@ -109,6 +125,7 @@ const FormCuti = ({
             {headers},
           );
           const dtCuti = response.data.data;
+          console.log(dtCuti);
           setDataCuti(dtCuti);
         } else {
           console.log('Data token tidak di temukan');
@@ -127,17 +144,28 @@ const FormCuti = ({
     setShowKalender(false);
   };
   const initialState = {
-    sisa_cuti: 28,
+    sisa_cuti: 2,
     cuti_bersama: 11,
-    cuti_pengganti: 4,
+    cuti_pengganti: 5,
   };
   const [statistik, setStatistik] = useState(initialState);
+  const [maxDurasiCuti, setMaxDurasiCuti] = useState(0);
+  useEffect(() => {
+    const jmlhSemuaCuti = statistik.cuti_pengganti + statistik.sisa_cuti;
+    setMaxDurasiCuti(jmlhSemuaCuti)
+  }, [statistik])
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.formCuti}>
         {showKalender && (
           <View style={{position: 'absolute', top: 0, right: 55, zIndex: 2}}>
-            <KalenderRange onDataReady={handleDataReady} />
+            <KalenderCuti
+              onDataReady={handleDataReady}
+              range={isCutiIstimewa}
+              iniFormCuti={true}
+              jmlhValueCuti={jmlhValue}
+              maxDurasiCuti={maxDurasiCuti}
+            />
           </View>
         )}
         <View style={styles.cardFormCuti}>
@@ -192,6 +220,7 @@ const FormCuti = ({
                     data={dataCt => setCutiDesc(dataCt)}
                     idTypeCuti={dt => setDataId(dt)}
                     dataType={dataCuti}
+                    valueCuti={dtValue => setJmlhValue(dtValue)}
                   />
                 ) : (
                   ''
@@ -246,7 +275,9 @@ const FormCuti = ({
               <View style={{flexDirection: 'column'}}>
                 <Text style={styles.label}>Jumlah Cuti</Text>
                 <Text style={styles.textValue}>
-                  {data.jumlahCutiAtauSakit !== 0
+                  {jmlhValue !== 0
+                    ? jmlhValue
+                    : data.jumlahCutiAtauSakit !== 0
                     ? data.jumlahCutiAtauSakit
                     : '-'}
                 </Text>

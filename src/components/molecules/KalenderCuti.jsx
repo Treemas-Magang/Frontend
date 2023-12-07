@@ -2,13 +2,14 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
-import { Color } from '../../utils/color';
-import { text } from '../../utils/text';
+import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
 import moment from 'moment';
 import axios from 'axios';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
 import {API_URL, API_GABUNGAN} from '@env';
-const KalenderRange = ({onDataReady, range, iniFormSakit, iniFormCuti}) => {
+import { cekTglAkhirCutiSpesial } from '../../utils/cekTglAkhirCutiSpesial';
+const KalenderCuti = ({onDataReady, range, iniFormSakit, iniFormCuti, jmlhValueCuti, maxDurasiCuti}) => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
   const [dataTglLibur, setDataTglLibur] = useState([]);
@@ -113,30 +114,30 @@ const KalenderRange = ({onDataReady, range, iniFormSakit, iniFormCuti}) => {
     // console.log('Jumlah tanggal merah: ', jumlahTanggalMerah);
 
     // Cari tanggal setelah endDate yang juga bukan termasuk dalam cuti bersama atau tanggal merah
-let nextDate = currentDate.clone();
-let tanggalMasuk = '';
+    let nextDate = currentDate.clone();
+    let tanggalMasuk = '';
 
-while (true) {
-  // Pindahkan pemeriksaan ini sebelum menambahkan nextDate
-  if (!nextDate.isValid()) {
-    // Tanggal tidak valid, hentikan perulangan
-    break;
-  }
+    while (true) {
+      // Pindahkan pemeriksaan ini sebelum menambahkan nextDate
+      if (!nextDate.isValid()) {
+        // Tanggal tidak valid, hentikan perulangan
+        break;
+      }
 
-  if (
-    !cutiBersama.includes(nextDate.format('YYYY-MM-DD')) &&
-    !tanggalMerah.includes(nextDate.format('YYYY-MM-DD')) &&
-    nextDate.day() !== 6 &&
-    nextDate.day() !== 0
-  ) {
-    tanggalMasuk = nextDate.format('YYYY-MM-DD');
-    console.log('Tanggal Masuk : ', tanggalMasuk);
-    break;
-  }
+      if (
+        !cutiBersama.includes(nextDate.format('YYYY-MM-DD')) &&
+        !tanggalMerah.includes(nextDate.format('YYYY-MM-DD')) &&
+        nextDate.day() !== 6 &&
+        nextDate.day() !== 0
+      ) {
+        tanggalMasuk = nextDate.format('YYYY-MM-DD');
+        console.log('Tanggal Masuk : ', tanggalMasuk);
+        break;
+      }
 
-  // Tambahkan nextDate setelah pemeriksaan
-  nextDate.add(1, 'days');
-}
+      // Tambahkan nextDate setelah pemeriksaan
+      nextDate.add(1, 'days');
+    }
 
     if (onDataReady) {
       onDataReady({
@@ -158,7 +159,8 @@ while (true) {
       setSelectedEndDate(date);
     } else {
       setSelectedStartDate(date);
-      isRange ? setSelectedEndDate(null) : setSelectedEndDate(date);
+      const tglAkhirCutiSpesial = cekTglAkhirCutiSpesial(date, jmlhValueCuti-1);
+      isRange ? setSelectedEndDate(null) : setSelectedEndDate(tglAkhirCutiSpesial);
     }
   };
 
@@ -183,7 +185,7 @@ while (true) {
         onDateChange={onDateChange}
         nextTitle="selanjutnya"
         previousTitle="sebelumnya"
-        maxRangeDuration={12}
+        maxRangeDuration={maxDurasiCuti}
         weekdays={hari}
         showDayStragglers={true}
         scrollable={true}
@@ -200,4 +202,4 @@ const styles = StyleSheet.create({
     // position: 'absolute'
   },
 });
-export default KalenderRange;
+export default KalenderCuti;
