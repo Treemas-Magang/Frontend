@@ -203,10 +203,8 @@ const FormSakit = ({navigation}) => {
     console.log('kirim data : ', form_sakit);
     try {
       setBtnLoading(true);
-
       // Melakukan pengiriman data ke API
       await kirimDataKeAPI();
-
       // Reset formulir setelah berhasil mengirim data
       dispatch(resetFormSakit());
     } finally {

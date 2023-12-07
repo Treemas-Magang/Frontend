@@ -280,6 +280,7 @@ const FormAbsensiReducer = (state = initialStateAbsensi, action) => {
   }
   return state;
 };
+
 const initialStateClaim = {
   form_claim: {
     selectedTipeClaim: '',
@@ -297,8 +298,6 @@ const FormClaimReducer = (state = initialStateClaim, action) => {
         [action.inputType]: action.inputValue,
       },
     };
-  } else if (action.type === 'RESET_FORM_CLAIM') {
-    return initialStateFormSakit;
   }
   return state;
 };
