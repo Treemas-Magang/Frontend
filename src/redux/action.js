@@ -80,9 +80,9 @@ export const setFormAbsensi = (inputType, value) => {
 export const setFormClaim = (inputType, value) => {
   return {type: 'SET_FORM_CLAIM', inputType: inputType, inputValue: value};
 };
-export const resetFormClaim = () => {
-  return {type: 'RESET_FORM_CLAIM'};
-};
+// export const resetFormClaim = () => {
+//   return {type: 'RESET_FORM_CLAIM'};
+// };
 export const setFormApproval = (inputType, value) => {
   return {
     type: 'SET_FORM_CATATAN_APPROVAL',
