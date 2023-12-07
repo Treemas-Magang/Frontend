@@ -144,7 +144,7 @@ const kirimDataKeAPI = async () => {
           {headers},
         );
         console.log(response.data.success);
-        console.log('berhasil mengajukan claim');
+        console.log('berhasil mengajukan izin sakit');
         console.log(uploadBerhasil);
         setUploadBerhasil(true);
         setIsLoading(false);
@@ -180,7 +180,7 @@ const kirimDataKeAPI = async () => {
 };
   const sendData = async () => {
     console.log('kirim data : ', form_sakit);
-    // await kirimDataKeAPI();
+    await kirimDataKeAPI();
   };
   const handleClickOutside = () => {
     setShowKalender(false);

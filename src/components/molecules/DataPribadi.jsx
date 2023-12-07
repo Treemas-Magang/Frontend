@@ -19,7 +19,7 @@ const DataPribadi = ({stylePP, styleDataPribadi}) => {
   } else {
     console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
   }
-  
+  // console.log(dataProfile)
   useEffect(() => {
     try {
       getDataFromSession('dataProfilUser')
@@ -33,7 +33,7 @@ const DataPribadi = ({stylePP, styleDataPribadi}) => {
       console.log(error);
     }
   }, []);
-  console.log('ayam : ',dataProfile);
+  // console.log('ayam : ',dataProfile);
 
   return (
     <View

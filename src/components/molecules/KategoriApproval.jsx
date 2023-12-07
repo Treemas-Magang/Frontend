@@ -4,12 +4,25 @@ import {StyleSheet, View, ScrollView} from 'react-native';
 import React, {useState} from 'react';
 import ButtonPilihKategori from '../atoms/ButtonPilihKategori';
 
-const KategoriApproval = () => {
+const KategoriApproval = ({keyKategori}) => {
   const [typeApproval, setTypeApproval] = useState('');
+
+  const kategoriList = [
+    {key: 'absen-pulang', label: 'ABSEN PULANG'},
+    {key: 'absen', label: 'ABSEN'},
+    {key: 'absen-web', label: 'ABSENSI WEB'},
+    {key: 'reimburse', label: 'REIMBURSE'},
+    {key: 'cuti', label: 'CUTI'},
+    {key: 'cuti-web', label: 'CUTI WEB'},
+    {key: 'sakit', label: 'SAKIT'},
+    {key: 'general-param', label: 'GENERAL PARAM'},
+    {key: 'cancel-cuti', label: 'CANCEL CUTI'},
+  ];
   const handleTypeApproval = value => {
     setTypeApproval(value);
   };
   if (typeApproval) {
+    keyKategori(typeApproval);
     console.log('type : ', typeApproval);
   } else {
     console.log('typeApproval masih kosong');
@@ -17,50 +30,15 @@ const KategoriApproval = () => {
   return (
     <View style={styles.wrappPilihan}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        <ButtonPilihKategori
-          onPress={() => handleTypeApproval('libur')}
-          lebel="LIBUR"
-        />
-        <View style={styles.gap} />
-        <ButtonPilihKategori
-          onPress={() => handleTypeApproval('lembur')}
-          lebel="LEMBUR"
-        />
-        <View style={styles.gap} />
-        <ButtonPilihKategori
-          onPress={() => handleTypeApproval('lupa pulang')}
-          lebel="LUPA PULANG"
-        />
-        <View style={styles.gap} />
-        <ButtonPilihKategori
-          onPress={() => handleTypeApproval('update absensi')}
-          lebel="UPDATE ABSENSI"
-        />
-        <View style={styles.gap} />
-        <ButtonPilihKategori
-          onPress={() => handleTypeApproval('absensi form')}
-          lebel="ABSENSI FORM"
-        />
-        <View style={styles.gap} />
-        <ButtonPilihKategori
-          onPress={() => handleTypeApproval('cuti')}
-          lebel="CUTI"
-        />
-        <View style={styles.gap} />
-        <ButtonPilihKategori
-          onPress={() => handleTypeApproval('cuti form')}
-          lebel="CUTI FORM"
-        />
-        <View style={styles.gap} />
-        <ButtonPilihKategori
-          onPress={() => handleTypeApproval('sakit')}
-          lebel="SAKIT"
-        />
-        <View style={styles.gap} />
-        <ButtonPilihKategori
-          onPress={() => handleTypeApproval('cancel cuti')}
-          lebel="CANCEL CUTI"
-        />
+        {kategoriList.map(kategori => (
+          <React.Fragment key={kategori.key}>
+            <ButtonPilihKategori
+              onPress={() => handleTypeApproval(kategori.key)}
+              lebel={kategori.label}
+            />
+            <View style={styles.gap} />
+          </React.Fragment>
+        ))}
       </ScrollView>
     </View>
   );

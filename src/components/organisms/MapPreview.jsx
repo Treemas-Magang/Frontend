@@ -151,7 +151,7 @@ const MapPreview = ({navigation}) => {
         if (jarakBulat > jarakMaxMasuk) {
           Alert.alert(
             'Peringatan',
-            'Jarak Anda ke tempat kerja lebih dari 100 meter. Anda tidak dapat melakukan absen.',
+            `Jarak anda ( ${jarakBulat} ) meter dari lokasi project.\njarak terjauh absen dari lokasi adalah\n( ${jarakMaxMasuk} ) meter.`,
             [
               {
                 text: 'Kembali',

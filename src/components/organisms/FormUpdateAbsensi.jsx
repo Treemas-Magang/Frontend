@@ -30,6 +30,7 @@ import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
 import {useRoute} from '@react-navigation/native';
+import {API_URL, API_GABUNGAN} from '@env';
 
 const FormUpdateAbsensi = ({navigation}) => {
   const dispatch = useDispatch();
@@ -115,7 +116,7 @@ const FormUpdateAbsensi = ({navigation}) => {
         try {
           //melakukan hit ke API untuk kirim data Absen
           const response = await axios.post(
-            'http://192.168.10.31:8081/api/absen/update-absen',
+            API_GABUNGAN + '/api/absen/update-absen',
             formUpdateMasuk,
             {headers},
           );

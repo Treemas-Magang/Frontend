@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
 import React, {useState, useEffect} from 'react';
@@ -16,7 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ButtonBackBaru from '../atoms/ButtonBackBaru';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
 import LottieView from 'lottie-react-native';
-import {API_URL, API_URL_WEB} from '@env';
+import {API_URL, API_GABUNGAN} from '@env';
 
 const ListPengumuman = ({navigation}) => {
   const [dataPengumuman, setDataPengumuman] = useState([]);
@@ -57,7 +58,7 @@ const ListPengumuman = ({navigation}) => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        API_URL_WEB + '/api/master-data/announcement-view',
+        API_GABUNGAN + '/api/master-data/announcement-view',
         {headers},
       );
       const data = response.data.data;
@@ -240,19 +241,15 @@ const ListPengumuman = ({navigation}) => {
     console.log('data berhasil di gabung');
   }, [dataPengumuman, dataPengumumanStorage]);
 
-  const moveTo = (tujuan, judul, deskripsi, usrCrt, image, id) => {
+  const moveTo = (tujuan, id) => {
     navigation.navigate(tujuan, {
-      judul: judul,
-      deskripsi: deskripsi,
-      usrCrt: usrCrt,
-      image: image,
       id: id,
     });
   };
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       {/* <ButtonBack navigation={navigation} /> */}
-      {role === 'USER' ? (
+      {role === 'EMPL' ? (
         <ButtonBackBaru navigation={navigation} tujuan="dashboard" />
       ) : (
         <ButtonBackBaru navigation={navigation} tujuan="dashboardNotif" />
@@ -285,14 +282,7 @@ const ListPengumuman = ({navigation}) => {
                   key={index}
                   onPress={() => {
                     handleReadNotif(Pengumuman.id);
-                    moveTo(
-                      'detailPengumuman',
-                      Pengumuman.header,
-                      Pengumuman.note,
-                      Pengumuman.usrCrt,
-                      Pengumuman.image64,
-                      Pengumuman.id,
-                    );
+                    moveTo('detailPengumuman', Pengumuman.id);
                   }}
                   deskripsi={Pengumuman.note}
                   tanggal={Pengumuman.tgl_upload}

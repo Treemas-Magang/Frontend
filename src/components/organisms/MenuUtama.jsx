@@ -62,7 +62,7 @@ const MenuUtama = ({
           styleNamaMenu={styleNamaMenu}
           box={box}
         />
-        {isRole === 'USER' ? (
+        {isRole === 'EMPL' ? (
           <View>
             <IconMenu
               image={require('../../assets/vector/announcement.png')}

@@ -94,7 +94,7 @@ const FormCuti = ({
       dispatch(setFormCuti('jmlCutiBersama', data.jumlahCutiBersama + data.jumlahTanggalMerah));
       // dispatch(setFormCuti('jmlCutiBersama', data.jumlahCutiBersama));
     }
-  }, [data, dispatch])
+  }, [data, dispatch]);
 
   useEffect(() => {
     const fetchData = async () => {

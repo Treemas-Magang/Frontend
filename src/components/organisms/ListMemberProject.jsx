@@ -56,7 +56,7 @@ const ListMemberProject = ({navigation}) => {
           Authorization: `Bearer ${token}`,
         };
 
-        if (isRole === 'LEADER') {
+        if (isRole === 'LEAD') {
           await getDataProjects(
             headers,
             API_GABUNGAN + '/api/member/get-project',
