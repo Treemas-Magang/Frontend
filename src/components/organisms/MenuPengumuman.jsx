@@ -7,6 +7,9 @@ import {text} from '../../utils/text';
 import { useDispatch, useSelector } from 'react-redux';
 import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
 import { setJumlahPengumuman } from '../../redux';
+import { getDataFromSession } from '../../utils/getDataSession';
+import {API_URL, API_GABUNGAN} from '@env';
+import axios from 'axios';
 
 const MenuPengumuman = ({
   navigation,
@@ -35,15 +38,37 @@ useEffect(() => {
       // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
       dispatch(setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse));
       setJmlPengumuman(+jumlahDataDenganStatusFalse);
-
-      ////////////////////////////////////////////
-      // ini untuk jumlah Approval
-      setJumlahApproval(10);
     });
   });
 
   /////////////////
 }, [dispatch]);
+  const getJmlNotifApproval = async headers => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + '/api/notif/get-data-count',
+        {
+          headers,
+        },
+      );
+      const dataAPI = response.data.dataCount;
+      console.log('Ini data API Jml notif APP:', dataAPI);
+      setJumlahApproval(dataAPI)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getJmlNotifApproval(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
 
 console.log(jmlPengumuman)
 

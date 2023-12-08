@@ -26,7 +26,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {API_URL, API_GABUNGAN} from '@env';
 import getLocation from '../../utils/getLocation';
 import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
-import { setJumlahPengumuman } from '../../redux';
+import { setJumlahApproval, setJumlahPengumuman } from '../../redux';
 const ScreenDashboard = ({navigation}) => {
   const dispatch = useDispatch();
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
@@ -34,15 +34,31 @@ const ScreenDashboard = ({navigation}) => {
   const [jamMasuk, setJamMasuk] = useState('0');
   const [jmlBlmBaca, setJmlBlmBaca] = useState(0);
   const [lokasiTerkini, setLokasiTerkini] = useState([]);
+    const [isRole, setIsRole] = useState('');
+  console.log('isRole : ', isRole)
+  useEffect(() => {
+    getDataFromSession('dataProfilUser')
+      .then(data => {
+        const dataProfile = JSON.parse(data);
+        console.log('data profil menu utama : ', dataProfile);
+        setIsRole(dataProfile.role);
+      })
+      .catch(error => console.log(error));
+  }, []);
 
   useEffect(() => {
     cekToken();
   }, []);
 
   useEffect(() => {
-    const totalNotif = pengumuman + approval;
+    let totalNotif;
+    if(isRole !== 'EMPL'){
+      totalNotif = pengumuman + approval;
+    } else {
+      totalNotif = pengumuman;
+    }
     setJmlBlmBaca(totalNotif);
-  }, [approval, pengumuman]);
+  }, [approval, pengumuman, isRole]);
 
   const getDataIsAbsen = async headers => {
     try {
@@ -73,6 +89,23 @@ const ScreenDashboard = ({navigation}) => {
     }
   };
 
+  const getJmlNotifApproval = async (headers) => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + '/api/notif/get-data-count',
+        {
+          headers,
+        },
+      );
+      const dataAPI = response.data.dataCount;
+      console.log('Ini data API Jml notif APP:', dataAPI);
+      dispatch(setJumlahApproval('approval', +dataAPI));
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     getDataFromSession('token')
       .then(token => {
@@ -80,6 +113,7 @@ const ScreenDashboard = ({navigation}) => {
           Authorization: `Bearer ${token}`,
         };
         getDataIsAbsen(headers);
+        getJmlNotifApproval(headers)
       })
       .catch(error => console.log(error));
   }, []);
