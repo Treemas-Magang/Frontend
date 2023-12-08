@@ -4,7 +4,7 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardApproval = ({navigation}) => {
+const CardApproval = ({navigation, nik, nama, tgl}) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
@@ -21,7 +21,7 @@ const CardApproval = ({navigation}) => {
         </Text>
         <Text
           style={{fontFamily: text.semiBold, fontSize: 12, color: Color.black}}>
-          20123213
+          {nik}
         </Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -39,7 +39,7 @@ const CardApproval = ({navigation}) => {
             fontSize: 12,
             color: Color.black,
           }}>
-          Azriel FachrulRezy
+          {nama}
         </Text>
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -57,7 +57,7 @@ const CardApproval = ({navigation}) => {
             fontSize: 12,
             color: Color.black,
           }}>
-          18-10-2023
+          {tgl}
         </Text>
       </View>
     </TouchableOpacity>

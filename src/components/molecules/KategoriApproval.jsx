@@ -8,13 +8,12 @@ const KategoriApproval = ({keyKategori}) => {
   const [typeApproval, setTypeApproval] = useState('');
 
   const kategoriList = [
+    {key: 'sakit', label: 'SAKIT'},
+    {key: 'cuti', label: 'CUTI'},
     {key: 'absen-pulang', label: 'ABSEN PULANG'},
-    {key: 'absen', label: 'ABSEN'},
     {key: 'absen-web', label: 'ABSENSI WEB'},
     {key: 'reimburse', label: 'REIMBURSE'},
-    {key: 'cuti', label: 'CUTI'},
     {key: 'cuti-web', label: 'CUTI WEB'},
-    {key: 'sakit', label: 'SAKIT'},
     {key: 'general-param', label: 'GENERAL PARAM'},
     {key: 'cancel-cuti', label: 'CANCEL CUTI'},
     {key: 'libur', label: 'LIBUR'},

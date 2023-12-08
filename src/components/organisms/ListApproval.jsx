@@ -1,5 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,7 +10,6 @@ import {
   Image,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
 import KategoriApproval from '../molecules/KategoriApproval';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
@@ -20,9 +20,9 @@ import CardApproval from '../molecules/CardApproval';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
-import {API_URL, API_GABUNGAN} from '@env';
 import axios from 'axios';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
+import {API_GABUNGAN} from '@env';
 
 const ListApproval = ({navigation}) => {
   const [openDropdownApproval, setOpenDropdownApproval] = useState(false);
@@ -31,6 +31,7 @@ const ListApproval = ({navigation}) => {
   const [kategori, setKategori] = useState('sakit');
   const [isLoading, setIsLoading] = useState(true);
   const [dataApp, setDataApp] = useState([]);
+  const [onDropdown, setOnDropdown] = useState(false)
 
   const handleOpenDropdownApproval = () => {
     setOpenDropdownApproval(!openDropdownApproval);
@@ -46,12 +47,97 @@ const ListApproval = ({navigation}) => {
     try {
       const apiUrl = `${API_GABUNGAN}/api/notif/get-approval?by=${type}&projectId=${id}`;
       const response = await axios.get(apiUrl, {headers});
-      const dataAPI = response.data;
-      console.log('data app : ',dataAPI)
-      setDataApp(dataAPI);
+
+      let dataAPI;
+
+      switch (type) {
+        case 'sakit':
+          // Custom logic for 'sakit'
+          dataAPI = response.data.data.sakitApproval;
+          const cutiDataSakit = dataAPI.filter(item => item.flgKet === 'sakit');
+          setDataApp(cutiDataSakit);
+          break;
+
+        case 'absen-pulang':
+          // Custom logic for 'absen-pulang'
+          dataAPI = response.data.data.absenPulangApproval;
+          // Additional logic specific to 'absen-pulang'
+          setDataApp(dataAPI);
+          break;
+
+        case 'absen':
+          // Custom logic for 'absen'
+          dataAPI = response.data.data;
+          // Additional logic specific to 'absen'
+          setDataApp(dataAPI);
+          break;
+
+        case 'absen-web':
+          // Custom logic for 'absen-web'
+          dataAPI = response.data.data.absenWebApproval;
+          // Additional logic specific to 'absen-web'
+          setDataApp(dataAPI);
+          break;
+
+        case 'reimburse':
+          // Custom logic for 'reimburse'
+          dataAPI = response.data.data.reimburseApproval;
+          // Additional logic specific to 'reimburse'
+          setDataApp(dataAPI);
+          break;
+
+        case 'cuti':
+          // Custom logic for 'cuti'
+          dataAPI = response.data.data.cutiApproval;
+          // Additional logic specific to 'cuti'
+          const cutiDataCuti = dataAPI.filter(item => item.flgKet === 'cuti');
+          setDataApp(cutiDataCuti);
+          break;
+
+        case 'cuti-web':
+          // Custom logic for 'cuti-web'
+          dataAPI = response.data.data.cutiApprovalWeb;
+          // Additional logic specific to 'cuti-web'
+          setDataApp(dataAPI);
+          break;
+
+        case 'general-param':
+          // Custom logic for 'general-param'
+          dataAPI = response.data.data.generalParamApproval;
+          // Additional logic specific to 'general-param'
+          setDataApp(dataAPI);
+          break;
+
+        case 'cancel-cuti':
+          // Custom logic for 'cancel-cuti'
+          dataAPI = response.data.data;
+          // Additional logic specific to 'cancel-cuti'
+          setDataApp(dataAPI);
+          break;
+
+        case 'libur':
+          // Custom logic for 'libur'
+          dataAPI = response.data.data;
+          // Additional logic specific to 'libur'
+          setDataApp(dataAPI);
+          break;
+
+        case 'lembur':
+          // Custom logic for 'lembur'
+          dataAPI = response.data.data;
+          // Additional logic specific to 'lembur'
+          setDataApp(dataAPI);
+          break;
+
+        default:
+          // Handle the default case if necessary
+          break;
+      }
+
+      // console.log('data app: ', dataAPI);
       setIsLoading(false);
     } catch (error) {
-      console.log('Error fetching data:', error);
+      console.log('Error fetching data:', error.response);
       setIsLoading(false);
     }
   };
@@ -65,7 +151,21 @@ const ListApproval = ({navigation}) => {
         getDataApproval(headers, kategori, idProject);
       })
       .catch(error => console.log(error));
-  }, [kategori, idProject]);
+      
+      // Now, isCategoryIncluded contains the result of the condition
+      // console.log('hello : ',isCategoryIncluded);
+      
+    }, [kategori, idProject]);
+
+    useEffect(() => {
+      const isCategoryIncluded = [
+        'cuti',
+        'cuti-web',
+        'general-param',
+        'sakit',
+      ].includes(kategori);
+      setOnDropdown(isCategoryIncluded);
+    }, [kategori]);
   return (
     <View style={styles.listApproval}>
       <ButtonBack navigation={navigation} />
@@ -74,34 +174,42 @@ const ListApproval = ({navigation}) => {
       <View style={styles.wrapJudul}>
         <Text style={styles.judul}>APPROVAL</Text>
       </View>
-      <View style={styles.wrapList}>
+      <View
+        style={[
+          styles.wrapList,
+          onDropdown ? {height: '100%'} : {height: '85%'},
+        ]}>
         <View style={styles.kategoriApproval}>
           <KategoriApproval keyKategori={key => setKategori(key)} />
         </View>
-        <View style={styles.wrapDropdown}>
-          <View style={styles.dropdown}>
-            <TouchableOpacity
-              onPress={handleOpenDropdownApproval}
-              style={styles.tombolDropdown}>
-              <Text style={styles.lokasiProject}>
-                {tempatProject === '' ? 'Pilih Lokasi Project' : tempatProject}
-              </Text>
-              <FontAwesomeIcon
-                icon={faCaretDown}
-                size={25}
-                color={Color.white}
-              />
-            </TouchableOpacity>
-            {openDropdownApproval ? (
-              <DropdownApproval
-                dataPilihanProjact={data => setTempatProject(data)}
-                idProject={id => setIdProject(id)}
-              />
-            ) : (
-              ''
-            )}
+        {onDropdown ? null : (
+          <View style={styles.wrapDropdown}>
+            <View style={styles.dropdown}>
+              <TouchableOpacity
+                onPress={handleOpenDropdownApproval}
+                style={styles.tombolDropdown}>
+                <Text style={styles.lokasiProject}>
+                  {tempatProject === ''
+                    ? 'Pilih Lokasi Project'
+                    : tempatProject}
+                </Text>
+                <FontAwesomeIcon
+                  icon={faCaretDown}
+                  size={25}
+                  color={Color.white}
+                />
+              </TouchableOpacity>
+              {openDropdownApproval ? (
+                <DropdownApproval
+                  dataPilihanProjact={data => setTempatProject(data)}
+                  idProject={id => setIdProject(id)}
+                />
+              ) : (
+                ''
+              )}
+            </View>
           </View>
-        </View>
+        )}
         <View style={styles.wrapCardApproval}>
           {isLoading ? (
             <ActivityIndicator size="large" color={Color.blue} />
@@ -109,11 +217,13 @@ const ListApproval = ({navigation}) => {
             <ScrollView
               style={{width: '90%'}}
               showsVerticalScrollIndicator={false}>
-              {Array.isArray(dataApp) ? (
+              {dataApp.length > 0 ? (
                 dataApp.map((item, index) => (
                   <CardApproval
                     key={index}
-                    data={item}
+                    nama={item.nama}
+                    nik={item.nik}
+                    tgl={item.dtmCrt}
                     navigation={navigation}
                   />
                 ))
@@ -144,7 +254,6 @@ const styles = StyleSheet.create({
   },
   wrapList: {
     backgroundColor: Color.white,
-    height: '85%',
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
     paddingBottom: 180,
@@ -157,6 +266,7 @@ const styles = StyleSheet.create({
   kategoriApproval: {
     alignItems: 'center',
     marginTop: 40,
+    marginBottom:10,
   },
   wrapDropdown: {
     width: '100%',
@@ -171,7 +281,6 @@ const styles = StyleSheet.create({
     backgroundColor: Color.blue,
     borderRadius: 5,
     paddingHorizontal: 20,
-    // paddingVertical: 10,
     position: 'absolute',
     zIndex: 10,
   },
