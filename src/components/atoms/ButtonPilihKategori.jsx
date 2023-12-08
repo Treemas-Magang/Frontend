@@ -12,10 +12,17 @@ import {text} from '../../utils/text';
  * @param {string} lebel - Teks yang akan ditampilkan pada tombol.
  * @returns {JSX.Element} - Komponen React untuk tombol memilih kategori.
  */
-const ButtonPilihKategori = ({onPress, lebel}) => {
+const ButtonPilihKategori = ({onPress, lebel, warna, jmlNotif}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.backgroundBtn}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.backgroundBtn, {backgroundColor: warna}]}>
       <Text style={styles.text}>{lebel}</Text>
+      {/* {jmlNotif >= 0 ? ( //belom di benerin buat get api
+        <View style={styles.wrapNotif}>
+          <Text style={styles.textNotif}>{jmlNotif}</Text>
+        </View>
+      ) : null} */}
       <View style={styles.wrapNotif}>
         <Text style={styles.textNotif}>2</Text>
       </View>
@@ -31,7 +38,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 5,
     position: 'relative',
-    backgroundColor: Color.green,
     flexDirection: 'row',
     gap: 10,
   },

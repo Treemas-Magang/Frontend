@@ -71,7 +71,7 @@ export default SkeletonCardApproval;
 const styles = StyleSheet.create({
   CardApprovalStyle: {
     backgroundColor: Color.grey,
-    width: '100%',
+    width: 340,
     height: 80,
     borderRadius: 5,
     marginVertical: 10,

@@ -5,11 +5,19 @@ import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
 const CardApproval = ({navigation, nik, nama, tgl}) => {
+  // Fungsi untuk membatasi jumlah karakter tanggal menjadi 10 huruf
+  const getLimitedDate = date => {
+    return date.substring(0, 10);
+  };
+
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
+
   return (
-    <TouchableOpacity onPress={() => moveTo('detailApproval')} style={styles.CardApprovalStyle}>
+    <TouchableOpacity
+      onPress={() => moveTo('detailApproval')}
+      style={styles.CardApprovalStyle}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Text
           style={{
@@ -57,7 +65,7 @@ const CardApproval = ({navigation, nik, nama, tgl}) => {
             fontSize: 12,
             color: Color.black,
           }}>
-          {tgl}
+          {getLimitedDate(tgl)} {/* Gunakan fungsi getLimitedDate di sini */}
         </Text>
       </View>
     </TouchableOpacity>
