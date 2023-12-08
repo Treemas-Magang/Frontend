@@ -164,7 +164,6 @@ const FormClaim = ({navigation}) => {
         };
 
         try {
-          //melakukan hit ke API untuk kirim data Absen
           const response = await axios.post(
             API_GABUNGAN + '/api/report-data/claim-form/add',
             form_claim,
@@ -225,7 +224,8 @@ const FormClaim = ({navigation}) => {
       setBtnLoading(false); // Set btnLoading back to false when the process is completed (regardless of success or failure)
     }
   };
-  const close = () => {
+
+  const close = async () => {
     setUploadBerhasil(false);
     setShowErrorAlert(false);
   };
