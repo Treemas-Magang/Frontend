@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
@@ -12,10 +12,20 @@ import {text} from '../../utils/text';
  * @param {string} lebel - Teks yang akan ditampilkan pada tombol.
  * @returns {JSX.Element} - Komponen React untuk tombol memilih kategori.
  */
-const ButtonPilihKategori = ({onPress, lebel}) => {
+const ButtonPilihKategori = ({onPress, lebel, warna, jmlNotif}) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.backgroundBtn}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.backgroundBtn, {backgroundColor: warna}]}>
       <Text style={styles.text}>{lebel}</Text>
+      {/* {jmlNotif >= 0 ? ( //belom di benerin buat get api
+        <View style={styles.wrapNotif}>
+          <Text style={styles.textNotif}>{jmlNotif}</Text>
+        </View>
+      ) : null} */}
+      <View style={styles.wrapNotif}>
+        <Text style={styles.textNotif}>2</Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -27,11 +37,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,
-    backgroundColor: Color.green,
+    position: 'relative',
+    flexDirection: 'row',
+    gap: 10,
   },
   text: {
     fontFamily: text.semiBold,
     fontSize: 16,
     color: Color.white,
+  },
+  wrapNotif: {
+    backgroundColor: Color.red,
+    height: 25,
+    width: 25,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textNotif: {
+    color: Color.white,
+    fontFamily: text.regular,
   },
 });

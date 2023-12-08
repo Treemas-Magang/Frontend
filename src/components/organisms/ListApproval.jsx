@@ -23,6 +23,12 @@ import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
 import {API_GABUNGAN} from '@env';
+import SkeletonCardApproval from '../skeleton/SkeletonCardApproval';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import LottieView from 'lottie-react-native';
 
 const ListApproval = ({navigation}) => {
   const [openDropdownApproval, setOpenDropdownApproval] = useState(false);
@@ -31,7 +37,7 @@ const ListApproval = ({navigation}) => {
   const [kategori, setKategori] = useState('sakit');
   const [isLoading, setIsLoading] = useState(true);
   const [dataApp, setDataApp] = useState([]);
-  const [onDropdown, setOnDropdown] = useState(false)
+  const [onDropdown, setOnDropdown] = useState(false);
 
   const handleOpenDropdownApproval = () => {
     setOpenDropdownApproval(!openDropdownApproval);
@@ -151,21 +157,20 @@ const ListApproval = ({navigation}) => {
         getDataApproval(headers, kategori, idProject);
       })
       .catch(error => console.log(error));
-      
-      // Now, isCategoryIncluded contains the result of the condition
-      // console.log('hello : ',isCategoryIncluded);
-      
-    }, [kategori, idProject]);
 
-    useEffect(() => {
-      const isCategoryIncluded = [
-        'cuti',
-        'cuti-web',
-        'general-param',
-        'sakit',
-      ].includes(kategori);
-      setOnDropdown(isCategoryIncluded);
-    }, [kategori]);
+    // Now, isCategoryIncluded contains the result of the condition
+    // console.log('hello : ',isCategoryIncluded);
+  }, [kategori, idProject]);
+
+  useEffect(() => {
+    const isCategoryIncluded = [
+      'cuti',
+      'cuti-web',
+      'general-param',
+      'sakit',
+    ].includes(kategori);
+    setOnDropdown(isCategoryIncluded);
+  }, [kategori]);
   return (
     <View style={styles.listApproval}>
       <ButtonBack navigation={navigation} />
@@ -212,7 +217,13 @@ const ListApproval = ({navigation}) => {
         )}
         <View style={styles.wrapCardApproval}>
           {isLoading ? (
-            <ActivityIndicator size="large" color={Color.blue} />
+            <View>
+              <SkeletonCardApproval />
+              <SkeletonCardApproval />
+              <SkeletonCardApproval />
+              <SkeletonCardApproval />
+              <SkeletonCardApproval />
+            </View>
           ) : (
             <ScrollView
               style={{width: '90%'}}
@@ -229,7 +240,18 @@ const ListApproval = ({navigation}) => {
                 ))
               ) : (
                 // Handle the case when dataApp is not an array
-                <Text>No data available</Text>
+                <View style={styles.wrapDataNotFound}>
+                  <LottieView
+                    source={require('../../assets/animation/dataNotFound.json')}
+                    autoPlay
+                    style={{
+                      width: '100%',
+                      height: '70%',
+                    }}></LottieView>
+                  <Text style={styles.textDataNotFound}>
+                    Tidak Ada Data Approval
+                  </Text>
+                </View>
               )}
             </ScrollView>
           )}
@@ -266,7 +288,7 @@ const styles = StyleSheet.create({
   kategoriApproval: {
     alignItems: 'center',
     marginTop: 40,
-    marginBottom:10,
+    marginBottom: 10,
   },
   wrapDropdown: {
     width: '100%',
@@ -299,5 +321,17 @@ const styles = StyleSheet.create({
   wrapCardApproval: {
     alignItems: 'center',
     width: '100%',
+  },
+  wrapDataNotFound: {
+    width: wp('90%'),
+    height: hp('50%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
+    textTransform: 'uppercase',
   },
 });

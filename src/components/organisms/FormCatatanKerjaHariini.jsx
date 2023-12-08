@@ -13,10 +13,6 @@ import axios from 'axios';
 import {checkMockLocation} from '../../utils/checkMockLocation';
 import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
@@ -106,7 +102,12 @@ const FormCatatanKerjaHariini = ({navigation}) => {
       <ButtonHome navigation={navigation} />
       <VectorAtasBesar />
       {uploadBerhasil ? (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <AlertNotificationSuccess
             buttonAlert="Close"
             textBodyAlert="Berhasil Melakukan Absen Pulang"
