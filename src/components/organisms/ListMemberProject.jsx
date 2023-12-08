@@ -43,7 +43,7 @@ const ListMemberProject = ({navigation}) => {
       setNamaProjectMember(dataAPI);
       setIsLoading(false);
     } catch (error) {
-      console.log(`Error fetching projects: ${url}`, error);
+      console.log(`Error fetching projects: ${url}`, error.response);
       setIsLoading(false);
     }
   };

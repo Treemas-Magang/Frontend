@@ -20,11 +20,12 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
-import {API_URL, API_GABUNGAN} from '@env';
+import {API_URL, API_GABUNGAN, API_KEY_MAP_ALAMAT} from '@env';
 import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
 import {useRoute} from '@react-navigation/native';
 import SkeletonDetailMember from '../skeleton/SkeletonDetailMember';
+import { getAlamat } from '../../utils/getAlamat';
 
 const DetailMember = ({navigation, stylePP}) => {
   const {nikMember} = useRoute().params;
@@ -32,8 +33,11 @@ const DetailMember = ({navigation, stylePP}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isWFH, setIsWFH] = useState(true);
   const [dataDetailMember, setDataDetailMember] = useState([]);
+  const [alamatMsk, setAlamatMsk] = useState('');
+  const [alamatPlg, setAlamatPlg] = useState('');
 
   const getDataBelumAbsen = async headers => {
+    setIsLoading(true)
     try {
       const response = await axios.get(
         API_GABUNGAN + `/api/member/get-data-absen?nik=${nikMember}`,
@@ -42,9 +46,9 @@ const DetailMember = ({navigation, stylePP}) => {
       console.log(response.data.data);
       const dataAPI = response.data.data;
       // const dataKosong = [];
-      setDataDetailMember(dataAPI.absenEntity);
+      setDataDetailMember(dataAPI);
       setIsLoading(false);
-      console.log('data : ', dataAPI.absenEntity);
+      // console.log('data : ', dataAPI.absenEntity);
     } catch (error) {
       console.log('Tidak dapat mengambil data ', error.response);
       setIsLoading(false);
@@ -61,6 +65,66 @@ const DetailMember = ({navigation, stylePP}) => {
       })
       .catch(error => console.log(error));
   }, []);
+
+  useEffect(() => {
+    setIsLoading(true)
+    // Mengambil indeks terbaru yang tidak bernilai null
+    const absenTrackingData = dataDetailMember?.absenTrackingData || {};
+    const gpsLatMasuk = absenTrackingData.gpsLatitudeMsk || [];
+    const gpsLongMasuk = absenTrackingData.gpsLongitudeMsk || [];
+    let latestNonNullLatValue = null;
+    let latestNonNullLongValue = null;
+
+    // Get latest non-null value for Latitude
+    for (let index = gpsLatMasuk.length - 1; index >= 0; index--) {
+      const element = gpsLatMasuk[index];
+
+      if (element !== null) {
+        latestNonNullLatValue = element;
+        break; // Stop iterating once a non-null value is found
+      }
+    }
+
+    // Get latest non-null value for Longitude
+    for (let index = gpsLongMasuk.length - 1; index >= 0; index--) {
+      const element = gpsLongMasuk[index];
+
+      if (element !== null) {
+        latestNonNullLongValue = element;
+        break; // Stop iterating once a non-null value is found
+      }
+    }
+
+    console.log('Latest non-null Latitude value: ', latestNonNullLatValue);
+    console.log('Latest non-null Longitude value: ', latestNonNullLongValue);
+
+      getAlamat(latestNonNullLatValue, latestNonNullLongValue, API_KEY_MAP_ALAMAT)
+      .then(alamat_msk => {
+        console.log(alamat_msk);
+        setAlamatMsk(alamat_msk);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        setIsLoading(false);
+        console.log(error);
+      });
+
+      getAlamat(
+        absenTrackingData.gpsLatitudePlg,
+        absenTrackingData.gpsLongitudePlg,
+        API_KEY_MAP_ALAMAT,
+      )
+        .then(alamat_plg => {
+          console.log('lokasi plg : ',alamat_plg);
+          setAlamatPlg(alamat_plg);
+          setIsLoading(false);
+        })
+        .catch(error => {
+          console.log(error);
+          setIsLoading(false);
+        });
+
+  }, [dataDetailMember]); // Tambahkan dependensi sesuai kebutuhan
 
   return isLoading ? (
     <SkeletonDetailMember />
@@ -112,24 +176,26 @@ const DetailMember = ({navigation, stylePP}) => {
           </View>
           <View>
             <Text style={styles.TextTitle}>Nik</Text>
-            {/* <Text style={styles.TextDeskripsi}>{dataDetailMember.nik}</Text> */}
+            <Text style={styles.TextDeskripsi}>
+              {dataDetailMember.absenTrackingData?.nik || 'N/A'}
+            </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Nama</Text>
-            {/* <Text style={styles.TextDeskripsi}>{dataDetailMember.nama}</Text> */}
+            <Text style={styles.TextDeskripsi}>
+              {dataDetailMember.absenTrackingData?.nama || 'N/A'}
+            </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Project</Text>
             <Text style={styles.TextDeskripsi}>
-              {/* {dataDetailMember.projectId.namaProject} */}
+              {dataDetailMember.absenTrackingData?.namaProject || 'N/A'}
             </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Jam Masuk</Text>
             <Text style={styles.TextDeskripsi}>
-              {/* {dataDetailMember.jamMsk === null */}
-                ? 'Belum Absen Masuk'
-                {/* : dataDetailMember.jamMsk} */}
+              {dataDetailMember.absenTrackingData?.jamMsk || 'N/A'}
             </Text>
           </View>
           <View>
@@ -140,21 +206,21 @@ const DetailMember = ({navigation, stylePP}) => {
                 fontFamily: text.light,
                 marginVertical: 2,
               }}>
-              {/* {dataDetailMember.lokasiMsk} */}
+              {alamatMsk}
             </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Catatan Telat</Text>
             <Text style={styles.TextDeskripsi}>
-              {/* {dataDetailMember.noteTelatMsk} */}
+              {dataDetailMember.absenTrackingData?.catatanTelat || 'N/A'}
             </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Jam Keluar</Text>
             <Text style={styles.TextDeskripsi}>
-              {/* {dataDetailMember.jamPlg === null */}
+              {dataDetailMember.absenTrackingData?.jamPlg === null
                 ? 'Belum Absen Keluar'
-                {/* : dataDetailMember.jamPlg} */}
+                : dataDetailMember.absenTrackingData?.jamPlg || 'N/A'}
             </Text>
           </View>
           <View>
@@ -165,25 +231,23 @@ const DetailMember = ({navigation, stylePP}) => {
                 fontFamily: text.light,
                 marginVertical: 2,
               }}>
-              {/* {dataDetailMember.lokasiPlg === null */}
-                ? 'Belum Absen Keluar'
-                {/* : dataDetailMember.lokasiPlg} */}
+              {alamatPlg === null ? 'Belum Absen Keluar' : alamatPlg || 'N/A'}
             </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Catatan Pulang Cepat</Text>
             <Text style={styles.TextDeskripsi}>
-              {/* {dataDetailMember.notePlgCepat === null */}
+              {dataDetailMember.absenTrackingData?.catatanPlgCpt === null
                 ? 'Belum Absen Keluar'
-                {/* : dataDetailMember.notePlgCepat} */}
+                : dataDetailMember.absenTrackingData?.catatanPlgCpt || 'N/A'}
             </Text>
           </View>
           <View>
             <Text style={styles.TextTitle}>Timesheet</Text>
             <Text style={styles.TextDeskripsi}>
-              {/* {dataDetailMember.notePekerjaan === null */}
+              {dataDetailMember.absenTrackingData?.notePekerjaan === null
                 ? 'Belum Absen Keluar'
-                {/* : dataDetailMember.notePekerjaan} */}
+                : dataDetailMember.absenTrackingData?.notePekerjaan || 'N/A'}
             </Text>
           </View>
         </ScrollView>
