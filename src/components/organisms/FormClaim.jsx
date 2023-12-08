@@ -27,7 +27,6 @@ import {API_URL, API_GABUNGAN} from '@env';
 import {
   AlertNotificationDanger,
   AlertNotificationSuccess,
-  AlertNotificationWarning,
 } from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
 
