@@ -20,6 +20,8 @@ const KategoriApproval = ({keyKategori}) => {
     {key: 'lembur', label: 'LEMBUR', active: false},
   ]);
 
+  
+
   const handleTypeApproval = value => {
     setTypeApproval(value);
     const updatedKategoriList = kategoriList.map(kategori =>
