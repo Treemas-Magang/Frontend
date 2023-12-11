@@ -88,40 +88,10 @@ const ListMemberProject = ({navigation}) => {
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
       <VectorAtasBesar />
-      <View style={{paddingVertical: 55}}></View>
+      <View style={{paddingVertical: 65}}></View>
       <View style={styles.wrapListMember}>
         <View style={{alignItems: 'center', marginVertical: 20}}>
-          <Text style={styles.judul}>MEMBER</Text>
-          <Text style={styles.judul}>PROJECT</Text>
-        </View>
-        <View style={styles.wrapStatus}>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-            <View
-              style={[styles.simbolStatus, {backgroundColor: Color.cardMasuk}]}
-            />
-            <Text>Hadir</Text>
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-            <View
-              style={[styles.simbolStatus, {backgroundColor: Color.cardCuti}]}
-            />
-            <Text>Cuti</Text>
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-            <View
-              style={[
-                styles.simbolStatus,
-                {backgroundColor: Color.cardTidakMasuk},
-              ]}
-            />
-            <Text>Tidak masuk</Text>
-          </View>
-          <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-            <View
-              style={[styles.simbolStatus, {backgroundColor: Color.cardSakit}]}
-            />
-            <Text>Sakit/izin</Text>
-          </View>
+          <Text style={styles.judul}>MEMBER PROJECT</Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           {isLoading ? (
@@ -193,17 +163,7 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     fontSize: 24,
     color: Color.blue,
-  },
-  wrapStatus: {
-    flexDirection: 'row',
-    gap: 5,
-    justifyContent: 'center',
-    marginBottom: 5,
-  },
-  simbolStatus: {
-    width: 15,
-    height: 15,
-    borderRadius: 15,
+    textTransform: 'uppercase',
   },
   wrapDataNotFound: {
     width: wp('70%'),

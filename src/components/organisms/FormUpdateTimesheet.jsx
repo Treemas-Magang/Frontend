@@ -7,11 +7,15 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import ButtonBack from '../atoms/ButtonBack';
+import ButtonHome from '../atoms/ButtonHome';
 
-const FormUpdateTimesheet = () => {
+const FormUpdateTimesheet = ({navigation}) => {
   return (
     <View style={styles.BackgroundUpdateTimesheet}>
       <View style={styles.SectionAtas}>
+        <ButtonBack styleColor={Color.green} navigation={navigation} />
+        <ButtonHome />
         <Image
           style={styles.VectorAtasKebalik}
           source={require('../../assets/vector/VectorAtasKebalik.png')}

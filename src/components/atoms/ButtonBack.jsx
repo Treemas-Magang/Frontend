@@ -18,7 +18,7 @@ import {
  * @param {Object} style - Gaya tambahan yang dapat diterapkan pada tombol.
  * @returns {JSX.Element} - Komponen React untuk tombol kembali.
  */
-const ButtonBack = ({navigation, style}) => {
+const ButtonBack = ({navigation, style, styleColor}) => {
   /**
    * Fungsi goBack digunakan untuk kembali ke halaman sebelumnya.
    */
@@ -28,7 +28,11 @@ const ButtonBack = ({navigation, style}) => {
 
   return (
     <TouchableOpacity style={[styles.ButtonBack, style]} onPress={goBack}>
-      <FontAwesomeIcon icon={faArrowLeft} color={Color.white} size={wp('8%')} />
+      <FontAwesomeIcon
+        icon={faArrowLeft}
+        color={styleColor || Color.white}
+        size={wp('8%')}
+      />
     </TouchableOpacity>
   );
 };
