@@ -17,23 +17,17 @@ import {
 } from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import {cekToken} from '../../utils/cekToken';
-import {tracking} from '../../utils/tracking';
-import { cekTelatMasuk } from '../../utils/cekJamTelatDanPulangCepat';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { getDataFromSession } from '../../utils/getDataSession';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {API_URL, API_GABUNGAN} from '@env';
-import getLocation from '../../utils/getLocation';
+import {API_GABUNGAN} from '@env';
 import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
 import { setJumlahApproval, setJumlahPengumuman } from '../../redux';
 const ScreenDashboard = ({navigation}) => {
   const dispatch = useDispatch();
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
   const {approval} = useSelector(state => state.JumlahApprovalReducer);
-  const [jamMasuk, setJamMasuk] = useState('0');
   const [jmlBlmBaca, setJmlBlmBaca] = useState(0);
-  const [lokasiTerkini, setLokasiTerkini] = useState([]);
     const [isRole, setIsRole] = useState('');
   console.log('isRole : ', isRole)
   useEffect(() => {
@@ -52,7 +46,7 @@ const ScreenDashboard = ({navigation}) => {
 
   useEffect(() => {
     let totalNotif;
-    if(isRole !== 'EMPL'){
+    if (isRole !== 'EMPL'){
       totalNotif = pengumuman + approval;
     } else {
       totalNotif = pengumuman;

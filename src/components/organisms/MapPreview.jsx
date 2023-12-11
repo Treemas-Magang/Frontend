@@ -147,7 +147,7 @@ const MapPreview = ({navigation}) => {
       //jarak user ke kantor 100 = 100 meter
       const jarakMaxMasuk = parseInt(dataProject.jrkMax);
       console.log('jarak max masuk : ', jarakMaxMasuk);
-      if (isWFH === '0' || isAbsen === 'false') {
+      if (isWFH !== '1' || isAbsen === 'false') {
         if (jarakBulat > jarakMaxMasuk) {
           Alert.alert(
             'Peringatan',

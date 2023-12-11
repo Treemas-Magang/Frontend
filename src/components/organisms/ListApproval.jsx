@@ -139,8 +139,8 @@ const ListApproval = ({navigation}) => {
           // Handle the default case if necessary
           break;
       }
-
-      // console.log('data app: ', dataAPI);
+      
+      console.log('data app: ', dataApp);
       setIsLoading(false);
     } catch (error) {
       console.log('Error fetching data:', error.response);
