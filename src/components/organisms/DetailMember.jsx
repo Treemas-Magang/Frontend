@@ -36,7 +36,7 @@ const DetailMember = ({navigation, stylePP}) => {
   const [alamatMsk, setAlamatMsk] = useState('');
   const [alamatPlg, setAlamatPlg] = useState('');
 
-  const getDataBelumAbsen = async headers => {
+  const getDataDetailMember = async headers => {
     setIsLoading(true)
     try {
       const response = await axios.get(
@@ -61,7 +61,7 @@ const DetailMember = ({navigation, stylePP}) => {
         const headers = {
           Authorization: `Bearer ${token}`,
         };
-        getDataBelumAbsen(headers);
+        getDataDetailMember(headers);
       })
       .catch(error => console.log(error));
   }, []);
@@ -108,21 +108,27 @@ const DetailMember = ({navigation, stylePP}) => {
         setIsLoading(false);
         console.log(error);
       });
-
-      getAlamat(
-        absenTrackingData.gpsLatitudePlg,
-        absenTrackingData.gpsLongitudePlg,
-        API_KEY_MAP_ALAMAT,
-      )
-        .then(alamat_plg => {
-          console.log('lokasi plg : ',alamat_plg);
-          setAlamatPlg(alamat_plg);
-          setIsLoading(false);
-        })
-        .catch(error => {
-          console.log(error);
-          setIsLoading(false);
-        });
+      if (
+        absenTrackingData.gpsLatitudePlg !== null &&
+        absenTrackingData.gpsLongitudePlg !== null
+      ) {
+        getAlamat(
+          absenTrackingData.gpsLatitudePlg,
+          absenTrackingData.gpsLongitudePlg,
+          API_KEY_MAP_ALAMAT,
+        )
+          .then(alamat_plg => {
+            console.log('lokasi plg : ',alamat_plg);
+            setAlamatPlg(alamat_plg);
+            setIsLoading(false);
+          })
+          .catch(error => {
+            console.log('asu : ',error);
+            setIsLoading(false);
+          });
+      } else {
+        setAlamatPlg('belum absen pulang');
+      }
 
   }, [dataDetailMember]); // Tambahkan dependensi sesuai kebutuhan
 

@@ -34,39 +34,41 @@ const ListCekCuti = ({navigation}) => {
   const [tglSekarang, setTglSekarang] = useState(null); // Set initial loading state to true
 
   console.log('tanggal sekarang dari f : ', getTanggalSekarang().date);
+  console.log('ini cek cuti : ',cekCutis)
   useEffect(() => {
     setTglSekarang(getTanggalSekarang().date);
   }, []);
   console.log('tgl sekarang : ', tglSekarang);
-  const getDataCuti = async headers => {
+  const getDataCuti = async (headers, tgl) => {
+    console.log('asu aja : ', tgl);
     try {
-      let apiUrl = API_GABUNGAN + '/api/absen/cek-cuti-by?date=' + tglSekarang; // Change this to the appropriate API endpoint
+      let apiUrl = API_GABUNGAN + '/api/absen/cek-cuti-by?date=' + tgl; // Change this to the appropriate API endpoint
 
       const response = await axios.get(apiUrl, {
         headers,
       });
 
-      console.log(response.data);
+      console.log(response);
       const dataAPI = response.data.data;
+      console.log(dataAPI);
       setcekCutis(dataAPI);
       setIsLoading(false);
       console.log('data : ', dataAPI);
     } catch (error) {
-      console.log('Tidak dapat mengambil data ', error);
+      console.log('Tidak dapat mengambil data ', error.response);
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
     getDataFromSession('token')
       .then(token => {
         const headers = {
           Authorization: `Bearer ${token}`,
         };
-        getDataCuti(headers);
+        getDataCuti(headers, tglSekarang);
       })
       .catch(error => console.log(error));
-  }, []);
+  }, [tglSekarang]);
 
   const handleCalender = () => {
     setShowKalender(!showKalender);
