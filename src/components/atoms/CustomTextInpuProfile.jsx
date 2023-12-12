@@ -1,16 +1,8 @@
 /* eslint-disable prettier/prettier */
 
 import React, {useState} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, View, StyleSheet, TextInput} from 'react-native';
 import {Color} from '../../utils/color';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faEye, faEyeSlash} from '@fortawesome/free-regular-svg-icons';
 import {text} from '../../utils/text';
 
 /**
@@ -35,7 +27,6 @@ const CustomTextInputProfile = ({
 }) => {
   const [isInputActive, setInputActive] = useState(false);
   const [textInputValue, setTextInputValue] = useState(value);
-  const [hidePassword, setHidePassword] = useState(true);
 
   const handleTextInputFocus = () => {
     setInputActive(true);
@@ -64,11 +55,11 @@ const CustomTextInputProfile = ({
         onBlur={handleTextInputBlur}
         onChangeText={handleTextInputChange}
         value={textInputValue}
-        secureTextEntry={hidePassword}
         multiline={multiline} // Set multiline prop
         numberOfLines={numberOfLines} // Set numberOfLines prop
         {...rest}
       />
+
       <Text
         style={[
           styles.label,

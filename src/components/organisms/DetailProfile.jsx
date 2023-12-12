@@ -20,6 +20,8 @@ import {
 } from 'react-native-responsive-screen';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faPen} from '@fortawesome/free-solid-svg-icons';
 
 const DetailProfile = ({navigation, stylePP}) => {
   const dispatch = useDispatch();
@@ -49,12 +51,17 @@ const DetailProfile = ({navigation, stylePP}) => {
       <View style={styles.backgroundDetailProfile}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{alignItems: 'center'}}>
-            <View>
+            <TouchableOpacity>
               <Image
                 source={require('../../assets/vector/user.png')}
                 style={[styles.pp, stylePP]}
                 resizeMode="contain"
               />
+            </TouchableOpacity>
+            <View style={styles.wrapImagePP}>
+              <TouchableOpacity>
+                <FontAwesomeIcon icon={faPen} color={Color.blue} size={25} />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={{marginBottom: 20, marginTop: 10, alignItems: 'center'}}>
@@ -65,6 +72,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -74,6 +86,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 multiline
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImageAlamat}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -82,6 +99,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -98,6 +120,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -106,6 +133,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -114,6 +146,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -123,6 +160,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 multiline // Set to true for multiline input
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImageAlamat}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -131,6 +173,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -139,6 +186,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -147,6 +199,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -163,6 +220,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -171,6 +233,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -179,6 +246,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -187,6 +259,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -195,6 +272,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -204,6 +286,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 multiline
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImageAlamat}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -212,6 +299,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -220,6 +312,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -228,6 +325,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
@@ -236,6 +338,11 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.catatanApproval}
                 onTextChange={value => onChangeText(value, 'catatanApproval')}
               />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity>
+                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
           <View style={{alignItems: 'center', marginBottom: 40}}>
@@ -320,5 +427,25 @@ const styles = StyleSheet.create({
   },
   pp: {
     borderRadius: 200,
+  },
+  wrapImage: {
+    position: 'absolute',
+    zIndex: 99,
+    flexDirection: 'row',
+    right: 15,
+    marginTop: 15,
+  },
+  wrapImageAlamat: {
+    position: 'absolute',
+    zIndex: 99,
+    flexDirection: 'row',
+    right: 15,
+    marginTop: 35,
+  },
+  wrapImagePP: {
+    position: 'absolute',
+    zIndex: 99,
+    flexDirection: 'row',
+    right: 120,
   },
 });
