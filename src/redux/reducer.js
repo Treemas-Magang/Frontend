@@ -557,6 +557,48 @@ const DataUserReducer = (state = initialStateDataUser, action) => {
   return state;
 };
 
+const initialStateDetailProfile = {
+  form: {
+    nama: '',
+    tempatLahir: '',
+    tanggalLahir: '',
+    jenisKelamin: '',
+    agama: '',
+    kewarganegaraan: '',
+    kodePost: '',
+    alamatSekarang: '',
+    noHP: '',
+    email: '',
+    jenjangPendidikan: '',
+    tanggalBergabung: '',
+    statusKawin: '',
+    golonganDarah: '',
+    kontakDarurat: '',
+    noKontakDarurat: '',
+    statusDarurat: '',
+    alamatDarurat: '',
+    ktp: '',
+    npwp: '',
+    asuransi: '',
+    kk: '',
+  },
+};
+
+const DetailProfileReducer = (state = initialStateDetailProfile, action) => {
+  if (action.type === 'SET_FORM_DETAIL_PROFILE') {
+    return {
+      ...state,
+      form: {
+        ...state.form,
+        [action.inputType]: action.inputValue,
+      },
+    };
+  } else if (action.type === 'RESET_FORM_DETAIL_PROFILE') {
+    return initialStateDetailProfile;
+  }
+  return state;
+};
+
 const reducer = combineReducers({
   LoginReducer,
   SplashReducer,
@@ -582,6 +624,7 @@ const reducer = combineReducers({
   IsAbsenReducer,
   IsPulangReducer,
   // SudahMasukReducer,
+  DetailProfileReducer,
 });
 
 export default reducer;

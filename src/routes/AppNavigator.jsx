@@ -50,6 +50,7 @@ import {
   ScreenFormUpdateTimesheet,
   ScreenFormUpdateAbsensi,
   ScreenFormAbsensiOther,
+  ScreenDetailProfile,
 } from '../pages/index';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
@@ -260,6 +261,11 @@ const screens = [
   {
     name: 'formAbsensiOther',
     component: ScreenFormAbsensiOther,
+    gestureEnabled: true,
+  },
+  {
+    name: 'detailProfile',
+    component: ScreenDetailProfile,
     gestureEnabled: true,
   },
 ];
