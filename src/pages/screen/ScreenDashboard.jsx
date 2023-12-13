@@ -2,7 +2,7 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, Alert} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import BackgroundTimer from 'react-native-background-timer';
 import {Color} from '../../utils/color';
@@ -17,19 +17,22 @@ import {
 } from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import {cekToken} from '../../utils/cekToken';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {API_GABUNGAN} from '@env';
-import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
-import { setJumlahApproval, setJumlahPengumuman } from '../../redux';
+import {
+  countDataWithFalseStatus,
+  getToken,
+} from '../../utils/buatStatusPengumumanFalse';
+import {setJumlahApproval, setJumlahPengumuman} from '../../redux';
 const ScreenDashboard = ({navigation}) => {
   const dispatch = useDispatch();
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
   const {approval} = useSelector(state => state.JumlahApprovalReducer);
   const [jmlBlmBaca, setJmlBlmBaca] = useState(0);
-    const [isRole, setIsRole] = useState('');
-  console.log('isRole : ', isRole)
+  const [isRole, setIsRole] = useState('');
+  console.log('isRole : ', isRole);
   useEffect(() => {
     getDataFromSession('dataProfilUser')
       .then(data => {
@@ -46,7 +49,7 @@ const ScreenDashboard = ({navigation}) => {
 
   useEffect(() => {
     let totalNotif;
-    if (isRole !== 'EMPL'){
+    if (isRole !== 'EMPL') {
       totalNotif = pengumuman + approval;
     } else {
       totalNotif = pengumuman;
@@ -80,10 +83,18 @@ const ScreenDashboard = ({navigation}) => {
       }
     } catch (error) {
       console.error(error);
+      Alert.alert('Peringatan', `Token anda telah expired`, [
+        {
+          text: 'Kembali ke Login',
+          onPress: () => {
+            navigation.replace('login');
+          },
+        },
+      ]);
     }
   };
 
-  const getJmlNotifApproval = async (headers) => {
+  const getJmlNotifApproval = async headers => {
     try {
       const response = await axios.get(
         API_GABUNGAN + '/api/notif/get-data-count',
@@ -94,11 +105,10 @@ const ScreenDashboard = ({navigation}) => {
       const dataAPI = response.data.dataCount;
       console.log('Ini data API Jml notif APP:', dataAPI);
       dispatch(setJumlahApproval('approval', +dataAPI));
-
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     getDataFromSession('token')
@@ -107,7 +117,7 @@ const ScreenDashboard = ({navigation}) => {
           Authorization: `Bearer ${token}`,
         };
         getDataIsAbsen(headers);
-        getJmlNotifApproval(headers)
+        getJmlNotifApproval(headers);
       })
       .catch(error => console.log(error));
   }, []);
@@ -134,50 +144,47 @@ const ScreenDashboard = ({navigation}) => {
     /////////////////
   }, [dispatch]);
 
-
   // Start a timer that runs continuous after X milliseconds
 
-// useEffect(() => {
-//   const ambilLokasi = async () => {
-//     try {
-//       const locationData = await getLocation();
-//       if (locationData.latitude !== null && locationData.longitude !== null) {
-//         const dataLokasi = {
-//           latitude: locationData.latitude,
-//           longitude: locationData.longitude,
-//           accuracy: locationData.accuracy,
-//         };
-//         // Cek apakah token sudah ada dan valid
-//         setLokasiTerkini(dataLokasi)
-//         const token = await getDataFromSession('token');
-//         if (token !== null) {
-//           const headers = {
-//             Authorization: `Bearer ${token}`,
-//           };
-  
-//           try {
-//             console.log('data lokasi : ', dataLokasi);
-//             // console.log('data lokasi state : ', lokasiTerkini);
-//             // Kirim data lokasi dengan menggunakan token
-//             kirimLokasiTerkini(headers, dataLokasi)
-//             console.log('Lokasi terkini berhasil dikirim');
-//           } catch (error) {
-//             console.log('Gagal mengirim lokasi terkini', error);
-//           }
-//         } else {
-//           console.log('Token tidak valid atau tidak tersedia.');
-//         }
-//       } else {
-//         console.log('Lokasi tidak valid:', locationData);
-//       }
-//     } catch (error) {
-//       console.log('Kesalahan saat mengambil lokasi:', error);
-//     }
-//   };
-//   ambilLokasi();
-// }, [])
+  // useEffect(() => {
+  //   const ambilLokasi = async () => {
+  //     try {
+  //       const locationData = await getLocation();
+  //       if (locationData.latitude !== null && locationData.longitude !== null) {
+  //         const dataLokasi = {
+  //           latitude: locationData.latitude,
+  //           longitude: locationData.longitude,
+  //           accuracy: locationData.accuracy,
+  //         };
+  //         // Cek apakah token sudah ada dan valid
+  //         setLokasiTerkini(dataLokasi)
+  //         const token = await getDataFromSession('token');
+  //         if (token !== null) {
+  //           const headers = {
+  //             Authorization: `Bearer ${token}`,
+  //           };
 
-
+  //           try {
+  //             console.log('data lokasi : ', dataLokasi);
+  //             // console.log('data lokasi state : ', lokasiTerkini);
+  //             // Kirim data lokasi dengan menggunakan token
+  //             kirimLokasiTerkini(headers, dataLokasi)
+  //             console.log('Lokasi terkini berhasil dikirim');
+  //           } catch (error) {
+  //             console.log('Gagal mengirim lokasi terkini', error);
+  //           }
+  //         } else {
+  //           console.log('Token tidak valid atau tidak tersedia.');
+  //         }
+  //       } else {
+  //         console.log('Lokasi tidak valid:', locationData);
+  //       }
+  //     } catch (error) {
+  //       console.log('Kesalahan saat mengambil lokasi:', error);
+  //     }
+  //   };
+  //   ambilLokasi();
+  // }, [])
 
   // const intervalId = BackgroundTimer.setInterval( () => {
   //   ambilLokasi()
@@ -224,18 +231,17 @@ const ScreenDashboard = ({navigation}) => {
   //   }
   // };
 
+  // Ambil lokasi tanpa BackgroundTimer
 
-    // Ambil lokasi tanpa BackgroundTimer
+  // Atur interval untuk mengambil lokasi setiap X detik menggunakan BackgroundTimer
+  // const intervalId = BackgroundTimer.setInterval(async () => {
+  //   await kirimLokasiTerkini(headers);
+  // }, 20000); // Contoh: Ambil lokasi setiap 20 detik
 
-    // Atur interval untuk mengambil lokasi setiap X detik menggunakan BackgroundTimer
-    // const intervalId = BackgroundTimer.setInterval(async () => {
-    //   await kirimLokasiTerkini(headers);
-    // }, 20000); // Contoh: Ambil lokasi setiap 20 detik
-
-    // // Cleanup saat komponen di-unmount atau saat interval dihentikan
-    // return () => {
-    //   BackgroundTimer.clearInterval(intervalId);
-    // };
+  // // Cleanup saat komponen di-unmount atau saat interval dihentikan
+  // return () => {
+  //   BackgroundTimer.clearInterval(intervalId);
+  // };
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>

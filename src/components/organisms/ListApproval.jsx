@@ -171,6 +171,12 @@ const ListApproval = ({navigation}) => {
     ].includes(kategori);
     setOnDropdown(isCategoryIncluded);
   }, [kategori]);
+
+  const moveTo = (tujuan, id) => {
+    navigation.navigate(tujuan, {id: id, kategori:kategori});
+  };
+
+
   return (
     <View style={styles.listApproval}>
       <ButtonBack navigation={navigation} />
@@ -231,6 +237,7 @@ const ListApproval = ({navigation}) => {
               {dataApp.length > 0 ? (
                 dataApp.map((item, index) => (
                   <CardApproval
+                    onPress={() => moveTo('detailApproval', item.id)}
                     key={index}
                     nama={item.nama}
                     nik={item.nik}

@@ -12,7 +12,7 @@ import {
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import CardBelumAbsenPulang from '../molecules/CardBelumAbsenPulang';
 import {getDataFromSession} from '../../utils/getDataSession';
-import {API_URL, API_GABUNGAN} from '@env';
+import {API_GABUNGAN} from '@env';
 import axios from 'axios';
 import SkeletonCardAbsenBelumPulang from '../skeleton/SkeletonCardAbsenBelumPulang';
 import LottieView from 'lottie-react-native';
@@ -21,23 +21,29 @@ const ListBelumAbsenPulang = ({navigation}) => {
   const [AbsenBelumPulang, setAbsenBelumPulang] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
 
-  const getDataBelumAbsen = async headers => {
-    try {
-      const response = await axios.get(
-        API_GABUNGAN + '/api/absen/get-absen-belum-pulang',
-        {headers},
-      );
-      console.log(response.data.data);
-      const dataAPI = response.data.data;
-      // const dataKosong = [];
-      setAbsenBelumPulang(dataAPI);
-      setIsLoading(false);
-      console.log('data : ', dataAPI);
-    } catch (error) {
-      console.log('Tidak dapat mengambil data ', error);
-      setIsLoading(false);
-    }
-  };
+const getDataBelumAbsen = async headers => {
+  try {
+    const response = await axios.get(
+      API_GABUNGAN + '/api/absen/get-absen-belum-pulang',
+      { headers },
+    );
+    console.log(response.data.data);
+    const dataAPI = response.data.data;
+
+    // Get the current date in the format "YYYY-MM-DD"
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    // Filter out the data where "tglAbsen" is equal to the current date
+    const filteredData = dataAPI.filter(item => item.tglAbsen !== currentDate);
+
+    setAbsenBelumPulang(filteredData);
+    setIsLoading(false);
+    console.log('data : ', filteredData);
+  } catch (error) {
+    console.log('Tidak dapat mengambil data ', error);
+    setIsLoading(false);
+  }
+};
 
   useEffect(() => {
     getDataFromSession('token')
@@ -72,15 +78,15 @@ const ListBelumAbsenPulang = ({navigation}) => {
               <SkeletonCardAbsenBelumPulang />
             </View>
           ) : AbsenBelumPulang.length > 0 ? (
-            AbsenBelumPulang.map((AbsenBelumPulang, index) => (
+            AbsenBelumPulang.map((data, index) => (
               <View key={index} style={{flexDirection: 'column'}}>
                 <CardBelumAbsenPulang
                   navigation={navigation}
-                  jam_masuk={AbsenBelumPulang.jamMsk}
-                  project={AbsenBelumPulang.projectName}
-                  note_telat={AbsenBelumPulang.noteTelatMsk}
-                  lokasi={AbsenBelumPulang.lokasiProject}
-                  tanggal={AbsenBelumPulang.tglAbsen}
+                  jam_masuk={data.jamMsk}
+                  project={data.projectName}
+                  note_telat={data.noteTelatMsk}
+                  lokasi={data.lokasiProject}
+                  tanggal={data.tglAbsen}
                 />
               </View>
             ))
