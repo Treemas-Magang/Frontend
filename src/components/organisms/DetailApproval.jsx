@@ -31,6 +31,7 @@ import {API_GABUNGAN} from '@env';
 import axios from 'axios';
 import { useRoute } from '@react-navigation/native';
 import { getDataFromSession } from '../../utils/getDataSession';
+import DetailAbsen from './DetailAbsen';
 
 const DetailApproval = ({navigation, stylePP}) => {
   const {id, kategori} = useRoute().params;
@@ -38,18 +39,28 @@ const DetailApproval = ({navigation, stylePP}) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
   const [isLoading, setIsLoading] = useState(true);
+  const [detailApp, setDetailApp] = useState([]);
 
-    const getDataDetailMember = async (headers, type, id) => {
+    const getDataDetailMember = async (headers, type, idProject) => {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          API_GABUNGAN + `/api/notif/get-detail-approval?by=${type}&id=${id}`,
+          API_GABUNGAN + `/api/notif/get-detail-approval?by=${type}&id=${idProject}`,
           {headers},
         );
-        console.log(response.data.data);
-        const dataAPI = response.data.data;
+        // console.log(response.data.data);
+        let dataAPI;
+        switch (type) {
+          case 'sakit':
+            dataAPI = response.data.data.getSakitApproval;
+            break;
+        
+          default:
+            break;
+        }
+        console.log('ini data API : ',dataAPI)
         // const dataKosong = [];
-        // setDataDetailMember(dataAPI);
+        setDetailApp(dataAPI);
         setIsLoading(false);
         // console.log('data : ', dataAPI.absenEntity);
       } catch (error) {
@@ -72,7 +83,11 @@ const DetailApproval = ({navigation, stylePP}) => {
   const onChangeText = (value, inputType) => {
     dispatch(setFormApproval(inputType, value));
   };
-  const sendData = () => {
+  const sendData = async (isApprove) => {
+    // dispatch(setFormApproval('isApprove', isApprove));
+    // if (form.isApprove === '' && form.catatanApproval) {
+    //   console.log('heelo');
+    // }
     console.log('kirim data : ', form);
   };
 
@@ -90,105 +105,45 @@ const DetailApproval = ({navigation, stylePP}) => {
         <Text style={styles.Judul}>Detail</Text>
         <Text style={styles.Judul}>Approval</Text>
       </View>
-      {/* <View style={styles.backgroundDetailApproval}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{alignItems: 'center'}}>
-            <View>
-              <Image
-                source={require('../../assets/vector/user.png')}
-                style={[styles.pp, stylePP]}
-                resizeMode="contain"
-              />
-            </View>
-          </View>
-          <View
-            style={{
-              position: 'absolute',
-              flexDirection: 'row',
-              gap: 5,
-              right: 0,
-            }}>
-            <TouchableOpacity>
-              <FontAwesomeIcon icon={faImage} color={Color.green} size={40} />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Nik</Text>
-            <Text style={styles.TextDeskripsi}>2912312</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Nama</Text>
-            <Text style={styles.TextDeskripsi}>Azriel FachrulRezy</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Project</Text>
-            <Text style={styles.TextDeskripsi}>TREEMAS SOLUSI UTAMA</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Jam Masuk</Text>
-            <Text style={styles.TextDeskripsi}>09:00:00</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Lokasi Masuk</Text>
-            <Text style={{textAlign: 'justify', marginBottom: 5}}>
-              jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-              Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Catatan Telat Masuk</Text>
-            <Text style={styles.TextDeskripsi}>-</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Jam Pulang</Text>
-            <Text style={styles.TextDeskripsi}>Belum Absen Keluar</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Lokasi Pulang</Text>
-            <Text style={{textAlign: 'justify'}}>Belum Absen Keluar</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Catatan Pulang Cepat</Text>
-            <Text style={styles.TextDeskripsi}>Belum Absen Keluar</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Timesheet</Text>
-            <Text style={styles.TextDeskripsi}>Belum Absen Keluar</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Catatan Lupa Pulang</Text>
-            <Text style={styles.TextDeskripsi}>Belum Absen Keluar</Text>
-          </View>
-          <View style={{marginBottom: 20, marginTop: 10}}>
-            <CustomTextInput
-              label="Catatan Approve"
-              secureTextEntry={false}
-              value={form.catatanApproval}
-              onTextChange={value => onChangeText(value, 'catatanApproval')}
-            />
-          </View>
-          <View style={{alignItems: 'center', marginBottom: 40}}>
-            <TouchableOpacity
-              onPress={() => sendData()}
-              style={styles.ButtonApprove}>
-              <Text
-                style={{
-                  fontFamily: text.semiBold,
-                  fontSize: 16,
-                  color: Color.white,
-                }}>
-                APPROVE
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.ButtonReject}
-              onPress={() => sendData()}>
-              <Text style={styles.Text}>REJECT</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </View> */}
-      <DetailReimburseApp />
+      {kategori === 'sakit' ||
+      kategori === 'cuti' ||
+      kategori === 'cuti-web' ? (
+        isLoading ? (
+          <Text>loading</Text>
+        ) : (
+          <DetailSakitApp
+            kategoriCuti={kategori}
+            nik={detailApp.nik}
+            alamat={detailApp.alamatCuti}
+            jenisCuti={detailApp.jenisCuti}
+            jmlCuti={detailApp.jmlCuti}
+            jmlCutiBersama={detailApp.jmlCutiBersama}
+            jmlCutiKhusus={detailApp.jmlCutiKhusus}
+            keterangan={detailApp.keperluanCuti}
+            nama={detailApp.nama}
+            approve={() => sendData('1')}
+            reject={() => sendData('1')}
+            tglMasuk={detailApp.tglKembaliKerja}
+            tglMulai={detailApp.tglMulai}
+            tglSelesai={detailApp.tglSelesai}
+          />
+        )
+      ) : (
+        ''
+      )}
+      {/* 
+      {kategori === 'absen-pulang'
+        ? detailApp.map((item, index) => <DetailAbsenPulangApp />)
+        : ''}
+      {kategori === 'libur'
+        ? detailApp.map((item, index) => <DetailLiburApp />)
+        : ''}
+      {kategori === 'lembur'
+        ? detailApp.map((item, index) => <DetailLemburApp />)
+        : ''}
+      {kategori === 'reimburse' || kategori === 'absen-web'
+        ? detailApp.map((item, index) => <DetailReimburseApp />)
+        : ''} */}
     </View>
   );
 };

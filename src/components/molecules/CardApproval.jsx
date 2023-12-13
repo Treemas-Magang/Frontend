@@ -7,7 +7,7 @@ import {text} from '../../utils/text';
 const CardApproval = ({navigation, nik, nama, tgl, onPress}) => {
   // Fungsi untuk membatasi jumlah karakter tanggal menjadi 10 huruf
   const getLimitedDate = date => {
-    return date.substring(0, 10);
+    return date ?  date.substring(0, 10) : '';
   };
 
 

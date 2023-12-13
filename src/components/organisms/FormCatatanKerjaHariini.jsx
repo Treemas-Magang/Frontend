@@ -93,7 +93,23 @@ const FormCatatanKerjaHariini = ({navigation}) => {
   const sendData = async () => {
     checkMockLocation();
     console.log('kirim data : ', formPulang);
-    await uploadData(formPulang);
+          if (pulangCepat) {
+            console.log('alasan telat masuk tidak boleh kosong');
+            setIsLoading(false);
+            if (formPulang.notePlgCepat !== '' && formPulang.notePekerjaan !== '') {
+              await uploadData(formPulang);
+            } else {
+              console.log('tidak ada yang boleh form yang kosong');
+            }
+          } 
+          else if (
+            formPulang.notePlgCepat !== '' &&
+            formPulang.notePekerjaan !== ''
+          ) {
+             await uploadData(formPulang);
+          } else {
+           console.log('tidak ada yang boleh form yang kosong');
+          }
   };
 
   return (

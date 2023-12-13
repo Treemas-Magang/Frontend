@@ -53,9 +53,9 @@ const ListApproval = ({navigation}) => {
     try {
       const apiUrl = `${API_GABUNGAN}/api/notif/get-approval?by=${type}&projectId=${id}`;
       const response = await axios.get(apiUrl, {headers});
+      console.log('ayam : ',response.data.data);
 
       let dataAPI;
-
       switch (type) {
         case 'sakit':
           // Custom logic for 'sakit'
@@ -241,7 +241,7 @@ const ListApproval = ({navigation}) => {
                     key={index}
                     nama={item.nama}
                     nik={item.nik}
-                    tgl={item.dtmCrt}
+                    tgl={item.dtmCrt || item.dtmUpd || item.dtmcrt}
                     navigation={navigation}
                   />
                 ))

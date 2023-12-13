@@ -213,16 +213,24 @@ const FormClaim = ({navigation}) => {
     }
   };
   const sendData = async () => {
-    console.log('kirim data : ', form_claim);
-    // kirimDataDanFotoKeAPI();
-    try {
-      setBtnLoading(true); // Set btnLoading to true when starting the data submission
+    if (
+      form_claim.keterangan !== '' &&
+      form_claim.nominal !== 0 &&
+      form_claim.selectedTipeClaim !== ''
+    ) {
+      // kirimDataDanFotoKeAPI();
+      try {
+        setBtnLoading(true); // Set btnLoading to true when starting the data submission
 
-      // Melakukan pengiriman data ke API
-      await kirimDataKeAPI();
-    } finally {
-      setBtnLoading(false); // Set btnLoading back to false when the process is completed (regardless of success or failure)
+        // Melakukan pengiriman data ke API
+        await kirimDataKeAPI();
+      } finally {
+        setBtnLoading(false); // Set btnLoading back to false when the process is completed (regardless of success or failure)
+      }
+    } else {
+      console.warn('tidak boleh ada yang kosong');
     }
+      console.log('kirim data : ', form_claim);
   };
 
   const close = async () => {

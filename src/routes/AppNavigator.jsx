@@ -277,7 +277,7 @@ const screens = [
   // },
 ];
 
-const routeName = 'detailProfile';
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {

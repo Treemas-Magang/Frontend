@@ -138,7 +138,21 @@ const FormCuti = ({
   }, []);
 
   const sendData = () => {
-    console.log('kirim data : ', form);
+    if (
+      form.alamatCuti !== '' &&
+      form.jmlCuti !== null &&
+      form.jmlCutiBersama !== null &&
+      form.jmlCutiKhusus !== null &&
+      form.keperluanCuti !== '' &&
+      form.selectedMasterCutiId !== '' &&
+      form.tglKembaliKerja !== '' &&
+      form.tglMulai !== '' &&
+      form.tglSelesai !== ''
+    ) {
+      console.log('kirim data : ', form);
+    } else {
+      console.warn('tidak boleh ada data yang kosong')
+    }
   };
   const handleClickOutside = () => {
     setShowKalender(false);
