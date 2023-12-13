@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
@@ -9,9 +9,10 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {text} from '../../utils/text';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
+import DetailProfile from '../organisms/DetailProfile';
 
-const DataPribadi = ({stylePP, styleDataPribadi}) => {
+const DataPribadi = ({stylePP, styleDataPribadi, navigation}) => {
   const [dataProfile, setDataProfile] = useState([]);
   let base64ImageData = '';
   if (dataProfile.karyawanImg !== null) {
@@ -23,20 +24,24 @@ const DataPribadi = ({stylePP, styleDataPribadi}) => {
   useEffect(() => {
     try {
       getDataFromSession('dataProfilUser')
-      .then(data => {
-        const dataProfileStorage = JSON.parse(data);
-        console.log('data profil : ', dataProfileStorage);
-        setDataProfile(dataProfileStorage);
-      })
-      .catch(error => console.log(error));
+        .then(data => {
+          const dataProfileStorage = JSON.parse(data);
+          console.log('data profil : ', dataProfileStorage);
+          setDataProfile(dataProfileStorage);
+        })
+        .catch(error => console.log(error));
     } catch (error) {
       console.log(error);
     }
   }, []);
   // console.log('ayam : ',dataProfile);
+  const moveTo = () => {
+    navigation.navigate('detailProfile');
+  };
 
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => moveTo()}
       style={[
         {
           flexDirection: 'row',
@@ -46,12 +51,8 @@ const DataPribadi = ({stylePP, styleDataPribadi}) => {
         styleDataPribadi,
       ]}>
       <View>
-        <Text style={[styles.textNama]}>
-          {dataProfile.full_name}
-        </Text>
-        <Text style={[styles.textNik]}>
-          {dataProfile.nik}
-        </Text>
+        <Text style={[styles.textNama]}>{dataProfile.full_name}</Text>
+        <Text style={[styles.textNik]}>{dataProfile.nik}</Text>
       </View>
       <View>
         {base64ImageData !== '' ? (
@@ -68,7 +69,7 @@ const DataPribadi = ({stylePP, styleDataPribadi}) => {
           />
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

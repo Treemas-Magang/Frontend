@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
@@ -26,13 +26,157 @@ import {faPen} from '@fortawesome/free-solid-svg-icons';
 const DetailProfile = ({navigation, stylePP}) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.DetailProfileReducer);
+  const [initialForm, setInitialForm] = useState({});
+  const [prevEditableFields, setPrevEditableFields] = useState({});
+  const [editableFields, setEditableFields] = React.useState({
+    nik: false,
+    nama: false,
+    tempatLahir: false,
+    tanggalLahir: false,
+    jenisKelamin: false,
+    agama: false,
+    kewarganegaraan: false,
+    kodePost: false,
+    alamatSekarang: false,
+    noHP: false,
+    email: false,
+    jenjangPendidikan: false,
+    tanggalBergabung: false,
+    statusKawin: false,
+    golonganDarah: false,
+    kontakDarurat: false,
+    noKontakDarurat: false,
+    statusDarurat: false,
+    alamatDarurat: false,
+    ktp: false,
+    npwp: false,
+    asuransi: false,
+    kk: false,
+  });
+  const [showEditButtons, setShowEditButtons] = React.useState(false);
 
   const onChangeText = (value, inputType) => {
     dispatch(setFormDetailProfile(inputType, value));
   };
 
+  const toggleEditMode = field => {
+    if (!showEditButtons) {
+      setEditableFields(prevFields => ({
+        ...prevFields,
+        [field]: !prevFields[field],
+      }));
+      setInitialForm({...form}); // Simpan nilai awal formulir
+      setShowEditButtons(true); // Tampilkan tombol edit ketika ikon pena diklik
+    } else {
+      if (field === 'batal') {
+        // Kembalikan state editableFields ke nilai sebelumnya
+        setEditableFields({...prevEditableFields});
+        setShowEditButtons(false); // Sembunyikan tombol edit setelah klik "BATAL"
+      } else {
+        setEditableFields({
+          nik: false,
+          nama: false,
+          tempatLahir: false,
+          tanggalLahir: false,
+          jenisKelamin: false,
+          agama: false,
+          kewarganegaraan: false,
+          kodePost: false,
+          alamatSekarang: false,
+          noHP: false,
+          email: false,
+          jenjangPendidikan: false,
+          tanggalBergabung: false,
+          statusKawin: false,
+          golonganDarah: false,
+          kontakDarurat: false,
+          noKontakDarurat: false,
+          statusDarurat: false,
+          alamatDarurat: false,
+          ktp: false,
+          npwp: false,
+          asuransi: false,
+          kk: false,
+        });
+        setShowEditButtons(false); // Sembunyikan tombol edit setelah berhasil diedit
+      }
+    }
+  };
+
+  useEffect(() => {
+    // Simpan state editableFields sebelumnya
+    setPrevEditableFields({...editableFields});
+  }, [editableFields]);
+
+  const resetForm = () => {
+    setEditableFields({
+      nik: false,
+      nama: false,
+      tempatLahir: false,
+      tanggalLahir: false,
+      jenisKelamin: false,
+      agama: false,
+      kewarganegaraan: false,
+      kodePost: false,
+      alamatSekarang: false,
+      noHP: false,
+      email: false,
+      jenjangPendidikan: false,
+      tanggalBergabung: false,
+      statusKawin: false,
+      golonganDarah: false,
+      kontakDarurat: false,
+      noKontakDarurat: false,
+      statusDarurat: false,
+      alamatDarurat: false,
+      ktp: false,
+      npwp: false,
+      asuransi: false,
+      kk: false,
+    });
+    setShowEditButtons(false);
+
+    // Reset nilai formulir ke nilai awal hanya jika tombol "BATAL" diklik saat tombol edit sedang ditampilkan
+    if (showEditButtons) {
+      dispatch(setFormDetailProfile('nik', initialForm.nik));
+      dispatch(setFormDetailProfile('nama', initialForm.nama));
+      // Reset bidang lainnya sesuai kebutuhan
+    } else {
+      // Jika tombol "BATAL" diklik saat tombol edit tidak ditampilkan, maka reset formulir ke nilai sebelumnya
+      dispatch(setFormDetailProfile('nik', prevEditableFields.nik));
+      dispatch(setFormDetailProfile('nama', prevEditableFields.nama));
+      // Reset bidang lainnya sesuai kebutuhan
+    }
+  };
+
   const sendData = () => {
     console.log('kirim data : ', form);
+    setShowEditButtons(false); // Hide the edit buttons after sending data
+    setEditableFields({
+      nik: false,
+      nama: false,
+      tempatLahir: false,
+      tanggalLahir: false,
+      jenisKelamin: false,
+      agama: false,
+      kewarganegaraan: false,
+      kodePost: false,
+      alamatSekarang: false,
+      noHP: false,
+      email: false,
+      jenjangPendidikan: false,
+      tanggalBergabung: false,
+      statusKawin: false,
+      golonganDarah: false,
+      kontakDarurat: false,
+      noKontakDarurat: false,
+      statusDarurat: false,
+      alamatDarurat: false,
+      ktp: false,
+      npwp: false,
+      asuransi: false,
+      kk: false,
+    });
   };
 
   return (
@@ -58,36 +202,43 @@ const DetailProfile = ({navigation, stylePP}) => {
                 resizeMode="contain"
               />
             </TouchableOpacity>
-            <View style={styles.wrapImagePP}>
-              <TouchableOpacity>
-                <FontAwesomeIcon icon={faPen} color={Color.blue} size={25} />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={() => sendData()}>
+              <Text style={styles.TextEditProf}>Edit Foto</Text>
+            </TouchableOpacity>
           </View>
           <View style={{marginBottom: 20, marginTop: 10, alignItems: 'center'}}>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
+                label="NIK"
+                editable={editableFields.nik}
+                value={form.nik}
+                onTextChange={value => onChangeText(value, 'nik')}
+              />
+            </View>
+            <View style={{marginBottom: 10}}>
+              <CustomTextInputProfile
                 label="Nama"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.nama}
+                value={form.nama}
+                onTextChange={value => onChangeText(value, 'nama')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleEditMode('nama')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
             </View>
+
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Tempat Lahir"
-                secureTextEntry={false}
-                value={form.catatanApproval}
+                editable={editableFields.tempatLahir}
+                value={form.tempatLahir}
                 multiline
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                onTextChange={value => onChangeText(value, 'tempatLahir')}
               />
               <View style={styles.wrapImageAlamat}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleEditMode('tempatLahir')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -95,33 +246,35 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Tanggal Lahir"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.tanggalLahir}
+                value={form.tanggalLahir}
+                onTextChange={value => onChangeText(value, 'tanggalLahir')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('tanggalLahir')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
             </View>
+            {/*  */}
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Jenis Kelamin"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.jenisKelamin}
+                value={form.jenisKelamin}
+                onTextChange={value => onChangeText(value, 'jenisKelamin')}
               />
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Agama"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.agama}
+                value={form.agama}
+                onTextChange={value => onChangeText(value, 'agama')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleEditMode('agama')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -129,12 +282,13 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Kewarganegaraan"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.kewarganegaraan}
+                value={form.kewarganegaraan}
+                onTextChange={value => onChangeText(value, 'kewarganegaraan')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('kewarganegaraan')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -142,12 +296,12 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Kode Post"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.kodePost}
+                value={form.kodePost}
+                onTextChange={value => onChangeText(value, 'kodePost')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleEditMode('kodePost')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -155,13 +309,14 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Alamat Sekarang"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                multiline // Set to true for multiline input
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.alamatSekarang}
+                value={form.alamatSekarang}
+                multiline
+                onTextChange={value => onChangeText(value, 'alamatSekarang')}
               />
               <View style={styles.wrapImageAlamat}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('alamatSekarang')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -169,12 +324,12 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="No HP"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.noHP}
+                value={form.noHP}
+                onTextChange={value => onChangeText(value, 'noHP')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleEditMode('noHP')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -182,12 +337,12 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Email"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.email}
+                value={form.email}
+                onTextChange={value => onChangeText(value, 'email')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleEditMode('email')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -195,12 +350,13 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Jenjang Pendidikan"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.jenjangPendidikan}
+                value={form.jenjangPendidikan}
+                onTextChange={value => onChangeText(value, 'jenjangPendidikan')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('jenjangPendidikan')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -208,20 +364,20 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Tanggal Bergabung"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.tanggalBergabung}
+                value={form.tanggalBergabung}
+                onTextChange={value => onChangeText(value, 'tanggalBergabung')}
               />
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Status Kawin"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.statusKawin}
+                value={form.statusKawin}
+                onTextChange={value => onChangeText(value, 'statusKawin')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleEditMode('statusKawin')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -229,12 +385,13 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Golongan Darah"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.golonganDarah}
+                value={form.golonganDarah}
+                onTextChange={value => onChangeText(value, 'golonganDarah')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('golonganDarah')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -242,12 +399,13 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Kontak Darurat"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.kontakDarurat}
+                value={form.kontakDarurat}
+                onTextChange={value => onChangeText(value, 'kontakDarurat')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('kontakDarurat')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -255,12 +413,13 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="No Kontak Darurat"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.noKontakDarurat}
+                value={form.noKontakDarurat}
+                onTextChange={value => onChangeText(value, 'noKontakDarurat')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('noKontakDarurat')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -268,12 +427,13 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Status Darurat"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.statusDarurat}
+                value={form.statusDarurat}
+                onTextChange={value => onChangeText(value, 'statusDarurat')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('statusDarurat')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -281,13 +441,14 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Alamat Darurat"
-                secureTextEntry={false}
-                value={form.catatanApproval}
+                editable={editableFields.alamatDarurat}
+                value={form.alamatDarurat}
                 multiline
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                onTextChange={value => onChangeText(value, 'alamatDarurat')}
               />
               <View style={styles.wrapImageAlamat}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('alamatDarurat')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -295,12 +456,12 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="KTP"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.ktp}
+                value={form.ktp}
+                onTextChange={value => onChangeText(value, 'ktp')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleEditMode('ktp')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -308,12 +469,12 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="NPWP"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.npwp}
+                value={form.npwp}
+                onTextChange={value => onChangeText(value, 'npwp')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleEditMode('npwp')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -321,12 +482,12 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Asuransi"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.asuransi}
+                value={form.asuransi}
+                onTextChange={value => onChangeText(value, 'asuransi')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleEditMode('asuransi')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -334,36 +495,36 @@ const DetailProfile = ({navigation, stylePP}) => {
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="KK"
-                secureTextEntry={false}
-                value={form.catatanApproval}
-                onTextChange={value => onChangeText(value, 'catatanApproval')}
+                editable={editableFields.kk}
+                value={form.kk}
+                onTextChange={value => onChangeText(value, 'kk')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleEditMode('kk')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
             </View>
           </View>
-          <View style={{alignItems: 'center', marginBottom: 40}}>
-            <TouchableOpacity
-              onPress={() => sendData()}
-              style={styles.ButtonEdit}>
-              <Text
-                style={{
-                  fontFamily: text.semiBold,
-                  fontSize: 16,
-                  color: Color.white,
-                }}>
-                EDIT
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.ButtonBatal}
-              onPress={() => sendData()}>
-              <Text style={styles.Text}>BATAL</Text>
-            </TouchableOpacity>
-          </View>
+          {showEditButtons && (
+            <View style={{alignItems: 'center', marginBottom: 40}}>
+              <TouchableOpacity
+                onPress={() => sendData()}
+                style={styles.ButtonEdit}>
+                <Text
+                  style={{
+                    fontFamily: text.semiBold,
+                    fontSize: 16,
+                    color: Color.white,
+                  }}>
+                  EDIT
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.ButtonBatal} onPress={resetForm}>
+                <Text style={styles.Text}>BATAL</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </ScrollView>
       </View>
     </View>
@@ -424,6 +585,15 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     fontSize: 16,
     color: Color.red,
+    textTransform: 'uppercase',
+  },
+  TextEditProf: {
+    fontFamily: text.semiBold,
+    fontSize: 12,
+    color: Color.blue,
+    textTransform: 'uppercase',
+    textAlign: 'center',
+    marginTop: 10,
   },
   pp: {
     borderRadius: 200,
@@ -441,11 +611,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     right: 15,
     marginTop: 35,
-  },
-  wrapImagePP: {
-    position: 'absolute',
-    zIndex: 99,
-    flexDirection: 'row',
-    right: 120,
   },
 });

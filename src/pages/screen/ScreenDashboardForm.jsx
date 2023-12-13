@@ -27,6 +27,7 @@ const ScreenDashboardForm = ({navigation}) => {
         <DataPribadi
           styleDataPribadi={styles.lebarDataPribadi}
           stylePP={styles.ukuranPP}
+          navigation={navigation}
         />
       </View>
       <Image

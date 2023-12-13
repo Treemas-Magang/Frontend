@@ -74,7 +74,7 @@ const CustomTextInputProfile = ({
 
 const styles = StyleSheet.create({
   input: {
-    width: 350,
+    width: 323,
     height: 55,
     paddingHorizontal: 10,
     borderBottomColor: Color.green,
