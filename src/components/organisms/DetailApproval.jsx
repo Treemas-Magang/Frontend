@@ -22,6 +22,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
+import DetailSakitApp from '../molecules/DetailSakitApp';
+import DetailLiburApp from '../molecules/DetailLiburApp';
+import DetailLemburApp from '../molecules/DetailLemburApp';
+import DetailAbsenPulangApp from '../molecules/DetailAbsenPulangApp';
+import DetailReimburseApp from '../molecules/DetailReimburseApp';
 import {API_GABUNGAN} from '@env';
 import axios from 'axios';
 import { useRoute } from '@react-navigation/native';
@@ -85,7 +90,7 @@ const DetailApproval = ({navigation, stylePP}) => {
         <Text style={styles.Judul}>Detail</Text>
         <Text style={styles.Judul}>Approval</Text>
       </View>
-      <View style={styles.backgroundDetailApproval}>
+      {/* <View style={styles.backgroundDetailApproval}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{alignItems: 'center'}}>
             <View>
@@ -182,7 +187,8 @@ const DetailApproval = ({navigation, stylePP}) => {
             </TouchableOpacity>
           </View>
         </ScrollView>
-      </View>
+      </View> */}
+      <DetailReimburseApp />
     </View>
   );
 };

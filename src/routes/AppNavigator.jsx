@@ -50,7 +50,10 @@ import {
   ScreenFormUpdateTimesheet,
   ScreenFormUpdateAbsensi,
   ScreenFormAbsensiOther,
+  ScreenDetailProfile,
 } from '../pages/index';
+import DetailSakitApp from '../components/molecules/DetailSakitApp';
+import DetailLiburApp from '../components/molecules/DetailLiburApp';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -262,9 +265,19 @@ const screens = [
     component: ScreenFormAbsensiOther,
     gestureEnabled: true,
   },
+  {
+    name: 'detailProfile',
+    component: ScreenDetailProfile,
+    gestureEnabled: true,
+  },
+  // {
+  //   name: 'coba',
+  //   component: DetailLiburApp,
+  //   gestureEnabled: true,
+  // },
 ];
 
-const routeName = 'splash';
+const routeName = 'detailProfile';
 const Stack = createNativeStackNavigator();
 
 function App() {

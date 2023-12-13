@@ -161,3 +161,17 @@ export const setDataUser = (inputType, value) => {
     inputValue: value,
   };
 };
+
+export const setFormDetailProfile = (inputType, inputValue) => {
+  return {
+    type: 'SET_FORM_DETAIL_PROFILE',
+    inputType,
+    inputValue,
+  };
+};
+
+export const resetFormDetailProfile = () => {
+  return {
+    type: 'RESET_FORM_DETAIL_PROFILE',
+  };
+};
