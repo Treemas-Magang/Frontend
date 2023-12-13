@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
@@ -27,10 +27,47 @@ import DetailLiburApp from '../molecules/DetailLiburApp';
 import DetailLemburApp from '../molecules/DetailLemburApp';
 import DetailAbsenPulangApp from '../molecules/DetailAbsenPulangApp';
 import DetailReimburseApp from '../molecules/DetailReimburseApp';
+import {API_GABUNGAN} from '@env';
+import axios from 'axios';
+import { useRoute } from '@react-navigation/native';
+import { getDataFromSession } from '../../utils/getDataSession';
 
 const DetailApproval = ({navigation, stylePP}) => {
+  const {id, kategori} = useRoute().params;
+  console.log(id  + ' dan ' + kategori);
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
+  const [isLoading, setIsLoading] = useState(true);
+
+    const getDataDetailMember = async (headers, type, id) => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(
+          API_GABUNGAN + `/api/notif/get-detail-approval?by=${type}&id=${id}`,
+          {headers},
+        );
+        console.log(response.data.data);
+        const dataAPI = response.data.data;
+        // const dataKosong = [];
+        // setDataDetailMember(dataAPI);
+        setIsLoading(false);
+        // console.log('data : ', dataAPI.absenEntity);
+      } catch (error) {
+        console.log('Tidak dapat mengambil data ', error.response);
+        setIsLoading(false);
+      }
+    };
+
+    useEffect(() => {
+      getDataFromSession('token')
+        .then(token => {
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          getDataDetailMember(headers, kategori, id);
+        })
+        .catch(error => console.log(error));
+    }, [id, kategori]);
 
   const onChangeText = (value, inputType) => {
     dispatch(setFormApproval(inputType, value));
@@ -38,6 +75,7 @@ const DetailApproval = ({navigation, stylePP}) => {
   const sendData = () => {
     console.log('kirim data : ', form);
   };
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />

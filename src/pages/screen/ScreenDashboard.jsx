@@ -2,7 +2,7 @@
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
 
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, Alert} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import BackgroundTimer from 'react-native-background-timer';
 import {Color} from '../../utils/color';
@@ -83,6 +83,14 @@ const ScreenDashboard = ({navigation}) => {
       }
     } catch (error) {
       console.error(error);
+      Alert.alert('Peringatan', `Token anda telah expired`, [
+        {
+          text: 'Kembali ke Login',
+          onPress: () => {
+            navigation.replace('login');
+          },
+        },
+      ]);
     }
   };
 
