@@ -201,14 +201,48 @@ const FormSakit = ({navigation}) => {
   // };
   const sendData = async () => {
     console.log('kirim data : ', form_sakit);
-    try {
-      setBtnLoading(true);
-      // Melakukan pengiriman data ke API
-      await kirimDataKeAPI();
-      // Reset formulir setelah berhasil mengirim data
-      dispatch(resetFormSakit());
-    } finally {
-      setBtnLoading(false);
+
+    if (adaSuratDokter) {
+      console.log('alasan telat masuk tidak boleh kosong');
+      setIsLoading(false);
+      if (
+        form_sakit.image !== '' &&
+        form_sakit.jmlCuti !== '' &&
+        form_sakit.keperluanCuti !== '' &&
+        form_sakit.tglKembaliKerja !== '' &&
+        form_sakit.tglMulai !== '' &&
+        form_sakit.tglSelesai !== ''
+      ) {
+        try {
+          setBtnLoading(true);
+          // Melakukan pengiriman data ke API
+          // await kirimDataKeAPI();
+          // Reset formulir setelah berhasil mengirim data
+          dispatch(resetFormSakit());
+        } finally {
+          setBtnLoading(false);
+        }
+      } else {
+        console.warn('tidak ada yang boleh form yang kosong');
+      }
+    } else if (
+      form_sakit.jmlCuti !== '' &&
+      form_sakit.keperluanCuti !== '' &&
+      form_sakit.tglKembaliKerja !== '' &&
+      form_sakit.tglMulai !== '' &&
+      form_sakit.tglSelesai !== ''
+    ) {
+      try {
+        setBtnLoading(true);
+        // Melakukan pengiriman data ke API
+        // await kirimDataKeAPI();
+        // Reset formulir setelah berhasil mengirim data
+        dispatch(resetFormSakit());
+      } finally {
+        setBtnLoading(false);
+      }
+    } else {
+      console.warn('tidak ada yang boleh form yang kosong');
     }
   };
 

@@ -23,6 +23,11 @@ const CardUpdateTimesheet = () => {
   };
 
   const sendData = () => {
+    if (form.keterangan !== '') {
+      // await uploadData(formPulang);
+    } else {
+      console.warn('tidak ada yang boleh form yang kosong');
+    }
     console.log('kirim data : ', form);
   };
 

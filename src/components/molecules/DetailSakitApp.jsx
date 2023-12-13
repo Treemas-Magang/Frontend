@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   ScrollView,
   StyleSheet,
@@ -16,15 +17,27 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
 
-const DetailSakitApp = () => {
+const DetailSakitApp = ({
+  kategoriCuti,
+  nik,
+  nama,
+  tglMulai,
+  tglSelesai,
+  tglMasuk,
+  keterangan,
+  alamat,
+  jmlCuti,
+  jmlCutiBersama,
+  jmlCutiKhusus,
+  jenisCuti,
+  approve,
+  reject,
+}) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
 
   const onChangeText = (value, inputType) => {
     dispatch(setFormApproval(inputType, value));
-  };
-  const sendData = () => {
-    console.log('kirim data : ', form);
   };
   return (
     <View style={styles.background}>
@@ -40,51 +53,58 @@ const DetailSakitApp = () => {
         </View> */}
         <View>
           <Text style={styles.TextTitle}>NIK</Text>
-          <Text style={styles.TextDeskripsi}>2912312</Text>
+          <Text style={styles.TextDeskripsi}>{nik}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Nama</Text>
-          <Text style={styles.TextDeskripsi}>Azriel FachrulRezy</Text>
+          <Text style={styles.TextDeskripsi}>{nama}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Tanggal Mulai</Text>
-          <Text style={styles.TextDeskripsi}>05-06-2023</Text>
+          <Text style={styles.TextDeskripsi}>{tglMulai}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Tanggal Selesai</Text>
-          <Text style={styles.TextDeskripsi}>08-06-2023</Text>
+          <Text style={styles.TextDeskripsi}>{tglSelesai}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Tanggal Mulai Kerja</Text>
-          <Text style={styles.TextDeskripsi}>10-06-2023</Text>
+          <Text style={styles.TextDeskripsi}>{tglMasuk}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Keterangan Cuti/Sakit</Text>
-          <Text style={styles.TextDeskripsi}>Diare</Text>
+          <Text style={styles.TextDeskripsi}>{keterangan}</Text>
         </View>
-        <View>
-          <Text style={styles.TextTitle}>Alamat Cuti</Text>
-          <Text style={{textAlign: 'justify'}}>
-            jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-            Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
-          </Text>
-        </View>
+        {kategoriCuti === 'sakit' ? (
+          ''
+        ) : (
+          <View>
+            <Text style={styles.TextTitle}>Alamat Cuti</Text>
+            <Text style={{textAlign: 'justify'}}>{alamat}</Text>
+          </View>
+        )}
         <View>
           <Text style={styles.TextTitle}>Jumlah Cuti</Text>
-          <Text style={styles.TextDeskripsi}>1</Text>
+          <Text style={styles.TextDeskripsi}>{jmlCuti}</Text>
         </View>
+        {kategoriCuti === 'sakit' ? (
+          ''
+        ) : (
+          <>
         <View>
           <Text style={styles.TextTitle}>Jumlah Cuti Bersama</Text>
-          <Text style={styles.TextDeskripsi}>0</Text>
+          <Text style={styles.TextDeskripsi}>{jmlCutiBersama}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Jumlah Cuti Khusus</Text>
-          <Text style={styles.TextDeskripsi}>0</Text>
+          <Text style={styles.TextDeskripsi}>{jmlCutiKhusus}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Jenis Cuti</Text>
-          <Text style={styles.TextDeskripsi}>Cuti Tahunan</Text>
+          <Text style={styles.TextDeskripsi}>{jenisCuti}</Text>
         </View>
+          </>
+        )}
         <View style={{marginBottom: 20, marginTop: 10}}>
           <CustomTextInputProfile
             label="Catatan Approve"
@@ -94,9 +114,7 @@ const DetailSakitApp = () => {
           />
         </View>
         <View style={{alignItems: 'center', marginBottom: 40}}>
-          <TouchableOpacity
-            onPress={() => sendData()}
-            style={styles.ButtonApprove}>
+          <TouchableOpacity onPress={approve} style={styles.ButtonApprove}>
             <Text
               style={{
                 fontFamily: text.semiBold,
@@ -106,9 +124,7 @@ const DetailSakitApp = () => {
               APPROVE
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.ButtonReject}
-            onPress={() => sendData()}>
+          <TouchableOpacity style={styles.ButtonReject} onPress={reject}>
             <Text style={styles.Text}>REJECT</Text>
           </TouchableOpacity>
         </View>
