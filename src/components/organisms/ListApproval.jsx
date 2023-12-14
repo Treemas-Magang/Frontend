@@ -53,14 +53,14 @@ const ListApproval = ({navigation}) => {
     try {
       const apiUrl = `${API_GABUNGAN}/api/notif/get-approval?by=${type}&projectId=${id}`;
       const response = await axios.get(apiUrl, {headers});
-      console.log('ayam : ',response.data.data);
+      console.log('ayam : ',response.data);
 
       let dataAPI;
       switch (type) {
         case 'sakit':
           // Custom logic for 'sakit'
           dataAPI = response.data.data.sakitApproval;
-          const cutiDataSakit = dataAPI.filter(item => item.flgKet === 'sakit');
+          const cutiDataSakit = await dataAPI.filter(item => item.flgKet === 'sakit');
           setDataApp(cutiDataSakit);
           break;
 
@@ -96,7 +96,7 @@ const ListApproval = ({navigation}) => {
           // Custom logic for 'cuti'
           dataAPI = response.data.data.cutiApproval;
           // Additional logic specific to 'cuti'
-          const cutiDataCuti = dataAPI.filter(item => item.flgKet === 'cuti');
+          const cutiDataCuti = await dataAPI.filter(item => item.flgKet === 'cuti');
           setDataApp(cutiDataCuti);
           break;
 
@@ -123,7 +123,7 @@ const ListApproval = ({navigation}) => {
 
         case 'libur':
           // Custom logic for 'libur'
-          dataAPI = response.data.data;
+          dataAPI = response.data.data.getLiburApproval;
           // Additional logic specific to 'libur'
           setDataApp(dataAPI);
           break;
@@ -237,11 +237,11 @@ const ListApproval = ({navigation}) => {
               {dataApp.length > 0 ? (
                 dataApp.map((item, index) => (
                   <CardApproval
-                    onPress={() => moveTo('detailApproval', item.id)}
+                    onPress={() => moveTo('detailApproval', item.id, kategori)}
                     key={index}
                     nama={item.nama}
                     nik={item.nik}
-                    tgl={item.dtmCrt || item.dtmUpd || item.dtmcrt}
+                    tgl={item.dtmCrt || item.dtmUpd}
                     navigation={navigation}
                   />
                 ))
