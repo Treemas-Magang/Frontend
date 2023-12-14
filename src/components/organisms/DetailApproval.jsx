@@ -32,6 +32,7 @@ import axios from 'axios';
 import {useRoute} from '@react-navigation/native';
 import {getDataFromSession} from '../../utils/getDataSession';
 import DetailAbsen from './DetailAbsen';
+import SkeletonDetailApproval from '../skeleton/SkeletonDetailApproval';
 
 const DetailApproval = ({navigation, stylePP}) => {
   const {id, kategori} = useRoute().params;
@@ -115,7 +116,7 @@ const DetailApproval = ({navigation, stylePP}) => {
       kategori === 'cuti' ||
       kategori === 'cuti-web' ? (
         isLoading ? (
-          <Text>loading</Text>
+          <SkeletonDetailApproval />
         ) : (
           <DetailSakitApp
             kategoriCuti={kategori}
@@ -139,7 +140,7 @@ const DetailApproval = ({navigation, stylePP}) => {
       )}
       {kategori === 'absen-pulang' ? (
         isLoading ? (
-          <Text>loading</Text>
+          <SkeletonDetailApproval />
         ) : (
           <DetailAbsenPulangApp
             kategoriCuti={kategori}

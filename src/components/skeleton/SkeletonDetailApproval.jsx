@@ -39,68 +39,54 @@ const SkeletonDetailApproval = ({navigation}) => {
   };
 
   return (
-    <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
-      <ButtonBack navigation={navigation} />
-      <ButtonHome navigation={navigation} />
-      <VectorAtasKecil />
-      <View
-        style={{
-          width: wp('100%'),
-          height: hp('20%'),
-          justifyContent: 'center',
-        }}>
-        <Text style={styles.Judul}>Detail</Text>
-        <Text style={styles.Judul}>Approval</Text>
+    <View style={styles.backgroundDetailApproval}>
+      <View style={{alignItems: 'center'}}>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <View
+            style={{
+              width: 100,
+              height: 100,
+              borderRadius: 100,
+              backgroundColor: Color.skeleton,
+            }}></View>
+        </Animated.View>
       </View>
-      <View style={styles.backgroundDetailApproval}>
-        <View style={{alignItems: 'center'}}>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <View
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 100,
-                backgroundColor: Color.skeleton,
-              }}></View>
-          </Animated.View>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Nik</Text>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <Text style={styles.TextDeskripsi}></Text>
-          </Animated.View>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Nama</Text>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <Text style={styles.TextDeskripsi}></Text>
-          </Animated.View>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Project</Text>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <Text style={styles.TextDeskripsi}></Text>
-          </Animated.View>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Jam Masuk</Text>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <Text style={styles.TextDeskripsi}></Text>
-          </Animated.View>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Lokasi Masuk</Text>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <Text
-              style={{
-                textAlign: 'justify',
-                width: 300,
-                height: 90,
-                backgroundColor: Color.skeleton,
-                borderRadius: 5,
-              }}></Text>
-          </Animated.View>
-        </View>
+      <View>
+        <Text style={styles.TextTitle}>Nik</Text>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextDeskripsi}></Text>
+        </Animated.View>
+      </View>
+      <View>
+        <Text style={styles.TextTitle}>Nama</Text>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextDeskripsi}></Text>
+        </Animated.View>
+      </View>
+      <View>
+        <Text style={styles.TextTitle}>Project</Text>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextDeskripsi}></Text>
+        </Animated.View>
+      </View>
+      <View>
+        <Text style={styles.TextTitle}>Jam Masuk</Text>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextDeskripsi}></Text>
+        </Animated.View>
+      </View>
+      <View>
+        <Text style={styles.TextTitle}>Lokasi Masuk</Text>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text
+            style={{
+              textAlign: 'justify',
+              width: 300,
+              height: 90,
+              backgroundColor: Color.skeleton,
+              borderRadius: 5,
+            }}></Text>
+        </Animated.View>
       </View>
     </View>
   );
