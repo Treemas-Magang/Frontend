@@ -7,16 +7,16 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { Color } from '../../utils/color';
-import { text } from '../../utils/text';
+import React, {useEffect, useState} from 'react';
+import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faImage } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faImage} from '@fortawesome/free-solid-svg-icons';
 import ButtonHome from '../atoms/ButtonHome';
 import CustomTextInput from '../atoms/CustomTextInput';
-import { useDispatch, useSelector } from 'react-redux';
-import { setFormApproval } from '../../redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {setFormApproval} from '../../redux';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -27,17 +27,18 @@ import DetailLiburApp from '../molecules/DetailLiburApp';
 import DetailLemburApp from '../molecules/DetailLemburApp';
 import DetailAbsenPulangApp from '../molecules/DetailAbsenPulangApp';
 import DetailReimburseApp from '../molecules/DetailReimburseApp';
-import { API_GABUNGAN } from '@env';
+import {API_GABUNGAN} from '@env';
 import axios from 'axios';
-import { useRoute } from '@react-navigation/native';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {useRoute} from '@react-navigation/native';
+import {getDataFromSession} from '../../utils/getDataSession';
 import DetailAbsen from './DetailAbsen';
+import SkeletonDetailApproval from '../skeleton/SkeletonDetailApproval';
 
-const DetailApproval = ({ navigation, stylePP }) => {
-  const { id, kategori } = useRoute().params;
+const DetailApproval = ({navigation, stylePP}) => {
+  const {id, kategori} = useRoute().params;
   console.log(id + ' dan ' + kategori);
   const dispatch = useDispatch();
-  const { form } = useSelector(state => state.CatatanApprovalReducer);
+  const {form} = useSelector(state => state.CatatanApprovalReducer);
   const [isLoading, setIsLoading] = useState(true);
   const [detailApp, setDetailApp] = useState([]);
 
@@ -45,8 +46,9 @@ const DetailApproval = ({ navigation, stylePP }) => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        API_GABUNGAN + `/api/notif/get-detail-approval?by=${type}&id=${idProject}`,
-        { headers },
+        API_GABUNGAN +
+          `/api/notif/get-detail-approval?by=${type}&id=${idProject}`,
+        {headers},
       );
       let dataAPI;
       switch (type) {
@@ -57,7 +59,13 @@ const DetailApproval = ({ navigation, stylePP }) => {
           dataAPI = response.data.data.getCutiApproval;
           break;
         case 'absen-pulang':
-          dataAPI = response.data.data.getAbsenPulang;
+          dataAPI = response.data.data.getAbsenPulangApproval;
+          break;
+        case 'libur':
+          dataAPI = response.data.data.getLiburApproval;
+          break;
+        case 'lembur':
+          dataAPI = response.data.data.getLemburApproval;
           break;
 
         default:
@@ -88,7 +96,7 @@ const DetailApproval = ({ navigation, stylePP }) => {
   const onChangeText = (value, inputType) => {
     dispatch(setFormApproval(inputType, value));
   };
-  const sendData = async (isApprove) => {
+  const sendData = async isApprove => {
     // dispatch(setFormApproval('isApprove', isApprove));
     // if (form.isApprove === '' && form.catatanApproval) {
     //   console.log('heelo');
@@ -97,7 +105,7 @@ const DetailApproval = ({ navigation, stylePP }) => {
   };
 
   return (
-    <View style={{ backgroundColor: Color.green, flex: 1, position: 'relative' }}>
+    <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
       <VectorAtasKecil />
@@ -111,26 +119,105 @@ const DetailApproval = ({ navigation, stylePP }) => {
         <Text style={styles.Judul}>Approval</Text>
       </View>
       {kategori === 'sakit' ||
-        kategori === 'cuti' ||
-        kategori === 'cuti-web' ? (
+      kategori === 'cuti' ||
+      kategori === 'cuti-web' ? (
         isLoading ? (
-          <Text>loading</Text>
+          <SkeletonDetailApproval />
         ) : (
           <DetailSakitApp
             kategoriCuti={kategori}
-            nik={detailApp.nik}
-            alamat={detailApp.alamatCuti}
-            jenisCuti={detailApp.jenisCuti}
-            jmlCuti={detailApp.jmlCuti}
-            jmlCutiBersama={detailApp.jmlCutiBersama}
-            jmlCutiKhusus={detailApp.jmlCutiKhusus}
-            keterangan={detailApp.keperluanCuti}
-            nama={detailApp.nama}
+            nik={detailApp.nik || '-'}
+            alamat={detailApp.alamatCuti || '-'}
+            jenisCuti={detailApp.jenisCuti || '-'}
+            jmlCuti={detailApp.jmlCuti || '-'}
+            jmlCutiBersama={detailApp.jmlCutiBersama || '-'}
+            jmlCutiKhusus={detailApp.jmlCutiKhusus || '-'}
+            keterangan={detailApp.keperluanCuti || '-'}
+            nama={detailApp.nama || '-'}
             approve={() => sendData('1')}
             reject={() => sendData('1')}
-            tglMasuk={detailApp.tglKembaliKerja}
-            tglMulai={detailApp.tglMulai}
-            tglSelesai={detailApp.tglSelesai}
+            tglMasuk={detailApp.tglKembaliKerja || '-'}
+            tglMulai={detailApp.tglMulai || '-'}
+            tglSelesai={detailApp.tglSelesai || '-'}
+          />
+        )
+      ) : (
+        ''
+      )}
+      {kategori === 'absen-pulang' ? (
+        isLoading ? (
+          <SkeletonDetailApproval />
+        ) : (
+          <DetailAbsenPulangApp
+            kategoriCuti={kategori}
+            nik={detailApp.nik || '-'}
+            nama={detailApp.nama || '-'}
+            hari={detailApp.hari || '-'}
+            jamMasuk={detailApp.jamMsk || '-'}
+            jamPulang={detailApp.jamPlg || '-'}
+            lokasiMasuk={detailApp.lokasiMsk || '-'}
+            lokasiPulang={detailApp.lokasiPlg || '-'}
+            noteOther={detailApp.noteOther || '-'}
+            notePekerjaan={detailApp.notePekerjaan || '-'}
+            notePulangCepat={detailApp.notePlgCepat || '-'}
+            noteTelatMasuk={detailApp.noteTelatMsk || '-'}
+            tanggalAbsen={detailApp.tglAbsen || '-'}
+            totalJamKerja={detailApp.totalJamKerja || '-'}
+            approve={() => sendData('1')}
+            reject={() => sendData('1')}
+          />
+        )
+      ) : (
+        ''
+      )}
+      {kategori === 'libur' ? (
+        isLoading ? (
+          <SkeletonDetailApproval />
+        ) : (
+          <DetailLiburApp
+            kategoriCuti={kategori}
+            nik={detailApp.nik || '-'}
+            nama={detailApp.nama || '-'}
+            tanggalAbsen={detailApp.tglAbsen || '-'}
+            jamMasuk={detailApp.jamMsk || '-'}
+            lokasiMasuk={detailApp.lokasiMsk || '-'}
+            jamPulang={detailApp.jamPlg || '-'}
+            lokasiPulang={detailApp.lokasiPlg || '-'}
+            noteOther={detailApp.noteOther || '-'}
+            notePekerjaan={detailApp.notePekerjaan || '-'}
+            notePulangCepat={detailApp.notePlgCepat || '-'}
+            noteTelatMasuk={detailApp.noteTelatMsk || '-'}
+            totalJamKerja={detailApp.totalJamKerja || '-'}
+            namaProject={detailApp.projectId.namaProject || '-'}
+            approve={() => sendData('1')}
+            reject={() => sendData('1')}
+          />
+        )
+      ) : (
+        ''
+      )}
+      {kategori === 'lembur' ? (
+        isLoading ? (
+          <SkeletonDetailApproval />
+        ) : (
+          <DetailLemburApp
+            kategoriCuti={kategori}
+            nik={detailApp.nik || '-'}
+            nama={detailApp.nama || '-'}
+            hari={detailApp.hari || '-'}
+            jamMasuk={detailApp.jamMsk || '-'}
+            jamPulang={detailApp.jamPlg || '-'}
+            lokasiMasuk={detailApp.lokasiMsk || '-'}
+            lokasiPulang={detailApp.lokasiPlg || '-'}
+            noteOther={detailApp.noteOther || '-'}
+            notePekerjaan={detailApp.notePekerjaan || '-'}
+            notePulangCepat={detailApp.notePlgCepat || '-'}
+            noteTelatMasuk={detailApp.noteTelatMsk || '-'}
+            tanggalAbsen={detailApp.tglAbsen || '-'}
+            totalJamKerja={detailApp.totalJamKerja || '-'}
+            keterangan={detailApp.keterangan || '-'}
+            approve={() => sendData('1')}
+            reject={() => sendData('1')}
           />
         )
       ) : (

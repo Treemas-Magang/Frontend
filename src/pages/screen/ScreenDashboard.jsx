@@ -280,6 +280,7 @@ console.log("Lembur:", lembur);
         <DataPribadi
           styleDataPribadi={styles.lebarDataPribadi}
           stylePP={styles.ukuranPP}
+          navigation={navigation}
         />
       </View>
       <Image

@@ -26,6 +26,7 @@ const ScreenDashboardNotif = ({navigation}) => {
         <DataPribadi
           styleDataPribadi={styles.lebarDataPribadi}
           stylePP={styles.ukuranPP}
+          navigation={navigation}
         />
       </View>
       <Image
@@ -44,7 +45,7 @@ const ScreenDashboardNotif = ({navigation}) => {
         />
         <View style={styles.containerMenu}>
           {/* <ButtonBack navigation={navigation} /> */}
-          <ButtonBackBaru navigation={navigation} tujuan='dashboard' />
+          <ButtonBackBaru navigation={navigation} tujuan="dashboard" />
           <Text style={styles.judulSectionMenu}>menu notif</Text>
           <MenuPengumuman
             styleImage={styles.imgIcon}
