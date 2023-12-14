@@ -40,52 +40,76 @@ const SkeletonDetailApproval = ({navigation}) => {
 
   return (
     <View style={styles.backgroundDetailApproval}>
-      <View style={{alignItems: 'center'}}>
-        <Animated.View style={{opacity: getShimmerOpacity()}}>
-          <View
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 100,
-              backgroundColor: Color.skeleton,
-            }}></View>
-        </Animated.View>
-      </View>
       <View>
-        <Text style={styles.TextTitle}>Nik</Text>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextTitle}></Text>
+        </Animated.View>
         <Animated.View style={{opacity: getShimmerOpacity()}}>
           <Text style={styles.TextDeskripsi}></Text>
         </Animated.View>
       </View>
       <View>
-        <Text style={styles.TextTitle}>Nama</Text>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextTitle}></Text>
+        </Animated.View>
         <Animated.View style={{opacity: getShimmerOpacity()}}>
           <Text style={styles.TextDeskripsi}></Text>
         </Animated.View>
       </View>
       <View>
-        <Text style={styles.TextTitle}>Project</Text>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextTitle}></Text>
+        </Animated.View>
         <Animated.View style={{opacity: getShimmerOpacity()}}>
           <Text style={styles.TextDeskripsi}></Text>
         </Animated.View>
       </View>
       <View>
-        <Text style={styles.TextTitle}>Jam Masuk</Text>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextTitle}></Text>
+        </Animated.View>
         <Animated.View style={{opacity: getShimmerOpacity()}}>
           <Text style={styles.TextDeskripsi}></Text>
         </Animated.View>
       </View>
       <View>
-        <Text style={styles.TextTitle}>Lokasi Masuk</Text>
         <Animated.View style={{opacity: getShimmerOpacity()}}>
-          <Text
-            style={{
-              textAlign: 'justify',
-              width: 300,
-              height: 90,
-              backgroundColor: Color.skeleton,
-              borderRadius: 5,
-            }}></Text>
+          <Text style={styles.TextTitle}></Text>
+        </Animated.View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextDeskripsi}></Text>
+        </Animated.View>
+      </View>
+      <View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextTitle}></Text>
+        </Animated.View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextDeskripsi}></Text>
+        </Animated.View>
+      </View>
+      <View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextTitle}></Text>
+        </Animated.View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextDeskripsi}></Text>
+        </Animated.View>
+      </View>
+      <View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextTitle}></Text>
+        </Animated.View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextDeskripsi}></Text>
+        </Animated.View>
+      </View>
+      <View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextTitle}></Text>
+        </Animated.View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <Text style={styles.TextDeskripsi}></Text>
         </Animated.View>
       </View>
     </View>
@@ -113,16 +137,16 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   TextTitle: {
-    fontFamily: text.semiBoldItalic,
-    color: Color.black,
-    textTransform: 'uppercase',
-    marginVertical: 2,
+    backgroundColor: Color.skeleton,
+    borderRadius: 5,
+    width: 100,
+    marginVertical: 4,
   },
   TextDeskripsi: {
     backgroundColor: Color.skeleton,
     borderRadius: 5,
     width: 300,
-    marginVertical: 2,
+    marginVertical: 4,
   },
   Text: {
     fontFamily: text.semiBold,
