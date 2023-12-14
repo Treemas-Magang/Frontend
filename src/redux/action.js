@@ -175,3 +175,10 @@ export const resetFormDetailProfile = () => {
     type: 'RESET_FORM_DETAIL_PROFILE',
   };
 };
+export const setNotiveMasingMasingApproval = (inputType, value) => {
+  return {
+    type: 'SET_JML_NOTIF_MASING_MASING_APPROVAL',
+    inputType: inputType,
+    inputValue: value,
+  };
+};

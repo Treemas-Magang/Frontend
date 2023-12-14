@@ -18,14 +18,15 @@ const ButtonPilihKategori = ({onPress, lebel, warna, jmlNotif}) => {
       onPress={onPress}
       style={[styles.backgroundBtn, {backgroundColor: warna}]}>
       <Text style={styles.text}>{lebel}</Text>
-      {/* {jmlNotif >= 0 ? ( //belom di benerin buat get api
+      {
+        jmlNotif === null ? (
+          ''
+        ) : (
         <View style={styles.wrapNotif}>
           <Text style={styles.textNotif}>{jmlNotif}</Text>
         </View>
-      ) : null} */}
-      <View style={styles.wrapNotif}>
-        <Text style={styles.textNotif}>2</Text>
-      </View>
+        )
+      }
     </TouchableOpacity>
   );
 };

@@ -53,7 +53,7 @@ const ListApproval = ({navigation}) => {
     try {
       const apiUrl = `${API_GABUNGAN}/api/notif/get-approval?by=${type}&projectId=${id}`;
       const response = await axios.get(apiUrl, {headers});
-      console.log('ayam : ',response.data);
+      console.log('ayam : ', response.data.dataCounter);
 
       let dataAPI;
       switch (type) {
@@ -328,6 +328,7 @@ const styles = StyleSheet.create({
   wrapCardApproval: {
     alignItems: 'center',
     width: '100%',
+    paddingBottom: 20
   },
   wrapDataNotFound: {
     width: wp('90%'),

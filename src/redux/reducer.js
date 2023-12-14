@@ -305,7 +305,7 @@ const FormClaimReducer = (state = initialStateClaim, action) => {
 const initialStateDetailApproval = {
   form: {
     catatanApproval: '',
-    isApprove: ''
+    isApprove: '',
   },
 };
 const CatatanApprovalReducer = (state = initialStateDetailApproval, action) => {
@@ -558,6 +558,30 @@ const DataUserReducer = (state = initialStateDataUser, action) => {
   return state;
 };
 
+const initialStatejmlNotifMasingMasingApproval = {
+  sakit: null,
+  cuti: null,
+  absen_pulang: null,
+  absen_web: null,
+  reimburse: null,
+  cuti_web: null,
+  cancel_cuti: null,
+  libur: null,
+  lembur: null,
+};
+
+const jmlNotifMasingMasingApprovalReducer = (
+  state = initialStatejmlNotifMasingMasingApproval,
+  action,
+) => {
+  if (action.type === 'SET_JML_NOTIF_MASING_MASING_APPROVAL') {
+    return {
+      ...state,
+      [action.inputType]: action.inputValue,
+    };
+  }
+  return state;
+};
 const initialStateDetailProfile = {
   form: {
     nama: '',
@@ -626,6 +650,7 @@ const reducer = combineReducers({
   IsPulangReducer,
   // SudahMasukReducer,
   DetailProfileReducer,
+  jmlNotifMasingMasingApprovalReducer,
 });
 
 export default reducer;

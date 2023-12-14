@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
 /* eslint-disable react-native/no-inline-styles */
@@ -26,9 +27,32 @@ import {
   getToken,
 } from '../../utils/buatStatusPengumumanFalse';
 import {setJumlahApproval, setJumlahPengumuman} from '../../redux';
+import setDataJmlNotifMasingMasingApproval from '../../utils/simpanJmlSetiapTipeApp';
 const ScreenDashboard = ({navigation}) => {
   const dispatch = useDispatch();
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
+  const {
+    sakit,
+    cuti,
+    absen_pulang,
+    absen_web,
+    reimburse,
+    cuti_web,
+    cancel_cuti,
+    libur,
+    lembur,
+  } = useSelector(state => state.jmlNotifMasingMasingApprovalReducer);
+
+console.log("Sakit:", sakit);
+console.log("Cuti:", cuti);
+console.log('Absen Pulang:', absen_pulang);
+console.log('Absen Web:', absen_web);
+console.log("Reimburse:", reimburse);
+console.log('Cuti Web:', cuti_web);
+console.log('Cancel Cuti:', cancel_cuti);
+console.log("Libur:", libur);
+console.log("Lembur:", lembur);
+
   const {approval} = useSelector(state => state.JumlahApprovalReducer);
   const [jmlBlmBaca, setJmlBlmBaca] = useState(0);
   const [isRole, setIsRole] = useState('');
@@ -118,9 +142,10 @@ const ScreenDashboard = ({navigation}) => {
         };
         getDataIsAbsen(headers);
         getJmlNotifApproval(headers);
+        setDataJmlNotifMasingMasingApproval(dispatch, headers)
       })
       .catch(error => console.log(error));
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     // render notif //
     getToken().then(() => {

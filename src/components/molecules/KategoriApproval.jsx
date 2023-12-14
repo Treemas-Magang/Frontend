@@ -4,20 +4,31 @@ import {StyleSheet, View, ScrollView} from 'react-native';
 import React, {useState} from 'react';
 import ButtonPilihKategori from '../atoms/ButtonPilihKategori';
 import {Color} from '../../utils/color';
+import { useSelector } from 'react-redux';
 
 const KategoriApproval = ({keyKategori}) => {
+    const {
+      sakit,
+      cuti,
+      absen_pulang,
+      absen_web,
+      reimburse,
+      cuti_web,
+      cancel_cuti,
+      libur,
+      lembur,
+    } = useSelector(state => state.jmlNotifMasingMasingApprovalReducer);
   const [typeApproval, setTypeApproval] = useState('');
   const [kategoriList, setKategoriList] = useState([
-    {key: 'sakit', label: 'SAKIT', active: true},
-    {key: 'cuti', label: 'CUTI', active: false},
-    {key: 'absen-pulang', label: 'ABSEN PULANG', active: false},
-    {key: 'absen-web', label: 'ABSENSI WEB', active: false},
-    {key: 'reimburse', label: 'REIMBURSE', active: false},
-    {key: 'cuti-web', label: 'CUTI WEB', active: false},
-    {key: 'general-param', label: 'GENERAL PARAM', active: false},
-    {key: 'cancel-cuti', label: 'CANCEL CUTI', active: false},
-    {key: 'libur', label: 'LIBUR', active: false},
-    {key: 'lembur', label: 'LEMBUR', active: false},
+    {key: 'sakit', label: 'SAKIT', jmlNotif: sakit , active: true},
+    {key: 'cuti', label: 'CUTI', jmlNotif: cuti , active: false},
+    {key: 'absen-pulang', label: 'ABSEN PULANG', jmlNotif: absen_pulang , active: false},
+    {key: 'absen-web', label: 'ABSENSI WEB', jmlNotif: absen_web , active: false},
+    {key: 'reimburse', label: 'REIMBURSE', jmlNotif: reimburse , active: false},
+    {key: 'cuti-web', label: 'CUTI WEB', jmlNotif: cuti_web , active: false},
+    {key: 'cancel-cuti', label: 'CANCEL CUTI', jmlNotif: cancel_cuti , active: false},
+    {key: 'libur', label: 'LIBUR', jmlNotif: libur , active: false},
+    {key: 'lembur', label: 'LEMBUR', jmlNotif: lembur , active: false},
   ]);
 
   
@@ -45,6 +56,7 @@ const KategoriApproval = ({keyKategori}) => {
         {kategoriList.map(kategori => (
           <React.Fragment key={kategori.key}>
             <ButtonPilihKategori
+              jmlNotif={kategori.jmlNotif}
               onPress={() => handleTypeApproval(kategori.key)}
               lebel={kategori.label}
               warna={kategori.active ? Color.skeleton : Color.green}

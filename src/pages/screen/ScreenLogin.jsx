@@ -181,6 +181,7 @@ const ScreenLogin = ({navigation}) => {
         setIsLoading(false);
       }
     } catch (error) {
+      setIsLoading(false);
       console.error('Error during login:', error);
       if (error.response && error.response.status) {
         const codeError = error.response.status;
