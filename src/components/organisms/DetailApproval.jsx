@@ -178,17 +178,17 @@ const DetailApproval = ({navigation, stylePP}) => {
             kategoriCuti={kategori}
             nik={detailApp.nik || '-'}
             nama={detailApp.nama || '-'}
-            hari={detailApp.hari || '-'}
+            tanggalAbsen={detailApp.tglAbsen || '-'}
             jamMasuk={detailApp.jamMsk || '-'}
-            jamPulang={detailApp.jamPlg || '-'}
             lokasiMasuk={detailApp.lokasiMsk || '-'}
+            jamPulang={detailApp.jamPlg || '-'}
             lokasiPulang={detailApp.lokasiPlg || '-'}
             noteOther={detailApp.noteOther || '-'}
             notePekerjaan={detailApp.notePekerjaan || '-'}
             notePulangCepat={detailApp.notePlgCepat || '-'}
             noteTelatMasuk={detailApp.noteTelatMsk || '-'}
-            tanggalAbsen={detailApp.tglAbsen || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
+            namaProject={detailApp.projectId.namaProject || '-'}
             approve={() => sendData('1')}
             reject={() => sendData('1')}
           />

@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import React from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -6,7 +7,6 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
 import {text} from '../../utils/text';
 import {Color} from '../../utils/color';
 import {
@@ -21,11 +21,16 @@ const DetailLiburApp = ({
   nik,
   nama,
   tanggalAbsen,
-  lokasiMasuk,
   jamMasuk,
-  lokasiPulang,
+  lokasiMasuk,
+  namaProject,
   jamPulang,
-  keterangan,
+  lokasiPulang,
+  notePekerjaan,
+  noteOther,
+  noteTelatMasuk,
+  notePulangCepat,
+  totalJamKerja,
   approve,
   reject,
 }) => {
@@ -52,28 +57,48 @@ const DetailLiburApp = ({
           <Text style={styles.TextDeskripsi}>{nama}</Text>
         </View>
         <View>
-          <Text style={styles.TextTitle}>Tanggal Absen</Text>
-          <Text style={styles.TextDeskripsi}>{tanggalAbsen}</Text>
+          <Text style={styles.TextTitle}>Nama Project</Text>
+          <Text style={styles.TextDeskripsi}>{namaProject}</Text>
         </View>
         <View>
-          <Text style={styles.TextTitle}>Lokasi Masuk</Text>
-          <Text style={styles.TextDeskripsi}>{lokasiMasuk}</Text>
+          <Text style={styles.TextTitle}>Tanggal Absen</Text>
+          <Text style={styles.TextDeskripsi}>{tanggalAbsen}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Jam Masuk</Text>
           <Text style={styles.TextDeskripsi}>{jamMasuk}</Text>
         </View>
         <View>
-          <Text style={styles.TextTitle}>Lokasi Pulang</Text>
-          <Text style={styles.TextDeskripsi}>{lokasiPulang}</Text>
+          <Text style={styles.TextTitle}>Lokasi Masuk</Text>
+          <Text style={styles.TextDeskripsi}>{lokasiMasuk}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Jam Pulang</Text>
           <Text style={styles.TextDeskripsi}>{jamPulang}</Text>
         </View>
         <View>
-          <Text style={styles.TextTitle}>Keterangan</Text>
-          <Text style={styles.TextDeskripsi}>{keterangan}</Text>
+          <Text style={styles.TextTitle}>Lokasi Pulang</Text>
+          <Text style={styles.TextDeskripsi}>{lokasiPulang}</Text>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Note Pekerjaan</Text>
+          <Text style={styles.TextDeskripsi}>{notePekerjaan}</Text>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Note Other</Text>
+          <Text style={styles.TextDeskripsi}>{noteOther}</Text>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Note Telat Masuk</Text>
+          <Text style={styles.TextDeskripsi}>{noteTelatMasuk}</Text>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Note Pulang Cepat</Text>
+          <Text style={styles.TextDeskripsi}>{notePulangCepat}</Text>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Total Jam Kerja</Text>
+          <Text style={styles.TextDeskripsi}>{totalJamKerja}</Text>
         </View>
         <View style={{marginBottom: 20, marginTop: 10}}>
           <CustomTextInputProfile
