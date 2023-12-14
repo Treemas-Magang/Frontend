@@ -61,6 +61,12 @@ const DetailApproval = ({navigation, stylePP}) => {
         case 'absen-pulang':
           dataAPI = response.data.data.getAbsenPulangApproval;
           break;
+        case 'libur':
+          dataAPI = response.data.data.getLiburApproval;
+          break;
+        case 'lembur':
+          dataAPI = response.data.data.getLemburApproval;
+          break;
 
         default:
           break;
@@ -120,19 +126,19 @@ const DetailApproval = ({navigation, stylePP}) => {
         ) : (
           <DetailSakitApp
             kategoriCuti={kategori}
-            nik={detailApp.nik}
-            alamat={detailApp.alamatCuti}
-            jenisCuti={detailApp.jenisCuti}
-            jmlCuti={detailApp.jmlCuti}
-            jmlCutiBersama={detailApp.jmlCutiBersama}
-            jmlCutiKhusus={detailApp.jmlCutiKhusus}
-            keterangan={detailApp.keperluanCuti}
-            nama={detailApp.nama}
+            nik={detailApp.nik || '-'}
+            alamat={detailApp.alamatCuti || '-'}
+            jenisCuti={detailApp.jenisCuti || '-'}
+            jmlCuti={detailApp.jmlCuti || '-'}
+            jmlCutiBersama={detailApp.jmlCutiBersama || '-'}
+            jmlCutiKhusus={detailApp.jmlCutiKhusus || '-'}
+            keterangan={detailApp.keperluanCuti || '-'}
+            nama={detailApp.nama || '-'}
             approve={() => sendData('1')}
             reject={() => sendData('1')}
-            tglMasuk={detailApp.tglKembaliKerja}
-            tglMulai={detailApp.tglMulai}
-            tglSelesai={detailApp.tglSelesai}
+            tglMasuk={detailApp.tglKembaliKerja || '-'}
+            tglMulai={detailApp.tglMulai || '-'}
+            tglSelesai={detailApp.tglSelesai || '-'}
           />
         )
       ) : (
@@ -144,19 +150,72 @@ const DetailApproval = ({navigation, stylePP}) => {
         ) : (
           <DetailAbsenPulangApp
             kategoriCuti={kategori}
-            nik={detailApp.nik}
-            nama={detailApp.nama}
-            hari={detailApp.hari}
-            jamMasuk={detailApp.jamMsk}
-            jamPulang={detailApp.jamPlg}
-            lokasiMasuk={detailApp.lokasiMsk}
-            lokasiPulang={detailApp.lokasiPlg}
-            noteOther={detailApp.noteOther}
-            notePekerjaan={detailApp.notePekerjaan}
-            notePulangCepat={detailApp.notePlgCepat}
-            noteTelatMasuk={detailApp.noteTelatMsk}
-            tanggalAbsen={detailApp.tglAbsen}
-            totalJamKerja={detailApp.totalJamKerja}
+            nik={detailApp.nik || '-'}
+            nama={detailApp.nama || '-'}
+            hari={detailApp.hari || '-'}
+            jamMasuk={detailApp.jamMsk || '-'}
+            jamPulang={detailApp.jamPlg || '-'}
+            lokasiMasuk={detailApp.lokasiMsk || '-'}
+            lokasiPulang={detailApp.lokasiPlg || '-'}
+            noteOther={detailApp.noteOther || '-'}
+            notePekerjaan={detailApp.notePekerjaan || '-'}
+            notePulangCepat={detailApp.notePlgCepat || '-'}
+            noteTelatMasuk={detailApp.noteTelatMsk || '-'}
+            tanggalAbsen={detailApp.tglAbsen || '-'}
+            totalJamKerja={detailApp.totalJamKerja || '-'}
+            approve={() => sendData('1')}
+            reject={() => sendData('1')}
+          />
+        )
+      ) : (
+        ''
+      )}
+      {kategori === 'libur' ? (
+        isLoading ? (
+          <SkeletonDetailApproval />
+        ) : (
+          <DetailLiburApp
+            kategoriCuti={kategori}
+            nik={detailApp.nik || '-'}
+            nama={detailApp.nama || '-'}
+            hari={detailApp.hari || '-'}
+            jamMasuk={detailApp.jamMsk || '-'}
+            jamPulang={detailApp.jamPlg || '-'}
+            lokasiMasuk={detailApp.lokasiMsk || '-'}
+            lokasiPulang={detailApp.lokasiPlg || '-'}
+            noteOther={detailApp.noteOther || '-'}
+            notePekerjaan={detailApp.notePekerjaan || '-'}
+            notePulangCepat={detailApp.notePlgCepat || '-'}
+            noteTelatMasuk={detailApp.noteTelatMsk || '-'}
+            tanggalAbsen={detailApp.tglAbsen || '-'}
+            totalJamKerja={detailApp.totalJamKerja || '-'}
+            approve={() => sendData('1')}
+            reject={() => sendData('1')}
+          />
+        )
+      ) : (
+        ''
+      )}
+      {kategori === 'lembur' ? (
+        isLoading ? (
+          <SkeletonDetailApproval />
+        ) : (
+          <DetailLemburApp
+            kategoriCuti={kategori}
+            nik={detailApp.nik || '-'}
+            nama={detailApp.nama || '-'}
+            hari={detailApp.hari || '-'}
+            jamMasuk={detailApp.jamMsk || '-'}
+            jamPulang={detailApp.jamPlg || '-'}
+            lokasiMasuk={detailApp.lokasiMsk || '-'}
+            lokasiPulang={detailApp.lokasiPlg || '-'}
+            noteOther={detailApp.noteOther || '-'}
+            notePekerjaan={detailApp.notePekerjaan || '-'}
+            notePulangCepat={detailApp.notePlgCepat || '-'}
+            noteTelatMasuk={detailApp.noteTelatMsk || '-'}
+            tanggalAbsen={detailApp.tglAbsen || '-'}
+            totalJamKerja={detailApp.totalJamKerja || '-'}
+            keterangan={detailApp.keterangan || '-'}
             approve={() => sendData('1')}
             reject={() => sendData('1')}
           />
