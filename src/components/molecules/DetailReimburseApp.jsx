@@ -17,7 +17,23 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
 
-const DetailReimburseApp = () => {
+const DetailReimburseApp = ({
+  nik,
+  nama,
+  hari,
+  tanggalAbsen,
+  lokasiMasuk,
+  jamMasuk,
+  lokasiPulang,
+  jamPulang,
+  notePekerjaan,
+  noteTelatMasuk,
+  notePulangCepat,
+  noteOther,
+  totalJamKerja,
+  approve,
+  reject,
+}) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
 
@@ -32,55 +48,55 @@ const DetailReimburseApp = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <Text style={styles.TextTitle}>NIK</Text>
-          <Text style={styles.TextDeskripsi}>2912312</Text>
+          <Text style={styles.TextDeskripsi}>{nik}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Nama</Text>
-          <Text style={styles.TextDeskripsi}>Azriel FachrulRezy</Text>
+          <Text style={styles.TextDeskripsi}>{nama}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Hari</Text>
-          <Text style={styles.TextDeskripsi}>Senin</Text>
+          <Text style={styles.TextDeskripsi}>{hari}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Tanggal Absen</Text>
-          <Text style={styles.TextDeskripsi}>05-06-2023</Text>
+          <Text style={styles.TextDeskripsi}>{tanggalAbsen}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Lokasi Masuk</Text>
-          <Text style={styles.TextDeskripsi}>Gedung A</Text>
+          <Text style={styles.TextDeskripsi}>{lokasiMasuk}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Jam Masuk</Text>
-          <Text style={styles.TextDeskripsi}>08:00 AM</Text>
+          <Text style={styles.TextDeskripsi}>{jamMasuk}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Lokasi Pulang</Text>
-          <Text style={styles.TextDeskripsi}>Gedung B</Text>
+          <Text style={styles.TextDeskripsi}>{lokasiPulang}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Jam Pulang</Text>
-          <Text style={styles.TextDeskripsi}>05:00 PM</Text>
+          <Text style={styles.TextDeskripsi}>{jamPulang}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Note Pekerjaan</Text>
-          <Text style={styles.TextDeskripsi}>Meeting</Text>
+          <Text style={styles.TextDeskripsi}>{notePekerjaan}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Note Telat Masuk</Text>
-          <Text style={styles.TextDeskripsi}>Tidak ada</Text>
+          <Text style={styles.TextDeskripsi}>{noteTelatMasuk}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Note Pulang Cepat</Text>
-          <Text style={styles.TextDeskripsi}>Tidak ada</Text>
+          <Text style={styles.TextDeskripsi}>{notePulangCepat}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Note Other</Text>
-          <Text style={styles.TextDeskripsi}>Lainnya</Text>
+          <Text style={styles.TextDeskripsi}>{noteOther}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Total Jam Kerja</Text>
-          <Text style={styles.TextDeskripsi}>8</Text>
+          <Text style={styles.TextDeskripsi}>{totalJamKerja}</Text>
         </View>
         <View style={{marginBottom: 20, marginTop: 10}}>
           <CustomTextInputProfile
@@ -91,9 +107,7 @@ const DetailReimburseApp = () => {
           />
         </View>
         <View style={{alignItems: 'center', marginBottom: 40}}>
-          <TouchableOpacity
-            onPress={() => sendData()}
-            style={styles.ButtonApprove}>
+          <TouchableOpacity onPress={approve} style={styles.ButtonApprove}>
             <Text
               style={{
                 fontFamily: text.semiBold,
@@ -103,9 +117,7 @@ const DetailReimburseApp = () => {
               APPROVE
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.ButtonReject}
-            onPress={() => sendData()}>
+          <TouchableOpacity style={styles.ButtonReject} onPress={reject}>
             <Text style={styles.Text}>REJECT</Text>
           </TouchableOpacity>
         </View>
