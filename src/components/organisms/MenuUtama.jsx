@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import IconMenu from '../atoms/IconMenu';
 import {Color} from '../../utils/color';
@@ -73,9 +73,14 @@ const MenuUtama = ({
               box={box}
             />
             {jml_blm_baca ? (
-              <View style={styles.notif}>
+              <TouchableOpacity
+                style={styles.notif}
+                onPress={() => {
+                  moveTo('notifPengumuman');
+                  // Anda dapat menambahkan logika tambahan di sini
+                }}>
                 <Text style={styles.text}>{jml_blm_baca}</Text>
-              </View>
+              </TouchableOpacity>
             ) : null}
           </View>
         ) : (

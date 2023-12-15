@@ -80,6 +80,20 @@ async function setDataJmlNotifMasingMasingApproval(dispatch, headers) {
     const apiUrlNotifApproval = `${API_GABUNGAN}/api/notif/get-all-approval`;
     const response = await axios.get(apiUrlNotifApproval, {headers});
 
+    const absenWebApprovals = response.data;
+    // const absenWebApprovalsCount = absenWebApprovals.length;
+    // dispatch(
+    //   setNotiveMasingMasingApproval('absen_web', absenWebApprovalsCount),
+    // );
+    console.log('get all approval cancel cuti : ', absenWebApprovals);
+  } catch (error) {
+    console.error('Error fetching data:', error.response);
+  }
+
+  try {
+    const apiUrlNotifApproval = `${API_GABUNGAN}/api/notif/get-all-approval`;
+    const response = await axios.get(apiUrlNotifApproval, {headers});
+
     const cutiApprovals = response.data.data.cutiApprovals;
     const cutiCount = cutiApprovals.filter(
       item => item.flgKet === 'cuti',

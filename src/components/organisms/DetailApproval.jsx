@@ -36,6 +36,7 @@ import SkeletonDetailApproval from '../skeleton/SkeletonDetailApproval';
 
 const DetailApproval = ({navigation, stylePP}) => {
   const {id, kategori} = useRoute().params;
+  let kategoriBaru =  kategori.replace(/-/g, ' ');
   console.log(id + ' dan ' + kategori);
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
@@ -116,7 +117,7 @@ const DetailApproval = ({navigation, stylePP}) => {
           justifyContent: 'center',
         }}>
         <Text style={styles.Judul}>Detail</Text>
-        <Text style={styles.Judul}>Approval</Text>
+        <Text style={styles.Judul}>Approval {kategoriBaru}</Text>
       </View>
       {kategori === 'sakit' ||
       kategori === 'cuti' ||

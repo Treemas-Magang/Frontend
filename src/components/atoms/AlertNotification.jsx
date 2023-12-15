@@ -67,12 +67,14 @@ export const AlertNotificationWarning = ({
  * @param {string} titleAlert - Judul notifikasi.
  * @param {string} textBodyAlert - Isi teks notifikasi.
  * @param {string} buttonAlert - Teks tombol notifikasi.
+ * @param {function} onPress - Fungsi yang akan dipanggil ketika tombol notifikasi ditekan.
  * @returns {JSX.Element} - Komponen React untuk menampilkan notifikasi berbahaya.
  */
 export const AlertNotificationDanger = ({
   titleAlert,
   textBodyAlert,
   buttonAlert,
+  onPress,
 }) => {
   return (
     <AlertNotificationRoot>
@@ -81,6 +83,8 @@ export const AlertNotificationDanger = ({
         title: titleAlert,
         textBody: textBodyAlert,
         button: buttonAlert,
+        onPressButton: onPress,
+        onHide: onPress,
       })}
     </AlertNotificationRoot>
   );
