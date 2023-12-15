@@ -21,6 +21,7 @@ const DetailSakitApp = ({
   kategoriCuti,
   nik,
   nama,
+  namaProject,
   tglMulai,
   tglSelesai,
   tglMasuk,
@@ -60,6 +61,10 @@ const DetailSakitApp = ({
           <Text style={styles.TextDeskripsi}>{nama}</Text>
         </View>
         <View>
+          <Text style={styles.TextTitle}>Nama Project</Text>
+          <Text style={styles.TextDeskripsi}>{namaProject}</Text>
+        </View>
+        <View>
           <Text style={styles.TextTitle}>Tanggal Mulai</Text>
           <Text style={styles.TextDeskripsi}>{tglMulai}</Text>
         </View>
@@ -91,18 +96,18 @@ const DetailSakitApp = ({
           ''
         ) : (
           <>
-        <View>
-          <Text style={styles.TextTitle}>Jumlah Cuti Bersama</Text>
-          <Text style={styles.TextDeskripsi}>{jmlCutiBersama}</Text>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Jumlah Cuti Khusus</Text>
-          <Text style={styles.TextDeskripsi}>{jmlCutiKhusus}</Text>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Jenis Cuti</Text>
-          <Text style={styles.TextDeskripsi}>{jenisCuti}</Text>
-        </View>
+            <View>
+              <Text style={styles.TextTitle}>Jumlah Cuti Bersama</Text>
+              <Text style={styles.TextDeskripsi}>{jmlCutiBersama}</Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Jumlah Cuti Khusus</Text>
+              <Text style={styles.TextDeskripsi}>{jmlCutiKhusus}</Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Jenis Cuti</Text>
+              <Text style={styles.TextDeskripsi}>{jenisCuti}</Text>
+            </View>
           </>
         )}
         <View style={{marginBottom: 20, marginTop: 10}}>

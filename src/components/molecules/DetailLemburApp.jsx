@@ -27,6 +27,7 @@ const DetailLemburApp = ({
   jamPulang,
   keterangan,
   totalJamKerja,
+  namaProject,
   approve,
   reject,
 }) => {
@@ -51,6 +52,10 @@ const DetailLemburApp = ({
         <View>
           <Text style={styles.TextTitle}>Nama</Text>
           <Text style={styles.TextDeskripsi}>{nama}</Text>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Nama Project</Text>
+          <Text style={styles.TextDeskripsi}>{namaProject}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Tanggal Absen</Text>

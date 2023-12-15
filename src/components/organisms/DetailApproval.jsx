@@ -139,6 +139,7 @@ const DetailApproval = ({navigation, stylePP}) => {
             tglMasuk={detailApp.tglKembaliKerja || '-'}
             tglMulai={detailApp.tglMulai || '-'}
             tglSelesai={detailApp.tglSelesai || '-'}
+            namaProject={detailApp.projectId.namaProject || '-'}
           />
         )
       ) : (
@@ -163,6 +164,7 @@ const DetailApproval = ({navigation, stylePP}) => {
             noteTelatMasuk={detailApp.noteTelatMsk || '-'}
             tanggalAbsen={detailApp.tglAbsen || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
+            namaProject={detailApp.projectId.namaProject || '-'}
             approve={() => sendData('1')}
             reject={() => sendData('1')}
           />
@@ -216,6 +218,7 @@ const DetailApproval = ({navigation, stylePP}) => {
             tanggalAbsen={detailApp.tglAbsen || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
             keterangan={detailApp.keterangan || '-'}
+            namaProject={detailApp.projectId.namaProject || '-'}
             approve={() => sendData('1')}
             reject={() => sendData('1')}
           />

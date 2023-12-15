@@ -27,6 +27,7 @@ import {API_URL, API_GABUNGAN} from '@env';
 import {
   AlertNotificationDanger,
   AlertNotificationSuccess,
+  AlertNotificationWarning,
 } from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
 
@@ -45,9 +46,12 @@ const FormClaim = ({navigation}) => {
   const [isServerError, setIsServerError] = useState(false);
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
+  const [inputKosong, setInputKosong] = useState(false);
+
   const handleOpenDropdownClaim = () => {
     setOpenDropdownClaim(!openDropdownClaim);
     setShowErrorAlert(false);
+    setInputKosong(false);
   };
   useEffect(() => {
     if (keterangan !== '') {
@@ -218,19 +222,21 @@ const FormClaim = ({navigation}) => {
       form_claim.nominal !== 0 &&
       form_claim.selectedTipeClaim !== ''
     ) {
+      setInputKosong(false);
       // kirimDataDanFotoKeAPI();
       try {
         setBtnLoading(true); // Set btnLoading to true when starting the data submission
-
+        // setInputKosong(false);
         // Melakukan pengiriman data ke API
         await kirimDataKeAPI();
       } finally {
         setBtnLoading(false); // Set btnLoading back to false when the process is completed (regardless of success or failure)
       }
     } else {
-      console.warn('tidak boleh ada yang kosong');
+      setInputKosong(true);
+      // console.warn('tidak boleh ada yang kosong');
     }
-      console.log('kirim data : ', form_claim);
+    console.log('kirim data : ', form_claim);
   };
 
   const close = async () => {
@@ -279,11 +285,21 @@ const FormClaim = ({navigation}) => {
       )}
       <Text style={styles.textJudul}>form claim</Text>
       <View style={styles.wrapDropdown}>
-        <View style={openDropdownClaim ? styles.dropdownTrue : styles.dropdown}>
+        <View
+          style={
+            openDropdownClaim
+              ? styles.dropdownTrue
+              : inputKosong
+              ? styles.dropdownSalah
+              : styles.dropdown
+          }>
           <TouchableOpacity
             onPress={handleOpenDropdownClaim}
             style={styles.tombolDropdown}>
-            <Text style={styles.textDropdown}>
+            <Text
+              style={
+                inputKosong ? styles.textDropdownSalah : styles.textDropdown
+              }>
               {keterangan === '' ? 'Pilih Type Claim' : keterangan}
             </Text>
             <FontAwesomeIcon
@@ -307,6 +323,8 @@ const FormClaim = ({navigation}) => {
         label="Keterangan"
         secureTextEntry={false}
         value={form_claim.keterangan}
+        textColor={inputKosong ? Color.red : Color.blue}
+        style={inputKosong ? styles.fieldSalah : styles.fieldBener}
         onTextChange={value => onChangeText(value, 'keterangan')}
       />
       <CustomTextInput
@@ -318,6 +336,8 @@ const FormClaim = ({navigation}) => {
             : form_claim.nominal.toString()
         }
         keyboardType={'numeric'}
+        textColor={inputKosong ? Color.red : Color.blue}
+        style={inputKosong ? styles.fieldSalah : styles.fieldBener}
         onTextChange={value => onChangeText(value, 'nominal')}
       />
       <View style={styles.kotakPreviewKosong}>
@@ -349,6 +369,11 @@ const FormClaim = ({navigation}) => {
           )}
         </View>
       </View>
+      {inputKosong ? (
+        <Text style={styles.labelSalah}>Field Tidak Boleh Kosong!</Text>
+      ) : (
+        ''
+      )}
       <View style={styles.wrapperButton}>
         <ButtonCamera onPress={openKamera} />
         <ButtonGalery onPress={openGalery} />
@@ -421,6 +446,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 10,
   },
+  dropdownSalah: {
+    width: '86.6%',
+    minHeight: 50,
+    // backgroundColor: Color.blue,
+    borderBottomWidth: 2,
+    borderBottomColor: Color.red,
+    borderRadius: 5,
+    paddingHorizontal: 20,
+    // paddingVertical: 10,
+    position: 'absolute',
+    zIndex: 10,
+  },
   dropdownTrue: {
     width: '86.6%',
     minHeight: 50,
@@ -445,5 +482,34 @@ const styles = StyleSheet.create({
     fontFamily: text.light,
     color: Color.blue,
     right: 10,
+  },
+  textDropdownSalah: {
+    fontSize: 19,
+    fontFamily: text.light,
+    color: Color.red,
+    right: 10,
+  },
+  fieldSalah: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.red,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  fieldBener: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.green,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+
+  labelSalah: {
+    fontFamily: text.semiBold,
+    fontSize: 14,
+    color: Color.red,
+    textAlign: 'center',
   },
 });

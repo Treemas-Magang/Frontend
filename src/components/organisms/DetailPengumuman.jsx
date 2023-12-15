@@ -30,7 +30,7 @@ const DetailPengumuman = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const base64 = `data:image/jpeg;base64,${dataDetailPengumuman.image64}`;
-  console.log('base64 : ',base64)
+  console.log('base64 : ', base64);
   const moveToPreview = () => {
     navigation.navigate('previewPhoto', {photo: base64});
   };
@@ -66,7 +66,7 @@ const DetailPengumuman = ({navigation}) => {
       console.error('Terjadi kesalahan:', error);
     }
   };
-  console.log(dataDetailPengumuman.note)
+  console.log(dataDetailPengumuman.note);
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -100,7 +100,7 @@ const DetailPengumuman = ({navigation}) => {
                 fontFamily: text.regular,
                 fontSize: 12,
                 textAlign: 'justify',
-                width: 350,
+                width: wp('80%'),
               }}>
               {dataDetailPengumuman.note}
             </Text>
@@ -108,7 +108,7 @@ const DetailPengumuman = ({navigation}) => {
               style={{
                 fontFamily: text.regular,
                 fontSize: 12,
-                width: 320,
+                width: wp('80%'),
               }}>
               Regards,
             </Text>
@@ -116,7 +116,7 @@ const DetailPengumuman = ({navigation}) => {
               style={{
                 fontFamily: text.regular,
                 fontSize: 12,
-                width: 320,
+                width: wp('80%'),
               }}>
               HR Division
             </Text>
@@ -124,7 +124,7 @@ const DetailPengumuman = ({navigation}) => {
               style={{
                 fontFamily: text.regular,
                 fontSize: 12,
-                width: 320,
+                width: wp('80%'),
               }}>
               {dataDetailPengumuman.usrCrt}
             </Text>
@@ -224,5 +224,7 @@ const styles = StyleSheet.create({
     height: hp('90%'),
     paddingTop: hp('5%'),
     paddingBottom: hp('10%'),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
