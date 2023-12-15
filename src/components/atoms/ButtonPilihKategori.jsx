@@ -19,7 +19,7 @@ const ButtonPilihKategori = ({onPress, lebel, warna, jmlNotif}) => {
       style={[styles.backgroundBtn, {backgroundColor: warna}]}>
       <Text style={styles.text}>{lebel}</Text>
       {
-        jmlNotif === null ? (
+        jmlNotif === null || jmlNotif === 0 ? (
           ''
         ) : (
         <View style={styles.wrapNotif}>

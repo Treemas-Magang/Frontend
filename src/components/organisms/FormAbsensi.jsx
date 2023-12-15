@@ -24,7 +24,7 @@ import {checkMockLocation} from '../../utils/checkMockLocation';
 import {jamSekarang} from '../../utils/jamSekarang';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getDataFromSession} from '../../utils/getDataSession';
-import {AlertNotificationSuccess} from '../atoms/AlertNotification';
+import {AlertNotificationDanger, AlertNotificationSuccess} from '../atoms/AlertNotification';
 import {cekTelatMasuk} from '../../utils/cekJamTelatDanPulangCepat';
 import ButtonLoading from '../atoms/ButtonLoading';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
@@ -43,6 +43,7 @@ const FormAbsensi = ({navigation}) => {
   const [terlambat, setTerlambat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [gagalServer, setGagalServer] = useState(false);
 
   //simpan data image jadi base64
   let base64ImageData = null;
@@ -148,6 +149,7 @@ const FormAbsensi = ({navigation}) => {
           // dispatch(setFormAbsensi('gpsLongitudeMsk', ''));
           // dispatch(setFormAbsensi('photoAbsen', ''));
           // dispatch(setFormAbsensi('isWfh', ''));
+          setGagalServer(true);
           switch (errorCode) {
             case 403:
               console.log('project tidak tepat');
@@ -159,6 +161,7 @@ const FormAbsensi = ({navigation}) => {
             case 500:
               setIsLoading(false);
               console.log('Kesalahan server');
+              setGagalServer(true);
               break;
             default:
               setIsLoading(false);
@@ -210,7 +213,11 @@ const FormAbsensi = ({navigation}) => {
       }
     } catch (error) {
       console.error('Error in sendData:', error);
+      setGagalServer(true);
     }
+  };
+  const btnCancel = () => {
+    setGagalServer(false);
   };
 
   return (
@@ -227,6 +234,23 @@ const FormAbsensi = ({navigation}) => {
             textBodyAlert="Berhasil Melakukan Absen"
             titleAlert="Success"
             onPress={toDashboard}
+          />
+        </View>
+      ) : (
+        ''
+      )}
+      {gagalServer ? (
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <AlertNotificationDanger
+            buttonAlert="Close"
+            textBodyAlert="Server Error"
+            titleAlert="Success"
+            onPress={() => btnCancel()}
           />
         </View>
       ) : (

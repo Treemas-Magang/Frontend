@@ -44,7 +44,7 @@ import {
   AlertNotificationDanger,
   AlertNotificationSuccess,
 } from '../../components/atoms/AlertNotification';
-import {API_URL, API_GABUNGAN} from '@env';
+import {API_GABUNGAN} from '@env';
 import {loginBiometric} from '../../utils/loginBiometric';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');

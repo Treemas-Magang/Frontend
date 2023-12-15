@@ -36,7 +36,6 @@ const FormCuti = ({
 }) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.FormCutiReducer);
-  console.log('ini dari reducer : ', form);
   const [awalCuti, setAwalCuti] = useState(form.tanggal_cuti);
   const [showKalender, setShowKalender] = useState(false);
   const [data, setData] = useState({
@@ -141,8 +140,6 @@ const FormCuti = ({
     if (
       form.alamatCuti !== '' &&
       form.jmlCuti !== null &&
-      form.jmlCutiBersama !== null &&
-      form.jmlCutiKhusus !== null &&
       form.keperluanCuti !== '' &&
       form.selectedMasterCutiId !== '' &&
       form.tglKembaliKerja !== '' &&
@@ -151,7 +148,8 @@ const FormCuti = ({
     ) {
       console.log('kirim data : ', form);
     } else {
-      console.warn('tidak boleh ada data yang kosong')
+      console.warn('tidak boleh ada data yang kosong');
+      console.log('ini dari reducer : ', form);
     }
   };
   const handleClickOutside = () => {
