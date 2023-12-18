@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import React from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -6,7 +7,6 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
 import {text} from '../../utils/text';
 import {Color} from '../../utils/color';
 import {
@@ -17,15 +17,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
 
-const DetailReimburseApp = ({
+const DetailAbsenWebApp = ({
   nik,
   nama,
   hari,
   tanggalAbsen,
   lokasiMasuk,
   jamMasuk,
+  jarakMsk,
   lokasiPulang,
   jamPulang,
+  jarakPlg,
   notePekerjaan,
   noteTelatMasuk,
   notePulangCepat,
@@ -41,9 +43,12 @@ const DetailReimburseApp = ({
   const onChangeText = (value, inputType) => {
     dispatch(setFormApproval(inputType, value));
   };
+
   const sendData = () => {
     console.log('kirim data : ', form);
+    // You can modify this part to send data to your server or perform other actions
   };
+
   return (
     <View style={styles.background}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -76,12 +81,20 @@ const DetailReimburseApp = ({
           <Text style={styles.TextDeskripsi}>{jamMasuk}</Text>
         </View>
         <View>
+          <Text style={styles.TextTitle}>Jarak Masuk</Text>
+          <Text style={styles.TextDeskripsi}>{jarakMsk}</Text>
+        </View>
+        <View>
           <Text style={styles.TextTitle}>Lokasi Pulang</Text>
           <Text style={styles.TextDeskripsi}>{lokasiPulang}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Jam Pulang</Text>
           <Text style={styles.TextDeskripsi}>{jamPulang}</Text>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Jarak Pulang</Text>
+          <Text style={styles.TextDeskripsi}>{jarakPlg}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Note Pekerjaan</Text>
@@ -131,7 +144,7 @@ const DetailReimburseApp = ({
   );
 };
 
-export default DetailReimburseApp;
+export default DetailAbsenWebApp;
 
 const styles = StyleSheet.create({
   background: {

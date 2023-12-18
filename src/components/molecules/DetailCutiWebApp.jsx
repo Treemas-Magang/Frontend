@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import React from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -6,7 +7,6 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
 import {text} from '../../utils/text';
 import {Color} from '../../utils/color';
 import {
@@ -17,21 +17,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
 
-const DetailReimburseApp = ({
+const DetailCutiWebApp = ({
   nik,
   nama,
-  hari,
-  tanggalAbsen,
-  lokasiMasuk,
-  jamMasuk,
-  lokasiPulang,
-  jamPulang,
-  notePekerjaan,
-  noteTelatMasuk,
-  notePulangCepat,
-  noteOther,
-  totalJamKerja,
-  namaProject,
+  tglMulai,
+  tglSelesai,
+  tglKembaliKerja,
+  keperluanCuti,
+  alamatCuti,
   approve,
   reject,
 }) => {
@@ -41,9 +34,12 @@ const DetailReimburseApp = ({
   const onChangeText = (value, inputType) => {
     dispatch(setFormApproval(inputType, value));
   };
+
   const sendData = () => {
     console.log('kirim data : ', form);
+    // You can modify this part to send data to your server or perform other actions
   };
+
   return (
     <View style={styles.background}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -56,53 +52,26 @@ const DetailReimburseApp = ({
           <Text style={styles.TextDeskripsi}>{nama}</Text>
         </View>
         <View>
-          <Text style={styles.TextTitle}>Nama Project</Text>
-          <Text style={styles.TextDeskripsi}>{namaProject}</Text>
+          <Text style={styles.TextTitle}>Tanggal Mulai</Text>
+          <Text style={styles.TextDeskripsi}>{tglMulai}</Text>
         </View>
         <View>
-          <Text style={styles.TextTitle}>Hari</Text>
-          <Text style={styles.TextDeskripsi}>{hari}</Text>
+          <Text style={styles.TextTitle}>Tanggal Selesai</Text>
+          <Text style={styles.TextDeskripsi}>{tglSelesai}</Text>
         </View>
         <View>
-          <Text style={styles.TextTitle}>Tanggal Absen</Text>
-          <Text style={styles.TextDeskripsi}>{tanggalAbsen}</Text>
+          <Text style={styles.TextTitle}>Tanggal Kembali Kerja</Text>
+          <Text style={styles.TextDeskripsi}>{tglKembaliKerja}</Text>
         </View>
         <View>
-          <Text style={styles.TextTitle}>Lokasi Masuk</Text>
-          <Text style={styles.TextDeskripsi}>{lokasiMasuk}</Text>
+          <Text style={styles.TextTitle}>Keperluan Cuti</Text>
+          <Text style={styles.TextDeskripsi}>{keperluanCuti}</Text>
         </View>
         <View>
-          <Text style={styles.TextTitle}>Jam Masuk</Text>
-          <Text style={styles.TextDeskripsi}>{jamMasuk}</Text>
+          <Text style={styles.TextTitle}>Alamat Cuti</Text>
+          <Text style={styles.TextDeskripsi}>{alamatCuti}</Text>
         </View>
-        <View>
-          <Text style={styles.TextTitle}>Lokasi Pulang</Text>
-          <Text style={styles.TextDeskripsi}>{lokasiPulang}</Text>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Jam Pulang</Text>
-          <Text style={styles.TextDeskripsi}>{jamPulang}</Text>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Note Pekerjaan</Text>
-          <Text style={styles.TextDeskripsi}>{notePekerjaan}</Text>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Note Telat Masuk</Text>
-          <Text style={styles.TextDeskripsi}>{noteTelatMasuk}</Text>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Note Pulang Cepat</Text>
-          <Text style={styles.TextDeskripsi}>{notePulangCepat}</Text>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Note Other</Text>
-          <Text style={styles.TextDeskripsi}>{noteOther}</Text>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Total Jam Kerja</Text>
-          <Text style={styles.TextDeskripsi}>{totalJamKerja}</Text>
-        </View>
+
         <View style={{marginBottom: 20, marginTop: 10}}>
           <CustomTextInputProfile
             label="Catatan Approve"
@@ -131,7 +100,7 @@ const DetailReimburseApp = ({
   );
 };
 
-export default DetailReimburseApp;
+export default DetailCutiWebApp;
 
 const styles = StyleSheet.create({
   background: {

@@ -218,7 +218,7 @@ const FormSakit = ({navigation}) => {
         try {
           setBtnLoading(true);
           // Melakukan pengiriman data ke API
-          // await kirimDataKeAPI();
+          await kirimDataKeAPI();
           // Reset formulir setelah berhasil mengirim data
           dispatch(resetFormSakit());
         } finally {
@@ -239,7 +239,7 @@ const FormSakit = ({navigation}) => {
         setInputKosong(false);
         setBtnLoading(true);
         // Melakukan pengiriman data ke API
-        // await kirimDataKeAPI();
+        await kirimDataKeAPI();
         // Reset formulir setelah berhasil mengirim data
         dispatch(resetFormSakit());
       } finally {
