@@ -55,6 +55,7 @@ const FormSakit = ({navigation}) => {
   const [adaSuratDokter, setAdaSuratDoker] = useState(false);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
+  const [inputKosong, setInputKosong] = useState(false);
   const [data, setData] = useState({
     jumlahCutiAtauSakit: 0,
     jumlahCutiBersama: 0,
@@ -203,7 +204,7 @@ const FormSakit = ({navigation}) => {
     console.log('kirim data : ', form_sakit);
 
     if (adaSuratDokter) {
-      console.log('alasan telat masuk tidak boleh kosong');
+      // console.log('alasan telat masuk tidak boleh kosong');
       setIsLoading(false);
       if (
         form_sakit.image !== '' &&
@@ -213,6 +214,7 @@ const FormSakit = ({navigation}) => {
         form_sakit.tglMulai !== '' &&
         form_sakit.tglSelesai !== ''
       ) {
+        setInputKosong(false);
         try {
           setBtnLoading(true);
           // Melakukan pengiriman data ke API
@@ -223,7 +225,8 @@ const FormSakit = ({navigation}) => {
           setBtnLoading(false);
         }
       } else {
-        console.warn('tidak ada yang boleh form yang kosong');
+        setInputKosong(true);
+        // console.warn('tidak ada yang boleh form yang kosong');
       }
     } else if (
       form_sakit.jmlCuti !== '' &&
@@ -233,6 +236,7 @@ const FormSakit = ({navigation}) => {
       form_sakit.tglSelesai !== ''
     ) {
       try {
+        setInputKosong(false);
         setBtnLoading(true);
         // Melakukan pengiriman data ke API
         // await kirimDataKeAPI();
@@ -242,7 +246,8 @@ const FormSakit = ({navigation}) => {
         setBtnLoading(false);
       }
     } else {
-      console.warn('tidak ada yang boleh form yang kosong');
+      setInputKosong(true);
+      // console.warn('tidak ada yang boleh form yang kosong');
     }
   };
 
@@ -259,15 +264,6 @@ const FormSakit = ({navigation}) => {
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.FormSakit}>
-        {showKalender && (
-          <View style={{position: 'absolute', top: 0, right: 40, zIndex: 2}}>
-            <KalenderRange
-              onDataReady={handleDataReady}
-              range={adaSuratDokter}
-              iniFormSakit={true}
-            />
-          </View>
-        )}
         {uploadBerhasil && (
           <View
             style={{
@@ -280,6 +276,16 @@ const FormSakit = ({navigation}) => {
               textBodyAlert="Berhasil Mengajukan Izin Sakit"
               titleAlert="Success"
               onPress={close}
+            />
+          </View>
+        )}
+
+        {showKalender && (
+          <View style={{position: 'absolute', top: 0, right: 40, zIndex: 2}}>
+            <KalenderRange
+              onDataReady={handleDataReady}
+              range={adaSuratDokter}
+              iniFormSakit={true}
             />
           </View>
         )}
@@ -305,8 +311,14 @@ const FormSakit = ({navigation}) => {
                 </Text>
               </TouchableOpacity>
               <FakeTextInput
-                value={`${form_sakit.tglMulai} - ${form_sakit.tglSelesai}`}
+                value={
+                  form_sakit.tglMulai === ''
+                    ? ''
+                    : `${form_sakit.tglMulai} - ${form_sakit.tglSelesai}`
+                }
                 label="tgl awal - akhir cuti"
+                textColor={inputKosong ? Color.red : Color.blue}
+                style={inputKosong ? styles.fieldSalah : styles.fieldBener}
               />
               <TouchableOpacity
                 onPress={openKalender}
@@ -317,29 +329,56 @@ const FormSakit = ({navigation}) => {
                   paddingLeft: 250,
                   paddingVertical: 5,
                 }}>
-                <FontAwesomeIcon
-                  icon={faCalendarDays}
-                  size={25}
-                  color={Color.green}
-                />
+                {inputKosong ? (
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    size={25}
+                    color={Color.red}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    size={25}
+                    color={Color.green}
+                  />
+                )}
               </TouchableOpacity>
               {/* <CustomTextInput label="tgl masuk kerja" editable={false} /> */}
               <FakeTextInput
                 value={form_sakit.tglKembaliKerja}
                 label="tgl masuk kerja"
+                textColor={inputKosong ? Color.red : Color.blue}
+                style={inputKosong ? styles.fieldSalah : styles.fieldBener}
               />
-              <FakeTextInput value={form_sakit.jmlCuti} label="Jumlah hari" />
+              <FakeTextInput
+                value={form_sakit.jmlCuti}
+                label="Jumlah hari"
+                textColor={inputKosong ? Color.red : Color.blue}
+                style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+              />
               <CustomTextInput
                 label="Alasan"
                 secureTextEntry={false}
                 value={form_sakit.keperluanCuti}
+                textColor={inputKosong ? Color.red : Color.blue}
+                style={inputKosong ? styles.fieldSalah : styles.fieldBener}
                 onTextChange={value => onChangeText(value, 'keperluanCuti')}
               />
             </View>
+            {inputKosong && adaSuratDokter === false ? (
+              <Text style={styles.labelSalah}>Field Tidak Boleh Kosong!</Text>
+            ) : (
+              ''
+            )}
 
             {adaSuratDokter ? (
               <>
-                <View style={styles.kotakPreviewKosong}>
+                <View
+                  style={
+                    inputKosong
+                      ? styles.kotakPreviewKosongSalah
+                      : styles.kotakPreviewKosong
+                  }>
                   <View style={styles.previewKosong}>
                     {base64ImageData === null ? (
                       <>
@@ -347,7 +386,15 @@ const FormSakit = ({navigation}) => {
                           <ActivityIndicator size="large" color={Color.black} />
                         ) : (
                           <>
-                            <FontAwesomeIcon icon={faCamera} size={50} />
+                            {inputKosong ? (
+                              <FontAwesomeIcon
+                                icon={faCamera}
+                                size={50}
+                                color={Color.red}
+                              />
+                            ) : (
+                              <FontAwesomeIcon icon={faCamera} size={50} />
+                            )}
                             <Text>Preview</Text>
                           </>
                         )}
@@ -368,6 +415,13 @@ const FormSakit = ({navigation}) => {
                     )}
                   </View>
                 </View>
+                {inputKosong ? (
+                  <Text style={styles.labelSalah}>
+                    Field Tidak Boleh Kosong!
+                  </Text>
+                ) : (
+                  ''
+                )}
                 <View style={styles.wrapperButton}>
                   <ButtonCamera
                     // onImageCapture={image => setCapturedImage(image)}
@@ -448,6 +502,14 @@ const styles = StyleSheet.create({
     backgroundColor: Color.grey,
     borderRadius: 10,
   },
+  kotakPreviewKosongSalah: {
+    width: 275,
+    height: 161,
+    backgroundColor: Color.grey,
+    borderRadius: 10,
+    borderColor: Color.red,
+    borderWidth: 3,
+  },
   wrapperButton: {flexDirection: 'row', gap: 10},
   previewKosong: {
     width: '100%',
@@ -475,5 +537,27 @@ const styles = StyleSheet.create({
     borderColor: Color.green,
     backgroundColor: Color.green,
     borderRadius: 5,
+  },
+  fieldSalah: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.red,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  fieldBener: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.green,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  labelSalah: {
+    fontFamily: text.semiBold,
+    fontSize: 14,
+    color: Color.red,
+    textAlign: 'center',
   },
 });

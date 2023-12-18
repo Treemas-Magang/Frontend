@@ -24,8 +24,9 @@ import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import DropdownCuti from '../atoms/DropdownCuti';
 import {API_URL, API_GABUNGAN} from '@env';
-import { cekTglAkhirCutiSpesial } from '../../utils/cekTglAkhirCutiSpesial';
+import {cekTglAkhirCutiSpesial} from '../../utils/cekTglAkhirCutiSpesial';
 import KalenderCuti from '../molecules/KalenderCuti';
+import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 
 const FormCuti = ({
   style,
@@ -38,6 +39,9 @@ const FormCuti = ({
   const {form} = useSelector(state => state.FormCutiReducer);
   const [awalCuti, setAwalCuti] = useState(form.tanggal_cuti);
   const [showKalender, setShowKalender] = useState(false);
+  const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [inputKosong, setInputKosong] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const [data, setData] = useState({
     jumlahCutiAtauSakit: 0,
     jumlahCutiBersama: 0,
@@ -67,6 +71,7 @@ const FormCuti = ({
 
   const handleOpenDropdown = () => {
     setOpenDropdown(!openDropdown);
+    setInputKosong(false);
   };
   useEffect(() => {
     if (cutiDesc !== '') {
@@ -106,7 +111,12 @@ const FormCuti = ({
 
   useEffect(() => {
     if (data.jumlahCutiBersama > 0 || data.jumlahTanggalMerah > 0) {
-      dispatch(setFormCuti('jmlCutiBersama', data.jumlahCutiBersama + data.jumlahTanggalMerah));
+      dispatch(
+        setFormCuti(
+          'jmlCutiBersama',
+          data.jumlahCutiBersama + data.jumlahTanggalMerah,
+        ),
+      );
       // dispatch(setFormCuti('jmlCutiBersama', data.jumlahCutiBersama));
     }
   }, [data, dispatch]);
@@ -131,6 +141,7 @@ const FormCuti = ({
         }
       } catch (error) {
         console.error('Terjadi Kesalahan:', error);
+        // setBtnLoading(false);
       }
     };
     fetchData();
@@ -146,12 +157,51 @@ const FormCuti = ({
       form.tglMulai !== '' &&
       form.tglSelesai !== ''
     ) {
+      setInputKosong(false);
       console.log('kirim data : ', form);
+      // setBtnLoading(true);
     } else {
-      console.warn('tidak boleh ada data yang kosong');
+      setInputKosong(true);
+      // console.warn('tidak boleh ada data yang kosong');
       console.log('ini dari reducer : ', form);
     }
   };
+
+  // const sendData = async () => {
+  //   if (
+  //     form.alamatCuti !== '' &&
+  //     form.jmlCuti !== null &&
+  //     form.keperluanCuti !== '' &&
+  //     form.selectedMasterCutiId !== '' &&
+  //     form.tglKembaliKerja !== '' &&
+  //     form.tglMulai !== '' &&
+  //     form.tglSelesai !== ''
+  //   ) {
+  //     setInputKosong(false);
+  //     console.log('kirim data : ', form);
+  //     setBtnLoading(true);
+
+  //     try {
+  //       // Kirim data ke server di sini (gunakan axios atau metode lainnya)
+  //       // Pastikan untuk menangani respons dari server dan menangkap kesalahan jika ada
+
+  //       // Simulasikan pengiriman data dengan menggunakan setTimeout
+  //       // Anda bisa menggantinya dengan kode yang sesuai dengan logika pengiriman data sebenarnya
+  //       setTimeout(() => {
+  //         setUploadBerhasil(true);
+  //         setBtnLoading(false);
+  //       }, 2000); // Waktu simulasi pengiriman data (dalam milidetik)
+  //     } catch (error) {
+  //       console.error('Terjadi Kesalahan:', error);
+  //       setBtnLoading(false);
+  //       // Tambahkan penanganan kesalahan jika diperlukan
+  //     }
+  //   } else {
+  //     setInputKosong(true);
+  //     console.log('ini dari reducer : ', form);
+  //   }
+  // };
+
   const handleClickOutside = () => {
     setShowKalender(false);
   };
@@ -164,11 +214,28 @@ const FormCuti = ({
   const [maxDurasiCuti, setMaxDurasiCuti] = useState(0);
   useEffect(() => {
     const jmlhSemuaCuti = statistik.cuti_pengganti + statistik.sisa_cuti;
-    setMaxDurasiCuti(jmlhSemuaCuti)
-  }, [statistik])
+    setMaxDurasiCuti(jmlhSemuaCuti);
+  }, [statistik]);
+
+  // const close = async () => {
+  //   setUploadBerhasil(false);
+  // };
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.formCuti}>
+        {/* {uploadBerhasil ? (
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <AlertNotificationSuccess
+              buttonAlert="Close"
+              textBodyAlert="Berhasil Melakukan Claim"
+              titleAlert="Success"
+              onPress={close}
+            />
+          </View>
+        ) : (
+          ''
+        )} */}
         {showKalender && (
           <View style={{position: 'absolute', top: 0, right: 55, zIndex: 2}}>
             <KalenderCuti
@@ -214,18 +281,37 @@ const FormCuti = ({
           <View style={styles.wrapInputForm}>
             <View style={styles.wrapDropdown}>
               <View
-                style={openDropdown ? styles.dropdownTrue : styles.dropdown}>
+                style={
+                  openDropdown
+                    ? styles.dropdownTrue
+                    : inputKosong
+                    ? styles.dropdownSalah
+                    : styles.dropdown
+                }>
                 <TouchableOpacity
                   onPress={handleOpenDropdown}
                   style={styles.tombolDropdown}>
-                  <Text style={styles.textDropdown}>
+                  <Text
+                    style={
+                      inputKosong
+                        ? styles.textDropdownSalah
+                        : styles.textDropdown
+                    }>
                     {String(cutiDesc) === '' ? 'Pilih Type Cuti' : cutiDesc}
                   </Text>
-                  <FontAwesomeIcon
-                    icon={faCaretDown}
-                    size={25}
-                    color={openDropdown ? Color.white : Color.green}
-                  />
+                  {inputKosong ? (
+                    <FontAwesomeIcon
+                      icon={faCaretDown}
+                      size={25}
+                      color={openDropdown ? Color.white : Color.red}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faCaretDown}
+                      size={25}
+                      color={openDropdown ? Color.white : Color.green}
+                    />
+                  )}
                 </TouchableOpacity>
                 {openDropdown ? (
                   <DropdownCuti
@@ -248,6 +334,8 @@ const FormCuti = ({
               <FakeTextInput
                 value={`${form.tglMulai} - ${form.tglSelesai}`}
                 label="Tgl Awal - Akhir Cuti"
+                textColor={inputKosong ? Color.red : Color.blue}
+                style={inputKosong ? styles.fieldSalah : styles.fieldBener}
               />
               <TouchableOpacity
                 onPress={openKalender}
@@ -258,28 +346,39 @@ const FormCuti = ({
                   paddingLeft: 250,
                   paddingVertical: 5,
                 }}>
-                <FontAwesomeIcon
-                  icon={faCalendarDays}
-                  size={25}
-                  color={Color.green}
-                />
+                {inputKosong ? (
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    size={25}
+                    color={Color.red}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    size={25}
+                    color={Color.green}
+                  />
+                )}
               </TouchableOpacity>
               {/* <CustomTextInput label="tgl masuk kerja" editable={false} /> */}
               <FakeTextInput
                 value={form.tglKembaliKerja}
                 label="Tgl Masuk Kerja"
+                textColor={inputKosong ? Color.red : Color.blue}
+                style={inputKosong ? styles.fieldSalah : styles.fieldBener}
               />
               <CustomTextInput
                 label="Keperluan Cuti"
-                secureTextEntry={false}
                 value={form.keperluanCuti}
+                textColor={inputKosong ? Color.red : Color.blue}
+                style={inputKosong ? styles.fieldSalah : styles.fieldBener}
                 onTextChange={value => onChangeText(value, 'keperluanCuti')}
               />
-
               <CustomTextInput
                 label="Alamat Cuti"
-                secureTextEntry={false}
                 value={form.alamatCuti}
+                textColor={inputKosong ? Color.red : Color.blue}
+                style={inputKosong ? styles.fieldSalah : styles.fieldBener}
                 onTextChange={value => onChangeText(value, 'alamatCuti')}
               />
             </View>
@@ -317,11 +416,21 @@ const FormCuti = ({
                 </Text>
               </View>
             </View>
-            <ButtonAction
-              title="KIRIM"
-              onPress={() => sendData()}
-              style={{width: 269}}
-            />
+            {inputKosong ? (
+              <Text style={styles.labelSalah}>Field Tidak Boleh Kosong!</Text>
+            ) : (
+              ''
+            )}
+            {btnLoading ? (
+              // <ButtonLoading style={{width: 148}} />
+              ''
+            ) : (
+              <ButtonAction
+                title="KIRIM"
+                onPress={sendData}
+                style={{width: 269}}
+              />
+            )}
           </View>
         </View>
       </View>
@@ -409,6 +518,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 10,
   },
+  dropdownSalah: {
+    width: '86.6%',
+    minHeight: 50,
+    // backgroundColor: Color.blue,
+    borderBottomWidth: 2,
+    borderBottomColor: Color.red,
+    borderRadius: 5,
+    paddingHorizontal: 20,
+    // paddingVertical: 10,
+    position: 'absolute',
+    zIndex: 10,
+  },
   dropdownTrue: {
     width: '86.6%',
     minHeight: 50,
@@ -433,5 +554,33 @@ const styles = StyleSheet.create({
     fontFamily: text.light,
     color: Color.blue,
     right: 10,
+  },
+  fieldSalah: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.red,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  fieldBener: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.green,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  textDropdownSalah: {
+    fontSize: 19,
+    fontFamily: text.light,
+    color: Color.red,
+    right: 10,
+  },
+  labelSalah: {
+    fontFamily: text.semiBold,
+    fontSize: 14,
+    color: Color.red,
+    textAlign: 'center',
   },
 });
