@@ -30,28 +30,29 @@ const DetailProfile = ({navigation, stylePP}) => {
   const [prevEditableFields, setPrevEditableFields] = useState({});
   const [editableFields, setEditableFields] = React.useState({
     nik: false,
-    nama: false,
     tempatLahir: false,
     tanggalLahir: false,
     jenisKelamin: false,
     agama: false,
     kewarganegaraan: false,
-    kodePost: false,
+    alamatKTP: false,
+    kodePos: false,
     alamatSekarang: false,
     noHP: false,
     email: false,
+    noRekening: false,
     jenjangPendidikan: false,
     tanggalBergabung: false,
-    statusKawin: false,
+    statusPerkawinan: false,
     golonganDarah: false,
     kontakDarurat: false,
-    noKontakDarurat: false,
     statusDarurat: false,
     alamatDarurat: false,
-    ktp: false,
-    npwp: false,
+    telponDarurat: false,
+    noKTP: false,
+    noNPWP: false,
     asuransi: false,
-    kk: false,
+    kartuKeluarga: false,
   });
   const [showEditButtons, setShowEditButtons] = React.useState(false);
 
@@ -75,29 +76,31 @@ const DetailProfile = ({navigation, stylePP}) => {
       } else {
         setEditableFields({
           nik: false,
-          nama: false,
           tempatLahir: false,
           tanggalLahir: false,
           jenisKelamin: false,
           agama: false,
           kewarganegaraan: false,
-          kodePost: false,
+          alamatKTP: false,
+          kodePos: false,
           alamatSekarang: false,
           noHP: false,
           email: false,
+          noRekening: false,
           jenjangPendidikan: false,
           tanggalBergabung: false,
-          statusKawin: false,
+          statusPerkawinan: false,
           golonganDarah: false,
           kontakDarurat: false,
-          noKontakDarurat: false,
           statusDarurat: false,
           alamatDarurat: false,
-          ktp: false,
-          npwp: false,
+          telponDarurat: false,
+          noKTP: false,
+          noNPWP: false,
           asuransi: false,
-          kk: false,
+          kartuKeluarga: false,
         });
+
         setShowEditButtons(false); // Sembunyikan tombol edit setelah berhasil diedit
       }
     }
@@ -111,41 +114,144 @@ const DetailProfile = ({navigation, stylePP}) => {
   const resetForm = () => {
     setEditableFields({
       nik: false,
-      nama: false,
       tempatLahir: false,
       tanggalLahir: false,
       jenisKelamin: false,
       agama: false,
       kewarganegaraan: false,
-      kodePost: false,
+      alamatKTP: false,
+      kodePos: false,
       alamatSekarang: false,
       noHP: false,
       email: false,
+      noRekening: false,
       jenjangPendidikan: false,
       tanggalBergabung: false,
-      statusKawin: false,
+      statusPerkawinan: false,
       golonganDarah: false,
       kontakDarurat: false,
-      noKontakDarurat: false,
       statusDarurat: false,
       alamatDarurat: false,
-      ktp: false,
-      npwp: false,
+      telponDarurat: false,
+      noKTP: false,
+      noNPWP: false,
       asuransi: false,
-      kk: false,
+      kartuKeluarga: false,
     });
+
     setShowEditButtons(false);
 
     // Reset nilai formulir ke nilai awal hanya jika tombol "BATAL" diklik saat tombol edit sedang ditampilkan
     if (showEditButtons) {
       dispatch(setFormDetailProfile('nik', initialForm.nik));
-      dispatch(setFormDetailProfile('nama', initialForm.nama));
-      // Reset bidang lainnya sesuai kebutuhan
+      dispatch(setFormDetailProfile('tempatLahir', initialForm.tempatLahir));
+      dispatch(setFormDetailProfile('tanggalLahir', initialForm.tanggalLahir));
+      dispatch(setFormDetailProfile('jenisKelamin', initialForm.jenisKelamin));
+      dispatch(setFormDetailProfile('agama', initialForm.agama));
+      dispatch(
+        setFormDetailProfile('kewarganegaraan', initialForm.kewarganegaraan),
+      );
+      dispatch(setFormDetailProfile('kodePos', initialForm.kodePos));
+      dispatch(
+        setFormDetailProfile('alamatSekarang', initialForm.alamatSekarang),
+      );
+      dispatch(setFormDetailProfile('noHP', initialForm.noHP));
+      dispatch(setFormDetailProfile('email', initialForm.email));
+      dispatch(
+        setFormDetailProfile(
+          'jenjangPendidikan',
+          initialForm.jenjangPendidikan,
+        ),
+      );
+      dispatch(
+        setFormDetailProfile('tanggalBergabung', initialForm.tanggalBergabung),
+      );
+      dispatch(setFormDetailProfile('statusKawin', initialForm.statusKawin));
+      dispatch(
+        setFormDetailProfile('golonganDarah', initialForm.golonganDarah),
+      );
+      dispatch(
+        setFormDetailProfile('kontakDarurat', initialForm.kontakDarurat),
+      );
+      dispatch(
+        setFormDetailProfile('noKontakDarurat', initialForm.noKontakDarurat),
+      );
+      dispatch(
+        setFormDetailProfile('statusDarurat', initialForm.statusDarurat),
+      );
+      dispatch(
+        setFormDetailProfile('alamatDarurat', initialForm.alamatDarurat),
+      );
+      dispatch(setFormDetailProfile('ktp', initialForm.ktp));
+      dispatch(setFormDetailProfile('npwp', initialForm.npwp));
+      dispatch(setFormDetailProfile('asuransi', initialForm.asuransi));
+      dispatch(setFormDetailProfile('kk', initialForm.kk));
     } else {
       // Jika tombol "BATAL" diklik saat tombol edit tidak ditampilkan, maka reset formulir ke nilai sebelumnya
       dispatch(setFormDetailProfile('nik', prevEditableFields.nik));
       dispatch(setFormDetailProfile('nama', prevEditableFields.nama));
-      // Reset bidang lainnya sesuai kebutuhan
+      dispatch(
+        setFormDetailProfile('tempatLahir', prevEditableFields.tempatLahir),
+      );
+      dispatch(
+        setFormDetailProfile('tanggalLahir', prevEditableFields.tanggalLahir),
+      );
+      dispatch(
+        setFormDetailProfile('jenisKelamin', prevEditableFields.jenisKelamin),
+      );
+      dispatch(setFormDetailProfile('agama', prevEditableFields.agama));
+      dispatch(
+        setFormDetailProfile(
+          'kewarganegaraan',
+          prevEditableFields.kewarganegaraan,
+        ),
+      );
+      dispatch(setFormDetailProfile('kodePos', prevEditableFields.kodePos));
+      dispatch(
+        setFormDetailProfile(
+          'alamatSekarang',
+          prevEditableFields.alamatSekarang,
+        ),
+      );
+      dispatch(setFormDetailProfile('noHP', prevEditableFields.noHP));
+      dispatch(setFormDetailProfile('email', prevEditableFields.email));
+      dispatch(
+        setFormDetailProfile(
+          'jenjangPendidikan',
+          prevEditableFields.jenjangPendidikan,
+        ),
+      );
+      dispatch(
+        setFormDetailProfile(
+          'tanggalBergabung',
+          prevEditableFields.tanggalBergabung,
+        ),
+      );
+      dispatch(
+        setFormDetailProfile('statusKawin', prevEditableFields.statusKawin),
+      );
+      dispatch(
+        setFormDetailProfile('golonganDarah', prevEditableFields.golonganDarah),
+      );
+      dispatch(
+        setFormDetailProfile('kontakDarurat', prevEditableFields.kontakDarurat),
+      );
+      dispatch(
+        setFormDetailProfile(
+          'noKontakDarurat',
+          prevEditableFields.noKontakDarurat,
+        ),
+      );
+      dispatch(
+        setFormDetailProfile('statusDarurat', prevEditableFields.statusDarurat),
+      );
+      dispatch(
+        setFormDetailProfile('alamatDarurat', prevEditableFields.alamatDarurat),
+      );
+      dispatch(setFormDetailProfile('ktp', prevEditableFields.ktp));
+      dispatch(setFormDetailProfile('npwp', prevEditableFields.npwp));
+      dispatch(setFormDetailProfile('asuransi', prevEditableFields.asuransi));
+      dispatch(setFormDetailProfile('kk', prevEditableFields.kk));
     }
   };
 
@@ -154,28 +260,29 @@ const DetailProfile = ({navigation, stylePP}) => {
     setShowEditButtons(false); // Hide the edit buttons after sending data
     setEditableFields({
       nik: false,
-      nama: false,
       tempatLahir: false,
       tanggalLahir: false,
       jenisKelamin: false,
       agama: false,
       kewarganegaraan: false,
-      kodePost: false,
+      alamatKTP: false,
+      kodePos: false,
       alamatSekarang: false,
       noHP: false,
       email: false,
+      noRekening: false,
       jenjangPendidikan: false,
       tanggalBergabung: false,
-      statusKawin: false,
+      statusPerkawinan: false,
       golonganDarah: false,
       kontakDarurat: false,
-      noKontakDarurat: false,
       statusDarurat: false,
       alamatDarurat: false,
-      ktp: false,
-      npwp: false,
+      telponDarurat: false,
+      noKTP: false,
+      noNPWP: false,
       asuransi: false,
-      kk: false,
+      kartuKeluarga: false,
     });
   };
 
@@ -295,13 +402,13 @@ const DetailProfile = ({navigation, stylePP}) => {
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
-                label="Kode Post"
-                editable={editableFields.kodePost}
-                value={form.kodePost}
-                onTextChange={value => onChangeText(value, 'kodePost')}
+                label="Kode Pos"
+                editable={editableFields.kodePos}
+                value={form.kodePos}
+                onTextChange={value => onChangeText(value, 'kodePos')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('kodePost')}>
+                <TouchableOpacity onPress={() => toggleEditMode('kodePos')}>
                   <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
                 </TouchableOpacity>
               </View>
@@ -506,6 +613,7 @@ const DetailProfile = ({navigation, stylePP}) => {
               </View>
             </View>
           </View>
+
           {showEditButtons && (
             <View style={{alignItems: 'center', marginBottom: 40}}>
               <TouchableOpacity

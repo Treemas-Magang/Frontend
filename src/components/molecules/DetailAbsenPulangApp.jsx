@@ -20,6 +20,7 @@ import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
 const DetailAbsenPulangApp = ({
   nik,
   nama,
+  namaProject,
   hari,
   tanggalAbsen,
   lokasiMasuk,
@@ -55,6 +56,10 @@ const DetailAbsenPulangApp = ({
         <View>
           <Text style={styles.TextTitle}>Nama</Text>
           <Text style={styles.TextDeskripsi}>{nama}</Text>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Nama Project</Text>
+          <Text style={styles.TextDeskripsi}>{namaProject}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Hari</Text>
