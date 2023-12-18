@@ -31,7 +31,7 @@ const getData = async headers => {
       API_GABUNGAN + '/api/dashboard/main',
       {headers},
     );
-    console.log(response.data.data);
+    // console.log(response.data.data);
     const dataAPI = response.data.data;
     setStatistik(dataAPI);
   } catch (error) {

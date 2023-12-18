@@ -32,27 +32,27 @@ import pushNewAnnouncementNotification, { pushNewApprovalNotification } from '..
 const ScreenDashboard = ({navigation}) => {
   const dispatch = useDispatch();
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
-  const {
-    sakit,
-    cuti,
-    absen_pulang,
-    absen_web,
-    reimburse,
-    cuti_web,
-    cancel_cuti,
-    libur,
-    lembur,
-  } = useSelector(state => state.jmlNotifMasingMasingApprovalReducer);
+  // const {
+  //   sakit,
+  //   cuti,
+  //   absen_pulang,
+  //   absen_web,
+  //   reimburse,
+  //   cuti_web,
+  //   cancel_cuti,
+  //   libur,
+  //   lembur,
+  // } = useSelector(state => state.jmlNotifMasingMasingApprovalReducer);
 
-  console.log('Sakit:', sakit);
-  console.log('Cuti:', cuti);
-  console.log('Absen Pulang:', absen_pulang);
-  console.log('Absen Web:', absen_web);
-  console.log('Reimburse:', reimburse);
-  console.log('Cuti Web:', cuti_web);
-  console.log('Cancel Cuti:', cancel_cuti);
-  console.log('Libur:', libur);
-  console.log('Lembur:', lembur);
+  // console.log('Sakit:', sakit);
+  // console.log('Cuti:', cuti);
+  // console.log('Absen Pulang:', absen_pulang);
+  // console.log('Absen Web:', absen_web);
+  // console.log('Reimburse:', reimburse);
+  // console.log('Cuti Web:', cuti_web);
+  // console.log('Cancel Cuti:', cancel_cuti);
+  // console.log('Libur:', libur);
+  // console.log('Lembur:', lembur);
 
   const {approval} = useSelector(state => state.JumlahApprovalReducer);
   const [jmlBlmBaca, setJmlBlmBaca] = useState(0);
@@ -62,7 +62,7 @@ const ScreenDashboard = ({navigation}) => {
     getDataFromSession('dataProfilUser')
       .then(data => {
         const dataProfile = JSON.parse(data);
-        console.log('data profil menu utama : ', dataProfile);
+        // console.log('data profil menu utama : ', dataProfile);
         setIsRole(dataProfile.role);
       })
       .catch(error => console.log(error));
@@ -90,32 +90,32 @@ const ScreenDashboard = ({navigation}) => {
           headers,
         },
       );
-      const dataAPI = response.data.data;
+      const dataAPI = response.data.data[0];
       console.log('Ini data API Absen:', dataAPI);
 
       // Setelah mendapatkan data dari API, langsung set nilai 'sudah_absen'
       // berdasarkan panjang dataAPI (jika lebih dari 0, maka sudah absen)
       await AsyncStorage.setItem(
         'sudah_absen',
-        dataAPI.length > 0 ? 'true' : 'false',
+        dataAPI.jamMsk !== null ? 'true' : 'false',
       );
 
       // Setelah itu, periksa apakah dataAPI[0].jamPlg tidak null
-      if (dataAPI.length > 0 && dataAPI[0].jamPlg !== null) {
+      if (dataAPI.jamMsk !== null && dataAPI.jamPlg !== null) {
         await AsyncStorage.setItem('sudah_pulang', 'true');
       } else {
         await AsyncStorage.setItem('sudah_pulang', 'false');
       }
     } catch (error) {
       console.error(error);
-      Alert.alert('Peringatan', `Token anda telah expired`, [
-        {
-          text: 'Kembali ke Login',
-          onPress: () => {
-            navigation.replace('login');
-          },
-        },
-      ]);
+      // Alert.alert('Peringatan', `Token anda telah expired`, [
+      //   {
+      //     text: 'Kembali ke Login',
+      //     onPress: () => {
+      //       navigation.replace('login');
+      //     },
+      //   },
+      // ]);
     }
   };
 
@@ -128,7 +128,7 @@ const ScreenDashboard = ({navigation}) => {
         },
       );
       const dataAPI = response.data.dataCount;
-      console.log('Ini data API Jml notif APP:', dataAPI);
+      // console.log('Ini data API Jml notif APP:', dataAPI);
       dispatch(setJumlahApproval('approval', +dataAPI));
     } catch (error) {
       console.error(error);
@@ -151,10 +151,10 @@ const ScreenDashboard = ({navigation}) => {
     // render notif //
     getToken().then(() => {
       countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
-        console.log(
-          'Jumlah ID dengan status false:',
-          jumlahDataDenganStatusFalse,
-        );
+        // console.log(
+        //   'Jumlah ID dengan status false:',
+        //   jumlahDataDenganStatusFalse,
+        // );
         // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
         dispatch(
           setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse),
@@ -188,28 +188,16 @@ const ScreenDashboard = ({navigation}) => {
   //   };
   // }, [navigation]); // Run this effect whenever the navigation object changes
 
-  // useEffect(() => {
-  //   // Start the background timer
-  //   const timerId = BackgroundTimer.setInterval(() => {
-  //     pushNewApprovalNotification({navigation})
-  //       .then(() => {
-  //         console.log('Notification pushed successfully.');
-  //       })
-  //       .catch(error => {
-  //         console.error('Error pushing notification:', error);
-  //       });
-  //   }, 10000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
-
-  //   // Clean up the timer when the component unmounts
-  //   return () => {
-  //     BackgroundTimer.clearInterval(timerId);
-  //   };
-  // }, [navigation]); // Run this effect whenever the navigation object changes
-
   useEffect(() => {
     // Start the background timer
     const timerId = BackgroundTimer.setInterval(() => {
-      console.log('tik')
+      pushNewApprovalNotification({navigation})
+        .then(() => {
+          console.log('Notification pushed successfully.');
+        })
+        .catch(error => {
+          console.error('Error pushing notification:', error);
+        });
     }, 10000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
 
     // Clean up the timer when the component unmounts
@@ -217,6 +205,18 @@ const ScreenDashboard = ({navigation}) => {
       BackgroundTimer.clearInterval(timerId);
     };
   }, [navigation]); // Run this effect whenever the navigation object changes
+
+  // useEffect(() => {
+  //   // Start the background timer
+  //   const timerId = BackgroundTimer.setInterval(() => {
+  //     console.log('tik')
+  //   }, 1000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
+
+  //   // Clean up the timer when the component unmounts
+  //   return () => {
+  //     BackgroundTimer.clearInterval(timerId);
+  //   };
+  // }, [navigation]); // Run this effect whenever the navigation object changes
 
   // Start a timer that runs continuous after X milliseconds
 

@@ -47,7 +47,7 @@ const FormSakit = ({navigation}) => {
       console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
     }
   }, [dispatch, capturedImage]);
-  console.log('ini base64Image : ', base64ImageData);
+  // console.log('ini base64Image : ', base64ImageData);
   const dispatch = useDispatch();
   const {form_sakit} = useSelector(state => state.FormSakitReducer);
   //   console.log('ini dari reducer : ', form);
@@ -216,7 +216,7 @@ const FormSakit = ({navigation}) => {
         try {
           setBtnLoading(true);
           // Melakukan pengiriman data ke API
-          // await kirimDataKeAPI();
+          await kirimDataKeAPI();
           // Reset formulir setelah berhasil mengirim data
           dispatch(resetFormSakit());
         } finally {
@@ -235,7 +235,7 @@ const FormSakit = ({navigation}) => {
       try {
         setBtnLoading(true);
         // Melakukan pengiriman data ke API
-        // await kirimDataKeAPI();
+        await kirimDataKeAPI();
         // Reset formulir setelah berhasil mengirim data
         dispatch(resetFormSakit());
       } finally {

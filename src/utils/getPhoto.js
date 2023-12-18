@@ -44,6 +44,7 @@ export const openGalerImg = () => {
       } else {
         console.log(res);
         const onImageCapture = res.assets[0];
+        console.log('belum di render : ', onImageCapture.base64);
         resolve(onImageCapture);
       }
     });

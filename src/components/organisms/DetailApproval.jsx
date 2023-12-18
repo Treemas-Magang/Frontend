@@ -36,7 +36,7 @@ import SkeletonDetailApproval from '../skeleton/SkeletonDetailApproval';
 
 const DetailApproval = ({navigation, stylePP}) => {
   const {id, kategori} = useRoute().params;
-  let kategoriBaru =  kategori.replace(/-/g, ' ');
+  // let kategoriBaru =  kategori.replace(/-/g, ' ');
   console.log(id + ' dan ' + kategori);
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
@@ -117,7 +117,8 @@ const DetailApproval = ({navigation, stylePP}) => {
           justifyContent: 'center',
         }}>
         <Text style={styles.Judul}>Detail</Text>
-        <Text style={styles.Judul}>Approval {kategoriBaru}</Text>
+        <Text style={styles.Judul}>Approval</Text>
+        {/* <Text style={styles.Judul}>Approval {kategoriBaru}</Text> */}
       </View>
       {kategori === 'sakit' ||
       kategori === 'cuti' ||
@@ -140,7 +141,6 @@ const DetailApproval = ({navigation, stylePP}) => {
             tglMasuk={detailApp.tglKembaliKerja || '-'}
             tglMulai={detailApp.tglMulai || '-'}
             tglSelesai={detailApp.tglSelesai || '-'}
-            namaProject={detailApp.projectId.namaProject || '-'}
           />
         )
       ) : (
@@ -165,7 +165,6 @@ const DetailApproval = ({navigation, stylePP}) => {
             noteTelatMasuk={detailApp.noteTelatMsk || '-'}
             tanggalAbsen={detailApp.tglAbsen || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
-            namaProject={detailApp.projectId.namaProject || '-'}
             approve={() => sendData('1')}
             reject={() => sendData('1')}
           />
@@ -219,7 +218,6 @@ const DetailApproval = ({navigation, stylePP}) => {
             tanggalAbsen={detailApp.tglAbsen || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
             keterangan={detailApp.keterangan || '-'}
-            namaProject={detailApp.projectId.namaProject || '-'}
             approve={() => sendData('1')}
             reject={() => sendData('1')}
           />
