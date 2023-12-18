@@ -1,83 +1,118 @@
 /* eslint-disable prettier/prettier */
-import { Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Platform} from 'react-native';
 import PushNotification, {Importance} from 'react-native-push-notification';
 
-class Notifikasi {
-    configure = () => {
-        PushNotification.configure({
-          // (optional) Called when Token is generated (iOS and Android)
-          onRegister: function (token) {
-            console.log('TOKEN:', token);
-          },
+const configureNotifications = (navigation, screen, id, kategori) => {
+  PushNotification.configure({
+    onRegister: function (token) {
+      console.log('TOKEN:', token);
+    },
+    onNotification: function (notification) {
+      console.log('NOTIFICATION:', notification);
 
-          // (required) Called when a remote is received or opened, or local notification is opened
-          onNotification: function (notification) {
-            console.log('NOTIFICATION:', notification);
+      // Handle the notification click event
+      handleNotificationClick(navigation, screen, id, kategori);
+    },
+    onAction: function (notification) {
+      console.log('ACTION:', notification.action);
+      console.log('NOTIFICATION:', notification);
+    },
+    onRegistrationError: function (err) {
+      console.error(err.message, err);
+    },
+    permissions: {
+      alert: true,
+      badge: true,
+      sound: true,
+    },
+    popInitialNotification: true,
+    requestPermissions: Platform.OS === 'ios',
+  });
+};
 
-            // process the notification
+const createNotificationChannel = channel => {
+  PushNotification.createChannel(
+    {
+      channelId: channel,
+      channelName: 'My channel',
+      channelDescription: 'A channel to categorize your notifications',
+      playSound: false,
+      soundName: 'default',
+      importance: Importance.HIGH,
+      vibrate: true,
+    },
+    created => console.log(`createChannel returned '${created}'`),
+  );
+};
 
-            // (required) Called when a remote is received or opened, or local notification is opened
-            // notification.finish(PushNotificationIOS.FetchResult.NoData);
-          },
+const sendNotification = (channel, title, body) => {
+  PushNotification.localNotification({
+    channelId: channel,
+    title: title,
+    message: body,
+  });
 
-          // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
-          onAction: function (notification) {
-            console.log('ACTION:', notification.action);
-            console.log('NOTIFICATION:', notification);
+};
 
-            // process the action
-          },
+const updateStatusInStorage = async id => {
+  try {
+    // Mengambil data dari AsyncStorage
+    const dataFromStorage = await AsyncStorage.getItem('announcementData');
 
-          // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
-          onRegistrationError: function (err) {
-            console.error(err.message, err);
-          },
+    if (dataFromStorage !== null) {
+      // Jika data ditemukan, parse data JSON
+      const parsedData = JSON.parse(dataFromStorage);
 
-          // IOS ONLY (optional): default: all - Permissions to register.
-          permissions: {
-            alert: true,
-            badge: true,
-            sound: true,
-          },
+      // Cari item dengan id yang sesuai dalam data tersebut
+      const itemToUpdate = parsedData.find(item => item.id === id);
 
-          // Should the initial notification be popped automatically
-          // default: true
-          popInitialNotification: true,
+      if (itemToUpdate) {
+        // Jika item ditemukan, ubah status menjadi true
+        itemToUpdate.status = true;
 
-          /**
-           * (optional) default: true
-           * - Specified if permissions (ios) and token (android and ios) will requested or not,
-           * - if not, you must call PushNotificationsHandler.requestPermissions() later
-           * - if you are not using remote notification or do not have Firebase installed, use this:
-           *     requestPermissions: Platform.OS === 'ios'
-           */
-        //   requestPermissions: true,
-          requestPermissions: Platform.OS === 'ios',
-        });
-    };
-    buatChannel = (channel) => {
-        PushNotification.createChannel(
-          {
-            channelId: channel, // (required)
-            channelName: 'My channel', // (required)
-            channelDescription: 'A channel to categorise your notifications', // (optional) default: undefined.
-            playSound: false, // (optional) default: true
-            soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
-            importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
-            vibrate: true, // (optional) default: true. Creates the default vibration pattern if true.
-          },
-          created => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
+        // Simpan data yang telah diubah kembali ke AsyncStorage
+        await AsyncStorage.setItem(
+          'announcementData',
+          JSON.stringify(parsedData),
         );
+        console.log(
+          `Status untuk ID ${id} berhasil diubah menjadi true di AsyncStorage`,
+        );
+      } else {
+        // Item dengan id yang diberikan tidak ditemukan
+        console.log(`Item dengan ID ${id} tidak ditemukan.`);
+      }
+    } else {
+      // Data tidak ditemukan di AsyncStorage
+      console.log('Data tidak ditemukan di AsyncStorage');
     }
+  } catch (error) {
+    console.error('Gagal mengubah status di AsyncStorage:', error);
+  }
+};
 
-    kirimNotifikasi = (channel, title, body) => {
-        PushNotification.localNotification({
-          /* Android Only Properties */
-          channelId: channel, // (required) channelId, if the channel doesn't exist, notification will not trigger.
-          title: title, // (optional)
-          message: body,
-        });
-    };
-}
+const handleNotificationClick = async (navigation, screen, id, kategori) => {
+  await updateStatusInStorage(id);
+  // Extract relevant data from the notification
+  const screenName = screen;
+  if (kategori !== null) {
+    moveToScreen(screenName, navigation, id, kategori);
+  } else {
+    moveToScreen(screenName, navigation, id);
+  }
+  // Use navigation to move to the specified screen
+};
 
-export const notification = new Notifikasi();
+const moveToScreen = (screenName, navigation, id, kategori) => {
+  // Implement your navigation logic here to move to the specified screen
+  // You can use React Navigation or any other navigation library you're using
+  // Example using React Navigation:
+  if (kategori !== null) {
+    navigation.navigate(screenName, {id: id, kategori: kategori});
+  } else {
+    navigation.navigate(screenName, {id: id});
+  }
+};
+
+export {configureNotifications, createNotificationChannel, sendNotification};

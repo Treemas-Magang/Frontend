@@ -54,6 +54,7 @@ import {
 } from '../pages/index';
 import DetailSakitApp from '../components/molecules/DetailSakitApp';
 import DetailLiburApp from '../components/molecules/DetailLiburApp';
+import MapPreviewTracking from '../components/organisms/MapPreviewTracking';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -273,6 +274,11 @@ const screens = [
   // {
   //   name: 'coba',
   //   component: DetailLiburApp,
+  //   gestureEnabled: true,
+  // },
+  // {
+  //   name: 'mapTracking',
+  //   component: MapPreviewTracking,
   //   gestureEnabled: true,
   // },
 ];

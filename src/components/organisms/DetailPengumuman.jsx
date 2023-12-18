@@ -20,7 +20,7 @@ import {
 import {useRoute} from '@react-navigation/native';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import axios from 'axios';
-import {API_URL, API_URL_WEB} from '@env';
+import {API_URL, API_GABUNGAN} from '@env';
 import {getDataFromSession} from '../../utils/getDataSession';
 
 const DetailPengumuman = ({navigation}) => {
@@ -55,7 +55,7 @@ const DetailPengumuman = ({navigation}) => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `${API_URL_WEB}/api/master-data/announcement-view/${id}`,
+        `${API_GABUNGAN}/api/master-data/announcement-view/${id}`,
         {headers},
       );
       const dataAPI = response.data.data;

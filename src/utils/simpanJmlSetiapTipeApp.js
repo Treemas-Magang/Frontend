@@ -29,11 +29,13 @@ async function setDataJmlNotifMasingMasingApproval(dispatch, headers) {
     const response = await axios.get(apiUrlNotifApproval, {headers});
 
     const absenPulangApprovals = response.data.data.absenPulangApprovals;
+    const absenPulangApprovalsData = response.data.data.absenPulangApprovals;
     const absenPulangApprovalsCount = absenPulangApprovals.length;
     dispatch(
       setNotiveMasingMasingApproval('absen_pulang', absenPulangApprovalsCount),
     );
     console.log('get all approval absen pulang : ', absenPulangApprovalsCount);
+    console.log('get all approval absen pulang data : ', absenPulangApprovalsData);
   } catch (error) {
     console.error('Error fetching data:', error.response);
   }
