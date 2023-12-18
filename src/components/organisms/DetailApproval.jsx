@@ -33,10 +33,12 @@ import {useRoute} from '@react-navigation/native';
 import {getDataFromSession} from '../../utils/getDataSession';
 import DetailAbsen from './DetailAbsen';
 import SkeletonDetailApproval from '../skeleton/SkeletonDetailApproval';
+import DetailAbsenWebApp from '../molecules/DetailAbsenWebApp';
+import DetailCutiWebApp from '../molecules/DetailCutiWebApp';
 
 const DetailApproval = ({navigation, stylePP}) => {
   const {id, kategori} = useRoute().params;
-  // let kategoriBaru =  kategori.replace(/-/g, ' ');
+  let kategoriBaru = kategori.replace(/-/g, ' ');
   console.log(id + ' dan ' + kategori);
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
@@ -67,6 +69,15 @@ const DetailApproval = ({navigation, stylePP}) => {
           break;
         case 'lembur':
           dataAPI = response.data.data.getLemburApproval;
+          break;
+        case 'reimburse':
+          dataAPI = response.data.data.getDetailReimburseApproval;
+          break;
+        case 'absen-web':
+          dataAPI = response.data.data.getDetailAbsenWebApproval;
+          break;
+        case 'cuti-web':
+          dataAPI = response.data.data.getDetailCutiWebApproval;
           break;
 
         default:
@@ -120,9 +131,7 @@ const DetailApproval = ({navigation, stylePP}) => {
         <Text style={styles.Judul}>Approval</Text>
         {/* <Text style={styles.Judul}>Approval {kategoriBaru}</Text> */}
       </View>
-      {kategori === 'sakit' ||
-      kategori === 'cuti' ||
-      kategori === 'cuti-web' ? (
+      {kategori === 'sakit' || kategori === 'cuti' ? (
         isLoading ? (
           <SkeletonDetailApproval />
         ) : (
@@ -218,6 +227,80 @@ const DetailApproval = ({navigation, stylePP}) => {
             tanggalAbsen={detailApp.tglAbsen || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
             keterangan={detailApp.keterangan || '-'}
+            namaProject={detailApp.projectId.namaProject || '-'}
+            approve={() => sendData('1')}
+            reject={() => sendData('1')}
+          />
+        )
+      ) : (
+        ''
+      )}
+      {kategori === 'reimburse' ? (
+        isLoading ? (
+          <SkeletonDetailApproval />
+        ) : (
+          <DetailReimburseApp
+            nik={detailApp.nik || '-'}
+            nama={detailApp.nama || '-'}
+            hari={detailApp.hari || '-'}
+            tanggalAbsen={detailApp.tglAbsen || '-'}
+            lokasiMasuk={detailApp.lokasiMsk || '-'}
+            jamMasuk={detailApp.jamMsk || '-'}
+            lokasiPulang={detailApp.lokasiPlg || '-'}
+            jamPulang={detailApp.jamPlg || '-'}
+            notePekerjaan={detailApp.notePekerjaan || '-'}
+            noteTelatMasuk={detailApp.noteTelatMsk || '-'}
+            notePulangCepat={detailApp.notePlgCepat || '-'}
+            noteOther={detailApp.noteOther || '-'}
+            totalJamKerja={detailApp.totalJamKerja || '-'}
+            namaProject={detailApp.projectId.namaProject || '-'}
+            approve={() => sendData('1')}
+            reject={() => sendData('1')}
+          />
+        )
+      ) : (
+        ''
+      )}
+      {kategori === 'absen-web' ? (
+        isLoading ? (
+          <SkeletonDetailApproval />
+        ) : (
+          <DetailAbsenWebApp
+            nik={detailApp.nik || '-'}
+            nama={detailApp.nama || '-'}
+            hari={detailApp.hari || '-'}
+            tanggalAbsen={detailApp.tglAbsen || '-'}
+            lokasiMasuk={detailApp.lokasiMsk || '-'}
+            jamMasuk={detailApp.jamMsk || '-'}
+            jarakMsk={detailApp.jarakMsk || '-'}
+            lokasiPulang={detailApp.lokasiPlg || '-'}
+            jamPulang={detailApp.jamPlg || '-'}
+            jarakPlg={detailApp.jarakPlg || '-'}
+            notePekerjaan={detailApp.notePekerjaan || '-'}
+            noteTelatMasuk={detailApp.noteTelatMsk || '-'}
+            notePulangCepat={detailApp.notePlgCepat || '-'}
+            noteOther={detailApp.noteOther || '-'}
+            totalJamKerja={detailApp.totalJamKerja || '-'}
+            namaProject={detailApp.projectId.namaProject || '-'}
+            approve={() => sendData('1')}
+            reject={() => sendData('1')}
+          />
+        )
+      ) : (
+        ''
+      )}
+      {kategori === 'cuti-web' ? (
+        isLoading ? (
+          <SkeletonDetailApproval />
+        ) : (
+          <DetailCutiWebApp
+            nik={detailApp.nik || '-'}
+            nama={detailApp.nama || '-'}
+            tglMulai={detailApp.tglMulai || '-'}
+            tglSelesai={detailApp.tglSelesai || '-'}
+            tglKembaliKerja={detailApp.tglKembaliKerja || '-'}
+            alamatCuti={detailApp.alamatCuti || '-'}
+            keperluanCuti={detailApp.keperluanCuti || '-'}
             approve={() => sendData('1')}
             reject={() => sendData('1')}
           />

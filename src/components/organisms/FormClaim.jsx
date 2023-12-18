@@ -27,7 +27,6 @@ import {API_URL, API_GABUNGAN} from '@env';
 import {
   AlertNotificationDanger,
   AlertNotificationSuccess,
-  AlertNotificationWarning,
 } from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
 
@@ -302,11 +301,19 @@ const FormClaim = ({navigation}) => {
               }>
               {keterangan === '' ? 'Pilih Type Claim' : keterangan}
             </Text>
-            <FontAwesomeIcon
-              icon={faCaretDown}
-              size={25}
-              color={openDropdownClaim ? Color.white : Color.green}
-            />
+            {inputKosong ? (
+              <FontAwesomeIcon
+                icon={faCaretDown}
+                size={25}
+                color={openDropdownClaim ? Color.white : Color.red}
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faCaretDown}
+                size={25}
+                color={openDropdownClaim ? Color.white : Color.green}
+              />
+            )}
           </TouchableOpacity>
           {openDropdownClaim ? (
             <DropdownClaim
@@ -340,7 +347,12 @@ const FormClaim = ({navigation}) => {
         style={inputKosong ? styles.fieldSalah : styles.fieldBener}
         onTextChange={value => onChangeText(value, 'nominal')}
       />
-      <View style={styles.kotakPreviewKosong}>
+      <View
+        style={
+          inputKosong
+            ? styles.kotakPreviewKosongSalah
+            : styles.kotakPreviewKosong
+        }>
         <View style={styles.previewKosong}>
           {base64ImageData === null ? (
             <>
@@ -348,7 +360,16 @@ const FormClaim = ({navigation}) => {
                 <ActivityIndicator size="large" color={Color.black} />
               ) : (
                 <>
-                  <FontAwesomeIcon icon={faCamera} size={50} />
+                  {inputKosong ? (
+                    <FontAwesomeIcon
+                      icon={faCamera}
+                      size={50}
+                      color={Color.red}
+                    />
+                  ) : (
+                    <FontAwesomeIcon icon={faCamera} size={50} />
+                  )}
+
                   <Text>Preview</Text>
                 </>
               )}
@@ -419,6 +440,14 @@ const styles = StyleSheet.create({
     height: 161,
     backgroundColor: Color.grey,
     borderRadius: 10,
+  },
+  kotakPreviewKosongSalah: {
+    width: 275,
+    height: 161,
+    backgroundColor: Color.grey,
+    borderRadius: 10,
+    borderColor: Color.red,
+    borderWidth: 3,
   },
   wrapperButton: {flexDirection: 'row', gap: 10},
   previewKosong: {

@@ -22,12 +22,14 @@ import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPen} from '@fortawesome/free-solid-svg-icons';
+import {AlertNotificationWarning} from '../atoms/AlertNotification';
 
 const DetailProfile = ({navigation, stylePP}) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.DetailProfileReducer);
   const [initialForm, setInitialForm] = useState({});
   const [prevEditableFields, setPrevEditableFields] = useState({});
+  const [alertWarning, setAlertWarning] = useState(false);
   const [editableFields, setEditableFields] = React.useState({
     nik: false,
     tempatLahir: false,
@@ -54,6 +56,33 @@ const DetailProfile = ({navigation, stylePP}) => {
     asuransi: false,
     kartuKeluarga: false,
   });
+  const [isClicked, setIsClicked] = useState({
+    nik: false,
+    tempatLahir: false,
+    tanggalLahir: false,
+    jenisKelamin: false,
+    agama: false,
+    kewarganegaraan: false,
+    alamatKTP: false,
+    kodePos: false,
+    alamatSekarang: false,
+    noHP: false,
+    email: false,
+    noRekening: false,
+    jenjangPendidikan: false,
+    tanggalBergabung: false,
+    statusPerkawinan: false,
+    golonganDarah: false,
+    kontakDarurat: false,
+    statusDarurat: false,
+    alamatDarurat: false,
+    telponDarurat: false,
+    noKTP: false,
+    noNPWP: false,
+    asuransi: false,
+    kartuKeluarga: false,
+    // Tambahkan sesuai dengan bagian lain yang perlu diubah
+  });
   const [showEditButtons, setShowEditButtons] = React.useState(false);
 
   const onChangeText = (value, inputType) => {
@@ -66,14 +95,23 @@ const DetailProfile = ({navigation, stylePP}) => {
         ...prevFields,
         [field]: !prevFields[field],
       }));
-      setInitialForm({...form}); // Simpan nilai awal formulir
-      setShowEditButtons(true); // Tampilkan tombol edit ketika ikon pena diklik
+      setInitialForm({...form});
+      setShowEditButtons(true);
+      setIsClicked(prevIsClicked => ({
+        ...prevIsClicked,
+        [field]: true,
+      }));
     } else {
       if (field === 'batal') {
-        // Kembalikan state editableFields ke nilai sebelumnya
         setEditableFields({...prevEditableFields});
-        setShowEditButtons(false); // Sembunyikan tombol edit setelah klik "BATAL"
+        setShowEditButtons(false);
+        setIsClicked(prevIsClicked => ({
+          ...prevIsClicked,
+          [field]: false,
+        }));
+        setAlertWarning(false);
       } else {
+        setAlertWarning(false);
         setEditableFields({
           nik: false,
           tempatLahir: false,
@@ -100,8 +138,12 @@ const DetailProfile = ({navigation, stylePP}) => {
           asuransi: false,
           kartuKeluarga: false,
         });
-
         setShowEditButtons(false); // Sembunyikan tombol edit setelah berhasil diedit
+        // setShowEditButtons(false);
+        setIsClicked(prevIsClicked => ({
+          ...prevIsClicked,
+          [field]: false,
+        }));
       }
     }
   };
@@ -112,6 +154,7 @@ const DetailProfile = ({navigation, stylePP}) => {
   }, [editableFields]);
 
   const resetForm = () => {
+    setAlertWarning(false);
     setEditableFields({
       nik: false,
       tempatLahir: false,
@@ -256,8 +299,14 @@ const DetailProfile = ({navigation, stylePP}) => {
   };
 
   const sendData = () => {
-    console.log('kirim data : ', form);
-    setShowEditButtons(false); // Hide the edit buttons after sending data
+    // Validate if any of the form fields is empty
+    const isEmptyField = Object.values(form).some(value => value === '');
+    setIsClicked(prevIsClicked => {
+      const newIsClicked = Object.fromEntries(
+        Object.keys(prevIsClicked).map(key => [key, false]),
+      );
+      return newIsClicked;
+    });
     setEditableFields({
       nik: false,
       tempatLahir: false,
@@ -284,6 +333,47 @@ const DetailProfile = ({navigation, stylePP}) => {
       asuransi: false,
       kartuKeluarga: false,
     });
+
+    if (isEmptyField) {
+      setAlertWarning(true);
+      // Show custom alert notification for empty data
+    } else {
+      setAlertWarning(false);
+      console.log('kirim data : ', form);
+      setShowEditButtons(false); // Hide the edit buttons after sending data
+      setEditableFields({
+        nik: false,
+        tempatLahir: false,
+        tanggalLahir: false,
+        jenisKelamin: false,
+        agama: false,
+        kewarganegaraan: false,
+        alamatKTP: false,
+        kodePos: false,
+        alamatSekarang: false,
+        noHP: false,
+        email: false,
+        noRekening: false,
+        jenjangPendidikan: false,
+        tanggalBergabung: false,
+        statusPerkawinan: false,
+        golonganDarah: false,
+        kontakDarurat: false,
+        statusDarurat: false,
+        alamatDarurat: false,
+        telponDarurat: false,
+        noKTP: false,
+        noNPWP: false,
+        asuransi: false,
+        kartuKeluarga: false,
+      });
+    }
+  };
+
+  const close = () => {
+    setAlertWarning(false);
+    // Implementasi penutupan atau navigasi kembali
+    // sesuai dengan kebutuhan Anda
   };
 
   return (
@@ -300,6 +390,16 @@ const DetailProfile = ({navigation, stylePP}) => {
         <Text style={styles.Judul}>PROFILE</Text>
       </View>
       <View style={styles.backgroundDetailProfile}>
+        {alertWarning ? (
+          <AlertNotificationWarning
+            buttonAlert="Close"
+            textBodyAlert="Data Tidak Boleh Kosong"
+            titleAlert="Success"
+            onPress={close}
+          />
+        ) : (
+          ''
+        )}
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{alignItems: 'center'}}>
             <TouchableOpacity>
@@ -309,9 +409,7 @@ const DetailProfile = ({navigation, stylePP}) => {
                 resizeMode="contain"
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => sendData()}>
-              <Text style={styles.TextEditProf}>Edit Foto</Text>
-            </TouchableOpacity>
+            <Text style={styles.textName}>Azriel FachrulRezy</Text>
           </View>
           <View style={{marginBottom: 20, marginTop: 10, alignItems: 'center'}}>
             <View style={{marginBottom: 10}}>
@@ -324,20 +422,6 @@ const DetailProfile = ({navigation, stylePP}) => {
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
-                label="Nama"
-                editable={editableFields.nama}
-                value={form.nama}
-                onTextChange={value => onChangeText(value, 'nama')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('nama')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
                 label="Tempat Lahir"
                 editable={editableFields.tempatLahir}
                 value={form.tempatLahir}
@@ -346,7 +430,19 @@ const DetailProfile = ({navigation, stylePP}) => {
               />
               <View style={styles.wrapImageAlamat}>
                 <TouchableOpacity onPress={() => toggleEditMode('tempatLahir')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.tempatLahir ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -360,11 +456,22 @@ const DetailProfile = ({navigation, stylePP}) => {
               <View style={styles.wrapImage}>
                 <TouchableOpacity
                   onPress={() => toggleEditMode('tanggalLahir')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.tanggalLahir ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
-            {/*  */}
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
                 label="Jenis Kelamin"
@@ -382,7 +489,19 @@ const DetailProfile = ({navigation, stylePP}) => {
               />
               <View style={styles.wrapImage}>
                 <TouchableOpacity onPress={() => toggleEditMode('agama')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.agama ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -396,7 +515,45 @@ const DetailProfile = ({navigation, stylePP}) => {
               <View style={styles.wrapImage}>
                 <TouchableOpacity
                   onPress={() => toggleEditMode('kewarganegaraan')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.kewarganegaraan ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={{marginBottom: 10}}>
+              <CustomTextInputProfile
+                label="Alamat KTP"
+                editable={editableFields.alamatKTP}
+                value={form.alamatKTP}
+                multiline
+                onTextChange={value => onChangeText(value, 'alamatKTP')}
+              />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity onPress={() => toggleEditMode('alamatKTP')}>
+                  {isClicked.alamatKTP ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -409,7 +566,19 @@ const DetailProfile = ({navigation, stylePP}) => {
               />
               <View style={styles.wrapImage}>
                 <TouchableOpacity onPress={() => toggleEditMode('kodePos')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.kodePos ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -424,7 +593,19 @@ const DetailProfile = ({navigation, stylePP}) => {
               <View style={styles.wrapImageAlamat}>
                 <TouchableOpacity
                   onPress={() => toggleEditMode('alamatSekarang')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.alamatSekarang ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -437,7 +618,19 @@ const DetailProfile = ({navigation, stylePP}) => {
               />
               <View style={styles.wrapImage}>
                 <TouchableOpacity onPress={() => toggleEditMode('noHP')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.noHP ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -450,7 +643,44 @@ const DetailProfile = ({navigation, stylePP}) => {
               />
               <View style={styles.wrapImage}>
                 <TouchableOpacity onPress={() => toggleEditMode('email')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.email ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={{marginBottom: 10}}>
+              <CustomTextInputProfile
+                label="No Rekening"
+                editable={editableFields.noRekening}
+                value={form.noRekening}
+                onTextChange={value => onChangeText(value, 'noRekening')}
+              />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity onPress={() => toggleEditMode('noRekening')}>
+                  {isClicked.noRekening ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -464,7 +694,19 @@ const DetailProfile = ({navigation, stylePP}) => {
               <View style={styles.wrapImage}>
                 <TouchableOpacity
                   onPress={() => toggleEditMode('jenjangPendidikan')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.jenjangPendidikan ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -475,17 +717,48 @@ const DetailProfile = ({navigation, stylePP}) => {
                 value={form.tanggalBergabung}
                 onTextChange={value => onChangeText(value, 'tanggalBergabung')}
               />
+              {/* <View style={styles.wrapImage}>
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('tanggalBergabung')}>
+                  {isClicked ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
+                </TouchableOpacity>
+              </View> */}
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
-                label="Status Kawin"
-                editable={editableFields.statusKawin}
-                value={form.statusKawin}
-                onTextChange={value => onChangeText(value, 'statusKawin')}
+                label="Status Perkawinan"
+                editable={editableFields.statusPerkawinan}
+                value={form.statusPerkawinan}
+                onTextChange={value => onChangeText(value, 'statusPerkawinan')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('statusKawin')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('statusPerkawinan')}>
+                  {isClicked.statusPerkawinan ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -499,7 +772,19 @@ const DetailProfile = ({navigation, stylePP}) => {
               <View style={styles.wrapImage}>
                 <TouchableOpacity
                   onPress={() => toggleEditMode('golonganDarah')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.golonganDarah ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -513,21 +798,19 @@ const DetailProfile = ({navigation, stylePP}) => {
               <View style={styles.wrapImage}>
                 <TouchableOpacity
                   onPress={() => toggleEditMode('kontakDarurat')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="No Kontak Darurat"
-                editable={editableFields.noKontakDarurat}
-                value={form.noKontakDarurat}
-                onTextChange={value => onChangeText(value, 'noKontakDarurat')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('noKontakDarurat')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.kontakDarurat ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -541,7 +824,19 @@ const DetailProfile = ({navigation, stylePP}) => {
               <View style={styles.wrapImage}>
                 <TouchableOpacity
                   onPress={() => toggleEditMode('statusDarurat')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.statusDarurat ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -556,33 +851,95 @@ const DetailProfile = ({navigation, stylePP}) => {
               <View style={styles.wrapImageAlamat}>
                 <TouchableOpacity
                   onPress={() => toggleEditMode('alamatDarurat')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.alamatDarurat ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
-                label="KTP"
-                editable={editableFields.ktp}
-                value={form.ktp}
-                onTextChange={value => onChangeText(value, 'ktp')}
+                label="Telpon Darurat"
+                editable={editableFields.telponDarurat}
+                value={form.telponDarurat}
+                onTextChange={value => onChangeText(value, 'telponDarurat')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('ktp')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('telponDarurat')}>
+                  {isClicked.telponDarurat ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
-                label="NPWP"
-                editable={editableFields.npwp}
-                value={form.npwp}
-                onTextChange={value => onChangeText(value, 'npwp')}
+                label="No KTP"
+                editable={editableFields.noKTP}
+                value={form.noKTP}
+                onTextChange={value => onChangeText(value, 'noKTP')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('npwp')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                <TouchableOpacity onPress={() => toggleEditMode('noKTP')}>
+                  {isClicked.noKTP ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={{marginBottom: 10}}>
+              <CustomTextInputProfile
+                label="No NPWP"
+                editable={editableFields.noNPWP}
+                value={form.noNPWP}
+                onTextChange={value => onChangeText(value, 'noNPWP')}
+              />
+              <View style={styles.wrapImage}>
+                <TouchableOpacity onPress={() => toggleEditMode('noNPWP')}>
+                  {isClicked.noNPWP ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -595,20 +952,45 @@ const DetailProfile = ({navigation, stylePP}) => {
               />
               <View style={styles.wrapImage}>
                 <TouchableOpacity onPress={() => toggleEditMode('asuransi')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                  {isClicked.asuransi ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
             <View style={{marginBottom: 10}}>
               <CustomTextInputProfile
-                label="KK"
-                editable={editableFields.kk}
-                value={form.kk}
-                onTextChange={value => onChangeText(value, 'kk')}
+                label="Kartu Keluarga"
+                editable={editableFields.kartuKeluarga}
+                value={form.kartuKeluarga}
+                onTextChange={value => onChangeText(value, 'kartuKeluarga')}
               />
               <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('kk')}>
-                  <FontAwesomeIcon icon={faPen} color={Color.green} size={25} />
+                <TouchableOpacity
+                  onPress={() => toggleEditMode('kartuKeluarga')}>
+                  {isClicked.kartuKeluarga ? (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.grey}
+                      size={25}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      color={Color.green}
+                      size={25}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             </View>
@@ -616,20 +998,8 @@ const DetailProfile = ({navigation, stylePP}) => {
 
           {showEditButtons && (
             <View style={{alignItems: 'center', marginBottom: 40}}>
-              <TouchableOpacity
-                onPress={() => sendData()}
-                style={styles.ButtonEdit}>
-                <Text
-                  style={{
-                    fontFamily: text.semiBold,
-                    fontSize: 16,
-                    color: Color.white,
-                  }}>
-                  EDIT
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.ButtonBatal} onPress={resetForm}>
-                <Text style={styles.Text}>BATAL</Text>
+              <TouchableOpacity onPress={sendData} style={styles.ButtonEdit}>
+                <Text style={styles.textButton}>Update</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -647,7 +1017,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 29,
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
-    // marginTop: -50,
     height: hp('90%'),
     paddingTop: hp('5%'),
     paddingBottom: hp('10%'),
@@ -695,9 +1064,10 @@ const styles = StyleSheet.create({
     color: Color.red,
     textTransform: 'uppercase',
   },
-  TextEditProf: {
+  textName: {
     fontFamily: text.semiBold,
-    fontSize: 12,
+    fontSize: 16,
+    width: 280,
     color: Color.blue,
     textTransform: 'uppercase',
     textAlign: 'center',
@@ -719,5 +1089,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     right: 15,
     marginTop: 35,
+  },
+  textButton: {
+    fontFamily: text.semiBold,
+    fontSize: 16,
+    color: Color.white,
+    textTransform: 'uppercase',
   },
 });
