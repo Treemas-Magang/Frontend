@@ -128,7 +128,7 @@ const DetailApproval = ({navigation, stylePP}) => {
           justifyContent: 'center',
         }}>
         <Text style={styles.Judul}>Detail</Text>
-        <Text style={styles.Judul}>Approval</Text>
+        <Text style={styles.Judul}>Approval {kategoriBaru}</Text>
         {/* <Text style={styles.Judul}>Approval {kategoriBaru}</Text> */}
       </View>
       {kategori === 'sakit' || kategori === 'cuti' ? (

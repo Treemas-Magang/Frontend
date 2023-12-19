@@ -28,31 +28,13 @@ import {
 } from '../../utils/buatStatusPengumumanFalse';
 import {setJumlahApproval, setJumlahPengumuman} from '../../redux';
 import setDataJmlNotifMasingMasingApproval from '../../utils/simpanJmlSetiapTipeApp';
-import pushNewAnnouncementNotification, { pushNewApprovalNotification } from '../../utils/pushNotifikasi';
+import {
+  pushNewAnnouncementNotification,
+  pushNewApprovalNotification,
+} from '../../utils/pushNotifikasi';
 const ScreenDashboard = ({navigation}) => {
   const dispatch = useDispatch();
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
-  // const {
-  //   sakit,
-  //   cuti,
-  //   absen_pulang,
-  //   absen_web,
-  //   reimburse,
-  //   cuti_web,
-  //   cancel_cuti,
-  //   libur,
-  //   lembur,
-  // } = useSelector(state => state.jmlNotifMasingMasingApprovalReducer);
-
-  // console.log('Sakit:', sakit);
-  // console.log('Cuti:', cuti);
-  // console.log('Absen Pulang:', absen_pulang);
-  // console.log('Absen Web:', absen_web);
-  // console.log('Reimburse:', reimburse);
-  // console.log('Cuti Web:', cuti_web);
-  // console.log('Cancel Cuti:', cancel_cuti);
-  // console.log('Libur:', libur);
-  // console.log('Lembur:', lembur);
 
   const {approval} = useSelector(state => state.JumlahApprovalReducer);
   const [jmlBlmBaca, setJmlBlmBaca] = useState(0);
@@ -108,14 +90,14 @@ const ScreenDashboard = ({navigation}) => {
       }
     } catch (error) {
       console.error(error);
-      // Alert.alert('Peringatan', `Token anda telah expired`, [
-      //   {
-      //     text: 'Kembali ke Login',
-      //     onPress: () => {
-      //       navigation.replace('login');
-      //     },
-      //   },
-      // ]);
+      Alert.alert('Peringatan', `Token anda telah expired`, [
+        {
+          text: 'Kembali ke Login',
+          onPress: () => {
+            navigation.replace('login');
+          },
+        },
+      ]);
     }
   };
 
@@ -172,51 +154,43 @@ const ScreenDashboard = ({navigation}) => {
 
   // useEffect(() => {
   //   // Start the background timer
-  //   const timerId = BackgroundTimer.setInterval(() => {
-  //     pushNewAnnouncementNotification({navigation})
-  //       .then(() => {
-  //         console.log('Notification pushed successfully.');
-  //       })
-  //       .catch(error => {
-  //         console.error('Error pushing notification:', error);
-  //       });
-  //   }, 10000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
+  //   if (isRole === 'EMPL') {
+  //     const timerId = BackgroundTimer.setInterval(() => {
+  //           pushNewAnnouncementNotification({navigation})
+  //             .then(() => {
+  //               console.log('Notification pushed successfully.');
+  //             })
+  //             .catch(error => {
+  //               console.error('Error pushing notification:', error);
+  //             });
+  //     }, 10000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
+  //     return () => {
+  //       BackgroundTimer.clearInterval(timerId);
+  //     };
+  //   } else {
+  //           const timerId = BackgroundTimer.setInterval(() => {
+  //             pushNewAnnouncementNotification({navigation})
+  //               .then(() => {
+  //                 console.log('Notification pushed successfully.');
+  //               })
+  //               .catch(error => {
+  //                 console.error('Error pushing notification:', error);
+  //               });
+  //             pushNewApprovalNotification({navigation})
+  //               .then(() => {
+  //                 console.log('Notification pushed successfully.');
+  //               })
+  //               .catch(error => {
+  //                 console.error('Error pushing notification:', error);
+  //               });
+  //           }, 10000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
+  //           return () => {
+  //             BackgroundTimer.clearInterval(timerId);
+  //           };
+  //   }
 
   //   // Clean up the timer when the component unmounts
-  //   return () => {
-  //     BackgroundTimer.clearInterval(timerId);
-  //   };
-  // }, [navigation]); // Run this effect whenever the navigation object changes
-
-  useEffect(() => {
-    // Start the background timer
-    const timerId = BackgroundTimer.setInterval(() => {
-      pushNewApprovalNotification({navigation})
-        .then(() => {
-          console.log('Notification pushed successfully.');
-        })
-        .catch(error => {
-          console.error('Error pushing notification:', error);
-        });
-    }, 10000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
-
-    // Clean up the timer when the component unmounts
-    return () => {
-      BackgroundTimer.clearInterval(timerId);
-    };
-  }, [navigation]); // Run this effect whenever the navigation object changes
-
-  // useEffect(() => {
-  //   // Start the background timer
-  //   const timerId = BackgroundTimer.setInterval(() => {
-  //     console.log('tik')
-  //   }, 1000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
-
-  //   // Clean up the timer when the component unmounts
-  //   return () => {
-  //     BackgroundTimer.clearInterval(timerId);
-  //   };
-  // }, [navigation]); // Run this effect whenever the navigation object changes
+  // }, [navigation, isRole]); // Run this effect whenever the navigation object changes
 
   // Start a timer that runs continuous after X milliseconds
 

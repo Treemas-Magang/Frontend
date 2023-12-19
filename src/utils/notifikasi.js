@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Platform} from 'react-native';
 import PushNotification, {Importance} from 'react-native-push-notification';
 
-const configureNotifications = (navigation, screen, id, kategori) => {
+const configureNotifications = (navigation) => {
   PushNotification.configure({
     onRegister: function (token) {
       console.log('TOKEN:', token);
@@ -12,7 +12,7 @@ const configureNotifications = (navigation, screen, id, kategori) => {
       console.log('NOTIFICATION:', notification);
 
       // Handle the notification click event
-      handleNotificationClick(navigation, screen, id, kategori);
+      handleNotificationClick(navigation, notification.data.id, notification.data.id);
     },
     onAction: function (notification) {
       console.log('ACTION:', notification.action);
@@ -46,11 +46,16 @@ const createNotificationChannel = channel => {
   );
 };
 
-const sendNotification = (channel, title, body) => {
+const sendNotification = (channel, title, body, id, screen) => {
   PushNotification.localNotification({
     channelId: channel,
     title: title,
     message: body,
+    userInfo: {
+      id: id,
+      screen: screen,
+    },
+    group: 'announcement',
   });
 
 };
@@ -92,27 +97,19 @@ const updateStatusInStorage = async id => {
   }
 };
 
-const handleNotificationClick = async (navigation, screen, id, kategori) => {
+const handleNotificationClick = async (navigation, id, screen) => {
   await updateStatusInStorage(id);
   // Extract relevant data from the notification
   const screenName = screen;
-  if (kategori !== null) {
-    moveToScreen(screenName, navigation, id, kategori);
-  } else {
     moveToScreen(screenName, navigation, id);
-  }
   // Use navigation to move to the specified screen
 };
 
-const moveToScreen = (screenName, navigation, id, kategori) => {
+const moveToScreen = (screenName, navigation, id) => {
   // Implement your navigation logic here to move to the specified screen
   // You can use React Navigation or any other navigation library you're using
-  // Example using React Navigation:
-  if (kategori !== null) {
-    navigation.navigate(screenName, {id: id, kategori: kategori});
-  } else {
+
     navigation.navigate(screenName, {id: id});
-  }
 };
 
 export {configureNotifications, createNotificationChannel, sendNotification};
