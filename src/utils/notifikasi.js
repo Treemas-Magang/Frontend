@@ -12,7 +12,7 @@ const configureNotifications = (navigation) => {
       console.log('NOTIFICATION:', notification);
 
       // Handle the notification click event
-      handleNotificationClick(navigation, notification.data.id, notification.data.id);
+      handleNotificationClick(navigation, notification.data.id, notification.data.screen);
     },
     onAction: function (notification) {
       console.log('ACTION:', notification.action);
@@ -60,47 +60,48 @@ const sendNotification = (channel, title, body, id, screen) => {
 
 };
 
-const updateStatusInStorage = async id => {
-  try {
-    // Mengambil data dari AsyncStorage
-    const dataFromStorage = await AsyncStorage.getItem('announcementData');
 
-    if (dataFromStorage !== null) {
-      // Jika data ditemukan, parse data JSON
-      const parsedData = JSON.parse(dataFromStorage);
-
-      // Cari item dengan id yang sesuai dalam data tersebut
-      const itemToUpdate = parsedData.find(item => item.id === id);
-
-      if (itemToUpdate) {
-        // Jika item ditemukan, ubah status menjadi true
-        itemToUpdate.status = true;
-
-        // Simpan data yang telah diubah kembali ke AsyncStorage
-        await AsyncStorage.setItem(
-          'announcementData',
-          JSON.stringify(parsedData),
-        );
-        console.log(
-          `Status untuk ID ${id} berhasil diubah menjadi true di AsyncStorage`,
-        );
-      } else {
-        // Item dengan id yang diberikan tidak ditemukan
-        console.log(`Item dengan ID ${id} tidak ditemukan.`);
-      }
-    } else {
-      // Data tidak ditemukan di AsyncStorage
-      console.log('Data tidak ditemukan di AsyncStorage');
-    }
-  } catch (error) {
-    console.error('Gagal mengubah status di AsyncStorage:', error);
-  }
-};
 
 const handleNotificationClick = async (navigation, id, screen) => {
-  await updateStatusInStorage(id);
+  const id_pesan = id;
+  console.log('ini id pesan : ', id_pesan);
+    try {
+      // Mengambil data dari AsyncStorage
+      const dataFromStorage = await AsyncStorage.getItem('announcementData');
+
+      if (dataFromStorage !== null) {
+        // Jika data ditemukan, parse data JSON
+        const parsedData = JSON.parse(dataFromStorage);
+
+        // Cari item dengan id yang sesuai dalam data tersebut
+        const itemToUpdate = parsedData.find(item => item.id === id_pesan);
+
+        if (itemToUpdate) {
+          // Jika item ditemukan, ubah status menjadi true
+          itemToUpdate.status = true;
+
+          // Simpan data yang telah diubah kembali ke AsyncStorage
+          await AsyncStorage.setItem(
+            'announcementData',
+            JSON.stringify(parsedData),
+          );
+          console.log(
+            `Status untuk ID ${id_pesan} berhasil diubah menjadi true di AsyncStorage`,
+          );
+        } else {
+          // Item dengan id yang diberikan tidak ditemukan
+          console.log(`Item dengan ID ${id_pesan} tidak ditemukan.`);
+        }
+      } else {
+        // Data tidak ditemukan di AsyncStorage
+        console.log('Data tidak ditemukan di AsyncStorage');
+      }
+    } catch (error) {
+      console.error('Gagal mengubah status di AsyncStorage:', error);
+    }
   // Extract relevant data from the notification
   const screenName = screen;
+  console.log(screenName)
     moveToScreen(screenName, navigation, id);
   // Use navigation to move to the specified screen
 };

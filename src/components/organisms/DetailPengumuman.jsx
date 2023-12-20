@@ -22,15 +22,19 @@ import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import axios from 'axios';
 import {API_URL, API_GABUNGAN} from '@env';
 import {getDataFromSession} from '../../utils/getDataSession';
+import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
+import { useDispatch } from 'react-redux';
+import { setJumlahPengumuman } from '../../redux';
 
 const DetailPengumuman = ({navigation}) => {
   const {id} = useRoute().params;
   console.log(id);
+  const dispatch = useDispatch();
   const [dataDetailPengumuman, setDataDetailPengumuman] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const base64 = `data:image/jpeg;base64,${dataDetailPengumuman.image64}`;
-  console.log('base64 : ', base64);
+
   const moveToPreview = () => {
     navigation.navigate('previewPhoto', {photo: base64});
   };
@@ -59,7 +63,6 @@ const DetailPengumuman = ({navigation}) => {
         {headers},
       );
       const dataAPI = response.data.data;
-      console.log(dataAPI);
       setDataDetailPengumuman(dataAPI[0]);
       setIsLoading(false);
     } catch (error) {
@@ -67,6 +70,28 @@ const DetailPengumuman = ({navigation}) => {
     }
   };
   console.log(dataDetailPengumuman.note);
+    useEffect(() => {
+      // render notif //
+      getToken().then(() => {
+        countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
+          // console.log(
+          //   'Jumlah ID dengan status false:',
+          //   jumlahDataDenganStatusFalse,
+          // );
+          // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
+          dispatch(
+            setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse),
+          );
+          // setJmlPengumuman(+jumlahDataDenganStatusFalse);
+
+          ////////////////////////////////////////////
+          // ini untuk jumlah Approval
+          // setJumlahApproval(10);
+        });
+      });
+
+      /////////////////
+    }, [dispatch]);
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />

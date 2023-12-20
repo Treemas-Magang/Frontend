@@ -90,14 +90,6 @@ const ScreenDashboard = ({navigation}) => {
       }
     } catch (error) {
       console.error(error);
-      Alert.alert('Peringatan', `Token anda telah expired`, [
-        {
-          text: 'Kembali ke Login',
-          onPress: () => {
-            navigation.replace('login');
-          },
-        },
-      ]);
     }
   };
 
@@ -114,6 +106,14 @@ const ScreenDashboard = ({navigation}) => {
       dispatch(setJumlahApproval('approval', +dataAPI));
     } catch (error) {
       console.error(error);
+      Alert.alert('Peringatan', `Token anda telah expired`, [
+        {
+          text: 'Kembali ke Login',
+          onPress: () => {
+            navigation.replace('login');
+          },
+        },
+      ]);
     }
   };
 

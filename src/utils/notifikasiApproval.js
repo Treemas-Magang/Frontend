@@ -122,12 +122,12 @@ const configureNotificationsApproval = (navigation) => {
     onRegister: function (token) {
       console.log('TOKEN:', token);
     },
-    onNotification: function (notification) {
+    onNotification: async function (notification) {
       console.log('NOTIFICATION:', notification);
 
 
       // Handle the notification click event
-      handleNotificationClick(navigation, notification.data.id, notification.data.kategori, notification.data.screen);
+      await handleNotificationClick(navigation, notification.data.id, notification.data.kategori, notification.data.screen);
     },
     onAction: function (notification) {
       console.log('ACTION:', notification.action);
@@ -179,8 +179,45 @@ const sendNotificationApproval = (channel, title, body, id, kategori, screen) =>
 
 const handleNotificationClick = async (navigation, id, kategori, screen) => {
   // Extract relevant data from the notification
+const id_pesan = id;
+console.log('ini id pesan : ', id_pesan);
+try {
+  // Mengambil data dari AsyncStorage
+  const dataFromStorage = await AsyncStorage.getItem('announcementData');
 
-  const screenName = screen;
+  if (dataFromStorage !== null) {
+    // Jika data ditemukan, parse data JSON
+    const parsedData = JSON.parse(dataFromStorage);
+
+    // Cari item dengan id yang sesuai dalam data tersebut
+    const itemToUpdate = parsedData.find(item => item.id === id_pesan);
+
+    if (itemToUpdate) {
+      // Jika item ditemukan, ubah status menjadi true
+      itemToUpdate.status = true;
+
+      // Simpan data yang telah diubah kembali ke AsyncStorage
+      await AsyncStorage.setItem(
+        'announcementData',
+        JSON.stringify(parsedData),
+      );
+      console.log(
+        `Status untuk ID ${id_pesan} berhasil diubah menjadi true di AsyncStorage`,
+      );
+    } else {
+      // Item dengan id yang diberikan tidak ditemukan
+      console.log(`Item dengan ID ${id_pesan} tidak ditemukan.`);
+    }
+  } else {
+    // Data tidak ditemukan di AsyncStorage
+    console.log('Data tidak ditemukan di AsyncStorage');
+  }
+} catch (error) {
+  console.error('Gagal mengubah status di AsyncStorage:', error);
+}
+// Extract relevant data from the notification
+const screenName = screen;
+console.log(screenName);
     moveToScreen(screenName, navigation, id, kategori);
   // Use navigation to move to the specified screen
 };
