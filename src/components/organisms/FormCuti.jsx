@@ -147,7 +147,68 @@ const FormCuti = ({
     fetchData();
   }, []);
 
-  const sendData = () => {
+  const kirimDataKeAPI = async () => {
+    console.log('sedang kirim data')
+    // setIsServerError(false);
+    try {
+      //mengambil token untuk otorisasi
+      const token = await getDataFromSession('token');
+      if (token !== null) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        try {
+          const response = await axios.post(
+            API_GABUNGAN + '/api/detail-data/cuti-form/add',
+            form,
+            {headers},
+          );
+          console.log('berhasil di kirim')
+          console.log(response.data.success);
+          console.log(uploadBerhasil);
+          setBtnLoading(false);
+          setUploadBerhasil(true);
+          // setIsLoading(false);
+          //saat berhasil kirim data kosongkan reducer
+        } catch (error) {
+          console.log(error.response);
+          const errorCode = error.response.status;
+          switch (errorCode) {
+            case 400:
+              console.log('gagal kirim form cuti');
+              // setIsLoading(false);
+              break;
+            case 403:
+              console.log('error aja');
+              // setIsLoading(false);
+              break;
+            case 404:
+              // setIsLoading(false);
+              break;
+            case 500:
+              // setIsLoading(false);
+              // setIsServerError(true);
+              console.log('Kesalahan server');
+              break;
+            default:
+              // setIsLoading(false);
+              console.log(error.response);
+              console.log('gagal ajukan cuti');
+              // setShowErrorAlert(true);
+              break;
+          }
+        }
+      } else {
+        console.log('Data tidak ditemukan di session.');
+      }
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
+      setBtnLoading(false);
+    }
+  };
+
+  const sendData = async () => {
     if (
       form.alamatCuti !== '' &&
       form.jmlCuti !== null &&
@@ -159,6 +220,7 @@ const FormCuti = ({
     ) {
       setInputKosong(false);
       console.log('kirim data : ', form);
+      await kirimDataKeAPI();
       // setBtnLoading(true);
     } else {
       setInputKosong(true);
@@ -325,14 +387,14 @@ const FormCuti = ({
                 )}
               </View>
             </View>
-            <View style={{position: 'relative', gap: 10}}>
+            <View style={{position: 'relative', gap: 20}}>
               {/* <CustomTextInput
               label="tgl awal - akhir cuti"
               value={awalCuti === '' ? 'haha' : 'hehehe'}
               secureTextEntry={false}
             /> */}
               <FakeTextInput
-                value={`${form.tglMulai} - ${form.tglSelesai}`}
+                value={form.tglMulai !== '' && form.tglSelesai !== '' ? `${form.tglMulai} - ${form.tglSelesai}` : 'pilih tanggal di samping'}
                 label="Tgl Awal - Akhir Cuti"
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
@@ -362,7 +424,7 @@ const FormCuti = ({
               </TouchableOpacity>
               {/* <CustomTextInput label="tgl masuk kerja" editable={false} /> */}
               <FakeTextInput
-                value={form.tglKembaliKerja}
+                value={form.tglKembaliKerja == '' ? 'akan terisi otomatis' : `${form.tglKembaliKerja}`}
                 label="Tgl Masuk Kerja"
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
