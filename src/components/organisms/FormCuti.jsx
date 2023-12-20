@@ -370,6 +370,7 @@ const FormCuti = ({
               <CustomTextInput
                 label="Keperluan Cuti"
                 value={form.keperluanCuti}
+                secureTextEntry={false}
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
                 onTextChange={value => onChangeText(value, 'keperluanCuti')}
@@ -377,6 +378,7 @@ const FormCuti = ({
               <CustomTextInput
                 label="Alamat Cuti"
                 value={form.alamatCuti}
+                secureTextEntry={false}
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
                 onTextChange={value => onChangeText(value, 'alamatCuti')}
