@@ -1,122 +1,149 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react-hooks/exhaustive-deps */
-import {
-  StyleSheet,
-  View,
-  ActivityIndicator,
-  Image,
-  Alert,
-  Text,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import getLocation from '../../utils/getLocation';
+import React, {useState, useEffect} from 'react';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import MapView, {Marker, Polyline} from 'react-native-maps';
+import {useRoute} from '@react-navigation/native';
 import {Color} from '../../utils/color';
-import ButtonAction from '../atoms/ButtonAction';
-import {getAlamat} from '../../utils/getAlamat';
-// import axios from 'axios';
-import {useDispatch, useSelector} from 'react-redux';
-import {setAbsenPulang, setFormAbsensi} from '../../redux';
-import {getTanggalSekarang} from '../../utils/getTanggalSekarang';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import {hitungJarak} from '../../utils/hitungJarak';
-import {checkMockLocation} from '../../utils/checkMockLocation';
-import {getDataFromSession} from '../../utils/getDataSession';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-const initialLokasiUser = {
-  latitude: 0,
-  longitude: 0,
-  latitudeDelta: 0.001,
-  longitudeDelta: 0.001,
-};
-const initialLokasiPerusahaan = {
-  // latitude: -6.245091550324631,
-  // longitude: 106.6712797641271,
-  latitude: 0,
-  longitude: 0,
-  latitudeDelta: 0.001,
-  longitudeDelta: 0.001,
-};
 
 const MapPreviewTracking = ({navigation}) => {
-  // const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
-  // console.log('project id :', dataProject);
-  // const dispatch = useDispatch();
-  // const [currentLocation, setCurrentLocation] = useState(initialLokasiUser);
-  // const [lokasiPerusahaan, setLokasiPerusahaan] = useState(
-  //   initialLokasiPerusahaan,
-  // );
-  // const [locationLoaded, setLocationLoaded] = useState(false);
+  const {mapTraking} = useRoute().params;
+  const [markers, setMarkers] = useState(mapTraking);
+  const [markersTanpaNull, setMarkersTanpaNull] = useState([]);
+  const [currentMarkerIndex, setCurrentMarkerIndex] = useState(0);
 
+  useEffect(() => {
+    // Filter markers array to remove objects with null latitude or longitude
+    const filteredMarkers = markers.filter(
+      marker => marker.latitude !== null && marker.longitude !== null,
+    );
 
-  // // useEffect(() => {
-  // //   setLokasiPerusahaan({
-  // //     ...lokasiPerusahaan,
-  // //     latitude: dataProject.gpsLatProj,
-  // //     longitude: dataProject.gpsLongProj,
-  // //   });
-  // // }, []);
+    // Update the state with the filtered array
+    setMarkersTanpaNull(filteredMarkers);
+  }, [markers]); // useEffect will run whenever markers change
 
-  // useEffect(() => {
-  //   const ambilLokasi = async () => {
-  //     // const {date, time, dayName} = getTanggalSekarang();
-  //     try {
-  //       const locationData = await getLocation();
-  //       console.log('Lokasi berhasil diambil:', locationData);
-  //       getAlamat(
-  //         locationData.latitude,
-  //         locationData.longitude,
-  //         'AIzaSyA1tH4Nq364y6knELo5DwSWIwyvxNRF2b8',
-  //       )
-  //         .then(data => {
-  //           console.log('alamat : ', data);
-  //           dispatch(setFormAbsensi('lokasiMsk', data));
-  //           dispatch(setFormAbsensi('gpsLatitudeMsk', locationData.latitude));
-  //           dispatch(setFormAbsensi('gpsLongitudeMsk', locationData.longitude));
-  //           dispatch(setFormAbsensi('projectId', dataProject.projectId));
-  //           //absenPulang
-  //           dispatch(setAbsenPulang('lokasiPlg', data));
-  //           dispatch(setAbsenPulang('gpsLatitudePlg', locationData.latitude));
-  //           dispatch(setAbsenPulang('gpsLongitudePlg', locationData.longitude));
-  //           dispatch(setAbsenPulang('projectId', dataProject.projectId));
-  //         })
-  //         .catch(error => console.log(error));
-  //       setCurrentLocation({
-  //         ...currentLocation,
-  //         latitude: locationData.latitude,
-  //         longitude: locationData.longitude,
-  //       });
-  //       setLocationLoaded(true);
-  //     } catch (error) {
-  //       console.error('Kesalahan saat mengambil lokasi:', error);
-  //       setLocationLoaded(true); // Set to true even in case of an error to prevent infinite loading.
-  //     }
-  //   };
+  console.log('tanpa null', markersTanpaNull);
 
-  //   ambilLokasi();
-  // }, [setCurrentLocation]);
+  const polylineCoordinates = markersTanpaNull?.map((marker, index) => ({
+    latitude: marker.latitude,
+    longitude: marker.longitude,
+    key: index.toString(), // Use the index as the key
+  }));
 
+  const averageLatitude =
+    polylineCoordinates.reduce((sum, coord) => sum + coord.latitude, 0) /
+    polylineCoordinates.length;
 
-  // //////////////////////////////////////////////
+  const averageLongitude =
+    polylineCoordinates.reduce((sum, coord) => sum + coord.longitude, 0) /
+    polylineCoordinates.length;
 
+  const initialLokasiUser = {
+    latitude: isFinite(averageLatitude) ? averageLatitude : 0,
+    longitude: isFinite(averageLongitude) ? averageLongitude : 0,
+    latitudeDelta: 0.001,
+    longitudeDelta: 0.001,
+  };
 
-  // //////////////////////////////////////////////
+  const handleMoveToMarker = index => {
+    if (index >= 0 && index < markersTanpaNull.length) {
+      setCurrentMarkerIndex(index);
+      const marker = markersTanpaNull[index];
+      mapViewRef.current.animateToRegion({
+        latitude: marker.latitude,
+        longitude: marker.longitude,
+        latitudeDelta: 0.001,
+        longitudeDelta: 0.001,
+      });
+    }
+  };
+
+  const initialCameraPosition = {
+    latitude: markersTanpaNull.length > 0 ? markersTanpaNull[0].latitude : 0,
+    longitude: markersTanpaNull.length > 0 ? markersTanpaNull[0].longitude : 0,
+    latitudeDelta: 0.001,
+    longitudeDelta: 0.001,
+  };
+
+  const markerImage = require('../../assets/vector/user.png');
+
+  const mapViewRef = React.createRef();
 
   return (
-    <View style={{flex: 1, position: 'relative'}}>
-        <MapView
-          showsUserLocation
-          provider={PROVIDER_GOOGLE}
-          style={{flex: 1}}>
-        </MapView>
+    <View style={{flex: 1}}>
+      <MapView
+        ref={mapViewRef}
+        style={{flex: 1}}
+        region={initialLokasiUser}
+        showsUserLocation
+        followsUserLocation>
+        {polylineCoordinates && (
+          <Polyline
+            coordinates={polylineCoordinates}
+            strokeWidth={4}
+            strokeColor={Color.green}
+          />
+        )}
+
+        {markersTanpaNull.map((marker, index) => (
+          <Marker
+            key={index}
+            coordinate={{
+              latitude: marker.latitude,
+              longitude: marker.longitude,
+            }}
+            title={marker.title}
+            image={markerImage}
+          />
+        ))}
+      </MapView>
+
+      <View style={styles.buttonContainerLeft}>
+        <TouchableOpacity
+          onPress={() => handleMoveToMarker(currentMarkerIndex - 1)}>
+          <Text style={styles.button}>Previous</Text>
+        </TouchableOpacity>
+        <Text style={styles.markerTitle}>
+          {markersTanpaNull[currentMarkerIndex]?.title}
+        </Text>
+      </View>
+
+      <View style={styles.buttonContainerRight}>
+        <TouchableOpacity
+          onPress={() => handleMoveToMarker(currentMarkerIndex + 1)}>
+          <Text style={styles.button}>Next</Text>
+        </TouchableOpacity>
+        <Text style={styles.markerTitle}>
+          {markersTanpaNull[currentMarkerIndex]?.title}
+        </Text>
+      </View>
     </View>
   );
 };
 
-export default MapPreviewTracking;
+const styles = {
+  buttonContainerLeft: {
+    position: 'absolute',
+    bottom: 16,
+    left: 16,
+  },
+  buttonContainerRight: {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+  },
+  button: {
+    backgroundColor: Color.blue,
+    color: 'white',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    marginHorizontal: 5,
+  },
+  markerTitle: {
+    textAlign: 'center',
+    color: 'black', // Ganti warna sesuai kebutuhan
+    marginTop: 8,
+  },
+};
 
-const styles = StyleSheet.create({});
+export default MapPreviewTracking;
