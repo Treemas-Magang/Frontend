@@ -21,7 +21,6 @@ const DetailSakitApp = ({
   kategoriCuti,
   nik,
   nama,
-  namaProject,
   tglMulai,
   tglSelesai,
   tglMasuk,
@@ -59,10 +58,6 @@ const DetailSakitApp = ({
         <View>
           <Text style={styles.TextTitle}>Nama</Text>
           <Text style={styles.TextDeskripsi}>{nama}</Text>
-        </View>
-        <View>
-          <Text style={styles.TextTitle}>Nama Project</Text>
-          <Text style={styles.TextDeskripsi}>{namaProject}</Text>
         </View>
         <View>
           <Text style={styles.TextTitle}>Tanggal Mulai</Text>

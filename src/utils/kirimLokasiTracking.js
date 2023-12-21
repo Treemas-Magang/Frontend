@@ -75,7 +75,7 @@ export const kirimLokasiTracking = async () => {
           console.error('Kesalahan saat mengambil lokasi:', error);
         }
       },
-      {enableHighAccuracy: false, maximumAge: 30000, timeout: 5000},
+      {enableHighAccuracy: false, maximumAge: 50000, timeout: 10000},
     );
 
     // Kode yang tidak memerlukan lokasi dapat tetap berada di luar pemanggilan getCurrentPosition

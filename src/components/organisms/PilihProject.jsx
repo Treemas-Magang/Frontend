@@ -20,6 +20,7 @@ import {
 import {useDispatch} from 'react-redux';
 import {setProjectYangDipilih} from '../../redux';
 import {API_URL, API_GABUNGAN} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   const dispatch = useDispatch();
@@ -27,13 +28,23 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
   const [dataProfile, setDataProfile] = useState([]);
 
+    const saveDataToStorage = async (key, data) => {
+      try {
+        const dataString = JSON.stringify(data);
+        await AsyncStorage.setItem(key, dataString);
+        console.log(`Data saved successfully for key: ${key}`);
+      } catch (error) {
+        console.error(`Error saving data for key ${key}:`, error);
+      }
+    };
+
     useEffect(() => {
       try {
         getDataFromSession('dataProfilUser')
           .then(data => {
-            const dataProfile = JSON.parse(data);
-            console.log('data profil : ', dataProfile);
-            setDataProfile(dataProfile);
+            const dataProfileUser = JSON.parse(data);
+            // console.log('data profil : ', dataProfile);
+            setDataProfile(dataProfileUser);
           })
           .catch(error => console.log(error));
       } catch (error) {}
@@ -70,7 +81,7 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
       .catch(error => console.log(error));
   }, []);
 
-  const moveTo = (
+  const moveTo = async  (
     tujuan,
     namaTempat,
     alamat,
@@ -89,7 +100,21 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
     dispatch(setProjectYangDipilih('jrkMax', jrkMax));
     dispatch(setProjectYangDipilih('jamMasuk', jmMsk));
     dispatch(setProjectYangDipilih('jamKeluar', jmklr));
-    navigation.navigate(tujuan);
+    navigation.navigate(tujuan, {other: ''});
+    const projectData = {
+      alamat: alamat,
+      gpsLatProj: gpsLatProj,
+      gpsLongProj: gpsLongProj,
+      jamKeluar: jmklr,
+      jamMasuk: jmMsk,
+      jrkMax: jrkMax,
+      namaTempat: namaTempat,
+      projectId: projectId,
+    };
+    await saveDataToStorage('projectData', projectData);
+  };
+  const moveToOther = async  (tujuan, other) => {
+    navigation.navigate(tujuan, {other: other});
   };
   return (
     <View>
@@ -130,11 +155,13 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
           )}
           <TouchableOpacity
             style={styles.CardPilihProject}
-            onPress={() => moveTo('pilihAbsenProject')}>
+            onPress={() => moveToOther('pilihAbsenProject', 'other')}>
             <Text style={styles.Text}>Other</Text>
             <Text style={styles.TextDeskripsi}>
-              Dipilih Jika (mas/mba) (nama lengkap) Berada Diluar Project Yang
-              Telah Disediakan Seperti Kunjungan atau Dinas
+              Dipilih Jika{' '}
+              {dataProfile.jenisKelamin === 'Laki-Laki' ? 'mas' : 'mba'}{' '}
+              {dataProfile.full_name} Berada Diluar Project Yang Telah
+              Disediakan Seperti Kunjungan atau Dinas
             </Text>
           </TouchableOpacity>
         </ScrollView>

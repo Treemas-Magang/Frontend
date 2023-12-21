@@ -3,18 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  ScrollView,
-  TouchableOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faImage} from '@fortawesome/free-solid-svg-icons';
 import ButtonHome from '../atoms/ButtonHome';
-import CustomTextInput from '../atoms/CustomTextInput';
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import {
@@ -31,7 +25,6 @@ import {API_GABUNGAN} from '@env';
 import axios from 'axios';
 import {useRoute} from '@react-navigation/native';
 import {getDataFromSession} from '../../utils/getDataSession';
-import DetailAbsen from './DetailAbsen';
 import SkeletonDetailApproval from '../skeleton/SkeletonDetailApproval';
 import DetailAbsenWebApp from '../molecules/DetailAbsenWebApp';
 import DetailCutiWebApp from '../molecules/DetailCutiWebApp';
@@ -105,15 +98,21 @@ const DetailApproval = ({navigation, stylePP}) => {
       .catch(error => console.log(error));
   }, [id, kategori]);
 
-  const onChangeText = (value, inputType) => {
-    dispatch(setFormApproval(inputType, value));
+  const sendDataReject = async isApprove => {
+    if (form.catatanApproval !== '') {
+      dispatch(setFormApproval('isApprove', isApprove));
+      console.log('kirim data : ', form);
+      return;
+    }
+    console.log('ketrangan kosong');
   };
-  const sendData = async isApprove => {
-    // dispatch(setFormApproval('isApprove', isApprove));
-    // if (form.isApprove === '' && form.catatanApproval) {
-    //   console.log('heelo');
-    // }
-    console.log('kirim data : ', form);
+  const sendDataApprove = async isApprove => {
+    if (form.catatanApproval !== '') {
+      dispatch(setFormApproval('isApprove', isApprove));
+      console.log('kirim data : ', form);
+      return;
+    }
+    console.log('ketrangan kosong');
   };
 
   return (
@@ -139,17 +138,19 @@ const DetailApproval = ({navigation, stylePP}) => {
             kategoriCuti={kategori}
             nik={detailApp.nik || '-'}
             alamat={detailApp.alamatCuti || '-'}
-            jenisCuti={detailApp.jenisCuti || '-'}
+            jenisCuti={
+              kategori === 'sakit' ? '-' : detailApp.jenisCuti.cutiDesc || '-'
+            }
             jmlCuti={detailApp.jmlCuti || '-'}
             jmlCutiBersama={detailApp.jmlCutiBersama || '-'}
             jmlCutiKhusus={detailApp.jmlCutiKhusus || '-'}
             keterangan={detailApp.keperluanCuti || '-'}
             nama={detailApp.nama || '-'}
-            approve={() => sendData('1')}
-            reject={() => sendData('1')}
             tglMasuk={detailApp.tglKembaliKerja || '-'}
             tglMulai={detailApp.tglMulai || '-'}
             tglSelesai={detailApp.tglSelesai || '-'}
+            approve={() => sendDataApprove('1')}
+            reject={() => sendDataReject('0')}
           />
         )
       ) : (
@@ -174,8 +175,9 @@ const DetailApproval = ({navigation, stylePP}) => {
             noteTelatMasuk={detailApp.noteTelatMsk || '-'}
             tanggalAbsen={detailApp.tglAbsen || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
-            approve={() => sendData('1')}
-            reject={() => sendData('1')}
+            namaProject={detailApp.projectId.namaProject}
+            approve={() => sendDataApprove('1')}
+            reject={() => sendDataReject('0')}
           />
         )
       ) : (
@@ -200,8 +202,8 @@ const DetailApproval = ({navigation, stylePP}) => {
             noteTelatMasuk={detailApp.noteTelatMsk || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
             namaProject={detailApp.projectId.namaProject || '-'}
-            approve={() => sendData('1')}
-            reject={() => sendData('1')}
+            approve={() => sendDataApprove('1')}
+            reject={() => sendDataReject('0')}
           />
         )
       ) : (
@@ -228,8 +230,8 @@ const DetailApproval = ({navigation, stylePP}) => {
             totalJamKerja={detailApp.totalJamKerja || '-'}
             keterangan={detailApp.keterangan || '-'}
             namaProject={detailApp.projectId.namaProject || '-'}
-            approve={() => sendData('1')}
-            reject={() => sendData('1')}
+            approve={() => sendDataApprove('1')}
+            reject={() => sendDataReject('0')}
           />
         )
       ) : (
@@ -254,8 +256,8 @@ const DetailApproval = ({navigation, stylePP}) => {
             noteOther={detailApp.noteOther || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
             namaProject={detailApp.projectId.namaProject || '-'}
-            approve={() => sendData('1')}
-            reject={() => sendData('1')}
+            approve={() => sendDataApprove('1')}
+            reject={() => sendDataReject('0')}
           />
         )
       ) : (
@@ -282,8 +284,8 @@ const DetailApproval = ({navigation, stylePP}) => {
             noteOther={detailApp.noteOther || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
             namaProject={detailApp.projectId.namaProject || '-'}
-            approve={() => sendData('1')}
-            reject={() => sendData('1')}
+            approve={() => sendDataApprove('1')}
+            reject={() => sendDataReject('0')}
           />
         )
       ) : (
@@ -301,8 +303,8 @@ const DetailApproval = ({navigation, stylePP}) => {
             tglKembaliKerja={detailApp.tglKembaliKerja || '-'}
             alamatCuti={detailApp.alamatCuti || '-'}
             keperluanCuti={detailApp.keperluanCuti || '-'}
-            approve={() => sendData('1')}
-            reject={() => sendData('1')}
+            approve={() => sendDataApprove('1')}
+            reject={() => sendDataReject('0')}
           />
         )
       ) : (
