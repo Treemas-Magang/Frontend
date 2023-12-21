@@ -26,7 +26,7 @@ const DataPribadi = ({stylePP, styleDataPribadi, navigation}) => {
       getDataFromSession('dataProfilUser')
         .then(data => {
           const dataProfileStorage = JSON.parse(data);
-          console.log('data profil : ', dataProfileStorage);
+          // console.log('data profil : ', dataProfileStorage);
           setDataProfile(dataProfileStorage);
         })
         .catch(error => console.log(error));

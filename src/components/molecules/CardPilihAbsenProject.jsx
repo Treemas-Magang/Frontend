@@ -32,7 +32,9 @@ const initialLokasiUser = {
 
 // Komponen utama CardPilihAbsenProject
 const CardPilihAbsenProject = ({navigation}) => {
-  const {other} = useRoute().params;
+  // const {other} = useRoute().params;
+  const {isOther} = useSelector(state => state.IsOtherReducer);
+  console.log('ini other', isOther)
   // Dispatch untuk mengirim aksi Redux
   const dispatch = useDispatch();
 
@@ -158,63 +160,87 @@ const CardPilihAbsenProject = ({navigation}) => {
     <View>
       {isAbsen === 'true' ? (
         <>
-          <TouchableOpacity
-            onPress={() => moveTo('formUpdateAbsensi', '0', isJarakTerlaluJauh)}
-            style={styles.CardPilihProject}>
-            <Text style={styles.Text}>ON SITE</Text>
-            <Text style={styles.TextDeskripsi}>{dataProject.alamat}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.CardPilihProject}
-            onPress={() => moveTo('formUpdateAbsensi', '1')}>
-            <Text style={styles.Text}>WORK FROM HOME</Text>
-            <Text style={styles.TextDeskripsi}>
-              jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-              Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
-            </Text>
-          </TouchableOpacity>
-        </>
-      ) : (
-        <>
         {
-          other === 'other' ? (
+          isOther === '1' ? (
             <>
-            <TouchableOpacity
-              onPress={() => moveTo('absensi', '0')}
-              style={styles.CardPilihProject}>
-              <Text style={styles.Text}>ON SITE</Text>
-              <Text style={styles.TextDeskripsi}>asu</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.CardPilihProject}
-              onPress={() => moveTo('absensi', '1')}>
-              <Text style={styles.Text}>WORK FROM HOME</Text>
-              <Text style={styles.TextDeskripsi}>
-                jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-                Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
-              </Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => moveTo('formUpdateAbsensi', '0')}
+                style={styles.CardPilihProject}>
+                <Text style={styles.Text}>ON SITE</Text>
+                <Text style={styles.TextDeskripsi}>asu</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.CardPilihProject}
+                onPress={() => moveTo('formUpdateAbsensi', '1')}>
+                <Text style={styles.Text}>WORK FROM HOME</Text>
+                <Text style={styles.TextDeskripsi}>
+                  jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
+                  Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
+                </Text>
+              </TouchableOpacity>
             </>
           ) : (
             <>
-            <TouchableOpacity
-              onPress={() => moveTo('absensi', '0')}
-              style={styles.CardPilihProject}>
-              <Text style={styles.Text}>ON SITE</Text>
-              <Text style={styles.TextDeskripsi}>{dataProject.alamat}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.CardPilihProject}
-              onPress={() => moveTo('absensi', '1')}>
-              <Text style={styles.Text}>WORK FROM HOME</Text>
-              <Text style={styles.TextDeskripsi}>
-                jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-                Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
-              </Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => moveTo('formUpdateAbsensi', '0', isJarakTerlaluJauh)}
+                style={styles.CardPilihProject}>
+                <Text style={styles.Text}>ON SITE</Text>
+                <Text style={styles.TextDeskripsi}>{dataProject.alamat}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.CardPilihProject}
+                onPress={() => moveTo('formUpdateAbsensi', '1')}>
+                <Text style={styles.Text}>WORK FROM HOME</Text>
+                <Text style={styles.TextDeskripsi}>
+                  jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
+                  Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
+                </Text>
+              </TouchableOpacity>
             </>
           )
         }
+        </>
+      ) : (
+        <>
+          {isOther === '1' ? (
+            <>
+              <TouchableOpacity
+                onPress={() => moveTo('absensi', '0')}
+                style={styles.CardPilihProject}>
+                <Text style={styles.Text}>ON SITE</Text>
+                <Text style={styles.TextDeskripsi}>asu</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.CardPilihProject}
+                onPress={() => moveTo('absensi', '1')}>
+                <Text style={styles.Text}>WORK FROM HOME</Text>
+                <Text style={styles.TextDeskripsi}>
+                  jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya,
+                  Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326,
+                  Indonesia
+                </Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <TouchableOpacity
+                onPress={() => moveTo('absensi', '0')}
+                style={styles.CardPilihProject}>
+                <Text style={styles.Text}>ON SITE</Text>
+                <Text style={styles.TextDeskripsi}>{dataProject.alamat}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.CardPilihProject}
+                onPress={() => moveTo('absensi', '1')}>
+                <Text style={styles.Text}>WORK FROM HOME</Text>
+                <Text style={styles.TextDeskripsi}>
+                  jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya,
+                  Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326,
+                  Indonesia
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
         </>
       )}
     </View>

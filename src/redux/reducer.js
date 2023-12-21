@@ -265,6 +265,8 @@ const initialStateAbsensi = {
     gpsLatitudeMsk: null,
     gpsLongitudeMsk: null,
     isWfh: '',
+    isOther: '',
+    noteOther: '',
     photoAbsen: null,
   },
 };
@@ -335,6 +337,7 @@ const initialStateAbsenMasuk = {
     note_telat_msk: '',
     is_absen: 0,
     is_wfh: 0,
+    is_other: 0
   },
 };
 const AbsenMasukReducer = (state = initialStateAbsenMasuk, action) => {
@@ -492,7 +495,7 @@ const ProjectYangDipilihReducer = (
 };
 
 const initialStateIsWFH = {
-  isWFH: '',
+  isWFH: '0',
 };
 
 const IsWFHReducer = (state = initialStateIsWFH, action) => {
@@ -500,6 +503,19 @@ const IsWFHReducer = (state = initialStateIsWFH, action) => {
     return {
       ...state,
       isWFH: action.inputValue,
+    };
+  }
+  return state;
+};
+const initialStateIsOther = {
+  isOther: '0',
+};
+
+const IsOtherReducer = (state = initialStateIsOther, action) => {
+  if (action.type === 'SET_IS_OTHER') {
+    return {
+      ...state,
+      isOther: action.inputValue,
     };
   }
   return state;
@@ -647,12 +663,14 @@ const reducer = combineReducers({
   JumlahApprovalReducer,
   ProjectYangDipilihReducer,
   IsWFHReducer,
+  IsOtherReducer,
   DataUserReducer,
   IsAbsenReducer,
   IsPulangReducer,
   // SudahMasukReducer,
   DetailProfileReducer,
   jmlNotifMasingMasingApprovalReducer,
+
 });
 
 export default reducer;

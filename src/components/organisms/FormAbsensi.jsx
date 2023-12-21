@@ -39,6 +39,7 @@ import {API_URL, API_GABUNGAN} from '@env';
 
 const FormAbsensi = ({navigation}) => {
   const dispatch = useDispatch();
+  const {isOther} = useSelector(state => state.IsOtherReducer);
   const {formAbsensi} = useSelector(state => state.FormAbsensiReducer);
   const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
   const {isWFH} = useSelector(state => state.IsWFHReducer);
@@ -122,6 +123,7 @@ const FormAbsensi = ({navigation}) => {
             {headers},
           );
           console.log(response.data.success);
+          console.log(response);
           console.log('berhasil absen');
           console.log(uploadBerhasil);
           setUploadBerhasil(true);
@@ -191,7 +193,8 @@ const FormAbsensi = ({navigation}) => {
   //kondisi wfh
   useEffect(() => {
     dispatch(setFormAbsensi('isWfh', isWFH));
-  }, [dispatch, isWFH]);
+    dispatch(setFormAbsensi('isOther', isOther));
+  }, [dispatch, isWFH, isOther]);
 
   //fungsi untuk pindah ke dashboard di jalankan setelah berhasil absen dan update
   const toDashboard = () => {
@@ -209,14 +212,40 @@ const FormAbsensi = ({navigation}) => {
       checkMockLocation();
       console.log('kirim data : ', formAbsensi);
 
-      if (terlambat && formAbsensi.noteTelatMsk === '') {
-        console.log('alasan telat masuk tidak boleh kosong');
-        // setInputKosong(false);
-        setIsLoading(false);
-      } else {
-        // setInputKosong(false);
-        await kirimDataAbsensi();
+      if (isWFH === '0' && isOther === '0') {
+        if (formAbsensi.noteTelatMsk === '') {
+          setIsLoading(false);
+          console.log('note telat masuk masih kosong');
+        } else {
+          setIsLoading(false);
+          // await kirimDataAbsensi();
+        }
+      } else if (isWFH === '1') {
+        if (
+          formAbsensi.noteTelatMsk === '' ||
+          formAbsensi.photoAbsen === null
+        ) {
+          setIsLoading(false);
+          console.log('alasan telat masuk / foto masih kosong');
+        } else {
+          setIsLoading(false);
+          // await kirimDataAbsensi();
+        }
+      } else if (isOther === '1') {
+        if (formAbsensi.noteOther === '') {
+          console.log('note other masih kosong');
+        } else {
+          await kirimDataAbsensi();
+        }
       }
+
+      // if (terlambat && formAbsensi.noteTelatMsk === '') {
+      //   console.log('alasan telat masuk tidak boleh kosong');
+      //   setIsLoading(false);
+      // } else {
+      //   setIsLoading(false)
+      //   // await kirimDataAbsensi();
+      // }
     } catch (error) {
       // setInputKosong(true);
       console.error('Error in sendData:', error);
@@ -267,7 +296,7 @@ const FormAbsensi = ({navigation}) => {
       <CustomTextInput
         label="Lokasi Project"
         secureTextEntry={false}
-        value={dataProject.namaTempat}
+        value={dataProject.namaTempat !== '' ? dataProject.namaTempat : '-'}
         editable={false}
       />
       <CustomTextInput
@@ -285,13 +314,22 @@ const FormAbsensi = ({navigation}) => {
         value={formAbsensi.lokasiMsk}
         onTextChange={value => onChangeText(value, 'lokasi')}
       />
-      <CustomTextInput
-        label="Jarak"
-        editable={false}
-        secureTextEntry={false}
-        value={formAbsensi.jarakMsk}
-        onTextChange={value => onChangeText(value, 'jarak')}
-      />
+      {isOther === '1' ? (
+        <CustomTextInput
+          label="Note Other"
+          secureTextEntry={false}
+          value={formAbsensi.noteOther}
+          onTextChange={value => onChangeText(value, 'noteOther')}
+        />
+      ) : (
+        <CustomTextInput
+          label="Jarak"
+          editable={false}
+          secureTextEntry={false}
+          value={formAbsensi.jarakMsk}
+          onTextChange={value => onChangeText(value, 'jarak')}
+        />
+      )}
       {terlambat ? (
         <CustomTextInput
           label="Alasan Telat Masuk"
