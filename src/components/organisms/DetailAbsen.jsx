@@ -1,19 +1,93 @@
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
+import axios from 'axios';
+import {getDataFromSession} from '../../utils/getDataSession';
+import {API_GABUNGAN} from '@env';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
+import {useRoute} from '@react-navigation/native';
+import SkeletonDetailAbsen from '../skeleton/SkeletonDetailAbsen';
 
 const DetailAbsen = ({navigation}) => {
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
+  const {id} = useRoute().params;
+  const [dataDetailAbsen, setDataDetailAbsen] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const getDataDetailAbsen = async headers => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + `/api/rekap/get-detail-absen?id=${id}`,
+        {headers},
+      );
+      console.log(response.data.data);
+      const dataAPI = response.data.data;
+      // const dataKosong = [];
+      setDataDetailAbsen(dataAPI);
+      console.log('ini data detail absen', dataAPI);
+      setIsLoading(false);
+      // console.log('data : ', dataAPI.absenEntity);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error.response);
+      setIsLoading(false);
+    }
   };
+
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataDetailAbsen(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
+
+  const formatDate = dateString => {
+    // Mengasumsikan dateString dalam format 'YYYY/MM/DD'
+    const date = new Date(dateString);
+
+    const options = {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    };
+
+    // Menggunakan toLocaleDateString untuk mendapatkan format tanggal yang diinginkan
+    const formattedDate = date.toLocaleDateString('id-ID', options);
+
+    // Mengganti karakter "/" dengan "-"
+    return formattedDate.replace(/\//g, '-');
+  };
+
+  const getStatusText = () => {
+    switch (true) {
+      case dataDetailAbsen.isAbsen === '1':
+        return 'Absen';
+      case dataDetailAbsen.isCuti === '1':
+        return 'Cuti';
+      case dataDetailAbsen.isLembur === '1':
+        return 'Lembur';
+      case dataDetailAbsen.isLibur === '1':
+        return 'Libur';
+      case dataDetailAbsen.isOther === '1':
+        return 'Other';
+      case dataDetailAbsen.isSakit === '1':
+        return 'Sakit';
+      case dataDetailAbsen.isWfh === '1':
+        return 'WFH';
+      default:
+        return '-';
+    }
+  };
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -28,62 +102,94 @@ const DetailAbsen = ({navigation}) => {
         <Text style={styles.Judul}>Detail Absen</Text>
       </View>
       <View style={styles.backgroundCardAbsen}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View>
-            <Text style={styles.TextTitle}>Nik</Text>
-            <Text style={styles.TextDeskripsi}>2912312</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Nama</Text>
-            <Text style={styles.TextDeskripsi}>Azriel FachrulRezy</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Hari</Text>
-            <Text style={styles.TextDeskripsi}>Senin</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Tanggal</Text>
-            <Text style={styles.TextDeskripsi}>08-11-2021</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Fleg Keterangan</Text>
-            <Text style={styles.TextDeskripsi}>ABSEN</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Project</Text>
-            <Text style={styles.TextDeskripsi}>PT TREEMAS SOLUSI UTAMA</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Jam Masuk</Text>
-            <Text style={styles.TextDeskripsi}>09:23:04</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Catatan Telat</Text>
-            <Text style={styles.TextDeskripsi}>BARU ABSEN MASUK</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Lokasi Masuk</Text>
-            <Text style={{textAlign: 'justify'}}>
-              jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-              Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Jam Pulang</Text>
-            <Text style={styles.TextDeskripsi}>17:20:35</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Catatan Pulang Cepat</Text>
-            <Text style={styles.TextDeskripsi}>Kegiatan Penting</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Lokasi Pulang</Text>
-            <Text style={{textAlign: 'justify', marginBottom: 25}}>
-              jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-              Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
-            </Text>
-          </View>
-        </ScrollView>
+        {isLoading ? (
+          <SkeletonDetailAbsen />
+        ) : (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View>
+              <Text style={styles.TextTitle}>Nik</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailAbsen.nik || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Nama</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailAbsen.nama || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Hari</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailAbsen.hari || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Tanggal</Text>
+              <Text style={styles.TextDeskripsi}>
+                {formatDate(dataDetailAbsen.tglAbsen) || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Flag Keterangan</Text>
+              <Text style={styles.TextDeskripsiFleg}>
+                {getStatusText() || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Project</Text>
+              <Text style={styles.TextDeskripsiProject}>
+                {dataDetailAbsen.projectId?.namaProject || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Jam Masuk</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailAbsen.jamMsk
+                  ? dataDetailAbsen.jamMsk.substring(0, 5)
+                  : '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Catatan Telat</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailAbsen.noteTelatMsk || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Lokasi Masuk</Text>
+              <Text style={{textAlign: 'justify', fontFamily: text.light}}>
+                {dataDetailAbsen.lokasiMsk || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Jam Pulang</Text>
+              <Text style={styles.TextDeskripsi}>
+                {' '}
+                {dataDetailAbsen.jamPlg
+                  ? dataDetailAbsen.jamPlg.substring(0, 5)
+                  : '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Catatan Pulang Cepat</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailAbsen.notePlgCepat || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Lokasi Pulang</Text>
+              <Text
+                style={{
+                  textAlign: 'justify',
+                  marginBottom: 25,
+                  fontFamily: text.light,
+                }}>
+                {dataDetailAbsen.lokasiPlg || '-'}
+              </Text>
+            </View>
+          </ScrollView>
+        )}
       </View>
     </View>
   );
@@ -118,5 +224,15 @@ const styles = StyleSheet.create({
   TextDeskripsi: {
     fontFamily: text.light,
     marginVertical: 2,
+  },
+  TextDeskripsiFleg: {
+    fontFamily: text.light,
+    marginVertical: 2,
+    textTransform: 'uppercase',
+  },
+  TextDeskripsiProject: {
+    fontFamily: text.light,
+    marginVertical: 2,
+    textTransform: 'uppercase',
   },
 });

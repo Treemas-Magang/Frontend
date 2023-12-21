@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import ButtonBack from '../atoms/ButtonBack';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
@@ -11,52 +11,47 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
+import axios from 'axios';
+import {getDataFromSession} from '../../utils/getDataSession';
+import {API_GABUNGAN} from '@env';
+import LottieView from 'lottie-react-native';
+import SkeeltonCardRekapCuti from '../skeleton/SkeletonCardRekapCuti';
 
 const ListRekapCuti = ({navigation}) => {
-  const [rekCuti, setRekCuti] = useState([
-    {
-      nmTempat: 'Purwokerto',
-      tglAwal: '02-03-2021',
-      tglAkhir: '10-03-2021',
-      tglMasuk: '11-03-2021',
-      jmlhHari: '1',
-      jmlhCutiBersama: '1',
-      jmlhCutiKhusus: '1',
-      keterangan: 'Back to Home in Kampung',
-      catDisetujui: 'bawa oleh-oleh',
-      tglDisetujui: '05-03-2021',
-      disetujuiOleh: 'Pak Dede',
-      status: 'disetujui',
-    },
-    {
-      nmTempat: 'Purwokerto',
-      tglAwal: '02-03-2021',
-      tglAkhir: '10-03-2021',
-      tglMasuk: '11-03-2021',
-      jmlhHari: '1',
-      jmlhCutiBersama: '1',
-      jmlhCutiKhusus: '1',
-      keterangan: 'Back to Home in Kampung',
-      catDisetujui: 'bawa oleh-oleh',
-      tglDisetujui: '05-03-2021',
-      disetujuiOleh: 'Pak Dede',
-      status: 'menunggu',
-    },
-    {
-      nmTempat: 'Purwokerto',
-      tglAwal: '02-03-2021',
-      tglAkhir: '10-03-2021',
-      tglMasuk: '11-03-2021',
-      jmlhHari: '1',
-      jmlhCutiBersama: '1',
-      jmlhCutiKhusus: '1',
-      keterangan: 'Back to Home in Kampung',
-      catDisetujui: 'bawa oleh-oleh',
-      tglDisetujui: '05-03-2021',
-      disetujuiOleh: 'Pak Dede',
-      status: 'ditolak',
-    },
-  ]);
+  const [rekCuti, setRekCuti] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const getDataCuti = async headers => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + '/api/rekap/get-rekap-cuti',
+        {
+          headers,
+        },
+      );
+      console.log(response.data.data);
+      const dataAPI = response.data.data;
+
+      console.log('data cuti : ', dataAPI);
+      setRekCuti(dataAPI);
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error.response);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataCuti(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
+
   return (
     <View style={styles.background}>
       <ButtonBack navigation={navigation} />
@@ -73,34 +68,67 @@ const ListRekapCuti = ({navigation}) => {
         </View>
       </View>
       <View style={styles.wrapCardRekapCuti}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {rekCuti.map((cuti, index) => (
-            <View key={index}>
-              <CardRekapCuti
-                nmTempat={cuti.nmTempat}
-                tanggalAwal={cuti.tglAwal}
-                tanggalAkhir={cuti.tglAkhir}
-                tanggalMasuk={cuti.tglMasuk}
-                jmlhHari={cuti.jmlhHari}
-                jmlhCutiBersama={cuti.jmlhCutiBersama}
-                jmlhCutiKhusus={cuti.jmlhCutiKhusus}
-                keterangan={cuti.keterangan}
-                catDisetujui={cuti.catDisetujui}
-                tglDisetujui={cuti.tglDisetujui}
-                disetujuiOleh={cuti.disetujuiOleh}
-                status={
-                  cuti.status === 'disetujui'
-                    ? 'disetujui'
-                    : cuti.status === 'menunggu'
-                    ? 'menunggu'
-                    : cuti.status === 'ditolak'
-                    ? 'ditolak'
-                    : ''
+        {isLoading ? (
+          <View style={{flex: 1}}>
+            <SkeeltonCardRekapCuti />
+          </View>
+        ) : (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {rekCuti.length > 0 ? (
+              rekCuti.map((cuti, index) => {
+                const isApprove = cuti.isApproved;
+                let status;
+                switch (isApprove) {
+                  case null:
+                    status = 'Menunggu';
+                    break;
+                  case 1:
+                    status = 'Disetujui';
+                    break;
+                  case 0:
+                    status = 'Ditolak';
+                    break;
+                  default:
+                    status = 'Menunggu';
+                    break;
                 }
-              />
-            </View>
-          ))}
-        </ScrollView>
+
+                return (
+                  <View key={index}>
+                    <CardRekapCuti
+                      nmTempat={cuti.alamatCuti || '-'}
+                      tanggalAwal={cuti.tglMulai || '-'}
+                      tanggalAkhir={cuti.tglSelesai || '-'}
+                      tanggalMasuk={cuti.tglKembaliKerja || '-'}
+                      jmlhHari={cuti.jmlCuti || '-'}
+                      jmlhCutiBersama={cuti.jmlCutiBersama || '-'}
+                      jmlhCutiKhusus={cuti.jmlCutiKhusus || '-'}
+                      keterangan={cuti.keperluanCuti || '-'}
+                      catDisetujui={cuti.noteApp || '-'}
+                      tglDisetujui={cuti.dtmApp || '-'}
+                      disetujuiOleh={cuti.usrApp || '-'}
+                      status={status}
+                    />
+                  </View>
+                );
+              })
+            ) : (
+              // Handle the case when rekCuti is not an array
+              <View style={styles.wrapDataNotFound}>
+                <LottieView
+                  source={require('../../assets/animation/dataNotFound.json')}
+                  autoPlay
+                  style={{
+                    width: '100%',
+                    height: '70%',
+                  }}></LottieView>
+                <Text style={styles.textDataNotFound}>
+                  Tidak Ada Data Rekap Cuti
+                </Text>
+              </View>
+            )}
+          </ScrollView>
+        )}
       </View>
     </View>
   );
@@ -138,18 +166,16 @@ const styles = StyleSheet.create({
     color: Color.blue,
     textTransform: 'uppercase',
   },
-  wrapStatus: {
-    flexDirection: 'row',
-    gap: 5,
+  wrapDataNotFound: {
+    width: wp('90%'),
+    height: hp('55%'),
+    alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    top: 20,
-    right: 45,
   },
-  simbolStatus: {
-    width: 15,
-    height: 15,
-    backgroundColor: Color.cardSakit,
-    borderRadius: 15,
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
+    textTransform: 'uppercase',
   },
 });

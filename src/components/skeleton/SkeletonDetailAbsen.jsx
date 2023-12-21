@@ -47,70 +47,57 @@ const SkeletonDetailAbsen = ({navigation}) => {
     });
   };
   return (
-    <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
-      <ButtonBack navigation={navigation} />
-      <ButtonHome navigation={navigation} />
-      <VectorAtasKecil />
-      <View
-        style={{
-          width: wp('100%'),
-          height: hp('20%'),
-          justifyContent: 'center',
-        }}>
-        <Text style={styles.Judul}>Detail Absen</Text>
-      </View>
-      <View style={styles.backgroundCardAbsen}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View>
-            <Text style={styles.TextTitle}>Nik</Text>
-            <Animated.View style={{opacity: getShimmerOpacity()}}>
-              <Text style={styles.TextDeskripsi}></Text>
-            </Animated.View>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Nama</Text>
-            <Animated.View style={{opacity: getShimmerOpacity()}}>
-              <Text style={styles.TextDeskripsi}></Text>
-            </Animated.View>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Hari</Text>
-            <Animated.View style={{opacity: getShimmerOpacity()}}>
-              <Text style={styles.TextDeskripsi}></Text>
-            </Animated.View>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Tanggal</Text>
-            <Animated.View style={{opacity: getShimmerOpacity()}}>
-              <Text style={styles.TextDeskripsi}></Text>
-            </Animated.View>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Fleg Keterangan</Text>
-            <Animated.View style={{opacity: getShimmerOpacity()}}>
-              <Text style={styles.TextDeskripsi}></Text>
-            </Animated.View>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Project</Text>
-            <Animated.View style={{opacity: getShimmerOpacity()}}>
-              <Text style={styles.TextDeskripsi}></Text>
-            </Animated.View>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Jam Masuk</Text>
-            <Animated.View style={{opacity: getShimmerOpacity()}}>
-              <Text style={styles.TextDeskripsi}></Text>
-            </Animated.View>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Catatan Telat</Text>
-            <Animated.View style={{opacity: getShimmerOpacity()}}>
-              <Text style={styles.TextDeskripsi}></Text>
-            </Animated.View>
-          </View>
-        </ScrollView>
-      </View>
+    <View style={styles.backgroundCardAbsen}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View>
+          <Text style={styles.TextTitle}>Nik</Text>
+          <Animated.View style={{opacity: getShimmerOpacity()}}>
+            <Text style={styles.TextDeskripsi}></Text>
+          </Animated.View>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Nama</Text>
+          <Animated.View style={{opacity: getShimmerOpacity()}}>
+            <Text style={styles.TextDeskripsi}></Text>
+          </Animated.View>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Hari</Text>
+          <Animated.View style={{opacity: getShimmerOpacity()}}>
+            <Text style={styles.TextDeskripsi}></Text>
+          </Animated.View>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Tanggal</Text>
+          <Animated.View style={{opacity: getShimmerOpacity()}}>
+            <Text style={styles.TextDeskripsi}></Text>
+          </Animated.View>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Fleg Keterangan</Text>
+          <Animated.View style={{opacity: getShimmerOpacity()}}>
+            <Text style={styles.TextDeskripsi}></Text>
+          </Animated.View>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Project</Text>
+          <Animated.View style={{opacity: getShimmerOpacity()}}>
+            <Text style={styles.TextDeskripsi}></Text>
+          </Animated.View>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Jam Masuk</Text>
+          <Animated.View style={{opacity: getShimmerOpacity()}}>
+            <Text style={styles.TextDeskripsi}></Text>
+          </Animated.View>
+        </View>
+        <View>
+          <Text style={styles.TextTitle}>Catatan Telat</Text>
+          <Animated.View style={{opacity: getShimmerOpacity()}}>
+            <Text style={styles.TextDeskripsi}></Text>
+          </Animated.View>
+        </View>
+      </ScrollView>
     </View>
   );
 };

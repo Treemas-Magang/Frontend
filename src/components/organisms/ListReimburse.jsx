@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import CardReimburse from '../molecules/CardReimburse';
@@ -22,48 +22,71 @@ import {
   faAngleDoubleUp,
 } from '@fortawesome/free-solid-svg-icons';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
+import axios from 'axios';
+import {getDataFromSession} from '../../utils/getDataSession';
+import {API_GABUNGAN} from '@env';
+import LottieView from 'lottie-react-native';
+import SkeletonCardReimburse from '../skeleton/SkeletonCardReimburse';
+
 const ListReimburse = ({navigation}) => {
-  const [reimburses, setReimburses] = useState([
-    {
-      tanggal: 'Senin 2 Mei',
-      totalJam: 8,
-      overtime: 0,
-      transport: 50000,
-      uangMakan: 50000,
-    },
-    {
-      tanggal: 'Senin 3 Mei',
-      totalJam: 8,
-      overtime: 2,
-      transport: 20000,
-      uangMakan: 50000,
-    },
-    {
-      tanggal: 'Senin 4 Mei',
-      totalJam: 2,
-      overtime: 9,
-      transport: 50000,
-      uangMakan: 100000,
-    },
-    {
-      tanggal: 'Senin 5 Mei',
-      totalJam: 8,
-      overtime: 2,
-      transport: 50000,
-      uangMakan: 220000,
-    },
-    {
-      tanggal: 'Senin 6 Mei',
-      totalJam: 8,
-      overtime: 1,
-      transport: 50000,
-      uangMakan: 150000,
-    },
-  ]);
+  const [reimburses, setReimburses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
+  const getDataReimburse = async headers => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + '/api/rekap/get-rekap-reimburse',
+        {headers},
+      );
+      console.log(response.data.data);
+      const dataAPI = response.data.data;
+      console.log('data reimburse : ', dataAPI);
+      setReimburses(dataAPI);
+      setIsLoading(false);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error.response);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataReimburse(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
+
   const [isShowCatatanKerja, setIsShowCatatanKerja] = useState(false);
   const showCatatanKerja = () => {
     setIsShowCatatanKerja(!isShowCatatanKerja);
   };
+
+  const formatDate = dateString => {
+    // Mengasumsikan dateString dalam format 'YYYY-MM-DD'
+    const date = new Date(dateString);
+
+    const options = {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+    };
+
+    // Menggunakan toLocaleDateString untuk mendapatkan format tanggal default
+    let formattedDate = date.toLocaleDateString('id-ID', options);
+
+    // Mengganti koma setelah hari dengan string kosong
+    formattedDate = formattedDate.replace(/,/g, '');
+
+    return formattedDate;
+  };
+
+  const moveTo = (tujuan, id) => {
+    navigation.navigate(tujuan, {id: id});
+  };
+
   return (
     <View style={styles.container}>
       <ButtonBack navigation={navigation} />
@@ -74,20 +97,46 @@ const ListReimburse = ({navigation}) => {
         <Text style={styles.Judul}>reimburse</Text>
       </View>
       <View style={styles.content}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {reimburses.map((reimburse, index) => (
-            <View key={index}>
-              <CardReimburse
-                navigation={navigation}
-                tanggal={reimburse.tanggal}
-                totalJam={reimburse.totalJam}
-                overtime={reimburse.overtime}
-                transport={reimburse.transport}
-                uangMakan={reimburse.uangMakan}
-              />
-            </View>
-          ))}
-        </ScrollView>
+        {isLoading ? (
+          <View>
+            <SkeletonCardReimburse />
+            <SkeletonCardReimburse />
+            <SkeletonCardReimburse />
+            <SkeletonCardReimburse />
+          </View>
+        ) : (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {reimburses.length > 0 ? (
+              reimburses.map((reimburse, index) => (
+                <View key={index}>
+                  <CardReimburse
+                    navigation={navigation}
+                    onPress={() => moveTo('detailReimburse', reimburse.id)}
+                    tanggal={formatDate(reimburse.tanggal) || '-'}
+                    totalJam={reimburse.totalJamKerja}
+                    overtime={reimburse.overtime}
+                    transport={reimburse.transport}
+                    uangMakan={reimburse.uangMakan}
+                  />
+                </View>
+              ))
+            ) : (
+              // Handle the case when dataApp is not an array
+              <View style={styles.wrapDataNotFound}>
+                <LottieView
+                  source={require('../../assets/animation/dataNotFound.json')}
+                  autoPlay
+                  style={{
+                    width: '100%',
+                    height: '70%',
+                  }}></LottieView>
+                <Text style={styles.textDataNotFound}>
+                  Tidak Ada Data Reimburse
+                </Text>
+              </View>
+            )}
+          </ScrollView>
+        )}
 
         <TouchableOpacity
           onPress={showCatatanKerja}
@@ -218,5 +267,17 @@ const styles = StyleSheet.create({
   containerJudul: {
     flex: 1,
     justifyContent: 'center',
+  },
+  wrapDataNotFound: {
+    width: wp('90%'),
+    height: hp('55%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
+    textTransform: 'uppercase',
   },
 });

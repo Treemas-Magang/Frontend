@@ -33,13 +33,13 @@ const CardRekapSakit = ({
 
   let background = styles.cardBackground;
   switch (status) {
-    case 'diterima':
+    case 'Disetujui':
       background = styles.cardDiterima;
       break;
-    case 'menunggu':
+    case 'Menunggu':
       background = styles.cardMenunggu;
       break;
-    case 'ditolak':
+    case 'Ditolak':
       background = styles.cardDitolak;
       break;
     default:

@@ -55,96 +55,83 @@ const SkeletonDetailMember = ({navigation, stylePP}) => {
   };
 
   return (
-    <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
-      <ButtonBack navigation={navigation} />
-      <ButtonHome navigation={navigation} />
-      <VectorAtasKecil />
-      <View
-        style={{
-          width: wp('100%'),
-          height: hp('20%'),
-          justifyContent: 'center',
-        }}>
-        <Text style={styles.Judul}>Detail Member</Text>
-      </View>
-      <View style={styles.backgroundDetailMember}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <View style={{alignItems: 'center'}}>
-              <View
-                style={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: 100,
-                  backgroundColor: Color.skeleton,
-                }}></View>
-            </View>
-          </Animated.View>
-          <View
-            style={{
-              position: 'absolute',
-              flexDirection: 'row',
-              gap: 5,
-              right: 0,
-            }}>
-            <TouchableOpacity>
-              <Image
-                style={{width: 40, height: 40}}
-                source={require('../../assets/vector/Maps.png')}
-              />
-            </TouchableOpacity>
-            {isWFH ? (
-              <TouchableOpacity>
-                <FontAwesomeIcon icon={faImage} color={Color.green} size={40} />
-              </TouchableOpacity>
-            ) : (
-              ''
-            )}
+    <View style={styles.backgroundDetailMember}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <View style={{alignItems: 'center'}}>
+            <View
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 100,
+                backgroundColor: Color.skeleton,
+              }}></View>
           </View>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <View>
-              <Text style={styles.TextTitle}></Text>
-              <Text style={styles.TextDeskripsi}></Text>
-            </View>
-          </Animated.View>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <View>
-              <Text style={styles.TextTitle}></Text>
-              <Text style={styles.TextDeskripsi}></Text>
-            </View>
-          </Animated.View>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <View>
-              <Text style={styles.TextTitle}></Text>
-              <Text style={styles.TextDeskripsi}></Text>
-            </View>
-          </Animated.View>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <View>
-              <Text style={styles.TextTitle}></Text>
-              <Text style={styles.TextDeskripsi}></Text>
-            </View>
-          </Animated.View>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <View>
-              <Text style={styles.TextTitle}></Text>
-              <Text
-                style={{
-                  textAlign: 'justify',
-                  backgroundColor: Color.skeleton,
-                  height: 50,
-                  borderRadius: 5,
-                }}></Text>
-            </View>
-          </Animated.View>
-          <Animated.View style={{opacity: getShimmerOpacity()}}>
-            <View>
-              <Text style={styles.TextTitle}></Text>
-              <Text style={styles.TextDeskripsi}></Text>
-            </View>
-          </Animated.View>
-        </ScrollView>
-      </View>
+        </Animated.View>
+        <View
+          style={{
+            position: 'absolute',
+            flexDirection: 'row',
+            gap: 5,
+            right: 0,
+          }}>
+          <TouchableOpacity>
+            <Image
+              style={{width: 40, height: 40}}
+              source={require('../../assets/vector/Maps.png')}
+            />
+          </TouchableOpacity>
+          {isWFH ? (
+            <TouchableOpacity>
+              <FontAwesomeIcon icon={faImage} color={Color.green} size={40} />
+            </TouchableOpacity>
+          ) : (
+            ''
+          )}
+        </View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <View>
+            <Text style={styles.TextTitle}></Text>
+            <Text style={styles.TextDeskripsi}></Text>
+          </View>
+        </Animated.View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <View>
+            <Text style={styles.TextTitle}></Text>
+            <Text style={styles.TextDeskripsi}></Text>
+          </View>
+        </Animated.View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <View>
+            <Text style={styles.TextTitle}></Text>
+            <Text style={styles.TextDeskripsi}></Text>
+          </View>
+        </Animated.View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <View>
+            <Text style={styles.TextTitle}></Text>
+            <Text style={styles.TextDeskripsi}></Text>
+          </View>
+        </Animated.View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <View>
+            <Text style={styles.TextTitle}></Text>
+            <Text
+              style={{
+                textAlign: 'justify',
+                backgroundColor: Color.skeleton,
+                height: 50,
+                borderRadius: 5,
+              }}></Text>
+          </View>
+        </Animated.View>
+        <Animated.View style={{opacity: getShimmerOpacity()}}>
+          <View>
+            <Text style={styles.TextTitle}></Text>
+            <Text style={styles.TextDeskripsi}></Text>
+          </View>
+        </Animated.View>
+      </ScrollView>
     </View>
   );
 };
