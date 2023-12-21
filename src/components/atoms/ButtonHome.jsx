@@ -14,7 +14,7 @@ import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
  * @param {Object} style - Gaya tambahan yang dapat diterapkan pada tombol.
  * @returns {JSX.Element} - Komponen React untuk tombol kembali ke halaman dashboard.
  */
-const ButtonHome = ({navigation, style}) => {
+const ButtonHome = ({navigation, style, styleColor}) => {
   /**
    * Fungsi goHome digunakan untuk mengganti halaman ke 'dashboard'.
    */
@@ -26,7 +26,7 @@ const ButtonHome = ({navigation, style}) => {
     <TouchableOpacity style={[styles.ButtonHome, style]} onPress={goHome}>
       <FontAwesomeIcon
         icon={faHouseUser}
-        color={Color.green}
+        color={styleColor || Color.green}
         size={wp('10%')}
       />
     </TouchableOpacity>

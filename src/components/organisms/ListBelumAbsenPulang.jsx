@@ -21,29 +21,31 @@ const ListBelumAbsenPulang = ({navigation}) => {
   const [AbsenBelumPulang, setAbsenBelumPulang] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
 
-const getDataBelumAbsen = async headers => {
-  try {
-    const response = await axios.get(
-      API_GABUNGAN + '/api/absen/get-absen-belum-pulang',
-      { headers },
-    );
-    console.log(response.data.data);
-    const dataAPI = response.data.data;
+  const getDataBelumAbsen = async headers => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + '/api/absen/get-absen-belum-pulang',
+        {headers},
+      );
+      console.log(response.data.data);
+      const dataAPI = response.data.data;
 
-    // Get the current date in the format "YYYY-MM-DD"
-    const currentDate = new Date().toISOString().split('T')[0];
+      // Get the current date in the format "YYYY-MM-DD"
+      const currentDate = new Date().toISOString().split('T')[0];
 
-    // Filter out the data where "tglAbsen" is equal to the current date
-    const filteredData = dataAPI.filter(item => item.tglAbsen !== currentDate);
+      // Filter out the data where "tglAbsen" is equal to the current date
+      const filteredData = dataAPI.filter(
+        item => item.tglAbsen !== currentDate,
+      );
 
-    setAbsenBelumPulang(filteredData);
-    setIsLoading(false);
-    console.log('data : ', filteredData);
-  } catch (error) {
-    console.log('Tidak dapat mengambil data ', error);
-    setIsLoading(false);
-  }
-};
+      setAbsenBelumPulang(filteredData);
+      setIsLoading(false);
+      console.log('data : ', filteredData);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     getDataFromSession('token')
@@ -55,6 +57,26 @@ const getDataBelumAbsen = async headers => {
       })
       .catch(error => console.log(error));
   }, []);
+
+  const formatDate = dateString => {
+    // Mengasumsikan dateString dalam format 'YYYY-MM-DD'
+    const date = new Date(dateString);
+
+    const options = {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+    };
+
+    // Menggunakan toLocaleDateString untuk mendapatkan format tanggal default
+    let formattedDate = date.toLocaleDateString('id-ID', options);
+
+    // Mengganti koma setelah hari dengan string kosong
+    formattedDate = formattedDate.replace(/,/g, '');
+
+    return formattedDate;
+  };
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -82,11 +104,11 @@ const getDataBelumAbsen = async headers => {
               <View key={index} style={{flexDirection: 'column'}}>
                 <CardBelumAbsenPulang
                   navigation={navigation}
-                  jam_masuk={data.jamMsk}
-                  project={data.projectName}
-                  note_telat={data.noteTelatMsk}
-                  lokasi={data.lokasiProject}
-                  tanggal={data.tglAbsen}
+                  jam_masuk={data.jamMsk || '-'}
+                  project={data.projectName || '-'}
+                  note_telat={data.noteTelatMsk || '-'}
+                  lokasi={data.lokasiProject || '-'}
+                  tanggal={formatDate(data.tglAbsen) || '-'}
                 />
               </View>
             ))

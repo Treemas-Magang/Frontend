@@ -14,27 +14,50 @@ const CardListAbsen = ({
   lokasi_pulang,
   tanggal_absen,
   status,
+  onPress,
 }) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
   };
 
+  // const getStatusText = () => {
+  //   switch (true) {
+  //     case dataDetailAbsen.isAbsen === '1':
+  //       return 'Absen';
+  //     case dataDetailAbsen.isCuti === '1':
+  //       return 'Cuti';
+  //     case dataDetailAbsen.isLembur === '1':
+  //       return 'Lembur';
+  //     case dataDetailAbsen.isLibur === '1':
+  //       return 'Libur';
+  //     case dataDetailAbsen.isOther === '1':
+  //       return 'Other';
+  //     case dataDetailAbsen.isSakit === '1':
+  //       return 'Sakit';
+  //     case dataDetailAbsen.isWfh === '1':
+  //       return 'WFH';
+  //     default:
+  //       return '-';
+  //   }
+  // };
+
   let background = styles.cardBackground;
   switch (status) {
-    case 'hadir':
+    case 'Absen':
       background = styles.cardHadir;
       break;
-    case 'sakit':
+    case 'Sakit':
       background = styles.cardSakit;
+      break;
+    case 'Libur' || 'Cuti':
+      background = styles.cardTdkMsk;
       break;
     default:
       break;
   }
 
   return (
-    <TouchableOpacity
-      style={[styles.card, background]}
-      onPress={() => moveTo('detailAbsen')}>
+    <TouchableOpacity style={[styles.card, background]} onPress={onPress}>
       <Text style={styles.judul}>{tanggal_absen}</Text>
       <View style={styles.wrapper}>
         <View style={styles.wrap}>
@@ -90,17 +113,17 @@ const styles = StyleSheet.create({
     color: Color.black,
   },
   labelJam: {
-    fontFamily: text.lightItalic,
+    fontFamily: text.semiBoldItalic,
     fontSize: 12,
     color: Color.black,
   },
   jam: {
-    fontFamily: text.semiBold,
+    fontFamily: text.regular,
     fontSize: 12,
     color: Color.black,
   },
   labelLokasi: {
-    fontFamily: text.lightItalic,
+    fontFamily: text.semiBoldItalic,
     fontSize: 12,
     color: Color.black,
   },
@@ -117,5 +140,8 @@ const styles = StyleSheet.create({
   },
   cardSakit: {
     backgroundColor: Color.cardSakit,
+  },
+  cardTdkMsk: {
+    backgroundColor: Color.grey,
   },
 });

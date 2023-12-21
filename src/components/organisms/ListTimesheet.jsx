@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
@@ -23,49 +23,52 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import CardTimesheet from '../molecules/CardTimesheet';
+import axios from 'axios';
+import {getDataFromSession} from '../../utils/getDataSession';
+import {API_GABUNGAN} from '@env';
+import LottieView from 'lottie-react-native';
+import SkeletonCardTimesheet from '../skeleton/SkeletonCardTimesheet';
+
 const ListTimesheet = ({navigation}) => {
-  const [timesheet, setTimesheet] = useState([
-    {
-      tanggal: 'Selasa 05 April',
-      penempatan: 'TREEMAS SOLUSI UTAMA',
-      lokasi:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-    },
-    {
-      tanggal: 'Rabu 06 April',
-      penempatan: 'TREEMAS SOLUSI UTAMA',
-      lokasi:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-    },
-    {
-      tanggal: 'Kamis 07 April',
-      penempatan: 'TREEMAS SOLUSI UTAMA',
-      lokasi:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-    },
-    {
-      tanggal: 'Jumat 08 April',
-      penempatan: 'TREEMAS SOLUSI UTAMA',
-      lokasi:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-    },
-    {
-      tanggal: 'Senin 11 April',
-      penempatan: 'TREEMAS SOLUSI UTAMA',
-      lokasi:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-    },
-    {
-      tanggal: 'Selasa 12 April',
-      penempatan: 'TREEMAS SOLUSI UTAMA',
-      lokasi:
-        'jl. boulevard graha raya blok N1  no.21, RT.4/RW.8, Paku jaya, Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia',
-    },
-  ]);
+  const [timesheet, setTimesheet] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
+  const getDataTimesheet = async headers => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + '/api/rekap/get-rekap-timesheet',
+        {headers},
+      );
+      console.log(response.data.data);
+      const dataAPI = response.data.data;
+      console.log('data timesheet : ', dataAPI);
+      setTimesheet(dataAPI);
+      setIsLoading(false);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error.response);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataTimesheet(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
+
   const [isShowCatatanKerja, setIsShowCatatanKerja] = useState(false);
   const showCatatanKerja = () => {
     setIsShowCatatanKerja(!isShowCatatanKerja);
   };
+
+  const moveTo = (tujuan, id) => {
+    navigation.navigate(tujuan, {id: id});
+  };
+
   return (
     <View style={styles.container}>
       <ButtonBack navigation={navigation} />
@@ -76,18 +79,46 @@ const ListTimesheet = ({navigation}) => {
         <Text style={styles.Judul}>Timesheet</Text>
       </View>
       <View style={styles.content}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {timesheet.map((timesheet, index) => (
-            <View key={index} style={{flexDirection: 'column'}}>
-              <CardTimesheet
-                navigation={navigation}
-                lokasi={timesheet.lokasi}
-                penempatan={timesheet.penempatan}
-                tanggal={timesheet.tanggal}
-              />
-            </View>
-          ))}
-        </ScrollView>
+        {isLoading ? (
+          <View>
+            <SkeletonCardTimesheet />
+            <SkeletonCardTimesheet />
+            <SkeletonCardTimesheet />
+            <SkeletonCardTimesheet />
+          </View>
+        ) : (
+          <ScrollView
+            style={{width: '90%'}}
+            showsVerticalScrollIndicator={false}>
+            {timesheet.length > 0 ? (
+              timesheet.map((timesheet, index) => (
+                <View key={index} style={{flexDirection: 'column'}}>
+                  <CardTimesheet
+                    onPress={() => moveTo('detailTimesheet', timesheet.id)}
+                    navigation={navigation}
+                    lokasi={timesheet.lokasi}
+                    penempatan={timesheet.penempatan}
+                    tanggal={timesheet.tanggal}
+                  />
+                </View>
+              ))
+            ) : (
+              // Handle the case when dataApp is not an array
+              <View style={styles.wrapDataNotFound}>
+                <LottieView
+                  source={require('../../assets/animation/dataNotFound.json')}
+                  autoPlay
+                  style={{
+                    width: '100%',
+                    height: '70%',
+                  }}></LottieView>
+                <Text style={styles.textDataNotFound}>
+                  Tidak Ada Data Timesheet
+                </Text>
+              </View>
+            )}
+          </ScrollView>
+        )}
 
         <TouchableOpacity
           onPress={showCatatanKerja}
@@ -217,5 +248,17 @@ const styles = StyleSheet.create({
   containerJudul: {
     flex: 1,
     justifyContent: 'center',
+  },
+  wrapDataNotFound: {
+    width: wp('90%'),
+    height: hp('55%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
+    textTransform: 'uppercase',
   },
 });

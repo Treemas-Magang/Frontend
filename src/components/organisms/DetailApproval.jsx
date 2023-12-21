@@ -1,9 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
@@ -151,6 +147,7 @@ const DetailApproval = ({navigation, stylePP}) => {
             tglSelesai={detailApp.tglSelesai || '-'}
             approve={() => sendDataApprove('1')}
             reject={() => sendDataReject('0')}
+            namaProject={detailApp.projectId?.namaProject || '-'}
           />
         )
       ) : (
@@ -175,7 +172,7 @@ const DetailApproval = ({navigation, stylePP}) => {
             noteTelatMasuk={detailApp.noteTelatMsk || '-'}
             tanggalAbsen={detailApp.tglAbsen || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
-            namaProject={detailApp.projectId.namaProject}
+            namaProject={detailApp.projectId?.namaProject}
             approve={() => sendDataApprove('1')}
             reject={() => sendDataReject('0')}
           />
@@ -201,7 +198,7 @@ const DetailApproval = ({navigation, stylePP}) => {
             notePulangCepat={detailApp.notePlgCepat || '-'}
             noteTelatMasuk={detailApp.noteTelatMsk || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
-            namaProject={detailApp.projectId.namaProject || '-'}
+            namaProject={detailApp.projectId?.namaProject || '-'}
             approve={() => sendDataApprove('1')}
             reject={() => sendDataReject('0')}
           />
@@ -229,7 +226,7 @@ const DetailApproval = ({navigation, stylePP}) => {
             tanggalAbsen={detailApp.tglAbsen || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
             keterangan={detailApp.keterangan || '-'}
-            namaProject={detailApp.projectId.namaProject || '-'}
+            namaProject={detailApp.projectId?.namaProject || '-'}
             approve={() => sendDataApprove('1')}
             reject={() => sendDataReject('0')}
           />
@@ -255,7 +252,7 @@ const DetailApproval = ({navigation, stylePP}) => {
             notePulangCepat={detailApp.notePlgCepat || '-'}
             noteOther={detailApp.noteOther || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
-            namaProject={detailApp.projectId.namaProject || '-'}
+            namaProject={detailApp.projectId?.namaProject || '-'}
             approve={() => sendDataApprove('1')}
             reject={() => sendDataReject('0')}
           />
@@ -283,7 +280,7 @@ const DetailApproval = ({navigation, stylePP}) => {
             notePulangCepat={detailApp.notePlgCepat || '-'}
             noteOther={detailApp.noteOther || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
-            namaProject={detailApp.projectId.namaProject || '-'}
+            namaProject={detailApp.projectId?.namaProject || '-'}
             approve={() => sendDataApprove('1')}
             reject={() => sendDataReject('0')}
           />

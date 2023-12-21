@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import CardRekapSakit from '../molecules/CardRekapSakit';
 import ButtonBack from '../atoms/ButtonBack';
 import {Color} from '../../utils/color';
@@ -11,43 +11,47 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
+import axios from 'axios';
+import {getDataFromSession} from '../../utils/getDataSession';
+import {API_GABUNGAN} from '@env';
+import LottieView from 'lottie-react-native';
+import SkeletonCardRekapSakit from '../skeleton/SkeletonCardRekapSakit';
 
 const ListRekapSakit = ({navigation}) => {
-  const [ketSakit, setKetSakit] = useState([
-    {
-      tanggalAwal: '02-03-2021',
-      tanggalAkhir: '02-03-2021',
-      tanggalKerja: '03-03-2021',
-      jumHari: '1',
-      keterangan: 'Sakit Kepala',
-      disetujuiOleh: 'Wira Hadinata',
-      catatanDisetujui: 'Approve',
-      image64: 'sada',
-      status: 'disetujui',
-    },
-    {
-      tanggalAwal: '02-03-2021',
-      tanggalAkhir: '02-03-2021',
-      tanggalKerja: '03-03-2021',
-      jumHari: '1',
-      keterangan: 'Sakit gigi',
-      disetujuiOleh: 'Azriel Alexander FachrulRezy',
-      catatanDisetujui: 'Approve',
-      image64: 'sadasdas',
-      status: 'menunggu',
-    },
-    {
-      tanggalAwal: '02-03-2021',
-      tanggalAkhir: '02-03-2021',
-      tanggalKerja: '03-03-2021',
-      jumHari: '1',
-      keterangan: 'Sakit gigi',
-      disetujuiOleh: 'Azriel Alexander FachrulRezy',
-      catatanDisetujui: 'Approve',
-      image64: null,
-      status: 'ditolak',
-    },
-  ]);
+  const [ketSakit, setKetSakit] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const getDataSakit = async headers => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + '/api/rekap/get-rekap-sakit',
+        {
+          headers,
+        },
+      );
+      console.log(response.data.data);
+      const dataAPI = response.data.data;
+
+      console.log('data sakit : ', dataAPI);
+      setKetSakit(dataAPI);
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error.response);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataSakit(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
+
   return (
     <View style={styles.background}>
       <ButtonBack navigation={navigation} />
@@ -57,32 +61,65 @@ const ListRekapSakit = ({navigation}) => {
         <Text style={styles.judul}>KETERANGAN SAKIT</Text>
       </View>
       <View style={styles.wrapCardRekapSakit}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {ketSakit.map((sakit, index) => (
-            <View key={index}>
-              <CardRekapSakit
-                navigation={navigation}
-                tanggalAwal={sakit.tanggalAwal}
-                tanggalAkhir={sakit.tanggalAkhir}
-                tanggalKerja={sakit.tanggalKerja}
-                jumHari={sakit.jumHari}
-                keterangan={sakit.keterangan}
-                disetujuiOleh={sakit.disetujuiOleh}
-                catatanDisetujui={sakit.catatanDisetujui}
-                image64={sakit.image64}
-                status={
-                  sakit.status === 'disetujui'
-                    ? 'disetujui'
-                    : sakit.status === 'menunggu'
-                    ? 'menunggu'
-                    : sakit.status === 'ditolak'
-                    ? 'ditolak'
-                    : ''
+        {isLoading ? (
+          <View style={{flex: 1}}>
+            <SkeletonCardRekapSakit />
+            <SkeletonCardRekapSakit />
+          </View>
+        ) : (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {ketSakit.length > 0 ? (
+              ketSakit.map((sakit, index) => {
+                const isApprove = sakit.isApproved;
+                let status;
+                switch (isApprove) {
+                  case null:
+                    status = 'Menunggu';
+                    break;
+                  case 1:
+                    status = 'Disetujui';
+                    break;
+                  case 0:
+                    status = 'Ditolak';
+                    break;
+                  default:
+                    status = 'Menunggu';
+                    break;
                 }
-              />
-            </View>
-          ))}
-        </ScrollView>
+                return (
+                  <View key={index}>
+                    <CardRekapSakit
+                      navigation={navigation}
+                      tanggalAwal={sakit.tglMulai || '-'}
+                      tanggalAkhir={sakit.tglSelesai || '-'}
+                      tanggalKerja={sakit.tglKembaliKerja || '-'}
+                      jumHari={sakit.jmlCuti || '-'}
+                      keterangan={sakit.keperluanCuti || '-'}
+                      disetujuiOleh={sakit.usrApp || '-'}
+                      catatanDisetujui={sakit.noteApp || '-'}
+                      image64={sakit.image64}
+                      status={status}
+                    />
+                  </View>
+                );
+              })
+            ) : (
+              // Handle the case when rekCuti is not an array
+              <View style={styles.wrapDataNotFound}>
+                <LottieView
+                  source={require('../../assets/animation/dataNotFound.json')}
+                  autoPlay
+                  style={{
+                    width: '100%',
+                    height: '70%',
+                  }}></LottieView>
+                <Text style={styles.textDataNotFound}>
+                  Tidak Ada Data Rekap Cuti
+                </Text>
+              </View>
+            )}
+          </ScrollView>
+        )}
       </View>
     </View>
   );
@@ -120,18 +157,16 @@ const styles = StyleSheet.create({
     color: Color.blue,
     textTransform: 'uppercase',
   },
-  wrapStatus: {
-    flexDirection: 'row',
-    gap: 5,
+  wrapDataNotFound: {
+    width: wp('90%'),
+    height: hp('55%'),
+    alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    top: 20,
-    right: 45,
   },
-  simbolStatus: {
-    width: 15,
-    height: 15,
-    backgroundColor: Color.cardSakit,
-    borderRadius: 15,
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
+    textTransform: 'uppercase',
   },
 });

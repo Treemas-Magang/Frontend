@@ -16,15 +16,10 @@ const CardReimburse = ({
   overtime,
   transport,
   uangMakan,
+  onPress,
 }) => {
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
-  };
-
   return (
-    <TouchableOpacity
-      style={styles.CardReimburseStyle}
-      onPress={() => moveTo('detailReimburse')}>
+    <TouchableOpacity style={styles.CardReimburseStyle} onPress={onPress}>
       <View
         style={{
           width: wp('80%'),

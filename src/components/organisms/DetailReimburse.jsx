@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
@@ -9,11 +9,64 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
+import {useRoute} from '@react-navigation/native';
+import axios from 'axios';
+import {getDataFromSession} from '../../utils/getDataSession';
+import {API_GABUNGAN} from '@env';
+import SkeletonDetailReimburse from '../skeleton/SkeletonDetailReimburse';
 
 const DetailReimburse = ({navigation}) => {
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
+  const {id} = useRoute().params;
+  const [dataDetailReimburse, setDataDetailReimburse] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const getDataDetailTimesheet = async headers => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + `/api/rekap/get-detail-reimburse?id=${id}`,
+        {headers},
+      );
+      console.log(response.data.data);
+      const dataAPI = response.data.data;
+      // const dataKosong = [];
+      setDataDetailReimburse(dataAPI);
+      console.log('ini data detail reimburse', dataAPI);
+      setIsLoading(false);
+      // console.log('data : ', dataAPI.absenEntity);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error.response);
+      setIsLoading(false);
+    }
   };
+
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataDetailTimesheet(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
+
+  const formatDate = dateString => {
+    // Mengasumsikan dateString dalam format 'YYYY/MM/DD'
+    const date = new Date(dateString);
+
+    const options = {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    };
+
+    // Menggunakan toLocaleDateString untuk mendapatkan format tanggal yang diinginkan
+    const formattedDate = date.toLocaleDateString('id-ID', options);
+
+    // Mengganti karakter "/" dengan "-"
+    return formattedDate.replace(/\//g, '-');
+  };
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -28,47 +81,66 @@ const DetailReimburse = ({navigation}) => {
         <Text style={styles.Judul}>Detail Reimburse</Text>
       </View>
       <View style={styles.backgroundCardReimburse}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View>
-            <Text style={styles.TextTitle}>Hari</Text>
-            <Text style={styles.TextDeskripsi}>Rabu</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Tanggal</Text>
-            <Text style={styles.TextDeskripsi}>08-11-2021</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Flag Keterangan</Text>
-            <Text style={styles.TextDeskripsi}>-</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Project</Text>
-            <Text style={styles.TextDeskripsi}>PT TREEMAS SOLUSI UTAMA</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Lokasi</Text>
-            <Text style={{textAlign: 'justify'}}>
-              jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-              Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Jam Masuk</Text>
-            <Text style={styles.TextDeskripsi}>09:23:04</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Jam Keluar</Text>
-            <Text style={styles.TextDeskripsi}>17:20:35</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Transport</Text>
-            <Text style={styles.TextDeskripsi}>0</Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Uang Makan</Text>
-            <Text style={styles.TextDeskripsi}>0</Text>
-          </View>
-        </ScrollView>
+        {isLoading ? (
+          <SkeletonDetailReimburse />
+        ) : (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View>
+              <Text style={styles.TextTitle}>Hari</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailReimburse.hari || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Tanggal</Text>
+              <Text style={styles.TextDeskripsi}>
+                {formatDate(dataDetailReimburse.tanggal) || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Flag Keterangan</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailReimburse.flgKet || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Project</Text>
+              <Text style={styles.TextDeskripsi}>PT TREEMAS SOLUSI UTAMA</Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Lokasi</Text>
+              <Text style={{textAlign: 'justify', fontFamily: text.light}}>
+                jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya,
+                Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326,
+                Indonesia
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Jam Masuk</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailReimburse.jamMasuk.substring(0, 5) || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Jam Keluar</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailReimburse.jamKeluar.substring(0, 5) || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Transport</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailReimburse.transport || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Uang Makan</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailReimburse.uangMakan || '-'}
+              </Text>
+            </View>
+          </ScrollView>
+        )}
       </View>
     </View>
   );
@@ -85,7 +157,7 @@ const styles = StyleSheet.create({
     // marginTop: -50,
     height: hp('90%'),
     paddingTop: hp('5%'),
-    paddingBottom: hp('10%'),
+    paddingBottom: hp('15%'),
 
     // backgroundColor: Color.white,
     // paddingTop: 50,

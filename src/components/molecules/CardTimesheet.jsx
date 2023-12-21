@@ -4,15 +4,10 @@ import React from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
-const CardTimesheet = ({navigation, tanggal, penempatan, lokasi}) => {
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
-  };
+const CardTimesheet = ({navigation, tanggal, penempatan, lokasi, onPress}) => {
   return (
     <View>
-      <TouchableOpacity
-        style={styles.CardTimesheetStyle}
-        onPress={() => moveTo('detailTimesheet')}>
+      <TouchableOpacity style={styles.CardTimesheetStyle} onPress={onPress}>
         <View
           style={{
             width: '100%',
