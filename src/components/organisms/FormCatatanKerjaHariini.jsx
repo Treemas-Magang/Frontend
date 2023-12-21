@@ -55,10 +55,12 @@ const FormCatatanKerjaHariini = ({navigation}) => {
   };
 
   useEffect(() => {
-    const cekPlgCpt = cekPulangCepat(projectData.jamKeluar);
-    // console.log(dataProject);
-    console.log('cek telat', cekPlgCpt);
-    setPulangCepat(cekPlgCpt);
+    if (projectData !== null) {
+      const cekPlgCpt = cekPulangCepat(projectData.jamKeluar);
+      // console.log(dataProject);
+      console.log('cek telat', cekPlgCpt);
+      setPulangCepat(cekPlgCpt);
+    }
   }, [projectData]);
 
   const uploadData = async data => {
