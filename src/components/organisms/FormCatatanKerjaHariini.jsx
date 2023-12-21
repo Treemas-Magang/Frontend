@@ -17,6 +17,7 @@ import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import VectorAtasBesar from '../atoms/VectorAtasBesar';
 import {API_URL, API_GABUNGAN} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const FormCatatanKerjaHariini = ({navigation}) => {
   // const {jamKeluar} = useRoute().params;
   // console.log('jam keluar : ', jamKeluar)
@@ -27,6 +28,27 @@ const FormCatatanKerjaHariini = ({navigation}) => {
   const [pulangCepat, setPulangCepat] = useState(false);
   const dispatch = useDispatch();
   const {formPulang} = useSelector(state => state.AbsenPulangReducer);
+  const [projectData, setProjectData] = useState(null);
+  const getDataFromStorage = async key => {
+    try {
+      const storedData = await AsyncStorage.getItem(key);
+      if (storedData !== null) {
+        const parsedData = JSON.parse(storedData);
+        console.log(`Retrieved data for key ${key}:`, parsedData);
+        setProjectData(parsedData); // Set the retrieved data to the state
+      } else {
+        console.log(`No data found for key ${key}`);
+      }
+    } catch (error) {
+      console.error(`Error retrieving data for key ${key}:`, error);
+    }
+  };
+
+  // useEffect to retrieve data on component mount
+  useEffect(() => {
+    getDataFromStorage('projectData');
+  }, []);
+  console.log('dari storage', projectData);
   const [inputKosong, setInputKosong] = useState(false);
 
   const onChangeText = (value, inputType) => {
@@ -34,10 +56,11 @@ const FormCatatanKerjaHariini = ({navigation}) => {
   };
 
   useEffect(() => {
-    const cekPlgCpt = cekPulangCepat(dataProject.jamKeluar);
+    const cekPlgCpt = cekPulangCepat(projectData.jamKeluar);
+    // console.log(dataProject);
     console.log('cek telat', cekPlgCpt);
     setPulangCepat(cekPlgCpt);
-  }, [dataProject]);
+  }, [projectData]);
 
   const uploadData = async data => {
     setBtnLoading(true);

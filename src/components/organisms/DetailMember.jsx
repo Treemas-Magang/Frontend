@@ -27,6 +27,13 @@ import {useRoute} from '@react-navigation/native';
 import SkeletonDetailMember from '../skeleton/SkeletonDetailMember';
 import { getAlamat } from '../../utils/getAlamat';
 
+const lokasiUser = [
+  {latitude: 0.001, longitude: 0.001, title: 'Marker 1'},
+  {latitude: 0.002, longitude: 0.002, title: 'Marker 2'},
+  {latitude: 0.003, longitude: 0.003, title: 'Marker 3'},
+];
+
+
 const DetailMember = ({navigation, stylePP}) => {
   const {nikMember} = useRoute().params;
   console.log('nik : ', nikMember);
@@ -35,9 +42,91 @@ const DetailMember = ({navigation, stylePP}) => {
   const [dataDetailMember, setDataDetailMember] = useState([]);
   const [alamatMsk, setAlamatMsk] = useState('');
   const [alamatPlg, setAlamatPlg] = useState('');
+  const [markers, setMarkers] = useState([]);
+
+  useEffect(() => {
+  const { absenTrackingData } = dataDetailMember;
+
+  if (
+    absenTrackingData &&
+    absenTrackingData.gpsLatitudeMsk &&
+    absenTrackingData.gpsLongitudeMsk &&
+    absenTrackingData.gpsLatitudeMsk.every(lat => lat !== null) &&
+    absenTrackingData.gpsLongitudeMsk.every(lon => lon !== null)
+  ) {
+    const mskMarkers = extractMarkers(
+      absenTrackingData.gpsLatitudeMsk,
+      absenTrackingData.gpsLongitudeMsk,
+    );
+
+    const plgMarkers = [];
+    if (
+      absenTrackingData.gpsLatitudePlg !== null &&
+      absenTrackingData.gpsLongitudePlg !== null
+    ) {
+      plgMarkers.push({
+        latitude: absenTrackingData.gpsLatitudePlg,
+        longitude: absenTrackingData.gpsLongitudePlg,
+        title: 'Marker Plg',
+      });
+    }
+
+    const combinedMarkers = [...mskMarkers, ...plgMarkers];
+    setMarkers(combinedMarkers);
+  }
+}, [dataDetailMember]);
+
+
+  useEffect(() => {
+    // Assuming dataDetailMember is the response data
+    const {absenTrackingData} = dataDetailMember;
+
+    if (absenTrackingData) {
+      const mskMarkers = extractMarkers(
+        absenTrackingData.gpsLatitudeMsk,
+        absenTrackingData.gpsLongitudeMsk,
+      );
+
+      // Check for null values in Plg data
+      const plgMarkers = [];
+      if (
+        absenTrackingData.gpsLatitudePlg !== null &&
+        absenTrackingData.gpsLongitudePlg !== null
+      ) {
+        plgMarkers.push({
+          latitude: absenTrackingData.gpsLatitudePlg,
+          longitude: absenTrackingData.gpsLongitudePlg,
+          title: 'Marker Plg',
+        });
+      }
+
+      const combinedMarkers = [...mskMarkers, ...plgMarkers];
+      setMarkers(combinedMarkers);
+    }
+  }, [dataDetailMember]);
+
+  // Add this null check for extractMarkers function
+  const extractMarkers = (latitudes, longitudes) => {
+    if (
+      latitudes &&
+      longitudes &&
+      Array.isArray(latitudes) &&
+      Array.isArray(longitudes) &&
+      latitudes.length === longitudes.length
+    ) {
+      return latitudes.map((latitude, index) => ({
+        latitude,
+        longitude: longitudes[index],
+        title: `Marker ${index + 1}`,
+      }));
+    }
+    return [];
+  };
+
+  console.log('hasil markers : ', markers);
 
   const getDataDetailMember = async headers => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const response = await axios.get(
         API_GABUNGAN + `/api/member/get-data-absen?nik=${nikMember}`,
@@ -45,10 +134,8 @@ const DetailMember = ({navigation, stylePP}) => {
       );
       console.log(response.data.data);
       const dataAPI = response.data.data;
-      // const dataKosong = [];
       setDataDetailMember(dataAPI);
       setIsLoading(false);
-      // console.log('data : ', dataAPI.absenEntity);
     } catch (error) {
       console.log('Tidak dapat mengambil data ', error.response);
       setIsLoading(false);
@@ -67,7 +154,7 @@ const DetailMember = ({navigation, stylePP}) => {
   }, []);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     // Mengambil indeks terbaru yang tidak bernilai null
     const absenTrackingData = dataDetailMember?.absenTrackingData || {};
     const gpsLatMasuk = absenTrackingData.gpsLatitudeMsk || [];
@@ -98,7 +185,7 @@ const DetailMember = ({navigation, stylePP}) => {
     console.log('Latest non-null Latitude value: ', latestNonNullLatValue);
     console.log('Latest non-null Longitude value: ', latestNonNullLongValue);
 
-      getAlamat(latestNonNullLatValue, latestNonNullLongValue, API_KEY_MAP_ALAMAT)
+    getAlamat(latestNonNullLatValue, latestNonNullLongValue, API_KEY_MAP_ALAMAT)
       .then(alamat_msk => {
         console.log(alamat_msk);
         setAlamatMsk(alamat_msk);
@@ -108,30 +195,33 @@ const DetailMember = ({navigation, stylePP}) => {
         setIsLoading(false);
         console.log(error);
       });
-      if (
-        absenTrackingData.gpsLatitudePlg !== null &&
-        absenTrackingData.gpsLongitudePlg !== null
-      ) {
-        getAlamat(
-          absenTrackingData.gpsLatitudePlg,
-          absenTrackingData.gpsLongitudePlg,
-          API_KEY_MAP_ALAMAT,
-        )
-          .then(alamat_plg => {
-            console.log('lokasi plg : ',alamat_plg);
-            setAlamatPlg(alamat_plg);
-            setIsLoading(false);
-          })
-          .catch(error => {
-            console.log('asu : ',error);
-            setIsLoading(false);
-          });
-      } else {
-        setAlamatPlg('belum absen pulang');
-      }
 
+    if (
+      absenTrackingData.gpsLatitudePlg !== null &&
+      absenTrackingData.gpsLongitudePlg !== null
+    ) {
+      getAlamat(
+        absenTrackingData.gpsLatitudePlg,
+        absenTrackingData.gpsLongitudePlg,
+        API_KEY_MAP_ALAMAT,
+      )
+        .then(alamat_plg => {
+          console.log('lokasi plg : ', alamat_plg);
+          setAlamatPlg(alamat_plg);
+          setIsLoading(false);
+        })
+        .catch(error => {
+          console.log('asu : ', error);
+          setIsLoading(false);
+        });
+    } else {
+      setAlamatPlg('belum absen pulang');
+    }
   }, [dataDetailMember]); // Tambahkan dependensi sesuai kebutuhan
 
+  const moveTo = (tujuan, dataTracking) => {
+    navigation.navigate(tujuan, {mapTraking: dataTracking});
+  };
   return isLoading ? (
     <SkeletonDetailMember />
   ) : (
@@ -166,7 +256,7 @@ const DetailMember = ({navigation, stylePP}) => {
               gap: 5,
               right: 0,
             }}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => moveTo('mapTracking', markers)}>
               <Image
                 style={{width: 40, height: 40}}
                 source={require('../../assets/vector/Maps.png')}

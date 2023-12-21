@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 
@@ -13,9 +13,12 @@ import {text} from '../../utils/text';
  * @returns {JSX.Element} - Komponen React untuk tampilan teks input yang tidak dapat diubah.
  */
 const FakeTextInput = ({label, value, onTextChange, textColor, ...rest}) => {
-  const valueInput = value;
-  const [isInputActive, setInputActive] = useState(false);
+  const [valueInput, setValueInput] = useState('');
+  useEffect(() => {
+    setValueInput(value);
+  }, [value]);
   const [textInputValue, setTextInputValue] = useState(value);
+  const [isInputActive, setInputActive] = useState(false);
 
   /**
    * Fungsi handleTextInputFocus digunakan untuk menangani fokus pada input teks.
@@ -45,19 +48,22 @@ const FakeTextInput = ({label, value, onTextChange, textColor, ...rest}) => {
   return (
     <View style={{position: 'relative'}}>
       <Text
-        style={[styles.textInput, isInputActive || textInputValue ? {} : null]}
+        style={[
+          styles.textInput,
+          isInputActive || textInputValue ? {} : null,
+          {...rest},
+        ]}
         onFocus={handleTextInputFocus}
         onBlur={handleTextInputBlur}
         onChangeText={handleTextInputChange}
-        value={textInputValue}
-        {...rest}>
+        value={textInputValue}>
         {valueInput}
       </Text>
       <Text
         style={[
           styles.label,
           {color: textColor || Color.blue},
-          isInputActive || textInputValue ? {top: -6, fontSize: 19} : null,
+          isInputActive || textInputValue ? {top: -10, fontSize: 19} : null,
         ]}>
         {label}
       </Text>

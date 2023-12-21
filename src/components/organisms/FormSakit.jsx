@@ -311,12 +311,20 @@ const FormSakit = ({navigation}) => {
                 </Text>
               </TouchableOpacity>
               <FakeTextInput
+                // value={
+                //   form_sakit.tglMulai === ''
+                //     ? ''
+                //     : `${form_sakit.tglMulai} - ${form_sakit.tglSelesai}`
+                // }
+                // label="tgl awal - akhir cuti"
+                // textColor={inputKosong ? Color.red : Color.blue}
+                // style={inputKosong ? styles.fieldSalah : styles.fieldBener}
                 value={
-                  form_sakit.tglMulai === ''
-                    ? ''
-                    : `${form_sakit.tglMulai} - ${form_sakit.tglSelesai}`
+                  form_sakit.tglMulai !== '' && form_sakit.tglSelesai !== ''
+                    ? `${form_sakit.tglMulai} - ${form_sakit.tglSelesai}`
+                    : 'pilih tanggal di samping'
                 }
-                label="tgl awal - akhir cuti"
+                label="Tgl Awal - Akhir Cuti Sakit"
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
               />
@@ -345,13 +353,21 @@ const FormSakit = ({navigation}) => {
               </TouchableOpacity>
               {/* <CustomTextInput label="tgl masuk kerja" editable={false} /> */}
               <FakeTextInput
-                value={form_sakit.tglKembaliKerja}
+                value={
+                  form_sakit.tglKembaliKerja !== ''
+                    ? form_sakit.tglKembaliKerja
+                    : 'akan terisi otomatis'
+                }
                 label="tgl masuk kerja"
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
               />
               <FakeTextInput
-                value={form_sakit.jmlCuti}
+                value={
+                  form_sakit.jmlCuti !== ''
+                    ? form_sakit.jmlCuti
+                    : 'akan terisi otomatis'
+                }
                 label="Jumlah hari"
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}

@@ -32,6 +32,7 @@ import {
   pushNewAnnouncementNotification,
   pushNewApprovalNotification,
 } from '../../utils/pushNotifikasi';
+import { kirimLokasiTracking } from '../../utils/kirimLokasiTracking';
 const ScreenDashboard = ({navigation}) => {
   const dispatch = useDispatch();
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
@@ -106,14 +107,14 @@ const ScreenDashboard = ({navigation}) => {
       dispatch(setJumlahApproval('approval', +dataAPI));
     } catch (error) {
       console.error(error);
-      Alert.alert('Peringatan', `Token anda telah expired`, [
-        {
-          text: 'Kembali ke Login',
-          onPress: () => {
-            navigation.replace('login');
-          },
-        },
-      ]);
+      // Alert.alert('Peringatan', `Token anda telah expired`, [
+      //   {
+      //     text: 'Kembali ke Login',
+      //     onPress: () => {
+      //       navigation.replace('login');
+      //     },
+      //   },
+      // ]);
     }
   };
 
@@ -290,6 +291,9 @@ const ScreenDashboard = ({navigation}) => {
   // return () => {
   //   BackgroundTimer.clearInterval(intervalId);
   // };
+  useEffect(() => {
+    kirimLokasiTracking()
+  }, []);
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>
