@@ -98,7 +98,7 @@ const ListReimburse = ({navigation}) => {
       </View>
       <View style={styles.content}>
         {isLoading ? (
-          <View>
+          <View style={{flex: 1}}>
             <SkeletonCardReimburse />
             <SkeletonCardReimburse />
             <SkeletonCardReimburse />

@@ -80,7 +80,7 @@ const ListTimesheet = ({navigation}) => {
       </View>
       <View style={styles.content}>
         {isLoading ? (
-          <View>
+          <View style={{flex: 1}}>
             <SkeletonCardTimesheet />
             <SkeletonCardTimesheet />
             <SkeletonCardTimesheet />

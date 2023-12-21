@@ -13,9 +13,6 @@ import axios from 'axios';
 import {checkMockLocation} from '../../utils/checkMockLocation';
 import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
-import ButtonBack from '../atoms/ButtonBack';
-import ButtonHome from '../atoms/ButtonHome';
-import VectorAtasBesar from '../atoms/VectorAtasBesar';
 import {API_URL, API_GABUNGAN} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const FormCatatanKerjaHariini = ({navigation}) => {
@@ -24,11 +21,11 @@ const FormCatatanKerjaHariini = ({navigation}) => {
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
-  const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
   const [pulangCepat, setPulangCepat] = useState(false);
   const dispatch = useDispatch();
   const {formPulang} = useSelector(state => state.AbsenPulangReducer);
   const [projectData, setProjectData] = useState(null);
+  const [inputKosong, setInputKosong] = useState(false);
   const getDataFromStorage = async key => {
     try {
       const storedData = await AsyncStorage.getItem(key);
@@ -49,7 +46,6 @@ const FormCatatanKerjaHariini = ({navigation}) => {
     getDataFromStorage('projectData');
   }, []);
   console.log('dari storage', projectData);
-  const [inputKosong, setInputKosong] = useState(false);
 
   const onChangeText = (value, inputType) => {
     dispatch(setAbsenPulang(inputType, value));
@@ -140,12 +136,7 @@ const FormCatatanKerjaHariini = ({navigation}) => {
   };
 
   return (
-    <View
-      style={styles.BackgroundCatatanKerja}
-      keyboardShouldPersistTaps="handled">
-      <ButtonBack navigation={navigation} />
-      <ButtonHome navigation={navigation} />
-      <VectorAtasBesar />
+    <View style={styles.CardCatatanKerja}>
       {uploadBerhasil ? (
         <View
           style={{
@@ -163,41 +154,38 @@ const FormCatatanKerjaHariini = ({navigation}) => {
       ) : (
         ''
       )}
-
-      <View style={styles.CardCatatanKerja}>
-        <Text style={styles.Judul}>Catatan Kerja Hari Ini</Text>
+      <Text style={styles.Judul}>Catatan Kerja Hari Ini</Text>
+      <CustomTextInput
+        label="Timesheet"
+        textColor={inputKosong ? Color.red : Color.blue}
+        value={formPulang.notePekerjaan}
+        onTextChange={value => onChangeText(value, 'notePekerjaan')}
+        style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+        secureTextEntry={false}
+      />
+      {pulangCepat ? (
         <CustomTextInput
-          label="Timesheet"
+          label="Catan Pulang Cepat"
           textColor={inputKosong ? Color.red : Color.blue}
-          value={formPulang.notePekerjaan}
-          onTextChange={value => onChangeText(value, 'notePekerjaan')}
+          value={formPulang.notePlgCepat}
+          onTextChange={value => onChangeText(value, 'notePlgCepat')}
           style={inputKosong ? styles.fieldSalah : styles.fieldBener}
           secureTextEntry={false}
         />
-        {pulangCepat ? (
-          <CustomTextInput
-            label="Catan Pulang Cepat"
-            textColor={inputKosong ? Color.red : Color.blue}
-            value={formPulang.notePlgCepat}
-            onTextChange={value => onChangeText(value, 'notePlgCepat')}
-            style={inputKosong ? styles.fieldSalah : styles.fieldBener}
-            secureTextEntry={false}
-          />
-        ) : (
-          ''
-        )}
-        {inputKosong ? (
-          <Text style={styles.labelSalah}>Field Tidak Boleh Kosong!</Text>
-        ) : (
-          ''
-        )}
+      ) : (
+        ''
+      )}
+      {inputKosong ? (
+        <Text style={styles.labelSalah}>Field Tidak Boleh Kosong!</Text>
+      ) : (
+        ''
+      )}
 
-        {btnLoading ? (
-          <ButtonLoading />
-        ) : (
-          <ButtonAction onPress={() => sendData()} title="KIRIM" />
-        )}
-      </View>
+      {btnLoading ? (
+        <ButtonLoading />
+      ) : (
+        <ButtonAction onPress={() => sendData()} title="KIRIM" />
+      )}
     </View>
   );
 };
@@ -205,14 +193,6 @@ const FormCatatanKerjaHariini = ({navigation}) => {
 export default FormCatatanKerjaHariini;
 
 const styles = StyleSheet.create({
-  BackgroundCatatanKerja: {
-    backgroundColor: Color.green,
-    flex: 1,
-    position: 'relative',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-  },
   CardCatatanKerja: {
     backgroundColor: Color.white,
     width: 320,
@@ -221,8 +201,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 50,
     paddingVertical: 30,
-    zIndex: 1000,
-    position: 'relative',
+    marginTop: 30,
   },
   Judul: {
     fontFamily: text.semiBold,
@@ -246,7 +225,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: -10,
   },
-
   labelSalah: {
     fontFamily: text.semiBold,
     fontSize: 14,

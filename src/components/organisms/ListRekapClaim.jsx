@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
@@ -11,44 +11,47 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
+import axios from 'axios';
+import {getDataFromSession} from '../../utils/getDataSession';
+import {API_GABUNGAN} from '@env';
+import LottieView from 'lottie-react-native';
+import SkeletonCardRekapClaim from '../skeleton/SkeletonCardRekapClaim';
 
 const ListRekapClaim = ({navigation}) => {
-  const [claim, setClaim] = useState([
-    {
-      tanggal: 'Senin 2 Mei 2023',
-      type: 'Lain-Lain',
-      keterangan: 'Claim Makan Malam Sit CTBC Tgl 7 Oktober',
-      nominalClaim: 250000,
-      image64: 'sadsad',
-    },
-    {
-      tanggal: 'Senin 3 Mei 2023',
-      type: 'Lain-Lain',
-      keterangan: 'Test Claim 1',
-      nominalClaim: 50000,
-      image64: null,
-    },
-    {
-      tanggal: 'Senin 4 Mei',
-      type: 'Lain-Lain',
-      keterangan: 'Test Claim 2',
-      nominalClaim: 100000,
-      image64: 'dasdasf',
-    },
-    {
-      tanggal: 'Senin 5 Mei',
-      type: 'Lain-Lain',
-      keterangan: 'Test Claim 3',
-      nominalClaim: 220000,
-    },
-    {
-      tanggal: 'Senin 6 Mei 2023',
-      type: 'Lain-Lain',
-      keterangan: 'Test Claim 4',
-      nominalClaim: 150000,
-      image64: 'dasdasdasfas',
-    },
-  ]);
+  const [claim, setClaim] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const getDataClaim = async headers => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + '/api/rekap/get-rekap-claim',
+        {
+          headers,
+        },
+      );
+      console.log(response.data.data);
+      const dataAPI = response.data.data;
+
+      console.log('data Claim : ', dataAPI);
+      setClaim(dataAPI);
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error.response);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataClaim(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -65,20 +68,42 @@ const ListRekapClaim = ({navigation}) => {
         </View>
       </View>
       <View style={styles.backgroundCardClaim}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {claim.map((claim, index) => (
-            <View key={index} style={{flexDirection: 'column'}}>
-              <CardRekapClaim
-                navigation={navigation}
-                tanggal={claim.tanggal}
-                type={claim.type}
-                keterangan={claim.keterangan}
-                nominalClaim={claim.nominalClaim}
-                image64={claim.image64}
-              />
-            </View>
-          ))}
-        </ScrollView>
+        {isLoading ? (
+          <View style={{flex: 1}}>
+            <SkeletonCardRekapClaim />
+          </View>
+        ) : (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {claim.length > 0 ? (
+              claim.map((claim, index) => (
+                <View key={index} style={{flexDirection: 'column'}}>
+                  <CardRekapClaim
+                    navigation={navigation}
+                    tanggal={claim.tanggal}
+                    type={claim.type}
+                    keterangan={claim.keterangan}
+                    nominalClaim={claim.nominalClaim}
+                    image64={claim.image64}
+                  />
+                </View>
+              ))
+            ) : (
+              // Handle the case when dataApp is not an array
+              <View style={styles.wrapDataNotFound}>
+                <LottieView
+                  source={require('../../assets/animation/dataNotFound.json')}
+                  autoPlay
+                  style={{
+                    width: '100%',
+                    height: '70%',
+                  }}></LottieView>
+                <Text style={styles.textDataNotFound}>
+                  Tidak Ada Data Claim
+                </Text>
+              </View>
+            )}
+          </ScrollView>
+        )}
       </View>
     </View>
   );
@@ -106,5 +131,17 @@ const styles = StyleSheet.create({
   wrapKeteranganClaim: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  wrapDataNotFound: {
+    width: wp('90%'),
+    height: hp('55%'),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textDataNotFound: {
+    fontFamily: text.semiBold,
+    color: Color.blue,
+    fontSize: 16,
+    textTransform: 'uppercase',
   },
 });

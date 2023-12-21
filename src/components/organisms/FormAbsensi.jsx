@@ -24,7 +24,10 @@ import {checkMockLocation} from '../../utils/checkMockLocation';
 import {jamSekarang} from '../../utils/jamSekarang';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getDataFromSession} from '../../utils/getDataSession';
-import {AlertNotificationDanger, AlertNotificationSuccess} from '../atoms/AlertNotification';
+import {
+  AlertNotificationDanger,
+  AlertNotificationSuccess,
+} from '../atoms/AlertNotification';
 import {cekTelatMasuk} from '../../utils/cekJamTelatDanPulangCepat';
 import ButtonLoading from '../atoms/ButtonLoading';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
@@ -43,6 +46,7 @@ const FormAbsensi = ({navigation}) => {
   const [terlambat, setTerlambat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [inputKosong, setInputKosong] = useState(false);
   const [gagalServer, setGagalServer] = useState(false);
 
   //simpan data image jadi base64
@@ -207,11 +211,14 @@ const FormAbsensi = ({navigation}) => {
 
       if (terlambat && formAbsensi.noteTelatMsk === '') {
         console.log('alasan telat masuk tidak boleh kosong');
+        // setInputKosong(false);
         setIsLoading(false);
       } else {
+        // setInputKosong(false);
         await kirimDataAbsensi();
       }
     } catch (error) {
+      // setInputKosong(true);
       console.error('Error in sendData:', error);
       setGagalServer(true);
     }
@@ -290,6 +297,8 @@ const FormAbsensi = ({navigation}) => {
           label="Alasan Telat Masuk"
           secureTextEntry={false}
           value={formAbsensi.noteTelatMsk}
+          style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+          textColor={inputKosong ? Color.red : Color.blue}
           onTextChange={value => onChangeText(value, 'noteTelatMsk')}
         />
       ) : (
@@ -389,5 +398,27 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  fieldSalah: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.red,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  fieldBener: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.green,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  labelSalah: {
+    fontFamily: text.semiBold,
+    fontSize: 14,
+    color: Color.red,
+    textAlign: 'center',
   },
 });

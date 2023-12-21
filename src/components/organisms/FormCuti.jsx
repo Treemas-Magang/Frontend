@@ -27,6 +27,7 @@ import {API_URL, API_GABUNGAN} from '@env';
 import {cekTglAkhirCutiSpesial} from '../../utils/cekTglAkhirCutiSpesial';
 import KalenderCuti from '../molecules/KalenderCuti';
 import {AlertNotificationSuccess} from '../atoms/AlertNotification';
+import ButtonLoading from '../atoms/ButtonLoading';
 
 const FormCuti = ({
   style,
@@ -148,7 +149,7 @@ const FormCuti = ({
   }, []);
 
   const kirimDataKeAPI = async () => {
-    console.log('sedang kirim data')
+    console.log('sedang kirim data');
     // setIsServerError(false);
     try {
       //mengambil token untuk otorisasi
@@ -164,7 +165,7 @@ const FormCuti = ({
             form,
             {headers},
           );
-          console.log('berhasil di kirim')
+          console.log('berhasil di kirim');
           console.log(response.data.success);
           console.log(uploadBerhasil);
           setBtnLoading(false);
@@ -285,19 +286,19 @@ const FormCuti = ({
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.formCuti}>
-        {/* {uploadBerhasil ? (
+        {uploadBerhasil ? (
           <View
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <AlertNotificationSuccess
               buttonAlert="Close"
-              textBodyAlert="Berhasil Melakukan Claim"
+              textBodyAlert="Berhasil Mengajukan Cuti"
               titleAlert="Success"
               onPress={close}
             />
           </View>
         ) : (
           ''
-        )} */}
+        )}
         {showKalender && (
           <View style={{position: 'absolute', top: 0, right: 55, zIndex: 2}}>
             <KalenderCuti
@@ -394,7 +395,11 @@ const FormCuti = ({
               secureTextEntry={false}
             /> */}
               <FakeTextInput
-                value={form.tglMulai !== '' && form.tglSelesai !== '' ? `${form.tglMulai} - ${form.tglSelesai}` : 'pilih tanggal di samping'}
+                value={
+                  form.tglMulai !== '' && form.tglSelesai !== ''
+                    ? `${form.tglMulai} - ${form.tglSelesai}`
+                    : '-'
+                }
                 label="Tgl Awal - Akhir Cuti"
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
@@ -424,7 +429,9 @@ const FormCuti = ({
               </TouchableOpacity>
               {/* <CustomTextInput label="tgl masuk kerja" editable={false} /> */}
               <FakeTextInput
-                value={form.tglKembaliKerja == '' ? 'akan terisi otomatis' : `${form.tglKembaliKerja}`}
+                value={
+                  form.tglKembaliKerja == '' ? '-' : `${form.tglKembaliKerja}`
+                }
                 label="Tgl Masuk Kerja"
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
@@ -486,8 +493,7 @@ const FormCuti = ({
               ''
             )}
             {btnLoading ? (
-              // <ButtonLoading style={{width: 148}} />
-              ''
+              <ButtonLoading style={{width: 269}} />
             ) : (
               <ButtonAction
                 title="KIRIM"
