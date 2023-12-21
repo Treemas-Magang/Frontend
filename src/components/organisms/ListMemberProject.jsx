@@ -26,7 +26,7 @@ const ListMemberProject = ({navigation}) => {
       getDataFromSession('dataProfilUser')
         .then(data => {
           const dataProfileStorage = JSON.parse(data);
-          console.log('data profil : ', dataProfileStorage.role);
+          // console.log('data profil : ', dataProfileStorage.role);
           setIsRole(dataProfileStorage.role);
         })
         .catch(error => console.log(error));

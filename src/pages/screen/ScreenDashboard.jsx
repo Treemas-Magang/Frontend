@@ -33,6 +33,7 @@ import {
   pushNewApprovalNotification,
 } from '../../utils/pushNotifikasi';
 import { kirimLokasiTracking } from '../../utils/kirimLokasiTracking';
+import HapusChace from '../../components/atoms/HapusCache';
 const ScreenDashboard = ({navigation}) => {
   const dispatch = useDispatch();
   const {pengumuman} = useSelector(state => state.JumlahPengumumanReducer);
@@ -294,8 +295,23 @@ const ScreenDashboard = ({navigation}) => {
   useEffect(() => {
     kirimLokasiTracking()
   }, []);
+  // import AsyncStorage from '@react-native-async-storage/async-storage';
+
+  // Mendapatkan semua kunci dari AsyncStorage
+  AsyncStorage.getAllKeys()
+    .then(keys => {
+      // Menampilkan semua kunci
+      console.log('All keys in AsyncStorage:', keys);
+    })
+    .catch(error => {
+      console.error('Error reading AsyncStorage keys:', error);
+    });
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
+      <View>
+        <HapusChace />
+      </View>
       <View>
         <ButtonLogout
           navigation={navigation}

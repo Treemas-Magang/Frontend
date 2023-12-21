@@ -18,7 +18,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useDispatch} from 'react-redux';
-import {setProjectYangDipilih} from '../../redux';
+import {setIsOther, setProjectYangDipilih} from '../../redux';
 import {API_URL, API_GABUNGAN} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -114,7 +114,8 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
     await saveDataToStorage('projectData', projectData);
   };
   const moveToOther = async  (tujuan, other) => {
-    navigation.navigate(tujuan, {other: other});
+    dispatch(setIsOther('other', other));
+    navigation.navigate(tujuan);
   };
   return (
     <View>
@@ -155,7 +156,7 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
           )}
           <TouchableOpacity
             style={styles.CardPilihProject}
-            onPress={() => moveToOther('pilihAbsenProject', 'other')}>
+            onPress={() => moveToOther('pilihAbsenProject', '1')}>
             <Text style={styles.Text}>Other</Text>
             <Text style={styles.TextDeskripsi}>
               Dipilih Jika{' '}
