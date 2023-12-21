@@ -27,6 +27,7 @@ const FormCatatanKerjaHariini = ({navigation}) => {
   const [pulangCepat, setPulangCepat] = useState(false);
   const dispatch = useDispatch();
   const {formPulang} = useSelector(state => state.AbsenPulangReducer);
+  const [inputKosong, setInputKosong] = useState(false);
 
   const onChangeText = (value, inputType) => {
     dispatch(setAbsenPulang(inputType, value));
@@ -93,27 +94,30 @@ const FormCatatanKerjaHariini = ({navigation}) => {
   const sendData = async () => {
     checkMockLocation();
     console.log('kirim data : ', formPulang);
-          if (pulangCepat) {
-            console.log('alasan telat masuk tidak boleh kosong');
-            setIsLoading(false);
-            if (formPulang.notePlgCepat !== '' && formPulang.notePekerjaan !== '') {
-              await uploadData(formPulang);
-            } else {
-              console.log('tidak ada yang boleh form yang kosong');
-            }
-          } 
-          else if (
-            formPulang.notePlgCepat !== '' &&
-            formPulang.notePekerjaan !== ''
-          ) {
-             await uploadData(formPulang);
-          } else {
-           console.log('tidak ada yang boleh form yang kosong');
-          }
+    if (pulangCepat) {
+      console.log('alasan telat masuk tidak boleh kosong');
+      setIsLoading(false);
+      if (formPulang.notePlgCepat !== '' && formPulang.notePekerjaan !== '') {
+        await uploadData(formPulang);
+      } else {
+        console.log('tidak ada yang boleh form yang kosong');
+      }
+    } else if (
+      formPulang.notePlgCepat !== '' &&
+      formPulang.notePekerjaan !== ''
+    ) {
+      setInputKosong(false);
+      await uploadData(formPulang);
+    } else {
+      setInputKosong(true);
+      // console.log('tidak ada yang boleh form yang kosong');
+    }
   };
 
   return (
-    <View style={styles.BackgroundCatatanKerja}>
+    <View
+      style={styles.BackgroundCatatanKerja}
+      keyboardShouldPersistTaps="handled">
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
       <VectorAtasBesar />
@@ -134,24 +138,35 @@ const FormCatatanKerjaHariini = ({navigation}) => {
       ) : (
         ''
       )}
+
       <View style={styles.CardCatatanKerja}>
         <Text style={styles.Judul}>Catatan Kerja Hari Ini</Text>
         <CustomTextInput
           label="Timesheet"
+          textColor={inputKosong ? Color.red : Color.blue}
           value={formPulang.notePekerjaan}
           onTextChange={value => onChangeText(value, 'notePekerjaan')}
+          style={inputKosong ? styles.fieldSalah : styles.fieldBener}
           secureTextEntry={false}
         />
         {pulangCepat ? (
           <CustomTextInput
             label="Catan Pulang Cepat"
+            textColor={inputKosong ? Color.red : Color.blue}
             value={formPulang.notePlgCepat}
             onTextChange={value => onChangeText(value, 'notePlgCepat')}
+            style={inputKosong ? styles.fieldSalah : styles.fieldBener}
             secureTextEntry={false}
           />
         ) : (
           ''
         )}
+        {inputKosong ? (
+          <Text style={styles.labelSalah}>Field Tidak Boleh Kosong!</Text>
+        ) : (
+          ''
+        )}
+
         {btnLoading ? (
           <ButtonLoading />
         ) : (
@@ -182,11 +197,35 @@ const styles = StyleSheet.create({
     gap: 50,
     paddingVertical: 30,
     zIndex: 1000,
+    position: 'relative',
   },
   Judul: {
     fontFamily: text.semiBold,
     color: Color.blue,
     fontSize: 24,
     textTransform: 'uppercase',
+  },
+  fieldSalah: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.red,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  fieldBener: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.green,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+
+  labelSalah: {
+    fontFamily: text.semiBold,
+    fontSize: 14,
+    color: Color.red,
+    textAlign: 'center',
   },
 });
