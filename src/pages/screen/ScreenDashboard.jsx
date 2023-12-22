@@ -32,7 +32,7 @@ import {
   pushNewAnnouncementNotification,
   pushNewApprovalNotification,
 } from '../../utils/pushNotifikasi';
-import { kirimLokasiTracking } from '../../utils/kirimLokasiTracking';
+import {kirimLokasiTracking} from '../../utils/kirimLokasiTracking';
 import HapusChace from '../../components/atoms/HapusCache';
 const ScreenDashboard = ({navigation}) => {
   const dispatch = useDispatch();
@@ -293,7 +293,7 @@ const ScreenDashboard = ({navigation}) => {
   //   BackgroundTimer.clearInterval(intervalId);
   // };
   useEffect(() => {
-    kirimLokasiTracking()
+    kirimLokasiTracking();
   }, []);
   // import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -310,9 +310,7 @@ const ScreenDashboard = ({navigation}) => {
   return (
     <View style={{backgroundColor: Color.green, flex: 1}}>
       <View>
-        <HapusChace />
-      </View>
-      <View>
+        <HapusChace style={{top: hp('2%')}} />
         <ButtonLogout
           navigation={navigation}
           posisiLogout={{top: hp('2%')}}

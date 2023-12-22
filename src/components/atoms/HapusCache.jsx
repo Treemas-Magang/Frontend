@@ -1,12 +1,104 @@
-/* eslint-disable prettier/prettier */
-import React from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
-import { useDispatch } from 'react-redux';
-import { setJumlahPengumuman } from '../../redux';
+// /* eslint-disable prettier/prettier */
+// import React from 'react';
+// import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import {
+//   countDataWithFalseStatus,
+//   getToken,
+// } from '../../utils/buatStatusPengumumanFalse';
+// import {useDispatch} from 'react-redux';
+// import {setJumlahPengumuman} from '../../redux';
+// import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+// import {Color} from '../../utils/color';
+// import {
+//   widthPercentageToDP,
+//   widthPercentageToDP as wp,
+// } from 'react-native-responsive-screen';
+// import {faTrashCan} from '@fortawesome/free-solid-svg-icons';
 
-const HapusChace = () => {
+// const HapusChace = ({styleColor, style}) => {
+//   const dispatch = useDispatch();
+//   const clearAllData = async () => {
+//     try {
+//       // Kunci yang ingin dihapus
+//       const keysToRemove = [
+//         'announcementData',
+//         'prevData',
+//         'prevDataAbsenPulang',
+//         'prevDataCutiWeb',
+//         'prevDataLembur',
+//         'prevDataLibur',
+//         'prevDataReimburse',
+//       ];
+
+//       // Menghapus data untuk kunci tertentu
+//       await AsyncStorage.multiRemove(keysToRemove);
+
+//       console.log('Data successfully removed from AsyncStorage');
+//       getToken().then(() => {
+//         countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
+//           dispatch(
+//             setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse),
+//           );
+//         });
+//       });
+//     } catch (error) {
+//       console.error('Error removing data from AsyncStorage:', error);
+//     }
+//   };
+
+//   return (
+//     <View>
+//       <TouchableOpacity
+//         onPress={clearAllData}
+//         style={[styles.ButtonTrash, style]}>
+//         <FontAwesomeIcon
+//           icon={faTrashCan}
+//           color={styleColor || Color.blue}
+//           size={widthPercentageToDP('6%')}
+//         />
+//       </TouchableOpacity>
+//     </View>
+//   );
+// };
+
+// export default HapusChace;
+
+// const styles = StyleSheet.create({
+//   ButtonTrash: {
+//     position: 'absolute',
+//     top: 20,
+//     left: 15,
+//     zIndex: 999,
+//   },
+// });
+
+/* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+import {Color} from '../../utils/color';
+import React, {useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  countDataWithFalseStatus,
+  getToken,
+} from '../../utils/buatStatusPengumumanFalse';
+import {useDispatch} from 'react-redux';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faAnglesLeft, faBroom} from '@fortawesome/free-solid-svg-icons';
+import {setJumlahPengumuman} from '../../redux';
+import {text} from '../../utils/text';
+
+const HapusChace = ({navigation, style, posisiLogout}) => {
+  const [isOpenCache, setIsOpenCache] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+
+  const openCache = () => {
+    setIsOpenCache(!isOpenCache);
+    setIsClicked(!isClicked);
+  };
+  const lebarCachce = {lebarAwal: 43, lebarAkhir: 133};
+
   const dispatch = useDispatch();
   const clearAllData = async () => {
     try {
@@ -38,12 +130,115 @@ const HapusChace = () => {
   };
 
   return (
-    <View>
-    <TouchableOpacity onPress={clearAllData}>
-    <Text>Hapus</Text>
-    </TouchableOpacity>
+    <View style={[styles.container, style]}>
+      {isClicked ? (
+        <View
+          style={[
+            styles.clearCacheClicked,
+            !isOpenCache
+              ? {width: lebarCachce.lebarAwal}
+              : {
+                  width: lebarCachce.lebarAkhir,
+                  alignItems: 'flex-end',
+                  paddingRight: 10,
+                },
+          ]}>
+          <View
+            style={{
+              flexDirection: 'row-reverse',
+              alignItems: 'center',
+            }}>
+            <TouchableOpacity onPress={() => openCache()}>
+              <FontAwesomeIcon
+                icon={!isOpenCache ? faBroom : faAnglesLeft}
+                size={25}
+                color={Color.white}
+                style={{zIndex: 999, marginRight: 5}}
+              />
+            </TouchableOpacity>
+            {!isOpenCache ? (
+              ''
+            ) : (
+              <TouchableOpacity onPress={clearAllData}>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    justifyContent: 'center', // Center vertically
+                    // backgroundColor: 'blue',
+                  }}>
+                  <Text
+                    style={{
+                      marginHorizontal: 20,
+                      color: Color.white,
+                      width: '65%',
+                      height: '80%',
+                      fontSize: 10,
+                      fontFamily: text.bold,
+                      textAlign: 'center',
+                      marginTop: 40,
+                    }}>
+                    CLEAR CACHE
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+      ) : (
+        <View
+          style={[
+            styles.clearCache,
+            !isOpenCache
+              ? {width: lebarCachce.lebarAwal}
+              : {
+                  width: lebarCachce.lebarAkhir,
+                  alignItems: 'flex-end',
+                  paddingRight: 10,
+                },
+          ]}>
+          <View style={{flexDirection: 'row-reverse', alignItems: 'center'}}>
+            <TouchableOpacity onPress={() => openCache()}>
+              <FontAwesomeIcon
+                icon={!isOpenCache ? faBroom : faBroom}
+                size={25}
+                color={Color.red}
+                style={{zIndex: 99, marginRight: 5}}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
   );
 };
 
 export default HapusChace;
+
+const styles = StyleSheet.create({
+  clearCache: {
+    position: 'absolute',
+    left: 0,
+    height: 40,
+    backgroundColor: Color.white,
+    width: 43,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  clearCacheClicked: {
+    position: 'absolute',
+    left: 0,
+    height: 40,
+    backgroundColor: Color.red,
+    width: 43,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  container: {
+    width: '100%',
+    position: 'relative',
+  },
+});

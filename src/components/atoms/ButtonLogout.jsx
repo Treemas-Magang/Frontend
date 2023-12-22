@@ -3,7 +3,11 @@
 
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faAnglesLeft, faAnglesRight} from '@fortawesome/free-solid-svg-icons';
+import {
+  faAnglesLeft,
+  faAnglesRight,
+  faPowerOff,
+} from '@fortawesome/free-solid-svg-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
 import {Color} from '../../utils/color';
@@ -63,7 +67,7 @@ const ButtonLogout = ({navigation, style, posisiLogout}) => {
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity onPress={() => openLogout()}>
             <FontAwesomeIcon
-              icon={!isOpenLogout ? faAnglesLeft : faAnglesRight}
+              icon={!isOpenLogout ? faPowerOff : faAnglesRight}
               size={25}
               color={Color.white}
             />
