@@ -12,7 +12,7 @@ import {text} from '../../utils/text';
  * @param {string} label - Label untuk teks input.
  * @returns {JSX.Element} - Komponen React untuk tampilan teks input yang tidak dapat diubah.
  */
-const FakeTextInput = ({label, value, onTextChange, textColor, ...rest}) => {
+const FakeTextInput = ({label, value, onTextChange, textColor, dataKosong}) => {
   const [valueInput, setValueInput] = useState('');
   useEffect(() => {
     setValueInput(value);
@@ -49,9 +49,9 @@ const FakeTextInput = ({label, value, onTextChange, textColor, ...rest}) => {
     <View style={{position: 'relative'}}>
       <Text
         style={[
-          styles.textInput,
+          dataKosong ? styles.textInputKosong :  styles.textInput,
           isInputActive || textInputValue ? {} : null,
-          {...rest},
+          
         ]}
         onFocus={handleTextInputFocus}
         onBlur={handleTextInputBlur}
@@ -90,6 +90,16 @@ const styles = StyleSheet.create({
     fontFamily: text.light,
     color: Color.blue,
     zIndex: 1,
+  },
+  textInputKosong: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.red,
+    borderBottomWidth: 1,
+    color: Color.black,
+    paddingTop: 22,
+    backgroundColor: 'transparent',
   },
 });
 

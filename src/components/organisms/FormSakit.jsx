@@ -293,7 +293,7 @@ const FormSakit = ({navigation}) => {
           <Text style={styles.judul}>Form Sakit</Text>
           <View style={styles.wrapInputForm}>
             <View style={{position: 'relative', gap: 10}}>
-              <FakeTextInput label="Surat Dokter" />
+              <FakeTextInput label="Surat Dokter" dataKosong={inputKosong} />
               <TouchableOpacity
                 onPress={suratDokter}
                 style={[
@@ -327,6 +327,7 @@ const FormSakit = ({navigation}) => {
                 label="Tgl Awal - Akhir Cuti Sakit"
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+                dataKosong={inputKosong}
               />
               <TouchableOpacity
                 onPress={openKalender}
@@ -361,12 +362,14 @@ const FormSakit = ({navigation}) => {
                 label="tgl masuk kerja"
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+                dataKosong={inputKosong}
               />
               <FakeTextInput
                 value={form_sakit.jmlCuti !== '' ? form_sakit.jmlCuti : '-'}
                 label="Jumlah hari"
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+                dataKosong={inputKosong}
               />
               <CustomTextInput
                 label="Alasan"

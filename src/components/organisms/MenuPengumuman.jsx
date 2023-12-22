@@ -4,11 +4,11 @@ import React, {useState, useEffect} from 'react';
 import IconMenu from '../atoms/IconMenu';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
 import { setJumlahPengumuman } from '../../redux';
 import { getDataFromSession } from '../../utils/getDataSession';
-import {API_URL, API_GABUNGAN} from '@env';
+import {API_GABUNGAN} from '@env';
 import axios from 'axios';
 
 const MenuPengumuman = ({

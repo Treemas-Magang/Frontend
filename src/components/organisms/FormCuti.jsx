@@ -403,6 +403,7 @@ const FormCuti = ({
                 label="Tgl Awal - Akhir Cuti"
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+                dataKosong={inputKosong}
               />
               <TouchableOpacity
                 onPress={openKalender}
@@ -435,6 +436,7 @@ const FormCuti = ({
                 label="Tgl Masuk Kerja"
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+                dataKosong={inputKosong}
               />
               <CustomTextInput
                 label="Keperluan Cuti"
