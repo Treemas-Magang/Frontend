@@ -35,6 +35,9 @@ const ListMembers = ({navigation}) => {
   const [isDropdown, setIsDropdown] = useState(false);
   const [dataListMembers, setDataListMembers] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
+  const [parentIsSort, setParentIsSort] = useState('nama');
+
+  console.log('parsing sort : ', parentIsSort);
   const handleDropdown = () => {
     setIsDropdown(!isDropdown);
     console.log(isDropdown);
@@ -52,9 +55,39 @@ const ListMembers = ({navigation}) => {
         {headers},
       );
       const dataAPI = response.data.data;
-      setDataListMembers(dataAPI);
+      console.log(response);
+
+      // Urutkan data berdasarkan parentIsSort
+      let sortedData = [...dataAPI];
+
+      if (parentIsSort === 'nama') {
+        sortedData.sort((a, b) => {
+          const namaA = a.nama.toUpperCase();
+          const namaB = b.nama.toUpperCase();
+          return namaA.localeCompare(namaB);
+        });
+      } else if (parentIsSort === 'jam_kehadiran') {
+        sortedData.sort((a, b) => {
+          const jamMskA = a.jamMsk;
+          const jamMskB = b.jamMsk;
+          return jamMskA.localeCompare(jamMskB);
+        });
+      }
+
+      // Filter untuk menampilkan yang isWfh 1 saja
+      if (parentIsSort === 'work_from_homed') {
+        sortedData = sortedData.filter(member => member.isWfh === '1');
+      }
+      if (parentIsSort === 'cuti') {
+        sortedData = sortedData.filter( member => member.isCuti === '1' && member.isSakit === '1');
+      }
+      if (parentIsSort === 'tidak_masuk') {
+        sortedData = sortedData.filter( member => member.jamMsk === null);
+      }
+
+      setDataListMembers(sortedData);
       setIsLoading(false);
-      console.log(`data member dari project ${projectId} :`, dataAPI);
+      console.log(`data member dari project ${projectId} :`, sortedData);
     } catch (error) {
       console.log(error.response);
       setIsLoading(false);
@@ -70,11 +103,18 @@ const ListMembers = ({navigation}) => {
         getDataMembers(headers);
       })
       .catch(error => console.log(error));
-  }, []);
+  }, [parentIsSort]);
 
-    const moveTo = (tujuan, nik) => {
+  const moveTo = (tujuan, nik) => {
     navigation.navigate(tujuan, {nikMember: nik});
   };
+const handleSortOptionSelected = selectedSortOption => {
+  // Pastikan bahwa nilai yang diatur ke parentIsSort adalah berbeda dari yang sebelumnya
+  if (selectedSortOption !== parentIsSort) {
+    setParentIsSort(selectedSortOption);
+  }
+};
+
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.listMember}>
@@ -83,7 +123,11 @@ const ListMembers = ({navigation}) => {
         <VectorAtasBesar />
         <View style={{paddingVertical: 55}}></View>
         <View style={styles.wrapListMember}>
-          {isDropdown ? <DropdownList /> : ''}
+          {isDropdown ? (
+            <DropdownList onSelectSortOption={handleSortOptionSelected} />
+          ) : (
+            ''
+          )}
           <TouchableOpacity onPress={handleDropdown} style={styles.iconDrop}>
             <FontAwesomeIcon
               icon={faArrowDownShortWide}

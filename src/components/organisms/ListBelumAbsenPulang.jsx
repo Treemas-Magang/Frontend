@@ -28,6 +28,7 @@ const ListBelumAbsenPulang = ({navigation}) => {
         {headers},
       );
       console.log(response.data.data);
+      console.log('blm plang : ', response);
       const dataAPI = response.data.data;
 
       // Get the current date in the format "YYYY-MM-DD"
@@ -41,8 +42,9 @@ const ListBelumAbsenPulang = ({navigation}) => {
       setAbsenBelumPulang(filteredData);
       setIsLoading(false);
       console.log('data : ', filteredData);
+      
     } catch (error) {
-      console.log('Tidak dapat mengambil data ', error);
+      console.log('Tidak dapat mengambil data ', error.response);
       setIsLoading(false);
     }
   };

@@ -18,6 +18,7 @@ const KategoriApproval = ({keyKategori}) => {
       libur,
       lembur,
     } = useSelector(state => state.jmlNotifMasingMasingApprovalReducer);
+    console.log('jumlah absen web', absen_web);
   const [typeApproval, setTypeApproval] = useState('');
   const [kategoriList, setKategoriList] = useState([
     {key: 'sakit', label: 'SAKIT', jmlNotif: sakit , active: true},

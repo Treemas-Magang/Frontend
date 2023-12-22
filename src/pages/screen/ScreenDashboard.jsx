@@ -75,7 +75,7 @@ const ScreenDashboard = ({navigation}) => {
         },
       );
       const dataAPI = response.data.data[0];
-      console.log('Ini data API Absen:', dataAPI);
+      console.log('Ini data API Absen:', response.data.data);
 
       // Setelah mendapatkan data dari API, langsung set nilai 'sudah_absen'
       // berdasarkan panjang dataAPI (jika lebih dari 0, maka sudah absen)

@@ -62,25 +62,24 @@ async function setDataJmlNotifMasingMasingApproval(dispatch, headers) {
 
     const absenWebApprovals = response.data.data.absenWebApprovals;
     const absenWebApprovalsCount = absenWebApprovals.length;
-    dispatch(
-      setNotiveMasingMasingApproval('absen_web', absenWebApprovalsCount),
-    );
+    console.log('jumlah absen web : ', absenWebApprovalsCount);
+    dispatch(setNotiveMasingMasingApproval('absen_web', absenWebApprovalsCount));
   } catch (error) {
     console.error('Error fetching data:', error.response);
   }
 
-  try {
-    const apiUrlNotifApproval = `${API_GABUNGAN}/api/notif/get-all-approval`;
-    const response = await axios.get(apiUrlNotifApproval, {headers});
+  // try {
+  //   const apiUrlNotifApproval = `${API_GABUNGAN}/api/notif/get-all-approval`;
+  //   const response = await axios.get(apiUrlNotifApproval, {headers});
 
-    const absenWebApprovals = response.data;
-    const absenWebApprovalsCount = absenWebApprovals.length;
-    dispatch(
-      setNotiveMasingMasingApproval('absen_web', absenWebApprovalsCount),
-    );
-  } catch (error) {
-    console.error('Error fetching data:', error.response);
-  }
+  //   const absenWebApprovals = response.data;
+  //   const absenWebApprovalsCount = absenWebApprovals.length;
+  //   dispatch(
+  //     setNotiveMasingMasingApproval('absen_web', absenWebApprovalsCount),
+  //   );
+  // } catch (error) {
+  //   console.error('Error fetching data:', error.response);
+  // }
 
   try {
     const apiUrlNotifApproval = `${API_GABUNGAN}/api/notif/get-all-approval`;

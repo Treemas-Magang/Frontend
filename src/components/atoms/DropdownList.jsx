@@ -10,47 +10,43 @@ import {text} from '../../utils/text';
  *
  * @returns {JSX.Element} - Komponen React untuk dropdown pilihan sorting.
  */
-const DropdownList = () => {
+const DropdownList = ({onSelectSortOption}) => {
   const [isSort, setIsSort] = useState('');
 
   /**
    * Fungsi handleOption digunakan untuk menangani pemilihan opsi sorting.
    * @param {string} value - Nilai opsi sorting yang dipilih.
    */
-  const hendleOption = value => {
+  const handleOption = value => {
     setIsSort(value);
+    onSelectSortOption(value); // Panggil fungsi yang diberikan dengan nilai isSort
   };
   console.log(isSort);
 
   return (
     <View style={[styles.dropdown]}>
       <TouchableOpacity
-        onPress={() => hendleOption('nama')}
+        onPress={() => handleOption('nama')}
         style={styles.option}>
         <Text style={styles.textOption}>Nama</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => hendleOption('jam_kehadiran')}
+        onPress={() => handleOption('jam_kehadiran')}
         style={styles.option}>
         <Text style={styles.textOption}>Jam Kehadiran</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => hendleOption('project')}
-        style={styles.option}>
-        <Text style={styles.textOption}>Project</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => hendleOption('work_from_home')}
+        onPress={() => handleOption('work_from_home')}
         style={styles.option}>
         <Text style={styles.textOption}>Work From Home</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => hendleOption('cuti')}
+        onPress={() => handleOption('cuti')}
         style={styles.option}>
         <Text style={styles.textOption}>Cuti / Sakit</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => hendleOption('tidak_masuk')}
+        onPress={() => handleOption('tidak_masuk')}
         style={styles.option}>
         <Text style={styles.textOption}>Tidak masuk</Text>
       </TouchableOpacity>

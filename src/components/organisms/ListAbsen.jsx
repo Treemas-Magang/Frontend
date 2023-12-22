@@ -1,85 +1,98 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
+import React, {useState, useEffect} from 'react';
 import {
-  ActivityIndicator,
+  View,
+  Text,
+  TouchableOpacity,
   ScrollView,
   StyleSheet,
-  Text,
-  View,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import CardListAbsen from '../molecules/CardListAbsen';
+import axios from 'axios';
+import {getDataFromSession} from '../../utils/getDataSession';
+import {API_GABUNGAN} from '@env';
+import LottieView from 'lottie-react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faArrowDownShortWide} from '@fortawesome/free-solid-svg-icons';
+
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
 import ButtonHome from '../atoms/ButtonHome';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
-import axios from 'axios';
-import {getDataFromSession} from '../../utils/getDataSession';
-import {API_GABUNGAN} from '@env';
-import LottieView from 'lottie-react-native';
+import CardListAbsen from '../molecules/CardListAbsen';
 import SkeletonCardAbsen from '../skeleton/SkeletonCardAbsen';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import DropdownListAbsenByProject from '../atoms/DropdownListAbsenByProject';
 
 const ListAbsen = ({navigation}) => {
   const [dataAbsens, setDataAbsens] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
-  const getDataAbsen = async headers => {
-    try {
-      const response = await axios.get(
-        API_GABUNGAN + '/api/rekap/get-rekap-absen',
-        {
-          headers,
-        },
-      );
-      console.log(response.data.data);
-      const dataAPI = response.data.data;
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDropdown, setIsDropdown] = useState(false);
+  const [parentIsSort, setParentIsSort] = useState('all-project');
 
-      console.log('data Absen : ', dataAPI);
-      setDataAbsens(dataAPI);
+ const getDataAbsen = async headers => {
+   try {
+     const response = await axios.get(
+       `${API_GABUNGAN}/api/rekap/get-rekap-absen`,
+       {headers},
+     );
+     const dataAPI = response.data.data;
 
-      setIsLoading(false);
-    } catch (error) {
-      console.log('Tidak dapat mengambil data ', error.response);
-      setIsLoading(false);
-    }
-  };
+     let sortedData = [...dataAPI];
+
+     if (parentIsSort !== 'all-project') {
+       // Filter data based on projectId, ensuring projectId is not null
+       sortedData = sortedData.filter(
+         item => item.projectId && item.projectId.projectId === parentIsSort,
+       );
+     }
+
+     console.log('Filtered Data Absen: ', sortedData);
+     setDataAbsens(sortedData);
+
+     setIsLoading(false);
+   } catch (error) {
+     console.error('Gagal mengambil data', error.message);
+     setIsLoading(false);
+   }
+ };
+
 
   useEffect(() => {
     getDataFromSession('token')
       .then(token => {
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
+        const headers = {Authorization: `Bearer ${token}`};
         getDataAbsen(headers);
       })
-      .catch(error => console.log(error));
-  }, []);
+      .catch(error => console.error(error));
+  }, [parentIsSort]);
 
   const moveTo = (tujuan, id) => {
-    navigation.navigate(tujuan, {id: id});
+    navigation.navigate(tujuan, {id});
   };
 
   const formatDate = dateString => {
-    // Mengasumsikan dateString dalam format 'YYYY-MM-DD'
     const date = new Date(dateString);
+    const options = {weekday: 'long', day: 'numeric', month: 'long'};
 
-    const options = {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
-    };
-
-    // Menggunakan toLocaleDateString untuk mendapatkan format tanggal default
     let formattedDate = date.toLocaleDateString('id-ID', options);
-
-    // Mengganti koma setelah hari dengan string kosong
     formattedDate = formattedDate.replace(/,/g, '');
 
     return formattedDate;
+  };
+
+  const handleDropdown = () => {
+    setIsDropdown(!isDropdown);
+  };
+
+  const handleSortOptionSelected = selectedSortOption => {
+    if (selectedSortOption !== parentIsSort) {
+      setParentIsSort(selectedSortOption);
+    }
   };
 
   return (
@@ -91,8 +104,19 @@ const ListAbsen = ({navigation}) => {
         <Text style={styles.judul}>ABSEN</Text>
       </View>
       <View style={styles.wrapCardAbsen}>
+        {isDropdown && (
+          <DropdownListAbsenByProject
+            onSelectSortOption={handleSortOptionSelected}
+          />
+        )}
+        <TouchableOpacity onPress={handleDropdown} style={styles.iconDrop}>
+          <FontAwesomeIcon
+            icon={faArrowDownShortWide}
+            size={30}
+            color={Color.blue}
+          />
+        </TouchableOpacity>
         {isLoading ? (
-          // <ActivityIndicator />
           <View style={styles.wrapSkeleton}>
             <SkeletonCardAbsen />
             <SkeletonCardAbsen />
@@ -100,42 +124,34 @@ const ListAbsen = ({navigation}) => {
         ) : (
           <ScrollView showsVerticalScrollIndicator={false}>
             {dataAbsens.length > 0 ? (
-              dataAbsens?.map((dataAbsen, index) => (
-                <View key={index} style={{flexDirection: 'column'}}>
-                  <CardListAbsen
-                    onPress={() => moveTo('detailAbsen', dataAbsen.id)}
-                    navigation={navigation}
-                    tanggal_absen={formatDate(dataAbsen.tglAbsen) || '-'}
-                    jam_masuk={
-                      dataAbsen.jamMsk ? dataAbsen.jamMsk.substring(0, 5) : '-'
-                    }
-                    jam_pulang={
-                      dataAbsen.jamPlg ? dataAbsen.jamPlg.substring(0, 5) : '-'
-                    }
-                    lokasi_masuk={dataAbsen.lokasiMsk || '-'}
-                    lokasi_pulang={dataAbsen.lokasiPlg || '-'}
-                    status={
-                      dataAbsen.status === 'Absen'
-                        ? 'Absen'
-                        : dataAbsen.status === 'Sakit'
-                        ? 'Sakit'
-                        : dataAbsen.status === 'Libur'
-                        ? 'Libur'
-                        : ''
-                    }
-                  />
-                </View>
+              dataAbsens.map((dataAbsen, index) => (
+                <CardListAbsen
+                  key={index}
+                  onPress={() => moveTo('detailAbsen', dataAbsen.id)}
+                  navigation={navigation}
+                  tanggal_absen={formatDate(dataAbsen.tglAbsen) || '-'}
+                  jam_masuk={dataAbsen.jamMsk?.substring(0, 5) || '-'}
+                  jam_pulang={dataAbsen.jamPlg?.substring(0, 5) || '-'}
+                  lokasi_masuk={dataAbsen.lokasiMsk || '-'}
+                  lokasi_pulang={dataAbsen.lokasiPlg || '-'}
+                  status={
+                    dataAbsen.status === 'Absen'
+                      ? 'Absen'
+                      : dataAbsen.status === 'Sakit'
+                      ? 'Sakit'
+                      : dataAbsen.status === 'Libur'
+                      ? 'Libur'
+                      : ''
+                  }
+                />
               ))
             ) : (
-              // Handle the case when dataApp is not an array
               <View style={styles.wrapDataNotFound}>
                 <LottieView
                   source={require('../../assets/animation/dataNotFound.json')}
                   autoPlay
-                  style={{
-                    width: '100%',
-                    height: '70%',
-                  }}></LottieView>
+                  style={{width: '100%', height: '70%'}}
+                />
                 <Text style={styles.textDataNotFound}>
                   Tidak Ada Data Absen
                 </Text>
@@ -215,5 +231,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'relative',
     gap: 10,
+  },
+  iconDrop: {
+    position: 'absolute',
+    left: 15,
+    top: 20,
   },
 });
