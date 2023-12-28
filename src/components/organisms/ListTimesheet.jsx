@@ -39,12 +39,12 @@ const ListTimesheet = ({navigation}) => {
         {headers},
       );
       console.log(response.data.data);
-      const dataAPI = response.data.data;
+      const dataAPI = response;
       console.log('data timesheet : ', dataAPI);
       setTimesheet(dataAPI);
       setIsLoading(false);
     } catch (error) {
-      console.log('Tidak dapat mengambil data ', error.response);
+      console.log('Tidak dapat mengambil data ', error);
       setIsLoading(false);
     }
   };
@@ -84,52 +84,66 @@ const ListTimesheet = ({navigation}) => {
   const [totalJamKerja, setTotalJamKerja] = useState(0);
 
   //menghitung jam lembur
-  useEffect(() => {
-    // Fungsi untuk menghitung total overtime
-    const calculateTotalOvertime = () => {
-      const total = timesheet.reduce((acc, entry) => acc + entry.overtime, 0);
-      setTotalOvertime(total);
-    };
+  // useEffect(() => {
+  //   // Fungsi untuk menghitung total overtime
+  //   const calculateTotalOvertime = () => {
+  //     const total = timesheet.reduce((acc, entry) => acc + entry.overtime, 0);
+  //     setTotalOvertime(total);
+  //   };
 
-    // Panggil fungsi ketika komponen di-mount atau timesheetData berubah
-    calculateTotalOvertime();
-  }, [timesheet]);
+  //   // Panggil fungsi ketika komponen di-mount atau timesheetData berubah
+  //   calculateTotalOvertime();
+  // }, [timesheet]);
 
-  console.log('ini total overtime :', totalOvertime);
+  // console.log('ini total overtime :', totalOvertime);
 
-  //menghitung jam reguler
-  useEffect(() => {
-    // Fungsi untuk menghitung total overtime
-    const calculateTotalJamReguler = () => {
-      const total = timesheet.reduce(
-        (acc, entry) => acc + entry.projectId.jamKerja,
-        0,
-      );
-      setTotalJamReguler(total);
-    };
+  // //menghitung jam lembur
+  // useEffect(() => {
+  //   // Fungsi untuk menghitung total overtime
+  //   const calculateTotalOvertime = () => {
+  //     if (timesheet) {
+  //       const total = timesheet.reduce((acc, entry) => acc + entry.overtime, 0);
+  //       setTotalOvertime(total);
+  //     }
+  //   };
 
-    // Panggil fungsi ketika komponen di-mount atau timesheetData berubah
-    calculateTotalJamReguler();
-  }, [timesheet]);
+  //   // Panggil fungsi ketika komponen di-mount atau timesheetData berubah
+  //   calculateTotalOvertime();
+  // }, [timesheet]);
 
-  console.log('ini total jam reguler :', totalJamReguler);
+  // //menghitung jam reguler
+  // useEffect(() => {
+  //   // Fungsi untuk menghitung total jam reguler
+  //   const calculateTotalJamReguler = () => {
+  //     if (timesheet) {
+  //       const total = timesheet.reduce(
+  //         (acc, entry) => acc + entry.projectId.jamKerja,
+  //         0,
+  //       );
+  //       setTotalJamReguler(total);
+  //     }
+  //   };
 
-  //menghitung jam kerja
-  useEffect(() => {
-    // Fungsi untuk menghitung total overtime
-    const calculateTotalJamKerja = () => {
-      const total = timesheet.reduce(
-        (acc, entry) => acc + entry.totalJamKerja,
-        0,
-      );
-      setTotalJamKerja(total);
-    };
+  //   // Panggil fungsi ketika komponen di-mount atau timesheetData berubah
+  //   calculateTotalJamReguler();
+  // }, [timesheet]);
 
-    // Panggil fungsi ketika komponen di-mount atau timesheetData berubah
-    calculateTotalJamKerja();
-  }, [timesheet]);
+  // //menghitung jam kerja
+  // useEffect(() => {
+  //   // Fungsi untuk menghitung total jam kerja
+  //   const calculateTotalJamKerja = () => {
+  //     if (timesheet) {
+  //       const total = timesheet.reduce(
+  //         (acc, entry) => acc + entry.totalJamKerja,
+  //         0,
+  //       );
+  //       setTotalJamKerja(total);
+  //     }
+  //   };
 
-  console.log('ini total jam kerja :', totalJamKerja);
+  //   // Panggil fungsi ketika komponen di-mount atau timesheetData berubah
+  //   calculateTotalJamKerja();
+  // }, [timesheet]);
 
   return (
     <View style={styles.container}>
@@ -150,7 +164,7 @@ const ListTimesheet = ({navigation}) => {
           </View>
         ) : (
           <ScrollView showsVerticalScrollIndicator={false}>
-            {timesheet.length > 0 ? (
+            {timesheet?.length > 0 ? (
               timesheet.map((timesheet, index) => (
                 <View key={index} style={{flexDirection: 'column'}}>
                   <CardTimesheet
