@@ -256,6 +256,7 @@ const DetailMember = ({navigation, stylePP}) => {
               gap: 5,
               right: 0,
             }}>
+            {dataDetailMember.absenTrackingData?.jamMsk}
             <TouchableOpacity onPress={() => moveTo('mapTracking', markers)}>
               <Image
                 style={{width: 40, height: 40}}

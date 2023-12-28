@@ -8,11 +8,15 @@ import moment from 'moment';
 import axios from 'axios';
 import { getDataFromSession } from '../../utils/getDataSession';
 import {API_URL, API_GABUNGAN} from '@env';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const KalenderRange = ({onDataReady, range, iniFormSakit, iniFormCuti}) => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
-  const [dataTglLibur, setDataTglLibur] = useState([]);
   const [dataTglCutiBersama, setDataTglCutiBersama] = useState([]);
+  const [dataTglMerah, setDataTglMerah] = useState([]);
   const [isFormSakitOrCuti, setIsFormSakitOrCuti] = useState(false);
   const [isRange, setisRange] = useState(true);
   const minDate = new Date(); // Hari ini
@@ -60,8 +64,8 @@ const KalenderRange = ({onDataReady, range, iniFormSakit, iniFormCuti}) => {
           .map(item => item.tglLibur);
 
         // Simpan kedua kelompok tanggal libur dalam state
-        setDataTglCutiBersama(tanggalLiburNonCutiBersama);
-        setDataTglLibur(tanggalLiburCutiBersama);
+        setDataTglMerah(tanggalLiburNonCutiBersama);
+        setDataTglCutiBersama(tanggalLiburCutiBersama);
         // setIsLoading(false);
       } catch (error) {
         console.error('Terjadi kesalahan:', error);
@@ -69,11 +73,11 @@ const KalenderRange = ({onDataReady, range, iniFormSakit, iniFormCuti}) => {
     };
   }, []);
 
-  console.log('tgl merah : ', dataTglLibur);
-  console.log('tgl cuti bersama : ', dataTglCutiBersama);
+  console.log('tgl merah : ', dataTglCutiBersama);
+  console.log('tgl cuti bersama : ', dataTglMerah);
   // Daftar tanggal yang ingin diabaikan
-  const cutiBersama = dataTglCutiBersama;
-  const tanggalMerah = dataTglLibur;
+  const cutiBersama = dataTglMerah;
+  const tanggalMerah = dataTglCutiBersama;
 
   const startDate = selectedStartDate ? formatDate(selectedStartDate) : '';
   const endDate = selectedEndDate ? formatDate(selectedEndDate) : '';
@@ -169,6 +173,30 @@ while (true) {
     };
   });
 
+  const getCustomDatesStyles = () => {
+    const customStyles = [];
+
+    // Tambahkan gaya untuk tanggal libur
+    dataTglCutiBersama.forEach(tglCutiBersama => {
+      customStyles.push({
+        date: tglCutiBersama, // Tanggal libur
+        style: {backgroundColor: Color.cardTelatMasuk}, // Warna latar belakang
+        textStyle: {color: 'white'}, // Warna teks
+      });
+    });
+
+    // Tambahkan gaya untuk tanggal cuti bersama
+    dataTglMerah.forEach(tglMerah => {
+      customStyles.push({
+        date: tglMerah, // Tanggal cuti bersama
+        style: {backgroundColor: Color.red}, // Warna latar belakang
+        textStyle: {color: 'white'}, // Warna teks
+      });
+    });
+
+    return customStyles;
+  };
+
   return (
     <View style={styles.container}>
       <CalendarPicker
@@ -176,6 +204,7 @@ while (true) {
         allowRangeSelection={isRange}
         minDate={minDate}
         maxDate={maxDate}
+        customDatesStyles={getCustomDatesStyles()}
         todayBackgroundColor={Color.green}
         selectedDayColor={Color.blue}
         textStyle={text.regular}
@@ -187,7 +216,7 @@ while (true) {
         weekdays={hari}
         showDayStragglers={true}
         scrollable={true}
-        width={300}
+        width={wp('75%')}
       />
     </View>
   );
@@ -197,7 +226,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Color.white,
     marginTop: 100,
-    // position: 'absolute'
+    borderWidth: 2,
+    borderColor: Color.blue,
+    borderRadius: 10,
   },
 });
 export default KalenderRange;

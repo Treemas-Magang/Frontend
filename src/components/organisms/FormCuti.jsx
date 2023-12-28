@@ -29,6 +29,14 @@ import KalenderCuti from '../molecules/KalenderCuti';
 import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
 
+
+
+    const initialState = {
+      sisa_cuti: 0,
+      cuti_bersama: 0,
+      cuti_pengganti: 0,
+    };
+
 const FormCuti = ({
   style,
   styleCard,
@@ -39,6 +47,7 @@ const FormCuti = ({
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.FormCutiReducer);
   const [awalCuti, setAwalCuti] = useState(form.tanggal_cuti);
+  const [statistik, setStatistik] = useState(initialState);
   const [showKalender, setShowKalender] = useState(false);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const [inputKosong, setInputKosong] = useState(false);
@@ -160,6 +169,12 @@ const FormCuti = ({
             {headers},
           );
           const jmlCuti = response.data.data;
+          setStatistik(prevStatistik => ({
+            ...prevStatistik,
+            sisa_cuti: jmlCuti.sisaCuti,
+            cuti_bersama: jmlCuti.jumlahCutiBersama,
+            cuti_pengganti: jmlCuti.sisaCutiPengganti,
+          }));
           console.log(jmlCuti);
         } else {
           console.log('Data token tidak di temukan');
@@ -291,21 +306,17 @@ const FormCuti = ({
   const handleClickOutside = () => {
     setShowKalender(false);
   };
-  const initialState = {
-    sisa_cuti: 2,
-    cuti_bersama: 11,
-    cuti_pengganti: 5,
-  };
-  const [statistik, setStatistik] = useState(initialState);
+
   const [maxDurasiCuti, setMaxDurasiCuti] = useState(0);
   useEffect(() => {
     const jmlhSemuaCuti = statistik.cuti_pengganti + statistik.sisa_cuti;
     setMaxDurasiCuti(jmlhSemuaCuti);
   }, [statistik]);
 
-  // const close = async () => {
-  //   setUploadBerhasil(false);
-  // };
+
+  const close = async () => {
+    setUploadBerhasil(false);
+  };
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.formCuti}>
@@ -316,14 +327,14 @@ const FormCuti = ({
               buttonAlert="Close"
               textBodyAlert="Berhasil Mengajukan Cuti"
               titleAlert="Success"
-              onPress={close}
+              onPress={() => close}
             />
           </View>
         ) : (
           ''
         )}
         {showKalender && (
-          <View style={{position: 'absolute', top: 0, right: 55, zIndex: 2}}>
+          <View style={{position: 'absolute', top: 0, right: 48.5, zIndex: 2}}>
             <KalenderCuti
               onDataReady={handleDataReady}
               range={isCutiIstimewa}

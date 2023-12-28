@@ -75,7 +75,7 @@ const ListAbsen = ({navigation}) => {
 
   useEffect(() => {
     const urutByTgl = dataAbsens.sort(
-      (a, b) => new Date(a.dtmCrt) - new Date(b.dtmCrt),
+      (a, b) => new Date(b.dtmCrt) - new Date(a.dtmCrt),
     );
     setData(urutByTgl);
   }, [dataAbsens])

@@ -281,7 +281,7 @@ const FormSakit = ({navigation}) => {
         )}
 
         {showKalender && (
-          <View style={{position: 'absolute', top: 0, right: 40, zIndex: 2}}>
+          <View style={{position: 'absolute', top: 0, right: 48.5, zIndex: 2}}>
             <KalenderRange
               onDataReady={handleDataReady}
               range={adaSuratDokter}

@@ -9,16 +9,20 @@ import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
 import {API_URL, API_GABUNGAN} from '@env';
 import { cekTglAkhirCutiSpesial } from '../../utils/cekTglAkhirCutiSpesial';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const KalenderCuti = ({onDataReady, range, iniFormSakit, iniFormCuti, jmlhValueCuti, maxDurasiCuti}) => {
   const [selectedStartDate, setSelectedStartDate] = useState(null);
   const [selectedEndDate, setSelectedEndDate] = useState(null);
-  const [dataTglLibur, setDataTglLibur] = useState([]);
   const [dataTglCutiBersama, setDataTglCutiBersama] = useState([]);
+  const [dataTglMerah, setDataTglMerah] = useState([]);
   const [isFormSakitOrCuti, setIsFormSakitOrCuti] = useState(false);
   const [isRange, setisRange] = useState(true);
   const minDate = new Date(); // Hari ini
   const maxDate = new Date();
-  maxDate.setFullYear(maxDate.getFullYear(), 11, 31);
+  maxDate.setFullYear(maxDate.getFullYear(), 11, 31 + 90);
   const formatDate = date => {
     return moment(date).format('YYYY-MM-DD');
   };
@@ -61,8 +65,8 @@ const KalenderCuti = ({onDataReady, range, iniFormSakit, iniFormCuti, jmlhValueC
           .map(item => item.tglLibur);
 
         // Simpan kedua kelompok tanggal libur dalam state
-        setDataTglCutiBersama(tanggalLiburNonCutiBersama);
-        setDataTglLibur(tanggalLiburCutiBersama);
+        setDataTglMerah(tanggalLiburNonCutiBersama);
+        setDataTglCutiBersama(tanggalLiburCutiBersama);
         // setIsLoading(false);
       } catch (error) {
         console.error('Terjadi kesalahan:', error);
@@ -70,11 +74,11 @@ const KalenderCuti = ({onDataReady, range, iniFormSakit, iniFormCuti, jmlhValueC
     };
   }, []);
 
-  console.log('tgl merah : ', dataTglLibur);
-  console.log('tgl cuti bersama : ', dataTglCutiBersama);
+  console.log('tgl merah : ', dataTglCutiBersama);
+  console.log('tgl cuti bersama : ', dataTglMerah);
   // Daftar tanggal yang ingin diabaikan
-  const cutiBersama = dataTglCutiBersama;
-  const tanggalMerah = dataTglLibur;
+  const cutiBersama = dataTglMerah;
+  const tanggalMerah = dataTglCutiBersama;
 
   const startDate = selectedStartDate ? formatDate(selectedStartDate) : '';
   const endDate = selectedEndDate ? formatDate(selectedEndDate) : '';
@@ -159,8 +163,13 @@ const KalenderCuti = ({onDataReady, range, iniFormSakit, iniFormCuti, jmlhValueC
       setSelectedEndDate(date);
     } else {
       setSelectedStartDate(date);
-      const tglAkhirCutiSpesial = cekTglAkhirCutiSpesial(date, jmlhValueCuti-1);
-      isRange ? setSelectedEndDate(null) : setSelectedEndDate(tglAkhirCutiSpesial);
+      const tglAkhirCutiSpesial = cekTglAkhirCutiSpesial(
+        date,
+        jmlhValueCuti - 1,
+      );
+      isRange
+        ? setSelectedEndDate(null)
+        : setSelectedEndDate(tglAkhirCutiSpesial);
     }
   };
 
@@ -171,14 +180,40 @@ const KalenderCuti = ({onDataReady, range, iniFormSakit, iniFormCuti, jmlhValueC
     };
   });
 
+  // Mengonversi data tanggal libur dan cuti bersama ke format yang dapat digunakan oleh CalendarPicker
+  const getCustomDatesStyles = () => {
+    const customStyles = [];
+
+    // Tambahkan gaya untuk tanggal libur
+    dataTglCutiBersama.forEach(tglCutiBersama => {
+      customStyles.push({
+        date: tglCutiBersama, // Tanggal libur
+        style: {backgroundColor: Color.cardTelatMasuk}, // Warna latar belakang
+        textStyle: {color: 'white'}, // Warna teks
+      });
+    });
+
+    // Tambahkan gaya untuk tanggal cuti bersama
+    dataTglMerah.forEach(tglMerah => {
+      customStyles.push({
+        date: tglMerah, // Tanggal cuti bersama
+        style: {backgroundColor: Color.red}, // Warna latar belakang
+        textStyle: {color: 'white'}, // Warna teks
+      });
+    });
+
+    return customStyles;
+  };
+
   return (
     <View style={styles.container}>
       <CalendarPicker
         startFromMonday={true}
         allowRangeSelection={isRange}
-        minDate={minDate}
+        // minDate={minDate}
         maxDate={maxDate}
         todayBackgroundColor={Color.green}
+        customDatesStyles={getCustomDatesStyles()}
         selectedDayColor={Color.blue}
         textStyle={text.regular}
         selectedDayTextColor="#ffffff"
@@ -189,7 +224,7 @@ const KalenderCuti = ({onDataReady, range, iniFormSakit, iniFormCuti, jmlhValueC
         weekdays={hari}
         showDayStragglers={true}
         scrollable={true}
-        width={300}
+        width={wp('75%')}
       />
     </View>
   );
@@ -199,6 +234,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Color.white,
     marginTop: 100,
+    borderWidth: 2,
+    borderColor: Color.blue,
+    borderRadius: 10
     // position: 'absolute'
   },
 });
