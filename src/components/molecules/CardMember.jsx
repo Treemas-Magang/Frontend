@@ -11,26 +11,36 @@ const CardMember = ({
   jamPlg,
   nama,
   idMember,
-  onPress
+  onPress,
+  cuti,
+  sakit
 }) => {
+  console.log('ini status :', status)
   console.log(idMember);
   let background = styles.cardHadir;
-  switch (status) {
-    case 'sakit':
-      background = styles.cardSakit;
-      break;
-    case 'cuti':
-      background = styles.cardCuti;
-      break;
-    case 'tidakMasuk':
-      background = styles.cardTidakMasuk;
-      break;
-    case 'hadir':
-      background = styles.cardHadir;
-      break;
-    default:
-      break;
+  if (jamMsk !== null) {
+    background = styles.cardHadir;
+  } else if (cuti !== null || sakit !== null) {
+    background = styles.cardCuti;
+  } else if (jamMsk === null) {
+    background = styles.cardTidakMasuk;
   }
+  // switch (status) {
+  //   case 'sakit':
+  //     background = styles.cardSakit;
+  //     break;
+  //   case 'cuti':
+  //     background = styles.cardCuti;
+  //     break;
+  //   case 'tidakMasuk':
+  //     background = styles.cardTidakMasuk;
+  //     break;
+  //   case 'hadir':
+  //     background = styles.cardHadir;
+  //     break;
+  //   default:
+  //     break;
+  // }
   // const moveTo = tujuan => {
   //   navigation.navigate(tujuan);
   // };

@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable semi */
 import React, {useState, useEffect} from 'react';
 import {
@@ -30,6 +31,7 @@ import DropdownListAbsenByProject from '../atoms/DropdownListAbsenByProject';
 
 const ListAbsen = ({navigation}) => {
   const [dataAbsens, setDataAbsens] = useState([]);
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDropdown, setIsDropdown] = useState(false);
   const [parentIsSort, setParentIsSort] = useState('all-project');
@@ -70,6 +72,13 @@ const ListAbsen = ({navigation}) => {
       })
       .catch(error => console.error(error));
   }, [parentIsSort]);
+
+  useEffect(() => {
+    const urutByTgl = dataAbsens.sort(
+      (a, b) => new Date(a.dtmCrt) - new Date(b.dtmCrt),
+    );
+    setData(urutByTgl);
+  }, [dataAbsens])
 
   const moveTo = (tujuan, id) => {
     navigation.navigate(tujuan, {id});
@@ -123,8 +132,8 @@ const ListAbsen = ({navigation}) => {
           </View>
         ) : (
           <ScrollView showsVerticalScrollIndicator={false}>
-            {dataAbsens.length > 0 ? (
-              dataAbsens.map((dataAbsen, index) => (
+            {data.length > 0 ? (
+              data.map((dataAbsen, index) => (
                 <CardListAbsen
                   key={index}
                   onPress={() => moveTo('detailAbsen', dataAbsen.id)}
@@ -134,15 +143,17 @@ const ListAbsen = ({navigation}) => {
                   jam_pulang={dataAbsen.jamPlg?.substring(0, 5) || '-'}
                   lokasi_masuk={dataAbsen.lokasiMsk || '-'}
                   lokasi_pulang={dataAbsen.lokasiPlg || '-'}
-                  status={
-                    dataAbsen.status === 'Absen'
-                      ? 'Absen'
-                      : dataAbsen.status === 'Sakit'
-                      ? 'Sakit'
-                      : dataAbsen.status === 'Libur'
-                      ? 'Libur'
-                      : ''
-                  }
+                  // status={
+                  //   dataAbsen.status === 'Absen'
+                  //     ? 'Absen'
+                  //     : dataAbsen.status === 'Sakit'
+                  //     ? 'Sakit'
+                  //     : dataAbsen.status === 'Libur'
+                  //     ? 'Libur'
+                  //     : ''
+                  // }
+                  sakit={dataAbsen.isSakit}
+                  cuti={dataAbsen.isCuti}
                 />
               ))
             ) : (

@@ -13,8 +13,9 @@ const CardListAbsen = ({
   jam_pulang,
   lokasi_pulang,
   tanggal_absen,
-  status,
   onPress,
+  sakit,
+  cuti,
 }) => {
   const moveTo = tujuan => {
     navigation.navigate(tujuan);
@@ -42,19 +43,27 @@ const CardListAbsen = ({
   // };
 
   let background = styles.cardBackground;
-  switch (status) {
-    case 'Absen':
-      background = styles.cardHadir;
-      break;
-    case 'Sakit':
-      background = styles.cardSakit;
-      break;
-    case 'Libur' || 'Cuti':
-      background = styles.cardTdkMsk;
-      break;
-    default:
-      break;
+  if (jam_masuk !== '-') {
+    background = styles.cardHadir;
+  } else if (sakit !== null || cuti !== null) {
+    background = styles.cardSakit;
+  } else if (jam_masuk === '-') {
+    background = styles.cardTdkMsk;
   }
+
+
+  // switch (status) {
+  //   case 'Absen':
+  //     background = styles.cardHadir;
+  //     break;
+  //   case 'Sakit':
+  //     background = styles.cardSakit;
+  //     break;
+  //   case 'Libur' || 'Cuti':
+  //     background = styles.cardTdkMsk;
+  //     break;
+  //   default:
+  //     break;
 
   return (
     <TouchableOpacity style={[styles.card, background]} onPress={onPress}>

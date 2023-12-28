@@ -225,19 +225,21 @@ const handleSortOptionSelected = selectedSortOption => {
                     jamPlg={member.jamPlg}
                     idMember={member.id}
                     onPress={() => moveTo('detailMember', member.nik)}
-                    status={
-                      member.jamMsk !== null
-                        ? 'hadir'
-                        : member.isSakit !== null
-                        ? 'sakit'
-                        : member.isCuti !== null
-                        ? 'cuti'
-                        : member.jamMsk &&
-                          member.isSakit &&
-                          member.isCuti === null
-                        ? 'tidakMasuk'
-                        : ''
-                    }
+                    // status={
+                    //   member.jamMsk !== null
+                    //     ? 'hadir'
+                    //     : member.isSakit === null
+                    //     ? 'sakit'
+                    //     : member.isCuti !== null
+                    //     ? 'cuti'
+                    //     : member.jamMsk &&
+                    //       member.isSakit &&
+                    //       member.isCuti === null
+                    //     ? 'tidakMasuk'
+                    //     : ''
+                    // }
+                    cuti={member.isCuti}
+                    sakit={member.isSakit}
                   />
                 </View>
               ))

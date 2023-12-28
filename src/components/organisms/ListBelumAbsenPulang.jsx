@@ -39,13 +39,13 @@ const ListBelumAbsenPulang = ({navigation}) => {
         item => item.tglAbsen !== currentDate,
       );
 
-      setAbsenBelumPulang(dataAPI);
-      // setAbsenBelumPulang(filteredData);
+      // setAbsenBelumPulang(dataAPI);
+      setAbsenBelumPulang(filteredData);
       setIsLoading(false);
       console.log('data : ', filteredData);
       
     } catch (error) {
-      console.log('Tidak dapat mengambil data ', error.response);
+      console.log('Tidak dapat mengambil data lupa absen pulang ', error.response);
       setIsLoading(false);
     }
   };
