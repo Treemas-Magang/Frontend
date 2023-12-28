@@ -69,6 +69,68 @@ const ListTimesheet = ({navigation}) => {
     navigation.navigate(tujuan, {id: id});
   };
 
+  const formatDate = dateString => {
+    const date = new Date(dateString);
+    const options = {weekday: 'long', day: 'numeric', month: 'long'};
+
+    let formattedDate = date.toLocaleDateString('id-ID', options);
+    formattedDate = formattedDate.replace(/,/g, '');
+
+    return formattedDate;
+  };
+
+  const [totalOvertime, setTotalOvertime] = useState(0);
+  const [totalJamReguler, setTotalJamReguler] = useState(0);
+  const [totalJamKerja, setTotalJamKerja] = useState(0);
+
+  //menghitung jam lembur
+  useEffect(() => {
+    // Fungsi untuk menghitung total overtime
+    const calculateTotalOvertime = () => {
+      const total = timesheet.reduce((acc, entry) => acc + entry.overtime, 0);
+      setTotalOvertime(total);
+    };
+
+    // Panggil fungsi ketika komponen di-mount atau timesheetData berubah
+    calculateTotalOvertime();
+  }, [timesheet]);
+
+  console.log('ini total overtime :', totalOvertime);
+
+  //menghitung jam reguler
+  useEffect(() => {
+    // Fungsi untuk menghitung total overtime
+    const calculateTotalJamReguler = () => {
+      const total = timesheet.reduce(
+        (acc, entry) => acc + entry.projectId.jamKerja,
+        0,
+      );
+      setTotalJamReguler(total);
+    };
+
+    // Panggil fungsi ketika komponen di-mount atau timesheetData berubah
+    calculateTotalJamReguler();
+  }, [timesheet]);
+
+  console.log('ini total jam reguler :', totalJamReguler);
+
+  //menghitung jam kerja
+  useEffect(() => {
+    // Fungsi untuk menghitung total overtime
+    const calculateTotalJamKerja = () => {
+      const total = timesheet.reduce(
+        (acc, entry) => acc + entry.totalJamKerja,
+        0,
+      );
+      setTotalJamKerja(total);
+    };
+
+    // Panggil fungsi ketika komponen di-mount atau timesheetData berubah
+    calculateTotalJamKerja();
+  }, [timesheet]);
+
+  console.log('ini total jam kerja :', totalJamKerja);
+
   return (
     <View style={styles.container}>
       <ButtonBack navigation={navigation} />
@@ -87,18 +149,16 @@ const ListTimesheet = ({navigation}) => {
             <SkeletonCardTimesheet />
           </View>
         ) : (
-          <ScrollView
-            style={{width: '90%'}}
-            showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false}>
             {timesheet.length > 0 ? (
               timesheet.map((timesheet, index) => (
                 <View key={index} style={{flexDirection: 'column'}}>
                   <CardTimesheet
                     onPress={() => moveTo('detailTimesheet', timesheet.id)}
                     navigation={navigation}
-                    lokasi={timesheet.lokasi}
-                    penempatan={timesheet.penempatan}
-                    tanggal={timesheet.tanggal}
+                    lokasi={timesheet.projectId.lokasi || '-'}
+                    penempatan={timesheet.projectId.namaProject || '-'}
+                    tanggal={formatDate(timesheet.tglMsk) || '-'}
                   />
                 </View>
               ))
@@ -143,22 +203,22 @@ const ListTimesheet = ({navigation}) => {
                 <Text style={{fontFamily: text.lightItalic}}>
                   Total Jam Reguler
                 </Text>
-                <Text style={styles.textValue}>75 Jam</Text>
+                <Text style={styles.textValue}>{totalJamReguler} Jam</Text>
               </>
             </View>
             <View style={{alignItems: 'center'}}>
               <>
                 <Text style={{fontFamily: text.lightItalic}}>
-                  Total Jam Reguler
+                  Total Jam Lembur
                 </Text>
-                <Text style={styles.textValue}>75 Jam</Text>
+                <Text style={styles.textValue}>{totalOvertime} Jam</Text>
               </>
             </View>
             <View style={{justifyContent: 'center'}}>
               <Text style={{fontFamily: text.boldItalic, color: Color.black}}>
                 Total Jam Kerja
               </Text>
-              <Text style={styles.textValue}>75 Jam</Text>
+              <Text style={styles.textValue}>{totalJamKerja} Jam</Text>
             </View>
           </View>
         </View>

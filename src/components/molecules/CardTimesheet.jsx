@@ -38,9 +38,9 @@ const CardTimesheet = ({navigation, tanggal, penempatan, lokasi, onPress}) => {
             style={{
               fontFamily: text.semiBold,
               fontSize: 12,
-              width: 224,
+              width: 225,
               textAlign: 'justify',
-              color: Color.brown,
+              color: Color.black,
             }}>
             {lokasi}
           </Text>
