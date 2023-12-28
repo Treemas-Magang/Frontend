@@ -18,14 +18,10 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFingerprint} from '@fortawesome/free-solid-svg-icons';
 import {useSelector, useDispatch} from 'react-redux';
 import {
-  setDataUser,
   setForm,
   setFormLoginFingerPrint,
-  setJumlahApproval,
-  setJumlahPengumuman,
 } from '../../redux';
 import {checkBiometryType} from '../../utils/checkBiometricType';
-import ReactNativeBiometrics from 'react-native-biometrics';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {text} from '../../utils/text';
@@ -33,11 +29,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {LoginFingerprint} from '../../config/prosesLogin';
-import {
-  countDataWithFalseStatus,
-  getToken,
-} from '../../utils/buatStatusPengumumanFalse';
 import ButtonLoading from '../../components/atoms/ButtonLoading';
 import {checkMockLocation} from '../../utils/checkMockLocation';
 import {
@@ -46,6 +37,7 @@ import {
 } from '../../components/atoms/AlertNotification';
 import {API_GABUNGAN} from '@env';
 import {loginBiometric} from '../../utils/loginBiometric';
+import { kirimLokasiTracking } from '../../utils/kirimLokasiTracking';
 const ScreenLogin = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
   const [idDvcSdhDipakai, setIdDvcSdhDipakai] = useState(false);
@@ -53,11 +45,11 @@ const ScreenLogin = ({navigation}) => {
   const [inputKosong, setInputKosong] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [isPassChange, setIsPassChange] = useState(false);
   // const [isWarnLogin, setIsWranLogin] = useState(false);
   const [isServerError, setIsServerError] = useState(false);
   const {formLogin} = useSelector(state => state.LoginReducer);
   const {formLoginFP} = useSelector(state => state.LoginFingerPrintReducer);
-  // const {location} = useSelector(state => state.SplashReducer);
   const {biometricType} = useSelector(state => state.CheckBiometricTypeReducer);
   const dispatch = useDispatch();
   const routeAPI = API_GABUNGAN;
@@ -138,11 +130,14 @@ const ScreenLogin = ({navigation}) => {
         formLogin,
       );
       const dataLogin = response.data.data;
-      console.log(dataLogin);
+      console.log('ini data Login : ', dataLogin);
 
       if (response.status === 200) {
         setIsLogin(true);
         setGagalLogin(false);
+        if (response.data.data.user.is_pass_chg !== '0') {
+          setIsPassChange(true);
+        }
         console.log('response login : ', response.data.data);
         // const [{ token }]\ = dataLogin;
         const token = dataLogin.token;
@@ -156,26 +151,10 @@ const ScreenLogin = ({navigation}) => {
         await AsyncStorage.setItem('token', token);
         await AsyncStorage.setItem('nik', formLogin.nik);
         await AsyncStorage.setItem('password', formLogin.password);
+        dispatch(setForm('nik', ''));
+        dispatch(setForm('password', ''));
 
         setIsLoading(false);
-        // render notif //
-        // getToken().then(() => {
-        //   countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
-        //     console.log(
-        //       'Jumlah ID dengan status false:',
-        //       jumlahDataDenganStatusFalse,
-        //     );
-        //     // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
-        //     dispatch(
-        //       setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse),
-        //     );
-        //     ////////////////////////////////////////////
-        //     // ini untuk jumlah Approval
-        //     dispatch(setJumlahApproval('approval', 10));
-        //   });
-        // });
-        /////////////////
-        // navigation.replace('dashboard');
       } else {
         console.log('message : ', response.data.message);
         setIsLoading(false);
@@ -219,6 +198,7 @@ const ScreenLogin = ({navigation}) => {
         formLoginFP,
         setIsLoading,
         setIsLogin,
+        setIsPassChange,
         navigation,
         dispatch,
         routeAPI,
@@ -229,7 +209,15 @@ const ScreenLogin = ({navigation}) => {
     }
   };
   const toDashboard = () => {
-    navigation.replace('dashboard');
+    if (isPassChange) {
+      navigation.replace('dashboard');
+      kirimLokasiTracking();
+    } else {
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'updatePassword'}],
+      });
+    }
   };
   const close = () => {
     setIsServerError(false);

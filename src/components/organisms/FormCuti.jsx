@@ -147,6 +147,29 @@ const FormCuti = ({
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    const dataJmlCuti = async () => {
+      try {
+        const token = await getDataFromSession('token');
+        if (token !== null) {
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          const response = await axios.get(
+            API_GABUNGAN + '/api/detail-data/cuti-get',
+            {headers},
+          );
+          const jmlCuti = response.data.data;
+          console.log(jmlCuti);
+        } else {
+          console.log('Data token tidak di temukan');
+        }
+      } catch (error) {
+        console.error('Terjadi Kesalahan:', error);
+      }
+    };
+    dataJmlCuti();
+  }, []);
 
   const kirimDataKeAPI = async () => {
     console.log('sedang kirim data');

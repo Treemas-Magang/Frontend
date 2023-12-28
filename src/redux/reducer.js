@@ -398,12 +398,9 @@ const UpdateAbsenReducer = (state = initialStateUpdateAbsen, action) => {
 // };
 
 const initialStateUpdatepassword = {
-  title: 'Login Page',
-  isLogin: true,
   form: {
-    nik: '',
-    password_baru: '',
-    is_chg_pass: '',
+    newPassword: '',
+    confPassword: '',
   },
 };
 const UpdatePasswordReducer = (state = initialStateUpdatepassword, action) => {
@@ -642,6 +639,48 @@ const DetailProfileReducer = (state = initialStateDetailProfile, action) => {
   return state;
 };
 
+const initialStateLupaPassword = {
+  form_lupa_password: {
+    email: '',
+  },
+};
+const FormLupaPasswordReducer = (state = initialStateLupaPassword, action) => {
+  if (action.type === 'SET_FORM_LUPA_PASSSWORD') {
+    return {
+      ...state,
+      form_lupa_password: {
+        ...state.form_lupa_password,
+        [action.inputType]: action.inputValue,
+      },
+    };
+  }
+  return state;
+};
+
+const initialStateFormLupaAbsenPulang = {
+  form_lupa_absen_pulang: {
+    catatanLupaPulang: '',
+    jamPlg: '',
+    timesheet: '',
+    jarak: '',
+  },
+};
+const FormLupaAbsenPulangReducer = (
+  state = initialStateFormLupaAbsenPulang,
+  action,
+) => {
+  if (action.type === 'SET_FORM_LUPA_ABSEN_PULANG') {
+    return {
+      ...state,
+      form_lupa_absen_pulang: {
+        ...state.form_lupa_absen_pulang,
+        [action.inputType]: action.inputValue,
+      },
+    };
+  }
+  return state;
+};
+
 const reducer = combineReducers({
   LoginReducer,
   SplashReducer,
@@ -670,7 +709,8 @@ const reducer = combineReducers({
   // SudahMasukReducer,
   DetailProfileReducer,
   jmlNotifMasingMasingApprovalReducer,
-
+  FormLupaPasswordReducer,
+  FormLupaAbsenPulangReducer,
 });
 
 export default reducer;

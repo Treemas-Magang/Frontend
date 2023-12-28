@@ -1,7 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
-/* eslint-disable semi */
-/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import {StyleSheet, Text, View, Image, Alert} from 'react-native';
 import React, {useEffect, useState} from 'react';
@@ -108,14 +106,14 @@ const ScreenDashboard = ({navigation}) => {
       dispatch(setJumlahApproval('approval', +dataAPI));
     } catch (error) {
       console.error(error);
-      // Alert.alert('Peringatan', `Token anda telah expired`, [
-      //   {
-      //     text: 'Kembali ke Login',
-      //     onPress: () => {
-      //       navigation.replace('login');
-      //     },
-      //   },
-      // ]);
+      Alert.alert('Peringatan', `Token anda telah expired`, [
+        {
+          text: 'Kembali ke Login',
+          onPress: () => {
+            navigation.replace('login');
+          },
+        },
+      ]);
     }
   };
 
@@ -135,19 +133,9 @@ const ScreenDashboard = ({navigation}) => {
     // render notif //
     getToken().then(() => {
       countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
-        // console.log(
-        //   'Jumlah ID dengan status false:',
-        //   jumlahDataDenganStatusFalse,
-        // );
-        // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
         dispatch(
           setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse),
         );
-        // setJmlPengumuman(+jumlahDataDenganStatusFalse);
-
-        ////////////////////////////////////////////
-        // ini untuk jumlah Approval
-        // setJumlahApproval(10);
       });
     });
 
@@ -194,110 +182,17 @@ const ScreenDashboard = ({navigation}) => {
   //   // Clean up the timer when the component unmounts
   // }, [navigation, isRole]); // Run this effect whenever the navigation object changes
 
-  // Start a timer that runs continuous after X milliseconds
-
   // useEffect(() => {
-  //   const ambilLokasi = async () => {
-  //     try {
-  //       const locationData = await getLocation();
-  //       if (locationData.latitude !== null && locationData.longitude !== null) {
-  //         const dataLokasi = {
-  //           latitude: locationData.latitude,
-  //           longitude: locationData.longitude,
-  //           accuracy: locationData.accuracy,
-  //         };
-  //         // Cek apakah token sudah ada dan valid
-  //         setLokasiTerkini(dataLokasi)
-  //         const token = await getDataFromSession('token');
-  //         if (token !== null) {
-  //           const headers = {
-  //             Authorization: `Bearer ${token}`,
+  //   const timerId = BackgroundTimer.setInterval(() => {
+  //           kirimLokasiTracking();
+  //           }, 60000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
+  //           return () => {
+  //             BackgroundTimer.clearInterval(timerId);
   //           };
-
-  //           try {
-  //             console.log('data lokasi : ', dataLokasi);
-  //             // console.log('data lokasi state : ', lokasiTerkini);
-  //             // Kirim data lokasi dengan menggunakan token
-  //             kirimLokasiTerkini(headers, dataLokasi)
-  //             console.log('Lokasi terkini berhasil dikirim');
-  //           } catch (error) {
-  //             console.log('Gagal mengirim lokasi terkini', error);
-  //           }
-  //         } else {
-  //           console.log('Token tidak valid atau tidak tersedia.');
-  //         }
-  //       } else {
-  //         console.log('Lokasi tidak valid:', locationData);
-  //       }
-  //     } catch (error) {
-  //       console.log('Kesalahan saat mengambil lokasi:', error);
-  //     }
-  //   };
-  //   ambilLokasi();
-  // }, [])
-
-  // const intervalId = BackgroundTimer.setInterval( () => {
-  //   ambilLokasi()
-  // }, 20000)
-  // // Cleanup the interval when the component unmounts
-  // useEffect(() => {
-  //   return () => {
-  //     // Stop the interval when the component unmounts
-  //     BackgroundTimer.clearInterval(intervalId);
-  //   };
-  // }, [intervalId]);
-  // useEffect(() => {
-  //   const ambilLokasi = async () => {
-  //     try {
-  //       const locationData = await getLocation();
-  //       if (locationData.latitude !== null && locationData.longitude !== null) {
-  //         const dataLokasi = {
-  //           latitude: locationData.latitude,
-  //           longitude: locationData.longitude,
-  //           accuracy: locationData.accuracy,
-  //         };
-  //         setLokasiTerkini(dataLokasi);
-  //         console.log('berhasil ambil lokasi', dataLokasi);
-  //       } else {
-  //         console.log('Lokasi tidak valid:', locationData);
-  //       }
-  //     } catch (error) {
-  //       console.log('Kesalahan saat mengambil lokasi:', error);
-  //     }
-  //   };
-  //   ambilLokasi();
   // }, []);
 
-  // const kirimLokasiTerkini = async (headers, dataLokasi) => {
-  //   try {
-  //     const res = await axios.post(
-  //       API_URL + '/api/tracking/post-location-history',
-  //       {dataLokasi},
-  //       {headers},
-  //     );
-  //     console.log('Lokasi terkini berhasil dikirim', res.data);
-  //   } catch (error) {
-  //     console.log('Gagal mengirim lokasi terkini', error);
-  //   }
-  // };
-
-  // Ambil lokasi tanpa BackgroundTimer
-
-  // Atur interval untuk mengambil lokasi setiap X detik menggunakan BackgroundTimer
-  // const intervalId = BackgroundTimer.setInterval(async () => {
-  //   await kirimLokasiTerkini(headers);
-  // }, 20000); // Contoh: Ambil lokasi setiap 20 detik
-
-  // // Cleanup saat komponen di-unmount atau saat interval dihentikan
-  // return () => {
-  //   BackgroundTimer.clearInterval(intervalId);
-  // };
-  useEffect(() => {
-    kirimLokasiTracking();
-  }, []);
-  // import AsyncStorage from '@react-native-async-storage/async-storage';
-
   // Mendapatkan semua kunci dari AsyncStorage
+
   AsyncStorage.getAllKeys()
     .then(keys => {
       // Menampilkan semua kunci

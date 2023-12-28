@@ -39,7 +39,8 @@ const ListBelumAbsenPulang = ({navigation}) => {
         item => item.tglAbsen !== currentDate,
       );
 
-      setAbsenBelumPulang(filteredData);
+      setAbsenBelumPulang(dataAPI);
+      // setAbsenBelumPulang(filteredData);
       setIsLoading(false);
       console.log('data : ', filteredData);
       
@@ -79,6 +80,10 @@ const ListBelumAbsenPulang = ({navigation}) => {
     return formattedDate;
   };
 
+    const moveTo = (tujuan, lokasi, tanggal) => {
+      navigation.navigate(tujuan, {lokasi: lokasi, tanggal: tanggal});
+    };
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -105,6 +110,13 @@ const ListBelumAbsenPulang = ({navigation}) => {
             AbsenBelumPulang.map((data, index) => (
               <View key={index} style={{flexDirection: 'column'}}>
                 <CardBelumAbsenPulang
+                  onPress={() =>
+                    moveTo(
+                      'formBelumAbsenPulang',
+                      data.lokasiProject,
+                      data.tglAbsen,
+                    )
+                  }
                   navigation={navigation}
                   jam_masuk={data.jamMsk || '-'}
                   project={data.projectName || '-'}

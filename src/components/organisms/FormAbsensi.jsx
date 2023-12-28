@@ -49,7 +49,7 @@ const FormAbsensi = ({navigation}) => {
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const [inputKosong, setInputKosong] = useState(false);
   const [gagalServer, setGagalServer] = useState(false);
-
+  console.log('absensi', formAbsensi);
   //simpan data image jadi base64
   let base64ImageData = null;
   if (capturedImage && capturedImage.base64 && capturedImage.fileSize) {
@@ -210,7 +210,7 @@ const FormAbsensi = ({navigation}) => {
 
     try {
       checkMockLocation();
-      console.log('kirim data : ', formAbsensi);
+      // console.log('kirim data : ', formAbsensi);
 
       if (isWFH === '0' && isOther === '0') {
         if (formAbsensi.noteTelatMsk === '') {
@@ -218,7 +218,7 @@ const FormAbsensi = ({navigation}) => {
           console.log('note telat masuk masih kosong');
         } else {
           setIsLoading(false);
-          // await kirimDataAbsensi();
+          await kirimDataAbsensi();
         }
       } else if (isWFH === '1') {
         if (
@@ -229,12 +229,13 @@ const FormAbsensi = ({navigation}) => {
           console.log('alasan telat masuk / foto masih kosong');
         } else {
           setIsLoading(false);
-          // await kirimDataAbsensi();
+          await kirimDataAbsensi();
         }
       } else if (isOther === '1') {
         if (formAbsensi.noteOther === '') {
           console.log('note other masih kosong');
         } else {
+          console.log('kirim data : ', formAbsensi);
           await kirimDataAbsensi();
         }
       }

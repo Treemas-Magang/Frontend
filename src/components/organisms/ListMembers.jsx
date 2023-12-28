@@ -46,53 +46,81 @@ const ListMembers = ({navigation}) => {
     setIsDropdown(false);
   };
 
-  const getDataMembers = async headers => {
-    try {
-      const projId = projectId;
-      console.log('ini project id : ', projId);
-      const response = await axios.get(
-        API_GABUNGAN + `/api/member/get-member-project?projectId=${projId}`,
-        {headers},
-      );
-      const dataAPI = response.data.data;
-      console.log(response);
+const getDataMembers = async headers => {
+  try {
+    const projId = projectId;
+    console.log('ini project id : ', projId);
+    const response = await axios.get(
+      API_GABUNGAN + `/api/member/get-member-project?projectId=${projId}`,
+      {headers},
+    );
+    const dataAPI = response.data.data;
+    const sortedData = sortMembers(dataAPI, parentIsSort);
+    setDataListMembers(sortedData);
+    setIsLoading(false);
+  } catch (error) {
+    console.log(error.response);
+    setIsLoading(false);
+  }
+};
 
-      // Urutkan data berdasarkan parentIsSort
-      let sortedData = [...dataAPI];
+const sortMembers = (dataAPI, sort) => {
+  // Sorting berdasarkan 'nama' (secara default)
+  let sortedData = [...dataAPI];
+  if (sort === 'nama') {
+    sortedData.sort((a, b) => {
+      const namaA = a.nama ? a.nama.toUpperCase() : 'ZZZ';
+      const namaB = b.nama ? b.nama.toUpperCase() : 'ZZZ';
 
-      if (parentIsSort === 'nama') {
-        sortedData.sort((a, b) => {
-          const namaA = a.nama.toUpperCase();
-          const namaB = b.nama.toUpperCase();
-          return namaA.localeCompare(namaB);
-        });
-      } else if (parentIsSort === 'jam_kehadiran') {
-        sortedData.sort((a, b) => {
-          const jamMskA = a.jamMsk;
-          const jamMskB = b.jamMsk;
-          return jamMskA.localeCompare(jamMskB);
-        });
+      return namaA.localeCompare(namaB);
+    });
+  }
+  // Jika sort adalah 'jam_kehadiran', sort berdasarkan jam masuk
+  if (sort === 'jam_kehadiran') {
+    sortedData.sort((tercepat, terakhir) => {
+      const jamMskTercepat = tercepat.jamMsk;
+      const jamMskTerakhir = terakhir.jamMsk;
+
+      // Mengonversi string jamMsk menjadi objek Date untuk perbandingan waktu
+      const waktuTercepat = jamMskTercepat
+        ? new Date(`1970-01-01T${jamMskTercepat}Z`)
+        : null;
+      const waktuTerakhir = jamMskTerakhir
+        ? new Date(`1970-01-01T${jamMskTerakhir}Z`)
+        : null;
+
+      // Menangani kasus null atau undefined
+      if (!waktuTercepat || !waktuTerakhir) {
+        // Gantilah dengan logika sesuai kebutuhan, misalnya:
+        return waktuTercepat ? -1 : waktuTerakhir ? 1 : 0;
       }
 
-      // Filter untuk menampilkan yang isWfh 1 saja
-      if (parentIsSort === 'work_from_homed') {
-        sortedData = sortedData.filter(member => member.isWfh === '1');
-      }
-      if (parentIsSort === 'cuti') {
-        sortedData = sortedData.filter( member => member.isCuti === '1' && member.isSakit === '1');
-      }
-      if (parentIsSort === 'tidak_masuk') {
-        sortedData = sortedData.filter( member => member.jamMsk === null);
-      }
+      // Mengembalikan perbandingan berdasarkan waktu
+      return waktuTercepat - waktuTerakhir;
+    });
+  }
 
-      setDataListMembers(sortedData);
-      setIsLoading(false);
-      console.log(`data member dari project ${projectId} :`, sortedData);
-    } catch (error) {
-      console.log(error.response);
-      setIsLoading(false);
-    }
-  };
+  // Filter untuk menampilkan yang isWfh 1 saja
+  if (sort === 'work_from_home') {
+    sortedData = sortedData.filter(member => member.isWfh === '1');
+  }
+
+  // Filter untuk menampilkan yang isCuti 1 atau isSakit 1
+  if (sort === 'cuti') {
+    sortedData = sortedData.filter(
+      member => member.isCuti === '1' || member.isSakit === '1',
+    );
+  }
+
+  // Filter untuk menampilkan yang jamMsk null
+  if (sort === 'tidak_masuk') {
+    sortedData = sortedData.filter(member => member.jamMsk === null);
+  }
+
+  return sortedData;
+};
+
+
 
   useEffect(() => {
     getDataFromSession('token')
@@ -114,7 +142,7 @@ const handleSortOptionSelected = selectedSortOption => {
     setParentIsSort(selectedSortOption);
   }
 };
-
+  console.log('ini data list members : ',dataListMembers)
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.listMember}>

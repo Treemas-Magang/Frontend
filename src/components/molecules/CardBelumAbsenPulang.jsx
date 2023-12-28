@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Color} from '../../utils/color';
@@ -10,19 +11,20 @@ const CardBelumAbsenPulang = ({
   project,
   note_telat,
   lokasi,
+  onPress
 }) => {
-  const moveTo = tujuan => {
+  const moveTo = (tujuan, lokasi, tanggal) => {
     navigation.navigate(tujuan);
   };
 
   // Fungsi untuk mengambil 3 kata pertama dari teks
-  const getFirstThreeWordsWithEllipsis = text => {
-    if (!text) {
+  const getFirstThreeWordsWithEllipsis = textDate => {
+    if (!textDate) {
       return ''; // Menangani kasus di mana teks tidak terdefinisi atau null
     }
 
-    const words = text.split(' ');
-    return words.length > 3 ? `${words.slice(0, 3).join(' ')}...` : text;
+    const words = textDate.split(' ');
+    return words.length > 3 ? `${words.slice(0, 3).join(' ')}...` : textDate;
   };
 
   const formatDate = dateString => {
@@ -46,13 +48,13 @@ const CardBelumAbsenPulang = ({
   // Contoh penggunaan
   const tanggalAwal = tanggal;
   const tanggalYangDiinginkan = formatDate(tanggalAwal);
-  console.log(tanggalYangDiinginkan);
+  console.log(tanggalAwal);
 
   return (
     <View>
       <TouchableOpacity
         style={styles.CardBelumAbsenPulangStyle}
-        onPress={() => moveTo('formBelumAbsenPulang')}>
+        onPress={onPress}>
         <View style={{width: '100%', paddingLeft: 20}}>
           <Text
             style={{
@@ -61,7 +63,7 @@ const CardBelumAbsenPulang = ({
               color: Color.black,
               paddingTop: 10,
             }}>
-            {tanggalYangDiinginkan}
+            {tanggalAwal}
           </Text>
         </View>
         <View style={styles.CardDalemTimesheetStyle}>

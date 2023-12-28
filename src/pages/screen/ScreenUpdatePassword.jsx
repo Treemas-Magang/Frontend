@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Image, Text, ScrollView} from 'react-native';
 import CustomTextInput from '../../components/atoms/CustomTextInput';
@@ -14,6 +15,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import axios from 'axios';
+import {API_GABUNGAN} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const ScreenUpdatePassword = ({navigation}) => {
   const [appVersion, setAppVersion] = useState('');
 
@@ -21,65 +25,110 @@ const ScreenUpdatePassword = ({navigation}) => {
   // const {nik} = route.params;
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.UpdatePasswordReducer);
-  const [newPass, setNewPass] = useState('');
-  const [konPass, setKonPass] = useState('');
   const [inputKosong, setInputKosong] = useState(false);
   const [tdkCocok, setTdkCocok] = useState(false);
+  const [passwordKurangPanjang, setPasswordKurangPanjang] = useState(false);
   const [isBtnLoading, setBtnLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const sendData = () => {
-    if (newPass === '' || konPass === '') {
+    useEffect(() => {
+      const hapusDataNikPasswordDiStorage = async () => {
+        try {
+          await AsyncStorage.removeItem('nik');
+          await AsyncStorage.removeItem('password');
+          console.log('berhasil hapus nik dan password')
+      } catch (error) {
+        console.log('gagal hapus storage nik, password', error);
+      }
+      };
+      hapusDataNikPasswordDiStorage();
+    }, []);
+
+    const uploadData = async data => {
+      setBtnLoading(true);
+      const token = await getDataFromSession('token');
+
+      if (token !== null) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        try {
+          const response = await axios.put(
+            API_GABUNGAN + '/api/auth/change-password',
+            data,
+            {headers},
+          );
+          console.log(response);
+          console.log('berhasil update password');
+          setIsSuccess(true);
+          setBtnLoading(false);
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'login'}],
+          });
+          try {
+            await AsyncStorage.removeItem('token');
+          } catch (error) {
+            console.log('gagal hapus storage token',error);
+          }
+        } catch (error) {
+          console.log(error.response);
+          const errorCode = error.response ? error.response.code : null;
+          switch (errorCode) {
+            case 403:
+              console.log('project tidak tepat');
+              setBtnLoading(false);
+              break;
+            case 404:
+              setBtnLoading(false);
+              break;
+            case 500:
+              setBtnLoading(false);
+              console.log('Kesalahan server');
+              break;
+            default:
+              setBtnLoading(false);
+              console.log('gagal absen');
+              break;
+          }
+        }
+      }
+    };
+  const sendData = async () => {
+    if (form.newPassword  === '' || form.confPassword === '') {
       console.log('Harap isi semua form !!');
-      setInputKosong(true);
       setTdkCocok(false);
-    } else if (newPass !== konPass) {
+      setInputKosong(true);
+      setPasswordKurangPanjang(false);
+    } else if (form.newPassword  !== form.confPassword) {
       console.log('Konfirmasi password tidak cocok !!!');
-      setInputKosong(false);
       setTdkCocok(true);
+      setInputKosong(false);
+      setPasswordKurangPanjang(false);
+    } else if (form.newPassword .length < 6 && form.confPassword.length < 6) {
+      console.log('minimal password 6 karakter');
+      setTdkCocok(false);
+      setInputKosong(false);
+      setPasswordKurangPanjang(true);
     } else {
-      dispatch(setFormUpdatePassword('nik', route.params.nik));
-      dispatch(setFormUpdatePassword('password_baru', newPass));
-      dispatch(setFormUpdatePassword('is_chg_pas', '1'));
-      // setBtnLoading(true);
+      setTdkCocok(false);
+      setInputKosong(false);
+      setPasswordKurangPanjang(false);
+      console.log('data yang dikirim : ', form);
+      await uploadData(form);
+      setBtnLoading(true);
       // setIsSuccess(true);
       // navigation.replace('login');
     }
   };
 
-  // const sendData = () => {
-  //   // setBtnLoading(true);
-  //   // setIsSuccess(true);
-  //   if (newPass === '' && konPass === '') {
-  //     console.log('harap isi semua form !!');
-  //     setInputKosong(false);
-  //     setTdkCocok(false);
-  //   } else if (konPass === '') {
-  //     console.log('tolong isi konfirmasi password');
-  //     setInputKosong(false);
-  //   } else if (newPass === '') {
-  //     console.log('tolong isi password baru');
-  //     setInputKosong(false);
-  //   } else if (newPass === konPass && newPass !== null && konPass !== null) {
-  //     dispatch(setFormUpdatePassword('nik', nik));
-  //     dispatch(setFormUpdatePassword('password_baru', newPass));
-  //     dispatch(setFormUpdatePassword('is_chg_pas', '1'));
-  //     navigation.replace('login');
-  //   } else {
-  //     console.log('konfirmasi password tidak cocok !!!');
-  //     setTdkCocok(false);
-  //     // setBtnLoading(false);
-  //     // setIsSuccess(false)
-  //   }
-  //   setInputKosong(true);
-  //   setTdkCocok(true);
-  // };
-
+  console.log('sukses : ', isSuccess)
+    const onChangeText = (value, inputType) => {
+      dispatch(setFormUpdatePassword(inputType, value));
+    };
   const toDashboard = () => {
     navigation.replace('dashboard');
   };
-
-  console.log('password baru : ', form);
 
   getDataFromSession('appVersion')
     .then(apkVersion => {
@@ -132,8 +181,8 @@ const ScreenUpdatePassword = ({navigation}) => {
           <CustomTextInput
             label="Password"
             type="password"
-            value={konPass}
-            onTextChange={value => setNewPass(value)}
+            value={form.newPassword}
+            onTextChange={value => onChangeText(value, 'newPassword')}
             textColor={inputKosong || tdkCocok ? Color.red : Color.blue}
             style={
               inputKosong || tdkCocok ? styles.passSalah : styles.passBenar
@@ -143,8 +192,8 @@ const ScreenUpdatePassword = ({navigation}) => {
           <CustomTextInput
             label="Konfirmasi Password"
             type="password"
-            value={konPass}
-            onTextChange={value => setKonPass(value)}
+            value={form.confPassword}
+            onTextChange={value => onChangeText(value, 'confPassword')}
             textColor={inputKosong || tdkCocok ? Color.red : Color.blue}
             style={
               inputKosong || tdkCocok ? styles.passSalah : styles.passBenar
@@ -159,6 +208,11 @@ const ScreenUpdatePassword = ({navigation}) => {
           )}
           {tdkCocok ? (
             <Text style={styles.labelSalah}>Kata sandi tidak cocok!</Text>
+          ) : (
+            ''
+          )}
+          {passwordKurangPanjang ? (
+            <Text style={styles.labelSalah}>password minimal 6 karakter</Text>
           ) : (
             ''
           )}

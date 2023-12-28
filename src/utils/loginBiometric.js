@@ -9,6 +9,7 @@ export const loginBiometric = async (
   formLoginFP,
   setIsLoading,
   setIsLogin,
+  isPassChange,
   navigation,
   dispatch,
   routeAPI,
@@ -37,6 +38,9 @@ export const loginBiometric = async (
           const role = dataLogin.user.role;
           const nama = dataLogin.user.full_name;
 
+          if (response.data.data.user.is_pass_chg !== '0') {
+          isPassChange(true);
+          }
           await AsyncStorage.setItem('nama', nama);
           await AsyncStorage.setItem('token', token);
           await AsyncStorage.setItem('role', role);
@@ -56,7 +60,7 @@ export const loginBiometric = async (
           setIsLoading(false);
         }
       } catch (error) {
-        console.error('Error during login:', error);
+        console.error('Error during login:', error.response);
         // handleLoginError(error);
       }
     } else if (result.error) {

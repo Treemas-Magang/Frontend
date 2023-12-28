@@ -189,3 +189,18 @@ export const setNotiveMasingMasingApproval = (inputType, value) => {
     inputValue: value,
   };
 };
+
+export const setFormLupaPassword = (inputType, value) => {
+  return {
+    type: 'SET_FORM_LUPA_PASSSWORD',
+    inputType: inputType,
+    inputValue: value,
+  };
+};
+export const setFormLupaAbsenPulang = (inputType, value) => {
+  return {
+    type: 'SET_FORM_LUPA_ABSEN_PULANG',
+    inputType: inputType,
+    inputValue: value,
+  };
+};

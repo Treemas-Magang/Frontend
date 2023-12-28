@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faAnglesLeft,
@@ -11,7 +11,10 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
 import {Color} from '../../utils/color';
-
+import {API_GABUNGAN} from '@env';
+import axios from 'axios';
+import { getDataFromSession } from '../../utils/getDataSession';
+import { kirimLokasiTracking } from '../../utils/kirimLokasiTracking';
 /**
  * Komponen ButtonLogout digunakan untuk membuat tombol logout dengan efek muncul dari kanan ke kiri.
  *
@@ -35,19 +38,61 @@ const ButtonLogout = ({navigation, style, posisiLogout}) => {
   /**
    * Fungsi logout digunakan untuk keluar dari sesi pengguna dan menghapus token otentikasi dari AsyncStorage.
    */
-  const logout = () => {
-    // Hapus token otentikasi dari AsyncStorage
-    AsyncStorage.removeItem('token')
-      .then(() => {
-        console.log('Token otentikasi berhasil dihapus.');
-        navigation.replace('login');
-      })
-      .catch(error => {
-        console.error(
-          'Terjadi kesalahan saat menghapus token otentikasi:',
-          error,
-        );
-      });
+const logout = async () => {
+  kirimLokasiTracking();
+  // Show an alert to confirm logout
+  Alert.alert(
+    'Logout',
+    'Apa anda mau melakukan logout?',
+    [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Logout',
+        onPress: () => {
+          getDataFromSession('token')
+            .then(token => {
+              const headers = {
+                Authorization: `Bearer ${token}`,
+              };
+              ApiLogout(headers);
+            })
+            .catch(error => console.log(error));
+        },
+      },
+    ],
+    {cancelable: false},
+  );
+};
+
+
+  const ApiLogout = async (headers) => {
+    try {
+      const response = await axios.post(
+        API_GABUNGAN + '/api/auth/logout',
+        {},
+        {
+          headers,
+        },
+      );
+      console.log('berhasil logout : ', response);
+      // Hapus token otentikasi dari AsyncStorage
+      AsyncStorage.removeItem('token')
+        .then(() => {
+          console.log('Token otentikasi berhasil dihapus.');
+          navigation.replace('login');
+        })
+        .catch(error => {
+          console.error(
+            'Terjadi kesalahan saat menghapus token otentikasi:',
+            error,
+          );
+        });
+    } catch (error) {
+      console.log('gagal logout :', error.response);
+    }
   };
 
   return (

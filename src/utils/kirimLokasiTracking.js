@@ -46,12 +46,17 @@ export const kirimLokasiTracking = async () => {
           // Kirim data lokasi
           const response = await axios.post(
             `${API_GABUNGAN}/api/tracking/post-location-history`,
-            {lokasi},
+            {
+              latitude: lokasi.latitude,
+              longitude: lokasi.longitude,
+              accuracy: lokasi.accuracy,
+            },
             {headers},
           );
 
           console.log('Berhasil upload');
           console.log('Response:', response.data);
+          console.log('Response:', response);
         }
       },
       error => {
