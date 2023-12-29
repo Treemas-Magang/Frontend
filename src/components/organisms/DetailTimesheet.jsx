@@ -1,7 +1,7 @@
 // /* eslint-disable prettier/prettier */
 /* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import ButtonBack from '../atoms/ButtonBack';
@@ -53,8 +53,25 @@ const DetailTimesheet = ({navigation}) => {
       .catch(error => console.log(error));
   }, []);
 
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
+  const formatDate = dateString => {
+    // Mengasumsikan dateString dalam format 'YYYY/MM/DD'
+    const date = new Date(dateString);
+
+    const options = {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    };
+
+    // Menggunakan toLocaleDateString untuk mendapatkan format tanggal yang diinginkan
+    const formattedDate = date.toLocaleDateString('id-ID', options);
+
+    // Mengganti karakter "/" dengan "-"
+    return formattedDate.replace(/\//g, '-');
+  };
+
+  const moveTo = (tujuan, tgl) => {
+    navigation.navigate(tujuan, {tgl: tgl});
   };
   return (
     <View style={styles.container}>
@@ -75,14 +92,18 @@ const DetailTimesheet = ({navigation}) => {
                 style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
                 Hari
               </Text>
-              <Text style={{fontFamily: text.light}}>Senin</Text>
+              <Text style={{fontFamily: text.light}}>
+                {dataDetailTimesheet.hari || '-'}
+              </Text>
             </View>
             <View>
               <Text
                 style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
                 Tanggal
               </Text>
-              <Text style={{fontFamily: text.light}}>08-11-2021</Text>
+              <Text style={{fontFamily: text.light}}>
+                {formatDate(dataDetailTimesheet.tglMsk) || '-'}
+              </Text>
             </View>
             <View>
               <Text
@@ -90,7 +111,7 @@ const DetailTimesheet = ({navigation}) => {
                 Project
               </Text>
               <Text style={{fontFamily: text.light}}>
-                PT TREEMAS SOLUSI UTAMA
+                {dataDetailTimesheet.projectId.namaProject || '-'}
               </Text>
             </View>
             <View>
@@ -99,9 +120,7 @@ const DetailTimesheet = ({navigation}) => {
                 Lokasi
               </Text>
               <Text style={{textAlign: 'justify', fontFamily: text.light}}>
-                jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya,
-                Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326,
-                Indonesia
+                {dataDetailTimesheet.projectId.lokasi || '-'}
               </Text>
             </View>
             <View>
@@ -109,48 +128,69 @@ const DetailTimesheet = ({navigation}) => {
                 style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
                 Keterangan
               </Text>
-              <Text style={{fontFamily: text.light}}>Mobile Absensi I</Text>
+              <Text style={{fontFamily: text.light}}>
+                {dataDetailTimesheet.note || '-'}
+              </Text>
             </View>
             <View>
               <Text
                 style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
                 Jam Masuk
               </Text>
-              <Text style={{fontFamily: text.light}}>09:23:04</Text>
+              <Text style={{fontFamily: text.light}}>
+                {dataDetailTimesheet.jamMasuk
+                  ? dataDetailTimesheet.jamMasuk.substring(0, 5)
+                  : '-'}
+              </Text>
             </View>
             <View>
               <Text
                 style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
                 Jam Keluar
               </Text>
-              <Text style={{fontFamily: text.light}}>17:20:35</Text>
-            </View>
-            <View>
-              <Text
-                style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
-                Reguler Hours
+              <Text style={{fontFamily: text.light}}>
+                {dataDetailTimesheet.jamKeluar
+                  ? dataDetailTimesheet.jamKeluar.substring(0, 5)
+                  : '-'}
               </Text>
-              <Text style={{fontFamily: text.light}}>7</Text>
-            </View>
-            <View>
-              <Text
-                style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
-                Overtime
-              </Text>
-              <Text style={{fontFamily: text.light}}>-</Text>
             </View>
             <View>
               <Text
                 style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
                 Total Jam Kerja
               </Text>
-              <Text style={{fontFamily: text.light}}>7</Text>
+              <Text style={{fontFamily: text.light}}>
+                {dataDetailTimesheet.projectId.jamKerja}
+              </Text>
+            </View>
+            <View>
+              <Text
+                style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+                Total Jam Lembur
+              </Text>
+              <Text style={{fontFamily: text.light}}>
+                {dataDetailTimesheet.overtime}
+              </Text>
+            </View>
+            <View>
+              <Text
+                style={{fontFamily: text.semiBoldItalic, color: Color.black}}>
+                Total Jam Kerja
+              </Text>
+              <Text style={{fontFamily: text.light}}>
+                {dataDetailTimesheet.totalJamKerja}
+              </Text>
             </View>
           </ScrollView>
         )}
         <View style={styles.buttonUpdate}>
           <ButtonAction
-            onPress={() => moveTo('formUpdateTimesheet')}
+            onPress={() =>
+              moveTo(
+                'formUpdateTimesheet',
+                formatDate(dataDetailTimesheet.tglMsk),
+              )
+            }
             title="UPDATE"
           />
         </View>
