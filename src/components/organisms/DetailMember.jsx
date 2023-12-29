@@ -27,11 +27,6 @@ import {useRoute} from '@react-navigation/native';
 import SkeletonDetailMember from '../skeleton/SkeletonDetailMember';
 import { getAlamat } from '../../utils/getAlamat';
 
-const lokasiUser = [
-  {latitude: 0.001, longitude: 0.001, title: 'Marker 1'},
-  {latitude: 0.002, longitude: 0.002, title: 'Marker 2'},
-  {latitude: 0.003, longitude: 0.003, title: 'Marker 3'},
-];
 
 
 const DetailMember = ({navigation, stylePP}) => {
@@ -132,7 +127,7 @@ const DetailMember = ({navigation, stylePP}) => {
         API_GABUNGAN + `/api/member/get-data-absen?nik=${nikMember}`,
         {headers},
       );
-      console.log(response.data.data);
+      console.log('asu : ',response.data.data);
       const dataAPI = response.data.data;
       setDataDetailMember(dataAPI);
       setIsLoading(false);
@@ -256,13 +251,18 @@ const DetailMember = ({navigation, stylePP}) => {
               gap: 5,
               right: 0,
             }}>
-            {dataDetailMember.absenTrackingData?.jamMsk}
-            <TouchableOpacity onPress={() => moveTo('mapTracking', markers)}>
-              <Image
-                style={{width: 40, height: 40}}
-                source={require('../../assets/vector/Maps.png')}
-              />
-            </TouchableOpacity>
+            {
+              dataDetailMember.jamMsk === null ? (
+                ''
+              ) : (
+                <TouchableOpacity onPress={() => moveTo('mapTracking', markers)}>
+                  <Image
+                    style={{width: 40, height: 40}}
+                    source={require('../../assets/vector/Maps.png')}
+                  />
+                </TouchableOpacity>
+              )
+            }
             {isWFH ? (
               <TouchableOpacity>
                 <FontAwesomeIcon icon={faImage} color={Color.green} size={40} />

@@ -11,7 +11,10 @@ import {cekPulangCepat} from '../../utils/cekJamTelatDanPulangCepat';
 import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import {checkMockLocation} from '../../utils/checkMockLocation';
-import {AlertNotificationSuccess} from '../atoms/AlertNotification';
+import {
+  AlertNotificationDanger,
+  AlertNotificationSuccess,
+} from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
 import {API_URL, API_GABUNGAN} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -19,6 +22,7 @@ const FormCatatanKerjaHariini = ({navigation}) => {
   // const {jamKeluar} = useRoute().params;
   // console.log('jam keluar : ', jamKeluar)
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [serverError, setServerError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
   const [pulangCepat, setPulangCepat] = useState(false);
@@ -93,6 +97,8 @@ const FormCatatanKerjaHariini = ({navigation}) => {
             break;
           case 500:
             setIsLoading(false);
+            setBtnLoading(false);
+            setServerError(true);
             console.log('Kesalahan server');
             break;
           default:
@@ -123,15 +129,12 @@ const FormCatatanKerjaHariini = ({navigation}) => {
       } else {
         console.log('tidak ada yang boleh form yang kosong');
       }
-    } else if (
-      formPulang.notePlgCepat !== '' &&
-      formPulang.notePekerjaan !== ''
-    ) {
-      setInputKosong(false);
-      await uploadData(formPulang);
-    } else {
-      setInputKosong(true);
-      // console.log('tidak ada yang boleh form yang kosong');
+    }
+    if (pulangCepat !== true) {
+      if (formPulang.notePekerjaan !== '') {
+        setInputKosong(false);
+        await uploadData(formPulang);
+      }
     }
   };
 
@@ -148,6 +151,23 @@ const FormCatatanKerjaHariini = ({navigation}) => {
             buttonAlert="Close"
             textBodyAlert="Berhasil Melakukan Absen Pulang"
             titleAlert="Success"
+            onPress={toDashboard}
+          />
+        </View>
+      ) : (
+        ''
+      )}
+      {serverError ? (
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <AlertNotificationDanger
+            buttonAlert="Close"
+            textBodyAlert="Server Sedang Error"
+            titleAlert="Error"
             onPress={toDashboard}
           />
         </View>

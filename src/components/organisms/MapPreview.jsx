@@ -163,7 +163,6 @@ const MapPreview = ({navigation}) => {
           );
         }
       }
-
     } else {
       console.log('Salah satu lokasi tidak valid, jarak tidak dapat dihitung.');
     }
