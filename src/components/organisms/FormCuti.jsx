@@ -29,13 +29,11 @@ import KalenderCuti from '../molecules/KalenderCuti';
 import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
 
-
-
-    const initialState = {
-      sisa_cuti: 0,
-      cuti_bersama: 0,
-      cuti_pengganti: 0,
-    };
+const initialState = {
+  sisa_cuti: 0,
+  cuti_bersama: 0,
+  cuti_pengganti: 0,
+};
 
 const FormCuti = ({
   style,
@@ -259,12 +257,19 @@ const FormCuti = ({
     ) {
       setInputKosong(false);
       console.log('kirim data : ', form);
-      await kirimDataKeAPI();
-      // setBtnLoading(true);
+      try {
+        await kirimDataKeAPI();
+        setBtnLoading(true);
+        console.log('Data berhasil dikirim!');
+      } catch (error) {
+        console.error('Error saat mengirim data:', error);
+        setBtnLoading(false);
+      }
     } else {
       setInputKosong(true);
-      // console.warn('tidak boleh ada data yang kosong');
-      console.log('ini dari reducer : ', form);
+      setBtnLoading(false);
+      console.log('Tidak boleh ada data yang kosong');
+      console.log('Ini dari reducer: ', form);
     }
   };
 
@@ -313,10 +318,11 @@ const FormCuti = ({
     setMaxDurasiCuti(jmlhSemuaCuti);
   }, [statistik]);
 
-
-  const close = async () => {
+  const close = () => {
     setUploadBerhasil(false);
+    setBtnLoading(false);
   };
+
   return (
     <TouchableWithoutFeedback onPress={handleClickOutside}>
       <View style={styles.formCuti}>
@@ -327,7 +333,7 @@ const FormCuti = ({
               buttonAlert="Close"
               textBodyAlert="Berhasil Mengajukan Cuti"
               titleAlert="Success"
-              onPress={() => close}
+              onPress={close}
             />
           </View>
         ) : (
