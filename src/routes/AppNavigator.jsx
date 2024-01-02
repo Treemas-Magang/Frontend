@@ -52,8 +52,6 @@ import {
   ScreenFormAbsensiOther,
   ScreenDetailProfile,
 } from '../pages/index';
-import DetailSakitApp from '../components/molecules/DetailSakitApp';
-import DetailLiburApp from '../components/molecules/DetailLiburApp';
 import MapPreviewTracking from '../components/organisms/MapPreviewTracking';
 import ScreenCobaTimeInput from '../pages/screen/ScreenCobaTimeInput';
 const screens = [
@@ -274,7 +272,7 @@ const screens = [
   },
   // {
   //   name: 'coba',
-  //   component: DetailLiburApp,
+  //   component: SkeletonDetailPengumuman,
   //   gestureEnabled: true,
   // },
   {

@@ -17,7 +17,7 @@ const CardRekapClaim = ({
   tanggal,
   type,
   keterangan,
-  nominalClaim,
+  nominal,
   image64,
 }) => {
   let base64ImageData = null;
@@ -87,7 +87,7 @@ const CardRekapClaim = ({
           Nominal
         </Text>
         <Text style={{fontFamily: text.semiBold, fontSize: 12}}>
-          {formatToCurrency(nominalClaim)}
+          {formatToCurrency(nominal)}
         </Text>
       </View>
     </View>

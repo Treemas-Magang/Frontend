@@ -13,9 +13,9 @@ const CardMember = ({
   idMember,
   onPress,
   cuti,
-  sakit
+  sakit,
 }) => {
-  console.log('ini status :', status)
+  console.log('ini status :', status);
   console.log(idMember);
   let background = styles.cardHadir;
   if (jamMsk !== null) {
@@ -45,9 +45,7 @@ const CardMember = ({
   //   navigation.navigate(tujuan);
   // };
   return (
-    <TouchableOpacity
-      style={[styles.cardMember, background]}
-      onPress={onPress}>
+    <TouchableOpacity style={[styles.cardMember, background]} onPress={onPress}>
       <View style={styles.dataMember}>
         <View style={styles.wrapData}>
           <Text style={styles.labelData}>Jam Masuk</Text>
@@ -122,5 +120,6 @@ const styles = StyleSheet.create({
     color: Color.white,
     textTransform: 'uppercase',
     marginTop: 10,
+    textAlign: 'center',
   },
 });

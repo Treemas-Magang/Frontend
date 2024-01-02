@@ -23,6 +23,7 @@ import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPen} from '@fortawesome/free-solid-svg-icons';
 import {AlertNotificationWarning} from '../atoms/AlertNotification';
+import {getDataFromSession} from '../../utils/getDataSession';
 
 const DetailProfile = ({navigation, stylePP}) => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const DetailProfile = ({navigation, stylePP}) => {
   const [initialForm, setInitialForm] = useState({});
   const [prevEditableFields, setPrevEditableFields] = useState({});
   const [alertWarning, setAlertWarning] = useState(false);
+  const [dataProfile, setDataProfile] = useState([]);
   const [editableFields, setEditableFields] = React.useState({
     nik: false,
     tempatLahir: false,
@@ -376,6 +378,31 @@ const DetailProfile = ({navigation, stylePP}) => {
     // sesuai dengan kebutuhan Anda
   };
 
+  let base64ImageData = '';
+  if (dataProfile.karyawanImg !== null) {
+    base64ImageData = `data:image/jpeg;base64,${dataProfile.karyawanImg}`;
+  } else {
+    console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
+  }
+  useEffect(() => {
+    try {
+      getDataFromSession('dataProfilUser')
+        .then(data => {
+          const dataProfileStorage = JSON.parse(data);
+          // console.log('data profil : ', dataProfileStorage);
+          setDataProfile(dataProfileStorage);
+        })
+        .catch(error => console.log(error));
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+  console.log('ini foto kita :', dataProfile);
+
+  const moveToPreview = () => {
+    navigation.navigate('previewPhoto', {photo: base64ImageData});
+  };
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -402,12 +429,20 @@ const DetailProfile = ({navigation, stylePP}) => {
         )}
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{alignItems: 'center'}}>
-            <TouchableOpacity>
-              <Image
-                source={require('../../assets/vector/user.png')}
-                style={[styles.pp, stylePP]}
-                resizeMode="contain"
-              />
+            <TouchableOpacity onPress={moveToPreview}>
+              {base64ImageData !== '' ? (
+                <Image
+                  source={{uri: base64ImageData}}
+                  style={[styles.pp, stylePP]}
+                  resizeMode="cover"
+                />
+              ) : (
+                <Image
+                  source={require('../../assets/vector/user.png')}
+                  style={[styles.pp, stylePP]}
+                  resizeMode="cover"
+                />
+              )}
             </TouchableOpacity>
             <Text style={styles.textName}>Azriel FachrulRezy</Text>
           </View>

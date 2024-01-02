@@ -12,9 +12,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { Color } from '../../utils/color';
-import { text } from '../../utils/text';
-import { useRoute } from '@react-navigation/native';
+import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
+import {useRoute} from '@react-navigation/native';
 
 // State untuk inisialisasi lokasi perusahaan dan lokasi user
 const initialLokasiPerusahaan = {
@@ -34,7 +34,7 @@ const initialLokasiUser = {
 const CardPilihAbsenProject = ({navigation}) => {
   // const {other} = useRoute().params;
   const {isOther} = useSelector(state => state.IsOtherReducer);
-  console.log('ini other', isOther)
+  console.log('ini other', isOther);
   // Dispatch untuk mengirim aksi Redux
   const dispatch = useDispatch();
 
@@ -160,8 +160,7 @@ const CardPilihAbsenProject = ({navigation}) => {
     <View>
       {isAbsen === 'true' ? (
         <>
-        {
-          isOther === '1' ? (
+          {isOther === '1' ? (
             <>
               <TouchableOpacity
                 onPress={() => moveTo('formUpdateAbsensi', '0')}
@@ -174,15 +173,18 @@ const CardPilihAbsenProject = ({navigation}) => {
                 onPress={() => moveTo('formUpdateAbsensi', '1')}>
                 <Text style={styles.Text}>WORK FROM HOME</Text>
                 <Text style={styles.TextDeskripsi}>
-                  jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-                  Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
+                  jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya,
+                  Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326,
+                  Indonesia
                 </Text>
               </TouchableOpacity>
             </>
           ) : (
             <>
               <TouchableOpacity
-                onPress={() => moveTo('formUpdateAbsensi', '0', isJarakTerlaluJauh)}
+                onPress={() =>
+                  moveTo('formUpdateAbsensi', '0', isJarakTerlaluJauh)
+                }
                 style={styles.CardPilihProject}>
                 <Text style={styles.Text}>ON SITE</Text>
                 <Text style={styles.TextDeskripsi}>{dataProject.alamat}</Text>
@@ -192,13 +194,13 @@ const CardPilihAbsenProject = ({navigation}) => {
                 onPress={() => moveTo('formUpdateAbsensi', '1')}>
                 <Text style={styles.Text}>WORK FROM HOME</Text>
                 <Text style={styles.TextDeskripsi}>
-                  jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya, Kec.
-                  Serpong utara, Kota Tangerang Selatan, Banten 15326, Indonesia
+                  jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya,
+                  Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326,
+                  Indonesia
                 </Text>
               </TouchableOpacity>
             </>
-          )
-        }
+          )}
         </>
       ) : (
         <>
@@ -269,11 +271,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   TextDeskripsi: {
-    fontFamily: text.extraLight,
-    fontSize: 10,
+    fontFamily: text.light,
+    fontSize: 12,
     marginBottom: 20,
     color: Color.black,
     paddingHorizontal: 20,
-    textAlign: 'justify',
   },
 });

@@ -6,7 +6,6 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
@@ -22,9 +21,13 @@ import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import axios from 'axios';
 import {API_URL, API_GABUNGAN} from '@env';
 import {getDataFromSession} from '../../utils/getDataSession';
-import { countDataWithFalseStatus, getToken } from '../../utils/buatStatusPengumumanFalse';
-import { useDispatch } from 'react-redux';
-import { setJumlahPengumuman } from '../../redux';
+import {
+  countDataWithFalseStatus,
+  getToken,
+} from '../../utils/buatStatusPengumumanFalse';
+import {useDispatch} from 'react-redux';
+import {setJumlahPengumuman} from '../../redux';
+import SkeletonDetailPengumuman from '../skeleton/SkeletonDetailPengumuman';
 
 const DetailPengumuman = ({navigation}) => {
   const {id} = useRoute().params;
@@ -70,28 +73,28 @@ const DetailPengumuman = ({navigation}) => {
     }
   };
   console.log(dataDetailPengumuman.note);
-    useEffect(() => {
-      // render notif //
-      getToken().then(() => {
-        countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
-          // console.log(
-          //   'Jumlah ID dengan status false:',
-          //   jumlahDataDenganStatusFalse,
-          // );
-          // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
-          dispatch(
-            setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse),
-          );
-          // setJmlPengumuman(+jumlahDataDenganStatusFalse);
+  useEffect(() => {
+    // render notif //
+    getToken().then(() => {
+      countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
+        // console.log(
+        //   'Jumlah ID dengan status false:',
+        //   jumlahDataDenganStatusFalse,
+        // );
+        // setJmlBlmBaca(+jumlahDataDenganStatusFalse)
+        dispatch(
+          setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse),
+        );
+        // setJmlPengumuman(+jumlahDataDenganStatusFalse);
 
-          ////////////////////////////////////////////
-          // ini untuk jumlah Approval
-          // setJumlahApproval(10);
-        });
+        ////////////////////////////////////////////
+        // ini untuk jumlah Approval
+        // setJumlahApproval(10);
       });
+    });
 
-      /////////////////
-    }, [dispatch]);
+    /////////////////
+  }, [dispatch]);
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -106,10 +109,10 @@ const DetailPengumuman = ({navigation}) => {
         <Text style={styles.Judul}>Detail </Text>
         <Text style={styles.Judul}>Pengumuman </Text>
       </View>
-      <View style={styles.backgroundCardPengumuman}>
-        {isLoading ? (
-          <ActivityIndicator size={'large'} color={Color.green} />
-        ) : (
+      {isLoading ? (
+        <SkeletonDetailPengumuman />
+      ) : (
+        <View style={styles.backgroundCardPengumuman}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <Text
               style={{
@@ -225,8 +228,8 @@ const DetailPengumuman = ({navigation}) => {
               />
             </View>
           </ScrollView>
-        )}
-      </View>
+        </View>
+      )}
     </View>
   );
 };

@@ -52,6 +52,16 @@ const ListRekapClaim = ({navigation}) => {
       .catch(error => console.log(error));
   }, []);
 
+  const formatDate = dateString => {
+    const date = new Date(dateString);
+    const options = {weekday: 'long', day: 'numeric', month: 'long'};
+
+    let formattedDate = date.toLocaleDateString('id-ID', options);
+    formattedDate = formattedDate.replace(/,/g, '');
+
+    return formattedDate;
+  };
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -79,10 +89,10 @@ const ListRekapClaim = ({navigation}) => {
                 <View key={index} style={{flexDirection: 'column'}}>
                   <CardRekapClaim
                     navigation={navigation}
-                    tanggal={claim.tanggal}
-                    type={claim.type}
-                    keterangan={claim.keterangan}
-                    nominalClaim={claim.nominalClaim}
+                    tanggal={formatDate(claim.tanggal) || '-'}
+                    type={claim.tipeClaimEntity.namaClaim || '-'}
+                    keterangan={claim.keterangan || '-'}
+                    nominal={claim.nominal || '-'}
                     image64={claim.image64}
                   />
                 </View>
@@ -98,7 +108,7 @@ const ListRekapClaim = ({navigation}) => {
                     height: '70%',
                   }}></LottieView>
                 <Text style={styles.textDataNotFound}>
-                  Tidak Ada Data Claim
+                  Tidak Ada Data Rekap Claim
                 </Text>
               </View>
             )}

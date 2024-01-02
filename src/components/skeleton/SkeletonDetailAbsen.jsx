@@ -9,8 +9,6 @@ import {
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
-import ButtonBack from '../atoms/ButtonBack';
-import ButtonHome from '../atoms/ButtonHome';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -18,9 +16,6 @@ import {
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
 
 const SkeletonDetailAbsen = ({navigation}) => {
-  const moveTo = tujuan => {
-    navigation.navigate(tujuan);
-  };
   const shimmer = new Animated.Value(0);
 
   useEffect(() => {
