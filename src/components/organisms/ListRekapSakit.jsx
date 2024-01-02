@@ -147,7 +147,7 @@ const ListRekapSakit = ({navigation}) => {
                     height: '70%',
                   }}></LottieView>
                 <Text style={styles.textDataNotFound}>
-                  Tidak Ada Data Rekap Cuti
+                  Tidak Ada Data Rekap Sakit
                 </Text>
               </View>
             )}

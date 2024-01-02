@@ -14,9 +14,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import ButtonBack from '../atoms/ButtonBack';
-import ButtonHome from '../atoms/ButtonHome';
-import VectorAtasKecil from '../atoms/VectorAtasKecil';
 
 const SkeletonDetailReimburse = ({navigation}) => {
   const shimmer = new Animated.Value(0);
@@ -122,7 +119,7 @@ const styles = StyleSheet.create({
     // marginTop: -50,
     height: hp('90%'),
     paddingTop: hp('5%'),
-    paddingBottom: hp('15%'),
+    paddingBottom: hp('11%'),
   },
   Judul: {
     textAlign: 'center',

@@ -12,9 +12,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { Color } from '../../utils/color';
-import { text } from '../../utils/text';
-import { useRoute } from '@react-navigation/native';
+import {Color} from '../../utils/color';
+import {text} from '../../utils/text';
+import {useRoute} from '@react-navigation/native';
 
 // State untuk inisialisasi lokasi perusahaan dan lokasi user
 const initialLokasiPerusahaan = {
@@ -34,7 +34,7 @@ const initialLokasiUser = {
 const CardPilihAbsenProject = ({navigation}) => {
   // const {other} = useRoute().params;
   const {isOther} = useSelector(state => state.IsOtherReducer);
-  console.log('ini other', isOther)
+  console.log('ini other', isOther);
   // Dispatch untuk mengirim aksi Redux
   const dispatch = useDispatch();
 
@@ -257,11 +257,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   TextDeskripsi: {
-    fontFamily: text.extraLight,
-    fontSize: 10,
+    fontFamily: text.light,
+    fontSize: 12,
     marginBottom: 20,
     color: Color.black,
     paddingHorizontal: 20,
-    textAlign: 'justify',
   },
 });

@@ -27,6 +27,7 @@ import {hitungJarak} from '../../utils/hitungJarak';
 import {checkMockLocation} from '../../utils/checkMockLocation';
 import {getDataFromSession} from '../../utils/getDataSession';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ButtonBack from '../atoms/ButtonBack';
 const initialLokasiUser = {
   latitude: 0,
   longitude: 0,
@@ -61,12 +62,12 @@ const MapPreview = ({navigation}) => {
 
   useEffect(() => {
     getDataFromSession('sudah_pulang')
-    .then(sudahPulang => {
-      setIsPulang(sudahPulang);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+      .then(sudahPulang => {
+        setIsPulang(sudahPulang);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, []);
 
   const getDataFromStorage = async (key, data) => {
@@ -223,6 +224,7 @@ const MapPreview = ({navigation}) => {
   };
   return (
     <View style={{flex: 1, position: 'relative'}}>
+      <ButtonBack styleColor={Color.green} navigation={navigation} />
       {locationLoaded ? (
         <MapView
           showsUserLocation
@@ -268,8 +270,7 @@ const MapPreview = ({navigation}) => {
       )}
       {locationLoaded ? (
         <>
-        {
-          isPulang === 'true' ? (
+          {isPulang === 'true' ? (
             <ButtonAction
               // onPress={handleMasuk}
               style={{
@@ -280,8 +281,7 @@ const MapPreview = ({navigation}) => {
               }}
               title="Batal pulang"
             />
-          ) : (
-          isAbsen === 'true' ? (
+          ) : isAbsen === 'true' ? (
             <View
               style={{
                 position: 'absolute',
@@ -317,8 +317,7 @@ const MapPreview = ({navigation}) => {
               }}
               title="masuk"
             />
-          ))
-        }
+          )}
         </>
       ) : (
         ''

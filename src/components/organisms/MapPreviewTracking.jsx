@@ -4,6 +4,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import MapView, {Marker, Polyline} from 'react-native-maps';
 import {useRoute} from '@react-navigation/native';
 import {Color} from '../../utils/color';
+import ButtonBack from '../atoms/ButtonBack';
 
 const MapPreviewTracking = ({navigation}) => {
   const {mapTraking} = useRoute().params;
@@ -70,6 +71,7 @@ const MapPreviewTracking = ({navigation}) => {
 
   return (
     <View style={{flex: 1}}>
+      <ButtonBack styleColor={Color.green} navigation={navigation} />
       <MapView
         ref={mapViewRef}
         style={{flex: 1}}
@@ -132,7 +134,7 @@ const styles = {
     right: 16,
   },
   button: {
-    backgroundColor: Color.blue,
+    backgroundColor: Color.green,
     color: 'white',
     paddingVertical: 10,
     paddingHorizontal: 15,

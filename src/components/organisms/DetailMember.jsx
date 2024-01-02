@@ -25,9 +25,7 @@ import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
 import {useRoute} from '@react-navigation/native';
 import SkeletonDetailMember from '../skeleton/SkeletonDetailMember';
-import { getAlamat } from '../../utils/getAlamat';
-
-
+import {getAlamat} from '../../utils/getAlamat';
 
 const DetailMember = ({navigation, stylePP}) => {
   const {nikMember} = useRoute().params;
@@ -40,37 +38,36 @@ const DetailMember = ({navigation, stylePP}) => {
   const [markers, setMarkers] = useState([]);
 
   useEffect(() => {
-  const { absenTrackingData } = dataDetailMember;
+    const {absenTrackingData} = dataDetailMember;
 
-  if (
-    absenTrackingData &&
-    absenTrackingData.gpsLatitudeMsk &&
-    absenTrackingData.gpsLongitudeMsk &&
-    absenTrackingData.gpsLatitudeMsk.every(lat => lat !== null) &&
-    absenTrackingData.gpsLongitudeMsk.every(lon => lon !== null)
-  ) {
-    const mskMarkers = extractMarkers(
-      absenTrackingData.gpsLatitudeMsk,
-      absenTrackingData.gpsLongitudeMsk,
-    );
-
-    const plgMarkers = [];
     if (
-      absenTrackingData.gpsLatitudePlg !== null &&
-      absenTrackingData.gpsLongitudePlg !== null
+      absenTrackingData &&
+      absenTrackingData.gpsLatitudeMsk &&
+      absenTrackingData.gpsLongitudeMsk &&
+      absenTrackingData.gpsLatitudeMsk.every(lat => lat !== null) &&
+      absenTrackingData.gpsLongitudeMsk.every(lon => lon !== null)
     ) {
-      plgMarkers.push({
-        latitude: absenTrackingData.gpsLatitudePlg,
-        longitude: absenTrackingData.gpsLongitudePlg,
-        title: 'Marker Plg',
-      });
+      const mskMarkers = extractMarkers(
+        absenTrackingData.gpsLatitudeMsk,
+        absenTrackingData.gpsLongitudeMsk,
+      );
+
+      const plgMarkers = [];
+      if (
+        absenTrackingData.gpsLatitudePlg !== null &&
+        absenTrackingData.gpsLongitudePlg !== null
+      ) {
+        plgMarkers.push({
+          latitude: absenTrackingData.gpsLatitudePlg,
+          longitude: absenTrackingData.gpsLongitudePlg,
+          title: 'Marker Plg',
+        });
+      }
+
+      const combinedMarkers = [...mskMarkers, ...plgMarkers];
+      setMarkers(combinedMarkers);
     }
-
-    const combinedMarkers = [...mskMarkers, ...plgMarkers];
-    setMarkers(combinedMarkers);
-  }
-}, [dataDetailMember]);
-
+  }, [dataDetailMember]);
 
   useEffect(() => {
     // Assuming dataDetailMember is the response data
@@ -127,7 +124,7 @@ const DetailMember = ({navigation, stylePP}) => {
         API_GABUNGAN + `/api/member/get-data-absen?nik=${nikMember}`,
         {headers},
       );
-      console.log('asu : ',response.data.data);
+      console.log('asu : ', response.data.data);
       const dataAPI = response.data.data;
       setDataDetailMember(dataAPI);
       setIsLoading(false);
@@ -217,9 +214,7 @@ const DetailMember = ({navigation, stylePP}) => {
   const moveTo = (tujuan, dataTracking) => {
     navigation.navigate(tujuan, {mapTraking: dataTracking});
   };
-  return isLoading ? (
-    <SkeletonDetailMember />
-  ) : (
+  return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
@@ -230,125 +225,131 @@ const DetailMember = ({navigation, stylePP}) => {
           height: hp('20%'),
           justifyContent: 'center',
         }}>
-        <Text style={styles.Judul}>Detail</Text>
-        <Text style={styles.Judul}>member Hadir</Text>
+        <Text style={styles.Judul}>Detail Member</Text>
       </View>
-      <View style={styles.backgroundDetailMember}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{alignItems: 'center'}}>
-            <View>
-              <Image
-                source={require('../../assets/vector/user.png')}
-                style={[styles.pp, stylePP]}
-                resizeMode="contain"
-              />
+      {isLoading ? (
+        <SkeletonDetailMember />
+      ) : (
+        <View style={styles.backgroundDetailMember}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{alignItems: 'center'}}>
+              <View>
+                <Image
+                  source={require('../../assets/vector/user.png')}
+                  style={[styles.pp, stylePP]}
+                  resizeMode="contain"
+                />
+              </View>
             </View>
-          </View>
-          <View
-            style={{
-              position: 'absolute',
-              flexDirection: 'row',
-              gap: 5,
-              right: 0,
-            }}>
-            {
-              dataDetailMember.jamMsk === null ? (
+            <View
+              style={{
+                position: 'absolute',
+                flexDirection: 'row',
+                gap: 5,
+                right: 0,
+              }}>
+              {dataDetailMember.jamMsk === null ? (
                 ''
               ) : (
-                <TouchableOpacity onPress={() => moveTo('mapTracking', markers)}>
+                <TouchableOpacity
+                  onPress={() => moveTo('mapTracking', markers)}>
                   <Image
                     style={{width: 40, height: 40}}
                     source={require('../../assets/vector/Maps.png')}
                   />
                 </TouchableOpacity>
-              )
-            }
-            {isWFH ? (
-              <TouchableOpacity>
-                <FontAwesomeIcon icon={faImage} color={Color.green} size={40} />
-              </TouchableOpacity>
-            ) : (
-              ''
-            )}
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Nik</Text>
-            <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.absenTrackingData?.nik || 'N/A'}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Nama</Text>
-            <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.absenTrackingData?.nama || 'N/A'}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Project</Text>
-            <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.absenTrackingData?.namaProject || 'N/A'}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Jam Masuk</Text>
-            <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.absenTrackingData?.jamMsk || 'N/A'}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Lokasi Masuk</Text>
-            <Text
-              style={{
-                textAlign: 'justify',
-                fontFamily: text.light,
-                marginVertical: 2,
-              }}>
-              {alamatMsk}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Catatan Telat</Text>
-            <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.absenTrackingData?.catatanTelat || 'N/A'}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Jam Keluar</Text>
-            <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.absenTrackingData?.jamPlg === null
-                ? 'Belum Absen Keluar'
-                : dataDetailMember.absenTrackingData?.jamPlg || 'N/A'}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Lokasi Keluar</Text>
-            <Text
-              style={{
-                textAlign: 'justify',
-                fontFamily: text.light,
-                marginVertical: 2,
-              }}>
-              {alamatPlg === null ? 'Belum Absen Keluar' : alamatPlg || 'N/A'}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Catatan Pulang Cepat</Text>
-            <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.absenTrackingData?.catatanPlgCpt === null
-                ? 'Belum Absen Keluar'
-                : dataDetailMember.absenTrackingData?.catatanPlgCpt || 'N/A'}
-            </Text>
-          </View>
-          <View>
-            <Text style={styles.TextTitle}>Timesheet</Text>
-            <Text style={styles.TextDeskripsi}>
-              {dataDetailMember.absenTrackingData?.notePekerjaan === null
-                ? 'Belum Absen Keluar'
-                : dataDetailMember.absenTrackingData?.notePekerjaan || 'N/A'}
-            </Text>
-          </View>
-        </ScrollView>
-      </View>
+              )}
+              {isWFH ? (
+                <TouchableOpacity>
+                  <FontAwesomeIcon
+                    icon={faImage}
+                    color={Color.green}
+                    size={40}
+                  />
+                </TouchableOpacity>
+              ) : (
+                ''
+              )}
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Nik</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailMember.absenTrackingData?.nik || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Nama</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailMember.absenTrackingData?.nama || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Project</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailMember.absenTrackingData?.namaProject || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Jam Masuk</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailMember.absenTrackingData?.jamMsk || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Lokasi Masuk</Text>
+              <Text
+                style={{
+                  textAlign: 'justify',
+                  fontFamily: text.light,
+                  marginVertical: 2,
+                }}>
+                {alamatMsk}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Catatan Telat</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailMember.absenTrackingData?.catatanTelat || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Jam Keluar</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailMember.absenTrackingData?.jamPlg === null
+                  ? 'Belum Absen Keluar'
+                  : dataDetailMember.absenTrackingData?.jamPlg || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Lokasi Keluar</Text>
+              <Text
+                style={{
+                  textAlign: 'justify',
+                  fontFamily: text.light,
+                  marginVertical: 2,
+                }}>
+                {alamatPlg === null ? 'Belum Absen Keluar' : alamatPlg || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Catatan Pulang Cepat</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailMember.absenTrackingData?.catatanPlgCpt === null
+                  ? 'Belum Absen Keluar'
+                  : dataDetailMember.absenTrackingData?.catatanPlgCpt || '-'}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.TextTitle}>Timesheet</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailMember.absenTrackingData?.notePekerjaan === null
+                  ? 'Belum Absen Keluar'
+                  : dataDetailMember.absenTrackingData?.notePekerjaan || '-'}
+              </Text>
+            </View>
+          </ScrollView>
+        </View>
+      )}
     </View>
   );
 };

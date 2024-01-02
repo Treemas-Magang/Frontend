@@ -17,13 +17,14 @@ import SkeletonDetailReimburse from '../skeleton/SkeletonDetailReimburse';
 
 const DetailReimburse = ({navigation}) => {
   const {id} = useRoute().params;
+  console.log('ini id', id);
   const [dataDetailReimburse, setDataDetailReimburse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const getDataDetailTimesheet = async headers => {
+  const getDataDetailTimesheet = async (headers, id_user) => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        API_GABUNGAN + `/api/rekap/get-detail-reimburse?id=${id}`,
+        API_GABUNGAN + `/api/rekap/get-detail-reimburse?id=${id_user}`,
         {headers},
       );
       console.log(response.data.data);
@@ -45,15 +46,14 @@ const DetailReimburse = ({navigation}) => {
         const headers = {
           Authorization: `Bearer ${token}`,
         };
-        getDataDetailTimesheet(headers);
+        getDataDetailTimesheet(headers, id);
       })
       .catch(error => console.log(error));
-  }, []);
+  }, [id]);
 
   const formatDate = dateString => {
     // Mengasumsikan dateString dalam format 'YYYY/MM/DD'
     const date = new Date(dateString);
-
     const options = {
       day: 'numeric',
       month: 'numeric',
@@ -82,7 +82,8 @@ const DetailReimburse = ({navigation}) => {
       </View>
       <View style={styles.backgroundCardReimburse}>
         {isLoading ? (
-          <SkeletonDetailReimburse />
+          // <SkeletonDetailReimburse />
+          <Text>Loading...</Text>
         ) : (
           <ScrollView showsVerticalScrollIndicator={false}>
             <View>
