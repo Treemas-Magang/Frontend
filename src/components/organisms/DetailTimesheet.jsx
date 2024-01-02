@@ -22,11 +22,11 @@ const DetailTimesheet = ({navigation}) => {
   const {id} = useRoute().params;
   const [dataDetailTimesheet, setDataDetailTimesheet] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const getDataDetailTimesheet = async headers => {
+  const getDataDetailTimesheet = async (headers, id_user) => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        API_GABUNGAN + `/api/rekap/get-detail-timesheet?id=${id}`,
+        API_GABUNGAN + `/api/rekap/get-detail-timesheet?id=${id_user}`,
         {headers},
       );
       console.log(response.data.data);
@@ -48,10 +48,10 @@ const DetailTimesheet = ({navigation}) => {
         const headers = {
           Authorization: `Bearer ${token}`,
         };
-        getDataDetailTimesheet(headers);
+        getDataDetailTimesheet(headers, id);
       })
       .catch(error => console.log(error));
-  }, []);
+  }, [id]);
 
   const formatDate = dateString => {
     // Mengasumsikan dateString dalam format 'YYYY/MM/DD'

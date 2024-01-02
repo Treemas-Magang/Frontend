@@ -72,18 +72,19 @@ const ScreenDashboard = ({navigation}) => {
           headers,
         },
       );
-      const dataAPI = response.data.data[0];
-      console.log('Ini data API Absen:', response.data.data);
+      const dataAPI = response.data.data;
+      console.log('Ini data API Absen:', dataAPI);
+      console.log('Ini data API Absen haha :', dataAPI[0].jamMsk);
 
       // Setelah mendapatkan data dari API, langsung set nilai 'sudah_absen'
       // berdasarkan panjang dataAPI (jika lebih dari 0, maka sudah absen)
       await AsyncStorage.setItem(
         'sudah_absen',
-        dataAPI.jamMsk !== null ? 'true' : 'false',
+        dataAPI[0].jamMsk !== null ? 'true' : 'false',
       );
 
       // Setelah itu, periksa apakah dataAPI[0].jamPlg tidak null
-      if (dataAPI.jamMsk !== null && dataAPI.jamPlg !== null) {
+      if (dataAPI[0].jamMsk !== null && dataAPI[0].jamPlg !== null) {
         await AsyncStorage.setItem('sudah_pulang', 'true');
       } else {
         await AsyncStorage.setItem('sudah_pulang', 'false');

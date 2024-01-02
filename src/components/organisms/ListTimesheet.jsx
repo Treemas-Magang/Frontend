@@ -38,8 +38,8 @@ const ListTimesheet = ({navigation}) => {
         API_GABUNGAN + '/api/rekap/get-rekap-timesheet',
         {headers},
       );
-      console.log(response.data.data);
-      const dataAPI = response;
+      // console.log(response.data.data);
+      const dataAPI = response.data.data;
       console.log('data timesheet : ', dataAPI);
       setTimesheet(dataAPI);
       setIsLoading(false);
@@ -83,7 +83,6 @@ const ListTimesheet = ({navigation}) => {
   const [totalJamReguler, setTotalJamReguler] = useState(0);
   const [totalJamKerja, setTotalJamKerja] = useState(0);
 
-  //menghitung jam lembur
   // useEffect(() => {
   //   // Fungsi untuk menghitung total overtime
   //   const calculateTotalOvertime = () => {
@@ -96,20 +95,6 @@ const ListTimesheet = ({navigation}) => {
   // }, [timesheet]);
 
   // console.log('ini total overtime :', totalOvertime);
-
-  // //menghitung jam lembur
-  // useEffect(() => {
-  //   // Fungsi untuk menghitung total overtime
-  //   const calculateTotalOvertime = () => {
-  //     if (timesheet) {
-  //       const total = timesheet.reduce((acc, entry) => acc + entry.overtime, 0);
-  //       setTotalOvertime(total);
-  //     }
-  //   };
-
-  //   // Panggil fungsi ketika komponen di-mount atau timesheetData berubah
-  //   calculateTotalOvertime();
-  // }, [timesheet]);
 
   // //menghitung jam reguler
   // useEffect(() => {
@@ -165,14 +150,14 @@ const ListTimesheet = ({navigation}) => {
         ) : (
           <ScrollView showsVerticalScrollIndicator={false}>
             {timesheet?.length > 0 ? (
-              timesheet.map((timesheet, index) => (
+              timesheet.map((data, index) => (
                 <View key={index} style={{flexDirection: 'column'}}>
                   <CardTimesheet
-                    onPress={() => moveTo('detailTimesheet', timesheet.id)}
+                    onPress={() => moveTo('detailTimesheet', data.id)}
                     navigation={navigation}
-                    lokasi={timesheet.projectId.lokasi || '-'}
-                    penempatan={timesheet.projectId.namaProject || '-'}
-                    tanggal={formatDate(timesheet.tglMsk) || '-'}
+                    lokasi={data.projectId.lokasi || '-'}
+                    penempatan={data.projectId.namaProject || '-'}
+                    tanggal={formatDate(data.tglMsk) || '-'}
                   />
                 </View>
               ))

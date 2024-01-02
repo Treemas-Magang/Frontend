@@ -34,7 +34,7 @@ const DataPribadi = ({stylePP, styleDataPribadi, navigation}) => {
       console.log(error);
     }
   }, []);
-  // console.log('ayam : ',dataProfile);
+  console.log('ayam : ',dataProfile);
   const moveTo = () => {
     navigation.navigate('detailProfile');
   };

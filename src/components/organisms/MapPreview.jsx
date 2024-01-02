@@ -57,6 +57,7 @@ const MapPreview = ({navigation}) => {
     initialLokasiPerusahaan,
   );
   const [locationLoaded, setLocationLoaded] = useState(false);
+  const [projectData, setProjectData] = useState(initialLokasiPerusahaan);
 
   useEffect(() => {
     getDataFromSession('sudah_pulang')
@@ -68,6 +69,31 @@ const MapPreview = ({navigation}) => {
     });
   }, []);
 
+  const getDataFromStorage = async (key, data) => {
+    try {
+      const storedData = await AsyncStorage.getItem(key);
+      if (storedData !== null) {
+        const parsedData = JSON.parse(storedData);
+        console.log(`Retrieved data for key ${key}:`, parsedData);
+        // setProjectData(parsedData); // Set the retrieved data to the state
+        setProjectData({
+          ...projectData,
+          latitude: parsedData.gpsLatProj,
+          longitude: parsedData.gpsLongProj,
+        });
+      } else {
+        console.log(`No data found for key ${key}`);
+      }
+    } catch (error) {
+      console.error(`Error retrieving data for key ${key}:`, error);
+    }
+  };
+
+  // useEffect to retrieve data on component mount
+  useEffect(() => {
+    getDataFromStorage('projectData', setProjectData);
+  }, [setProjectData]);
+  console.log('dari storage maps', projectData);
 
   useEffect(() => {
     setLokasiPerusahaan({
@@ -127,14 +153,14 @@ const MapPreview = ({navigation}) => {
   }, [setCurrentLocation]);
   useEffect(() => {
     if (
-      lokasiPerusahaan.latitude &&
-      lokasiPerusahaan.longitude &&
+      projectData.latitude &&
+      projectData.longitude &&
       currentLocation.latitude &&
       currentLocation.longitude
     ) {
       const distance = hitungJarak(
-        lokasiPerusahaan.latitude,
-        lokasiPerusahaan.longitude,
+        projectData.latitude,
+        projectData.longitude,
         currentLocation.latitude,
         currentLocation.longitude,
       );
@@ -166,7 +192,7 @@ const MapPreview = ({navigation}) => {
     } else {
       console.log('Salah satu lokasi tidak valid, jarak tidak dapat dihitung.');
     }
-  }, [lokasiPerusahaan, currentLocation]);
+  }, [projectData, currentLocation]);
   const handleMasuk = () => {
     checkMockLocation();
     navigation.navigate('formAbsensi');
@@ -216,9 +242,9 @@ const MapPreview = ({navigation}) => {
             />
           </Marker>
 
-          {lokasiPerusahaan.latitude !== null &&
-            lokasiPerusahaan.longitude !== null && (
-              <Marker coordinate={lokasiPerusahaan}>
+          {projectData.latitude !== null &&
+            projectData.longitude !== null && (
+              <Marker coordinate={projectData}>
                 <Image
                   source={require('../../assets/vector/PerusahaanVector.png')}
                   style={{

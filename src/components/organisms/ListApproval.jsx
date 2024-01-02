@@ -51,11 +51,12 @@ const ListApproval = ({navigation}) => {
 
   const getDataApproval = async (headers, type, id) => {
     try {
+      setDataApp([]);
       const apiUrl = `${API_GABUNGAN}/api/notif/get-approval?by=${type}&projectId=${id}`;
       const response = await axios.get(apiUrl, {headers});
       console.log('ayam : ', response.data.dataCounter);
 
-      let dataAPI;
+      let dataAPI = [];
       switch (type) {
         case 'sakit':
           // Custom logic for 'sakit'
@@ -140,7 +141,8 @@ const ListApproval = ({navigation}) => {
           break;
       }
       
-      console.log('data app: ', dataApp);
+      // console.log('data app: ', dataApp);
+      console.log(`data dari tipe ${type} : ${JSON.stringify(dataApp)}`);
       setIsLoading(false);
     } catch (error) {
       console.log('Error fetching data:', error.response);
@@ -328,7 +330,7 @@ const styles = StyleSheet.create({
   wrapCardApproval: {
     alignItems: 'center',
     width: '100%',
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   wrapDataNotFound: {
     width: wp('90%'),

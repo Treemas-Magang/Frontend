@@ -10,7 +10,6 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRoute } from '@react-navigation/native';
 const PilihAbsenProject = ({navigation}) => {
     const [projectData, setProjectData] = useState(null);
     const getDataFromStorage = async key => {

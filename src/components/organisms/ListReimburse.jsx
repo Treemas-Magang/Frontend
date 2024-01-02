@@ -106,7 +106,7 @@ const ListReimburse = ({navigation}) => {
           </View>
         ) : (
           <ScrollView showsVerticalScrollIndicator={false}>
-            {reimburses.length > 0 ? (
+            {reimburses?.length > 0 ? (
               reimburses.map((reimburse, index) => (
                 <View key={index}>
                   <CardReimburse

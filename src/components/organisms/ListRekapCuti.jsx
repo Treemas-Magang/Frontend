@@ -30,9 +30,10 @@ const ListRekapCuti = ({navigation}) => {
       );
       console.log(response.data.data);
       const dataAPI = response.data.data;
+      const dataCuti = dataAPI.filter(item => item.flgKet === 'cuti');
 
-      console.log('data cuti : ', dataAPI);
-      setRekCuti(dataAPI);
+      console.log('data cuti : ', dataCuti);
+      setRekCuti(dataCuti);
 
       setIsLoading(false);
     } catch (error) {

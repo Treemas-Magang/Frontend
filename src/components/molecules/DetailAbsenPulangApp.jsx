@@ -108,9 +108,9 @@ const DetailAbsenPulangApp = ({
         <View style={{marginBottom: 20, marginTop: 10}}>
           <CustomTextInputProfile
             label="Catatan Approve"
-            value={form.catatanApproval}
+            value={form.noteApp}
             multiline
-            onTextChange={value => onChangeText(value, 'catatanApproval')}
+            onTextChange={value => onChangeText(value, 'noteApp')}
           />
         </View>
         <View style={{alignItems: 'center', marginBottom: 40}}>

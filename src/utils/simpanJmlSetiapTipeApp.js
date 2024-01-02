@@ -15,6 +15,7 @@ async function setDataJmlNotifMasingMasingApproval(dispatch, headers) {
     const lemburCount = liburApprovals.filter(
       item => item.isLembur === '1',
     ).length;
+    console.log('hitung data : ', liburApprovals);
     dispatch(setNotiveMasingMasingApproval('libur', liburCount));
     dispatch(setNotiveMasingMasingApproval('lembur', lemburCount));
   } catch (error) {

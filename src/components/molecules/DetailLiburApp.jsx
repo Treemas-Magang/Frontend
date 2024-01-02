@@ -104,8 +104,8 @@ const DetailLiburApp = ({
           <CustomTextInputProfile
             label="Catatan Approve"
             multiline
-            value={form.catatanApproval}
-            onTextChange={value => onChangeText(value, 'catatanApproval')}
+            value={form.noteApp}
+            onTextChange={value => onChangeText(value, 'noteApp')}
           />
         </View>
         <View style={{alignItems: 'center', marginBottom: 40}}>

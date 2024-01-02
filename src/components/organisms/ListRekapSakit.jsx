@@ -20,37 +20,70 @@ import SkeletonCardRekapSakit from '../skeleton/SkeletonCardRekapSakit';
 const ListRekapSakit = ({navigation}) => {
   const [ketSakit, setKetSakit] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const getDataSakit = async headers => {
-    try {
-      const response = await axios.get(
-        API_GABUNGAN + '/api/rekap/get-rekap-sakit',
-        {
-          headers,
-        },
-      );
-      console.log(response.data.data);
-      const dataAPI = response.data.data;
+  // const getDataSakit = async headers => {
+  //   try {
+  //     const response = await axios.get(
+  //       API_GABUNGAN + '/api/rekap/get-rekap-sakit',
+  //       {
+  //         headers,
+  //       },
+  //     );
+  //     console.log(response.data.data);
+  //     const dataAPI = response.data.data;
 
-      console.log('data sakit : ', dataAPI);
-      setKetSakit(dataAPI);
+  //     console.log('data sakit : ', dataAPI);
+  //     setKetSakit(dataAPI);
 
-      setIsLoading(false);
-    } catch (error) {
-      console.log('Tidak dapat mengambil data ', error.response);
-      setIsLoading(false);
-    }
-  };
+  //     setIsLoading(false);
+  //   } catch (error) {
+  //     console.log('Tidak dapat mengambil data ', error.response);
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    getDataFromSession('token')
-      .then(token => {
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-        getDataSakit(headers);
-      })
-      .catch(error => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   getDataFromSession('token')
+  //     .then(token => {
+  //       const headers = {
+  //         Authorization: `Bearer ${token}`,
+  //       };
+  //       getDataSakit(headers);
+  //     })
+  //     .catch(error => console.log(error));
+  // }, []);
+
+    const getDataSakit = async headers => {
+      try {
+        const response = await axios.get(
+          API_GABUNGAN + '/api/rekap/get-rekap-cuti',
+          {
+            headers,
+          },
+        );
+        console.log(response.data.data);
+        const dataAPI = response.data.data;
+        const dataSakit = dataAPI.filter(item => item.flgKet === 'sakit');
+
+        console.log('data sakit : ', dataSakit);
+        setKetSakit(dataSakit);
+
+        setIsLoading(false);
+      } catch (error) {
+        console.log('Tidak dapat mengambil data ', error.response);
+        setIsLoading(false);
+      }
+    };
+
+    useEffect(() => {
+      getDataFromSession('token')
+        .then(token => {
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
+          getDataSakit(headers);
+        })
+        .catch(error => console.log(error));
+    }, []);
 
   return (
     <View style={styles.background}>

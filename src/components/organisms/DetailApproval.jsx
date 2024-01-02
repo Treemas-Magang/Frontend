@@ -33,6 +33,10 @@ const DetailApproval = ({navigation, stylePP}) => {
   const {form} = useSelector(state => state.CatatanApprovalReducer);
   const [isLoading, setIsLoading] = useState(true);
   const [detailApp, setDetailApp] = useState([]);
+  const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [serverError, setServerError] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
+  const [inputKosong, setInputKosong] = useState(false);
 
   const getDataDetailMember = async (headers, type, idProject) => {
     setIsLoading(true);
@@ -94,21 +98,87 @@ const DetailApproval = ({navigation, stylePP}) => {
       .catch(error => console.log(error));
   }, [id, kategori]);
 
+
+    const uploadData = async (data, type, id_app) => {
+      setBtnLoading(true);
+      const token = await getDataFromSession('token');
+
+      if (token !== null) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        try {
+          const response = await axios.post(
+            `${API_GABUNGAN}/api/notif/post-approval?by=${type}&id=${id_app}`,
+            data,
+            {headers},
+          );
+          console.log('response upload : ', response);
+          console.log('berhasil approve');
+          console.log(uploadBerhasil);
+          setUploadBerhasil(true);
+          setIsLoading(false);
+          setBtnLoading(false);
+        } catch (error) {
+          console.log(error.response);
+          const errorCode = error.response ? error.response.code : null;
+          switch (errorCode) {
+            case 403:
+              console.log('project tidak tepat');
+              setIsLoading(false);
+              break;
+            case 404:
+              setIsLoading(false);
+              break;
+            case 500:
+              setIsLoading(false);
+              setBtnLoading(false);
+              setServerError(true);
+              console.log('Kesalahan server');
+              break;
+            default:
+              setIsLoading(false);
+              console.log('gagal absen');
+              break;
+          }
+        }
+      }
+    };
+
+
   const sendDataReject = async isApprove => {
-    if (form.catatanApproval !== '') {
+    if (form.noteApp !== '') {
       dispatch(setFormApproval('isApprove', isApprove));
-      console.log('kirim data : ', form);
+      if (form.isApprove !== '') {
+        await uploadData(form, kategori, id);
+        console.log('kirim data : ', form);
+      } else {
+        console.log('is approve kosong');
+      }
       return;
+    } else {
+      console.log('ketrangan kosong');
     }
-    console.log('ketrangan kosong');
   };
+
+
+
+
+
+
   const sendDataApprove = async isApprove => {
-    if (form.catatanApproval !== '') {
+    if (form.noteApp !== '') {
       dispatch(setFormApproval('isApprove', isApprove));
-      console.log('kirim data : ', form);
+      if (form.isApprove !== '') {
+        await uploadData(form, kategori, id);
+        console.log('kirim data : ', form);
+      } else {
+        console.log('is approve kosong');
+      }
       return;
+    } else {
+      console.log('ketrangan kosong');
     }
-    console.log('ketrangan kosong');
   };
 
   return (

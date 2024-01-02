@@ -103,14 +103,6 @@ const DetailReimburseApp = ({
           <Text style={styles.TextTitle}>Total Jam Kerja</Text>
           <Text style={styles.TextDeskripsi}>{totalJamKerja}</Text>
         </View>
-        <View style={{marginBottom: 20, marginTop: 10}}>
-          <CustomTextInputProfile
-            label="Catatan Approve"
-            value={form.catatanApproval}
-            multiline
-            onTextChange={value => onChangeText(value, 'catatanApproval')}
-          />
-        </View>
         <View style={{alignItems: 'center', marginBottom: 40}}>
           <TouchableOpacity onPress={approve} style={styles.ButtonApprove}>
             <Text
