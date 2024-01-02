@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   StyleSheet,
   Text,
@@ -21,361 +22,232 @@ import {
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faPen} from '@fortawesome/free-solid-svg-icons';
+import {faImage, faPen} from '@fortawesome/free-solid-svg-icons';
 import {AlertNotificationWarning} from '../atoms/AlertNotification';
 import {getDataFromSession} from '../../utils/getDataSession';
-
+import axios from 'axios';
+import {API_GABUNGAN} from '@env';
 const DetailProfile = ({navigation, stylePP}) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.DetailProfileReducer);
-  const [initialForm, setInitialForm] = useState({});
-  const [prevEditableFields, setPrevEditableFields] = useState({});
   const [alertWarning, setAlertWarning] = useState(false);
   const [dataProfile, setDataProfile] = useState([]);
-  const [editableFields, setEditableFields] = React.useState({
-    nik: false,
-    tempatLahir: false,
-    tanggalLahir: false,
-    jenisKelamin: false,
-    agama: false,
-    kewarganegaraan: false,
-    alamatKTP: false,
-    kodePos: false,
-    alamatSekarang: false,
-    noHP: false,
-    email: false,
-    noRekening: false,
-    jenjangPendidikan: false,
-    tanggalBergabung: false,
-    statusPerkawinan: false,
-    golonganDarah: false,
-    kontakDarurat: false,
-    statusDarurat: false,
-    alamatDarurat: false,
-    telponDarurat: false,
-    noKTP: false,
-    noNPWP: false,
-    asuransi: false,
-    kartuKeluarga: false,
-  });
-  const [isClicked, setIsClicked] = useState({
-    nik: false,
-    tempatLahir: false,
-    tanggalLahir: false,
-    jenisKelamin: false,
-    agama: false,
-    kewarganegaraan: false,
-    alamatKTP: false,
-    kodePos: false,
-    alamatSekarang: false,
-    noHP: false,
-    email: false,
-    noRekening: false,
-    jenjangPendidikan: false,
-    tanggalBergabung: false,
-    statusPerkawinan: false,
-    golonganDarah: false,
-    kontakDarurat: false,
-    statusDarurat: false,
-    alamatDarurat: false,
-    telponDarurat: false,
-    noKTP: false,
-    noNPWP: false,
-    asuransi: false,
-    kartuKeluarga: false,
-    // Tambahkan sesuai dengan bagian lain yang perlu diubah
-  });
+  const [dataKaryawan, setDataKaryawan] = useState(form);
+  const [tempKategoriList, setTempKategoriList] = useState([]);
+  console.log('data karyawan :', dataKaryawan)
   const [showEditButtons, setShowEditButtons] = React.useState(false);
+    const [kategoriList, setKategoriList] = useState([
+      {lebel: 'NIK', value: dataKaryawan?.nik, isClick: false, field: 'nik'},
+      {
+        lebel: 'Tempat Lahir',
+        value: dataKaryawan?.tempatLahir,
+        isClick: false,
+        field: 'tempatLahir',
+      },
+      {
+        lebel: 'Tanggal Lahir',
+        value: dataKaryawan?.tanggalLahir,
+        isClick: false,
+        field: 'tanggalLahir',
+      },
+      {
+        lebel: 'Jenis Kelamin',
+        value: dataKaryawan?.jenisKelamin,
+        isClick: false,
+        field: 'jenisKelamin',
+      },
+      {
+        lebel: 'Agama',
+        value: dataKaryawan?.agama,
+        isClick: false,
+        field: 'agama',
+      },
+      {
+        lebel: 'Kewarganegaraan',
+        value: dataKaryawan?.kewarganegaraan,
+        isClick: false,
+        field: 'kewarganegaraan',
+      },
+      {
+        lebel: 'Alamat KTP',
+        value: dataKaryawan?.alamatKtp,
+        isClick: false,
+        field: 'alamatKtp',
+      },
+      {
+        lebel: 'Kode Pos',
+        value: dataKaryawan?.kodePos,
+        isClick: false,
+        field: 'kodePos',
+      },
+      {
+        lebel: 'Alamat Sekarang',
+        value: dataKaryawan?.alamatSekarang,
+        isClick: false,
+        field: 'alamatSekarang',
+      },
+      {
+        lebel: 'No Hp',
+        value: dataKaryawan?.noHp,
+        isClick: false,
+        field: 'noHp',
+      },
+      {
+        lebel: 'Email',
+        value: dataKaryawan?.email,
+        isClick: false,
+        field: 'email',
+      },
+      {
+        lebel: 'No Rekening',
+        value: dataKaryawan?.noRek,
+        isClick: false,
+        field: 'noRek',
+      },
+      {
+        lebel: 'Jenjang Pendidikan',
+        value: dataKaryawan?.jenjangPendidikan,
+        isClick: false,
+        field: 'jenjangPendidikan',
+      },
+      {
+        lebel: 'Tanggal Bergabung',
+        value: dataKaryawan?.tanggalBergabung,
+        isClick: false,
+        field: 'tanggalBergabung',
+      },
+      {
+        lebel: 'Status Perkawinan',
+        value: dataKaryawan?.statusPerkawinan,
+        isClick: false,
+        field: 'statusPerkawinan',
+      },
+      {
+        lebel: 'Golongan Darah',
+        value: dataKaryawan?.golonganDarah,
+        isClick: false,
+        field: 'golonganDarah',
+      },
+      {
+        lebel: 'Kontak Darurat',
+        value: dataKaryawan?.emergencyContact,
+        isClick: false,
+        field: 'emergencyContact',
+      },
+      {
+        lebel: 'Status Darurat',
+        value: dataKaryawan?.statusEmergency,
+        isClick: false,
+        field: 'statusEmergency',
+      },
+      {
+        lebel: 'Alamat Darurat',
+        value: dataKaryawan?.alamatEmergency,
+        isClick: false,
+        field: 'alamatEmergency',
+      },
+      {
+        lebel: 'No KTP',
+        value: dataKaryawan?.nomorKtp,
+        isClick: false,
+        field: 'nomorKtp',
+      },
+      {
+        lebel: 'No NPWP',
+        value: dataKaryawan?.noNpwp,
+        isClick: false,
+        field: 'noNpwp',
+      },
+      {
+        lebel: 'Asuransi',
+        value: dataKaryawan?.asuransi,
+        isClick: false,
+        field: 'asuransi',
+      },
+      {
+        lebel: 'Kartu Keluarga',
+        value: dataKaryawan?.kk,
+        isClick: false,
+        field: 'kk',
+      },
+    ]);
+
+
+  const getDataProfileAPI = async (headers, nik) => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + '/api/master-data/karyawan-view/' + nik,
+        {headers},
+      );
+      const dataAPI = response.data.data.karyawan;
+      setDataKaryawan(dataAPI)
+      // console.log(response.data.data)
+      dispatch(setFormDetailProfile('nik', dataAPI.nik));
+      dispatch(setFormDetailProfile('tempatLahir', dataAPI.tempatLahir));
+      dispatch(setFormDetailProfile('tanggalLahir', dataAPI.tanggalLahir));
+      dispatch(setFormDetailProfile('jenisKelamin', dataAPI.jenisKelamin));
+      dispatch(setFormDetailProfile('alamatKtp', dataAPI.alamatKtp));
+      dispatch(setFormDetailProfile('agama', dataAPI.agama));
+      dispatch(
+        setFormDetailProfile('kewarganegaraan', dataAPI.kewarganegaraan),
+      );
+      dispatch(setFormDetailProfile('kodePos', dataAPI.kodePos));
+      dispatch(
+        setFormDetailProfile('alamatSekarang', dataAPI.alamatSekarang),
+      );
+      dispatch(setFormDetailProfile('noHp', dataAPI.noHp));
+      dispatch(setFormDetailProfile('nama', dataAPI.nama));
+      dispatch(setFormDetailProfile('noRek', dataAPI.noRek));
+      dispatch(setFormDetailProfile('email', dataAPI.email));
+      dispatch(
+        setFormDetailProfile(
+          'jenjangPendidikan',
+          dataAPI.jenjangPendidikan,
+        ),
+      );
+      dispatch(
+        setFormDetailProfile('tanggalBergabung', dataAPI.tanggalBergabung),
+      );
+      dispatch(setFormDetailProfile('statusPerkawinan', dataAPI.statusPerkawinan));
+      dispatch(
+        setFormDetailProfile('golonganDarah', dataAPI.golonganDarah),
+      );
+      dispatch(
+        setFormDetailProfile('emergencyContact', dataAPI.emergencyContact),
+      );
+      dispatch(
+        setFormDetailProfile('telpEmergency', dataAPI.telpEmergency),
+      );
+      dispatch(
+        setFormDetailProfile('statusEmergency', dataAPI.statusEmergency),
+      );
+      dispatch(
+        setFormDetailProfile('alamatEmergency', dataAPI.alamatEmergency),
+      );
+      dispatch(setFormDetailProfile('nomorKtp', dataAPI.nomorKtp));
+      dispatch(setFormDetailProfile('noNpwp', dataAPI.noNpwp));
+      dispatch(setFormDetailProfile('asuransi', dataAPI.asuransi));
+      dispatch(setFormDetailProfile('kk', dataAPI.kk));
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
+  useEffect(() => {
+    // console.log('ini data nik / ', dataProfile.nik);
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataProfileAPI(headers, dataProfile.nik);
+      })
+      .catch(error => console.log(error));
+  }, [dataProfile]);
+
 
   const onChangeText = (value, inputType) => {
     dispatch(setFormDetailProfile(inputType, value));
-  };
-
-  const toggleEditMode = field => {
-    if (!showEditButtons) {
-      setEditableFields(prevFields => ({
-        ...prevFields,
-        [field]: !prevFields[field],
-      }));
-      setInitialForm({...form});
-      setShowEditButtons(true);
-      setIsClicked(prevIsClicked => ({
-        ...prevIsClicked,
-        [field]: true,
-      }));
-    } else {
-      if (field === 'batal') {
-        setEditableFields({...prevEditableFields});
-        setShowEditButtons(false);
-        setIsClicked(prevIsClicked => ({
-          ...prevIsClicked,
-          [field]: false,
-        }));
-        setAlertWarning(false);
-      } else {
-        setAlertWarning(false);
-        setEditableFields({
-          nik: false,
-          tempatLahir: false,
-          tanggalLahir: false,
-          jenisKelamin: false,
-          agama: false,
-          kewarganegaraan: false,
-          alamatKTP: false,
-          kodePos: false,
-          alamatSekarang: false,
-          noHP: false,
-          email: false,
-          noRekening: false,
-          jenjangPendidikan: false,
-          tanggalBergabung: false,
-          statusPerkawinan: false,
-          golonganDarah: false,
-          kontakDarurat: false,
-          statusDarurat: false,
-          alamatDarurat: false,
-          telponDarurat: false,
-          noKTP: false,
-          noNPWP: false,
-          asuransi: false,
-          kartuKeluarga: false,
-        });
-        setShowEditButtons(false); // Sembunyikan tombol edit setelah berhasil diedit
-        // setShowEditButtons(false);
-        setIsClicked(prevIsClicked => ({
-          ...prevIsClicked,
-          [field]: false,
-        }));
-      }
-    }
-  };
-
-  useEffect(() => {
-    // Simpan state editableFields sebelumnya
-    setPrevEditableFields({...editableFields});
-  }, [editableFields]);
-
-  const resetForm = () => {
-    setAlertWarning(false);
-    setEditableFields({
-      nik: false,
-      tempatLahir: false,
-      tanggalLahir: false,
-      jenisKelamin: false,
-      agama: false,
-      kewarganegaraan: false,
-      alamatKTP: false,
-      kodePos: false,
-      alamatSekarang: false,
-      noHP: false,
-      email: false,
-      noRekening: false,
-      jenjangPendidikan: false,
-      tanggalBergabung: false,
-      statusPerkawinan: false,
-      golonganDarah: false,
-      kontakDarurat: false,
-      statusDarurat: false,
-      alamatDarurat: false,
-      telponDarurat: false,
-      noKTP: false,
-      noNPWP: false,
-      asuransi: false,
-      kartuKeluarga: false,
-    });
-
-    setShowEditButtons(false);
-
-    // Reset nilai formulir ke nilai awal hanya jika tombol "BATAL" diklik saat tombol edit sedang ditampilkan
-    if (showEditButtons) {
-      dispatch(setFormDetailProfile('nik', initialForm.nik));
-      dispatch(setFormDetailProfile('tempatLahir', initialForm.tempatLahir));
-      dispatch(setFormDetailProfile('tanggalLahir', initialForm.tanggalLahir));
-      dispatch(setFormDetailProfile('jenisKelamin', initialForm.jenisKelamin));
-      dispatch(setFormDetailProfile('agama', initialForm.agama));
-      dispatch(
-        setFormDetailProfile('kewarganegaraan', initialForm.kewarganegaraan),
-      );
-      dispatch(setFormDetailProfile('kodePos', initialForm.kodePos));
-      dispatch(
-        setFormDetailProfile('alamatSekarang', initialForm.alamatSekarang),
-      );
-      dispatch(setFormDetailProfile('noHP', initialForm.noHP));
-      dispatch(setFormDetailProfile('email', initialForm.email));
-      dispatch(
-        setFormDetailProfile(
-          'jenjangPendidikan',
-          initialForm.jenjangPendidikan,
-        ),
-      );
-      dispatch(
-        setFormDetailProfile('tanggalBergabung', initialForm.tanggalBergabung),
-      );
-      dispatch(setFormDetailProfile('statusKawin', initialForm.statusKawin));
-      dispatch(
-        setFormDetailProfile('golonganDarah', initialForm.golonganDarah),
-      );
-      dispatch(
-        setFormDetailProfile('kontakDarurat', initialForm.kontakDarurat),
-      );
-      dispatch(
-        setFormDetailProfile('noKontakDarurat', initialForm.noKontakDarurat),
-      );
-      dispatch(
-        setFormDetailProfile('statusDarurat', initialForm.statusDarurat),
-      );
-      dispatch(
-        setFormDetailProfile('alamatDarurat', initialForm.alamatDarurat),
-      );
-      dispatch(setFormDetailProfile('ktp', initialForm.ktp));
-      dispatch(setFormDetailProfile('npwp', initialForm.npwp));
-      dispatch(setFormDetailProfile('asuransi', initialForm.asuransi));
-      dispatch(setFormDetailProfile('kk', initialForm.kk));
-    } else {
-      // Jika tombol "BATAL" diklik saat tombol edit tidak ditampilkan, maka reset formulir ke nilai sebelumnya
-      dispatch(setFormDetailProfile('nik', prevEditableFields.nik));
-      dispatch(setFormDetailProfile('nama', prevEditableFields.nama));
-      dispatch(
-        setFormDetailProfile('tempatLahir', prevEditableFields.tempatLahir),
-      );
-      dispatch(
-        setFormDetailProfile('tanggalLahir', prevEditableFields.tanggalLahir),
-      );
-      dispatch(
-        setFormDetailProfile('jenisKelamin', prevEditableFields.jenisKelamin),
-      );
-      dispatch(setFormDetailProfile('agama', prevEditableFields.agama));
-      dispatch(
-        setFormDetailProfile(
-          'kewarganegaraan',
-          prevEditableFields.kewarganegaraan,
-        ),
-      );
-      dispatch(setFormDetailProfile('kodePos', prevEditableFields.kodePos));
-      dispatch(
-        setFormDetailProfile(
-          'alamatSekarang',
-          prevEditableFields.alamatSekarang,
-        ),
-      );
-      dispatch(setFormDetailProfile('noHP', prevEditableFields.noHP));
-      dispatch(setFormDetailProfile('email', prevEditableFields.email));
-      dispatch(
-        setFormDetailProfile(
-          'jenjangPendidikan',
-          prevEditableFields.jenjangPendidikan,
-        ),
-      );
-      dispatch(
-        setFormDetailProfile(
-          'tanggalBergabung',
-          prevEditableFields.tanggalBergabung,
-        ),
-      );
-      dispatch(
-        setFormDetailProfile('statusKawin', prevEditableFields.statusKawin),
-      );
-      dispatch(
-        setFormDetailProfile('golonganDarah', prevEditableFields.golonganDarah),
-      );
-      dispatch(
-        setFormDetailProfile('kontakDarurat', prevEditableFields.kontakDarurat),
-      );
-      dispatch(
-        setFormDetailProfile(
-          'noKontakDarurat',
-          prevEditableFields.noKontakDarurat,
-        ),
-      );
-      dispatch(
-        setFormDetailProfile('statusDarurat', prevEditableFields.statusDarurat),
-      );
-      dispatch(
-        setFormDetailProfile('alamatDarurat', prevEditableFields.alamatDarurat),
-      );
-      dispatch(setFormDetailProfile('ktp', prevEditableFields.ktp));
-      dispatch(setFormDetailProfile('npwp', prevEditableFields.npwp));
-      dispatch(setFormDetailProfile('asuransi', prevEditableFields.asuransi));
-      dispatch(setFormDetailProfile('kk', prevEditableFields.kk));
-    }
-  };
-
-  const sendData = () => {
-    // Validate if any of the form fields is empty
-    const isEmptyField = Object.values(form).some(value => value === '');
-    setIsClicked(prevIsClicked => {
-      const newIsClicked = Object.fromEntries(
-        Object.keys(prevIsClicked).map(key => [key, false]),
-      );
-      return newIsClicked;
-    });
-    setEditableFields({
-      nik: false,
-      tempatLahir: false,
-      tanggalLahir: false,
-      jenisKelamin: false,
-      agama: false,
-      kewarganegaraan: false,
-      alamatKTP: false,
-      kodePos: false,
-      alamatSekarang: false,
-      noHP: false,
-      email: false,
-      noRekening: false,
-      jenjangPendidikan: false,
-      tanggalBergabung: false,
-      statusPerkawinan: false,
-      golonganDarah: false,
-      kontakDarurat: false,
-      statusDarurat: false,
-      alamatDarurat: false,
-      telponDarurat: false,
-      noKTP: false,
-      noNPWP: false,
-      asuransi: false,
-      kartuKeluarga: false,
-    });
-
-    if (isEmptyField) {
-      setAlertWarning(true);
-      // Show custom alert notification for empty data
-    } else {
-      setAlertWarning(false);
-      console.log('kirim data : ', form);
-      setShowEditButtons(false); // Hide the edit buttons after sending data
-      setEditableFields({
-        nik: false,
-        tempatLahir: false,
-        tanggalLahir: false,
-        jenisKelamin: false,
-        agama: false,
-        kewarganegaraan: false,
-        alamatKTP: false,
-        kodePos: false,
-        alamatSekarang: false,
-        noHP: false,
-        email: false,
-        noRekening: false,
-        jenjangPendidikan: false,
-        tanggalBergabung: false,
-        statusPerkawinan: false,
-        golonganDarah: false,
-        kontakDarurat: false,
-        statusDarurat: false,
-        alamatDarurat: false,
-        telponDarurat: false,
-        noKTP: false,
-        noNPWP: false,
-        asuransi: false,
-        kartuKeluarga: false,
-      });
-    }
-  };
-
-  const close = () => {
-    setAlertWarning(false);
-    // Implementasi penutupan atau navigasi kembali
-    // sesuai dengan kebutuhan Anda
   };
 
   let base64ImageData = '';
@@ -403,6 +275,48 @@ const DetailProfile = ({navigation, stylePP}) => {
     navigation.navigate('previewPhoto', {photo: base64ImageData});
   };
 
+const resetData = () => {
+  getDataFromSession('token')
+    .then(token => {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      getDataProfileAPI(headers, dataProfile.nik);
+    })
+    .catch(error => console.log(error));
+}
+
+const handleButtonClick = async index => {
+  // Duplikat array kategoriList
+  const updatedKategoriList = [...kategoriList];
+
+  // Mengubah nilai isClick pada objek yang sesuai
+  updatedKategoriList[index] = {
+    ...updatedKategoriList[index],
+    isClick: !updatedKategoriList[index].isClick,
+  };
+
+  // Jika isClick true, simpan nilai awal
+  if (updatedKategoriList[index].isClick) {
+    updatedKategoriList[index].originalValue =
+      updatedKategoriList[index].value;
+  }
+
+  // Memperbarui state kategoriList
+  setKategoriList(updatedKategoriList);
+
+  // Memeriksa apakah setidaknya satu elemen memiliki isClick true
+  const shouldShowEditButtons = () => {
+    return updatedKategoriList.some(item => item.isClick);
+  };
+
+  setShowEditButtons(shouldShowEditButtons());
+};
+
+
+
+
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -422,7 +336,6 @@ const DetailProfile = ({navigation, stylePP}) => {
             buttonAlert="Close"
             textBodyAlert="Data Tidak Boleh Kosong"
             titleAlert="Success"
-            onPress={close}
           />
         ) : (
           ''
@@ -444,596 +357,70 @@ const DetailProfile = ({navigation, stylePP}) => {
                 />
               )}
             </TouchableOpacity>
-            <Text style={styles.textName}>Azriel FachrulRezy</Text>
+            <Text style={styles.textName}>{dataKaryawan?.nama}</Text>
           </View>
           <View style={{marginBottom: 20, marginTop: 10, alignItems: 'center'}}>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="NIK"
-                editable={editableFields.nik}
-                value={form.nik}
-                onTextChange={value => onChangeText(value, 'nik')}
-              />
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Tempat Lahir"
-                editable={editableFields.tempatLahir}
-                value={form.tempatLahir}
-                multiline
-                onTextChange={value => onChangeText(value, 'tempatLahir')}
-              />
-              <View style={styles.wrapImageAlamat}>
-                <TouchableOpacity onPress={() => toggleEditMode('tempatLahir')}>
-                  {isClicked.tempatLahir ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
+            {kategoriList.map((item, index) => (
+              <View key={index} style={{marginBottom: 10}}>
+                <CustomTextInputProfile
+                  label={item.lebel}
+                  editable={item.isClick}
+                  value={item.value}
+                  onTextChange={value => onChangeText(value, item.field)}
+                />
+                {item.lebel === 'NIK' ||
+                item.lebel === 'Jenis Kelamin' ||
+                item.lebel === 'Asuransi' ||
+                item.lebel === 'Kartu Keluarga' ||
+                item.lebel === 'Tanggal Bergabung' ? (
+                  ''
+                ) : (
+                  <View style={styles.wrapImage}>
+                    <TouchableOpacity onPress={() => handleButtonClick(index)}>
+                      {item.isClick ? (
+                        <FontAwesomeIcon
+                          icon={faPen}
+                          color={Color.grey}
+                          size={25}
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faPen}
+                          color={Color.green}
+                          size={25}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                )}
+                {item.lebel === 'Asuransi' ||
+                item.lebel === 'Kartu Keluarga' ? (
+                  <View style={styles.wrapImage}>
+                    <TouchableOpacity onPress={() => handleButtonClick(index)}>
+                      {item.isClick ? (
+                        <FontAwesomeIcon
+                          icon={faImage}
+                          color={Color.grey}
+                          size={25}
+                        />
+                      ) : (
+                        <FontAwesomeIcon
+                          icon={faImage}
+                          color={Color.green}
+                          size={25}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                ) : (
+                  ''
+                )}
               </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Tanggal Lahir"
-                editable={editableFields.tanggalLahir}
-                value={form.tanggalLahir}
-                onTextChange={value => onChangeText(value, 'tanggalLahir')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('tanggalLahir')}>
-                  {isClicked.tanggalLahir ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Jenis Kelamin"
-                editable={editableFields.jenisKelamin}
-                value={form.jenisKelamin}
-                onTextChange={value => onChangeText(value, 'jenisKelamin')}
-              />
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Agama"
-                editable={editableFields.agama}
-                value={form.agama}
-                onTextChange={value => onChangeText(value, 'agama')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('agama')}>
-                  {isClicked.agama ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Kewarganegaraan"
-                editable={editableFields.kewarganegaraan}
-                value={form.kewarganegaraan}
-                onTextChange={value => onChangeText(value, 'kewarganegaraan')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('kewarganegaraan')}>
-                  {isClicked.kewarganegaraan ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Alamat KTP"
-                editable={editableFields.alamatKTP}
-                value={form.alamatKTP}
-                multiline
-                onTextChange={value => onChangeText(value, 'alamatKTP')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('alamatKTP')}>
-                  {isClicked.alamatKTP ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Kode Pos"
-                editable={editableFields.kodePos}
-                value={form.kodePos}
-                onTextChange={value => onChangeText(value, 'kodePos')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('kodePos')}>
-                  {isClicked.kodePos ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Alamat Sekarang"
-                editable={editableFields.alamatSekarang}
-                value={form.alamatSekarang}
-                multiline
-                onTextChange={value => onChangeText(value, 'alamatSekarang')}
-              />
-              <View style={styles.wrapImageAlamat}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('alamatSekarang')}>
-                  {isClicked.alamatSekarang ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="No HP"
-                editable={editableFields.noHP}
-                value={form.noHP}
-                onTextChange={value => onChangeText(value, 'noHP')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('noHP')}>
-                  {isClicked.noHP ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Email"
-                editable={editableFields.email}
-                value={form.email}
-                onTextChange={value => onChangeText(value, 'email')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('email')}>
-                  {isClicked.email ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="No Rekening"
-                editable={editableFields.noRekening}
-                value={form.noRekening}
-                onTextChange={value => onChangeText(value, 'noRekening')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('noRekening')}>
-                  {isClicked.noRekening ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Jenjang Pendidikan"
-                editable={editableFields.jenjangPendidikan}
-                value={form.jenjangPendidikan}
-                onTextChange={value => onChangeText(value, 'jenjangPendidikan')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('jenjangPendidikan')}>
-                  {isClicked.jenjangPendidikan ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Tanggal Bergabung"
-                editable={editableFields.tanggalBergabung}
-                value={form.tanggalBergabung}
-                onTextChange={value => onChangeText(value, 'tanggalBergabung')}
-              />
-              {/* <View style={styles.wrapImage}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('tanggalBergabung')}>
-                  {isClicked ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View> */}
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Status Perkawinan"
-                editable={editableFields.statusPerkawinan}
-                value={form.statusPerkawinan}
-                onTextChange={value => onChangeText(value, 'statusPerkawinan')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('statusPerkawinan')}>
-                  {isClicked.statusPerkawinan ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Golongan Darah"
-                editable={editableFields.golonganDarah}
-                value={form.golonganDarah}
-                onTextChange={value => onChangeText(value, 'golonganDarah')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('golonganDarah')}>
-                  {isClicked.golonganDarah ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Kontak Darurat"
-                editable={editableFields.kontakDarurat}
-                value={form.kontakDarurat}
-                onTextChange={value => onChangeText(value, 'kontakDarurat')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('kontakDarurat')}>
-                  {isClicked.kontakDarurat ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Status Darurat"
-                editable={editableFields.statusDarurat}
-                value={form.statusDarurat}
-                onTextChange={value => onChangeText(value, 'statusDarurat')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('statusDarurat')}>
-                  {isClicked.statusDarurat ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Alamat Darurat"
-                editable={editableFields.alamatDarurat}
-                value={form.alamatDarurat}
-                multiline
-                onTextChange={value => onChangeText(value, 'alamatDarurat')}
-              />
-              <View style={styles.wrapImageAlamat}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('alamatDarurat')}>
-                  {isClicked.alamatDarurat ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Telpon Darurat"
-                editable={editableFields.telponDarurat}
-                value={form.telponDarurat}
-                onTextChange={value => onChangeText(value, 'telponDarurat')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('telponDarurat')}>
-                  {isClicked.telponDarurat ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="No KTP"
-                editable={editableFields.noKTP}
-                value={form.noKTP}
-                onTextChange={value => onChangeText(value, 'noKTP')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('noKTP')}>
-                  {isClicked.noKTP ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="No NPWP"
-                editable={editableFields.noNPWP}
-                value={form.noNPWP}
-                onTextChange={value => onChangeText(value, 'noNPWP')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('noNPWP')}>
-                  {isClicked.noNPWP ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Asuransi"
-                editable={editableFields.asuransi}
-                value={form.asuransi}
-                onTextChange={value => onChangeText(value, 'asuransi')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity onPress={() => toggleEditMode('asuransi')}>
-                  {isClicked.asuransi ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <CustomTextInputProfile
-                label="Kartu Keluarga"
-                editable={editableFields.kartuKeluarga}
-                value={form.kartuKeluarga}
-                onTextChange={value => onChangeText(value, 'kartuKeluarga')}
-              />
-              <View style={styles.wrapImage}>
-                <TouchableOpacity
-                  onPress={() => toggleEditMode('kartuKeluarga')}>
-                  {isClicked.kartuKeluarga ? (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.grey}
-                      size={25}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faPen}
-                      color={Color.green}
-                      size={25}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
-            </View>
+            ))}
           </View>
-
           {showEditButtons && (
             <View style={{alignItems: 'center', marginBottom: 40}}>
-              <TouchableOpacity onPress={sendData} style={styles.ButtonEdit}>
+              <TouchableOpacity style={styles.ButtonEdit}>
                 <Text style={styles.textButton}>Update</Text>
               </TouchableOpacity>
             </View>
