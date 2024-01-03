@@ -484,6 +484,7 @@ const FormCuti = ({
                 secureTextEntry={false}
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+                maxLength={25}
                 onTextChange={value => onChangeText(value, 'keperluanCuti')}
               />
               <CustomTextInput
@@ -492,6 +493,7 @@ const FormCuti = ({
                 secureTextEntry={false}
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+                maxLength={25}
                 onTextChange={value => onChangeText(value, 'alamatCuti')}
               />
             </View>

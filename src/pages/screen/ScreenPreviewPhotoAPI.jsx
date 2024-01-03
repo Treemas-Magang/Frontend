@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {Image, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, Image, StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import ButtonBack from '../../components/atoms/ButtonBack';
@@ -19,15 +19,28 @@ const ScreenPreviewPhotoAPI = ({navigation}) => {
   const {path} = route.params;
   const [isLoading, setIsLoading] = useState(true);
   const [image64, setImage64] = useState('');
-  const getDataClaim = async (headers, pathAPI) => {
+  const getDataFoto = async (headers, pathAPI) => {
+    console.log('hello');
     try {
       const response = await axios.get(API_GABUNGAN + pathAPI, {
         headers,
       });
-      console.log(response.data.data);
-      const dataAPI = response.data.data.image64;
+      const parts = pathAPI.split('/');
+      // Mendapatkan bagian yang diperlukan
+      const bagianSetelahSlash = parts[3];
+      const bagianSebelumTandaTanya = bagianSetelahSlash.split('?')[0];
+      const pathAPIBaru = bagianSebelumTandaTanya;
 
-      console.log('data Claim : ', dataAPI);
+      console.log(pathAPIBaru);
+      console.log(response.data.data);
+      let dataAPI;
+      if (pathAPIBaru === 'get-detail-sakit') {
+        dataAPI = response.data.data.image;
+      } else {
+        dataAPI = response.data.data.image64;
+      }
+
+      console.log('data : ', dataAPI);
       setImage64(dataAPI);
 
       setIsLoading(false);
@@ -43,7 +56,7 @@ const ScreenPreviewPhotoAPI = ({navigation}) => {
         const headers = {
           Authorization: `Bearer ${token}`,
         };
-        getDataClaim(headers, path);
+        getDataFoto(headers, path);
       })
       .catch(error => console.log(error));
   }, [path]);
@@ -54,7 +67,7 @@ const ScreenPreviewPhotoAPI = ({navigation}) => {
   } else {
     console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
   }
-  console.log('ini base64Image : ', base64ImageData);
+  // console.log('ini base64Image : ', base64ImageData);
 
   return (
     <View
@@ -67,16 +80,20 @@ const ScreenPreviewPhotoAPI = ({navigation}) => {
       <ButtonBack navigation={navigation} />
       <ButtonHome styleColor={Color.white} navigation={navigation} />
       <View style={styles.SectionPreview}>
-        <Pinchable>
-          <Image
-            source={{uri: base64ImageData}}
-            style={{
-              height: hp('90%'),
-              width: wp('90%'),
-            }}
-            resizeMode="contain"
-          />
-        </Pinchable>
+        {isLoading ? (
+          <ActivityIndicator color={Color.white} size="large" />
+        ) : (
+          <Pinchable>
+            <Image
+              source={{uri: base64ImageData}}
+              style={{
+                height: hp('90%'),
+                width: wp('90%'),
+              }}
+              resizeMode="contain"
+            />
+          </Pinchable>
+        )}
       </View>
     </View>
   );

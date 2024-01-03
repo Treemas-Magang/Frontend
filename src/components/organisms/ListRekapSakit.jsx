@@ -52,38 +52,45 @@ const ListRekapSakit = ({navigation}) => {
   //     .catch(error => console.log(error));
   // }, []);
 
-    const getDataSakit = async headers => {
-      try {
-        const response = await axios.get(
-          API_GABUNGAN + '/api/rekap/get-rekap-cuti',
-          {
-            headers,
-          },
-        );
-        console.log(response.data.data);
-        const dataAPI = response.data.data;
-        const dataSakit = dataAPI.filter(item => item.flgKet === 'sakit');
+  const getDataSakit = async headers => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + '/api/rekap/get-rekap-sakit',
+        {
+          headers,
+        },
+      );
+      console.log(response.data.data);
+      const dataAPI = response.data.data;
+      // const dataSakit = dataAPI.filter(item => item.flgKet === 'sakit');
 
-        console.log('data sakit : ', dataSakit);
-        setKetSakit(dataSakit);
+      console.log('data sakit : ', dataAPI);
+      setKetSakit(dataAPI);
 
-        setIsLoading(false);
-      } catch (error) {
-        console.log('Tidak dapat mengambil data ', error.response);
-        setIsLoading(false);
-      }
-    };
+      setIsLoading(false);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error.response);
+      setIsLoading(false);
+    }
+  };
 
-    useEffect(() => {
-      getDataFromSession('token')
-        .then(token => {
-          const headers = {
-            Authorization: `Bearer ${token}`,
-          };
-          getDataSakit(headers);
-        })
-        .catch(error => console.log(error));
-    }, []);
+  useEffect(() => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataSakit(headers);
+      })
+      .catch(error => console.log(error));
+  }, []);
+
+  const moveToPreview = async id => {
+    console.log('ini id', id);
+    navigation.navigate('previewPhotoAPI', {
+      path: `/api/rekap/get-detail-sakit?id=${id}`,
+    });
+  };
 
   return (
     <View style={styles.background}>
@@ -130,8 +137,9 @@ const ListRekapSakit = ({navigation}) => {
                       keterangan={sakit.keperluanCuti || '-'}
                       disetujuiOleh={sakit.usrApp || '-'}
                       catatanDisetujui={sakit.noteApp || '-'}
-                      image64={sakit.image64}
+                      image64={sakit.gambarnya}
                       status={status}
+                      onPress={() => moveToPreview(sakit.id)}
                     />
                   </View>
                 );
