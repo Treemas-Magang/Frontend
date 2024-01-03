@@ -18,7 +18,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useDispatch} from 'react-redux';
-import {setIsOther, setProjectYangDipilih} from '../../redux';
+import {setIsOther, setIsWFH, setProjectYangDipilih} from '../../redux';
 import {API_URL, API_GABUNGAN} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -92,6 +92,7 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
     jmMsk,
     jmklr,
   ) => {
+    dispatch(setIsWFH('isWFH', '0'));
     dispatch(setProjectYangDipilih('namaTempat', namaTempat));
     dispatch(setProjectYangDipilih('alamat', alamat));
     dispatch(setProjectYangDipilih('projectId', projectId));
@@ -101,6 +102,12 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
     dispatch(setProjectYangDipilih('jamMasuk', jmMsk));
     dispatch(setProjectYangDipilih('jamKeluar', jmklr));
     navigation.navigate(tujuan, {other: ''});
+     try {
+       await AsyncStorage.setItem('other', '0');
+       console.log('berhasil simpan other ke storage');
+     } catch (error) {
+       console.log('gagal simpan other ke storage : ', error);
+     }
     const projectData = {
       alamat: alamat,
       gpsLatProj: gpsLatProj,
@@ -114,10 +121,10 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
     await saveDataToStorage('projectData', projectData);
   };
   const moveToOther = async  (tujuan, other) => {
-    dispatch(setIsOther('other', other));
+    dispatch(setIsWFH('isWFH', '0'));
     try {
       await AsyncStorage.setItem('other', other);
-      console.log('berhasil simpan other ke storage')
+      console.log('berhasil simpan other ke storage');
     } catch (error) {
       console.log('gagal simpan other ke storage : ', error);
     }

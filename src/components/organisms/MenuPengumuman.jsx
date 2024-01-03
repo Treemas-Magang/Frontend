@@ -64,7 +64,7 @@ useEffect(() => {
       .then(token => {
         const headers = {
           Authorization: `Bearer ${token}`,
-        };
+        }; 
         getJmlNotifApproval(headers);
       })
       .catch(error => console.log(error));

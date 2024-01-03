@@ -35,7 +35,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {API_URL, API_GABUNGAN} from '@env';
+import {API_GABUNGAN} from '@env';
 
 const FormAbsensi = ({navigation}) => {
   const dispatch = useDispatch();
@@ -215,9 +215,9 @@ const FormAbsensi = ({navigation}) => {
       if (isWFH === '0' && isOther === '0') {
         if (formAbsensi.noteTelatMsk === '') {
           setIsLoading(false);
+          setInputKosong(true);
           console.log('note telat masuk masih kosong');
         } else {
-          setIsLoading(false);
           await kirimDataAbsensi();
         }
       } else if (isWFH === '1') {
@@ -226,16 +226,9 @@ const FormAbsensi = ({navigation}) => {
           formAbsensi.photoAbsen === null
         ) {
           setIsLoading(false);
+          setInputKosong(true);
           console.log('alasan telat masuk / foto masih kosong');
         } else {
-          setIsLoading(false);
-          await kirimDataAbsensi();
-        }
-      } else if (isOther === '1') {
-        if (formAbsensi.noteOther === '') {
-          console.log('note other masih kosong');
-        } else {
-          console.log('kirim data : ', formAbsensi);
           await kirimDataAbsensi();
         }
       }

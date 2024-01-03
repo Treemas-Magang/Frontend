@@ -180,6 +180,10 @@ const MapPreview = ({navigation}) => {
       console.log(`Jarak antara kedua titik adalah ${jarakBulat} meter.`);
       dispatch(setFormAbsensi('jarakMsk', `${jarakBulat} meter`));
       dispatch(setAbsenPulang('jarakPlg', `${jarakBulat} meter`));
+      if (isOther === '1') {
+              dispatch(setFormAbsensi('jarakMsk', ''));
+              dispatch(setAbsenPulang('jarakPlg', ''));
+      }
       //jarak user ke kantor 100 = 100 meter
       const jarakMaxMasuk = parseInt(dataProject.jrkMax);
       console.log('jarak max masuk : ', jarakMaxMasuk);
@@ -205,7 +209,16 @@ const MapPreview = ({navigation}) => {
   }, [projectData, currentLocation]);
   const handleMasuk = () => {
     checkMockLocation();
-    navigation.navigate('formAbsensi');
+    if (isOther === '1') {
+      dispatch(setFormAbsensi('isOther', '1'));
+      dispatch(setFormAbsensi('projectId', ''));
+      navigation.navigate('formAbsensiOther');
+    } else {
+      dispatch(setFormAbsensi('isOther', '0'));
+      dispatch(setFormAbsensi('noteOther', ''));
+
+      navigation.navigate('formAbsensi');
+    }
     console.log('data absen masuk : ', form);
   };
 

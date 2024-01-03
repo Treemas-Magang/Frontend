@@ -158,81 +158,46 @@ const CardPilihAbsenProject = ({navigation}) => {
     navigation.navigate(tujuan, {jarakTerlaluJauh: jrkTerlalujauh});
   };
 
-  return (
-    <View>
-      {isAbsen === 'true' ? (
-        <>
-          {isOther === '1' ? (
-            <>
-              <TouchableOpacity
-                onPress={() => moveTo('formUpdateAbsensi', '0')}
-                style={styles.CardPilihProject}>
-                <Text style={styles.Text}>ON SITE</Text>
-                <Text style={styles.TextDeskripsi}>lokasi other</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.CardPilihProject}
-                onPress={() => moveTo('formUpdateAbsensi', '1')}>
-                <Text style={styles.Text}>WORK FROM HOME</Text>
-                <Text style={styles.TextDeskripsi}>{alamatUser}</Text>
-              </TouchableOpacity>
-            </>
-          ) : (
-            <>
-              <TouchableOpacity
-                onPress={() =>
-                  moveTo('formUpdateAbsensi', '0', isJarakTerlaluJauh)
-                }
-                style={styles.CardPilihProject}>
-                <Text style={styles.Text}>ON SITE</Text>
-                <Text style={styles.TextDeskripsi}>{dataProject.alamat}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.CardPilihProject}
-                onPress={() => moveTo('formUpdateAbsensi', '1')}>
-                <Text style={styles.Text}>WORK FROM HOME</Text>
-                <Text style={styles.TextDeskripsi}>{alamatUser}</Text>
-              </TouchableOpacity>
-            </>
-          )}
-        </>
-      ) : (
-        <>
-          {isOther === '1' ? (
-            <>
-              <TouchableOpacity
-                onPress={() => moveTo('absensi', '0')}
-                style={styles.CardPilihProject}>
-                <Text style={styles.Text}>ON SITE</Text>
-                <Text style={styles.TextDeskripsi}>lokasi other</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.CardPilihProject}
-                onPress={() => moveTo('absensi', '1')}>
-                <Text style={styles.Text}>WORK FROM HOME</Text>
-                <Text style={styles.TextDeskripsi}>{alamatUser}</Text>
-              </TouchableOpacity>
-            </>
-          ) : (
-            <>
-              <TouchableOpacity
-                onPress={() => moveTo('absensi', '0')}
-                style={styles.CardPilihProject}>
-                <Text style={styles.Text}>ON SITE</Text>
-                <Text style={styles.TextDeskripsi}>{dataProject.alamat}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.CardPilihProject}
-                onPress={() => moveTo('absensi', '1')}>
-                <Text style={styles.Text}>WORK FROM HOME</Text>
-                <Text style={styles.TextDeskripsi}>{alamatUser}</Text>
-              </TouchableOpacity>
-            </>
-          )}
-        </>
-      )}
-    </View>
-  );
+ return (
+   <View>
+     {isAbsen === 'true' ? (
+       <>
+         <TouchableOpacity
+           onPress={() => moveTo('formUpdateAbsensi', '0', isJarakTerlaluJauh)}
+           style={styles.CardPilihProject}>
+           <Text style={styles.Text}>ON SITE</Text>
+           <Text style={styles.TextDeskripsi}>
+             {isOther === '1' ? 'lokasi other' : dataProject.alamat}
+           </Text>
+         </TouchableOpacity>
+         <TouchableOpacity
+           onPress={() => moveTo('formUpdateAbsensi', '1')}
+           style={styles.CardPilihProject}>
+           <Text style={styles.Text}>WORK FROM HOME</Text>
+           <Text style={styles.TextDeskripsi}>{alamatUser}</Text>
+         </TouchableOpacity>
+       </>
+     ) : (
+       <>
+         <TouchableOpacity
+           onPress={() => moveTo('absensi', '0')}
+           style={styles.CardPilihProject}>
+           <Text style={styles.Text}>ON SITE</Text>
+           <Text style={styles.TextDeskripsi}>
+             {isOther === '1' ? 'lokasi other' : dataProject.alamat}
+           </Text>
+         </TouchableOpacity>
+         <TouchableOpacity
+           onPress={() => moveTo('absensi', '1')}
+           style={styles.CardPilihProject}>
+           <Text style={styles.Text}>WORK FROM HOME</Text>
+           <Text style={styles.TextDeskripsi}>{alamatUser}</Text>
+         </TouchableOpacity>
+       </>
+     )}
+   </View>
+ );
+
 };
 
 export default CardPilihAbsenProject;

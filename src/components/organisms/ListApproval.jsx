@@ -68,6 +68,7 @@ const ListApproval = ({navigation}) => {
         case 'absen-pulang':
           // Custom logic for 'absen-pulang'
           dataAPI = response.data.data.absenPulangApproval;
+          console.log(response)
           // Additional logic specific to 'absen-pulang'
           setDataApp(dataAPI);
           break;

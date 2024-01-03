@@ -25,11 +25,11 @@ import {checkMockLocation} from '../../utils/checkMockLocation';
 import {jamSekarang} from '../../utils/jamSekarang';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getDataFromSession} from '../../utils/getDataSession';
-import {AlertNotificationSuccess} from '../atoms/AlertNotification';
+import {AlertNotificationDanger, AlertNotificationSuccess} from '../atoms/AlertNotification';
 import {cekTelatMasuk} from '../../utils/cekJamTelatDanPulangCepat';
 import ButtonLoading from '../atoms/ButtonLoading';
 import {openCamera, openGalerImg} from '../../utils/getPhoto';
-
+import {API_GABUNGAN} from '@env';
 const FormAbsensiOther = ({navigation}) => {
   const dispatch = useDispatch();
   const {formAbsensi} = useSelector(state => state.FormAbsensiReducer);
@@ -39,7 +39,8 @@ const FormAbsensiOther = ({navigation}) => {
   const [terlambat, setTerlambat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
-
+  const [inputKosong, setInputKosong] = useState(false);
+  const [gagalServer, setGagalServer] = useState(false);
   //simpan data image jadi base64
   let base64ImageData = null;
   if (capturedImage && capturedImage.base64 && capturedImage.fileSize) {
@@ -96,80 +97,81 @@ const FormAbsensiOther = ({navigation}) => {
   };
 
   //fungsi untuk menangani saat mau mengirim data Absen
-  //   const kirimDataAbsensi = async () => {
-  //     try {
-  //       //mengambil token untuk otorisasi
-  //       const token = await getDataFromSession('token');
-  //       if (token !== null) {
-  //         const headers = {
-  //           Authorization: `Bearer ${token}`,
-  //         };
+    const kirimDataAbsensi = async () => {
+      try {
+        //mengambil token untuk otorisasi
+        const token = await getDataFromSession('token');
+        if (token !== null) {
+          const headers = {
+            Authorization: `Bearer ${token}`,
+          };
 
-  //         try {
-  //           //melakukan hit ke API untuk kirim data Absen
-  //           const response = await axios.post(
-  //             'http://192.168.10.31:8081/api/absen/input-absen',
-  //             formAbsensi,
-  //             {headers},
-  //           );
-  //           console.log(response.data.success);
-  //           console.log('berhasil absen');
-  //           console.log(uploadBerhasil);
-  //           setUploadBerhasil(true);
-  //           setIsLoading(false);
-  //           //saat berhasil kirim data kosongkan reducer
-  //           dispatch(setFormAbsensi('namaTempat', ''));
-  //           dispatch(setFormAbsensi('jarakMsk', ''));
-  //           dispatch(setFormAbsensi('noteTelatMsk', ''));
-  //           dispatch(setFormAbsensi('gpsLatitudeMsk', ''));
-  //           dispatch(setFormAbsensi('gpsLongitudeMsk', ''));
-  //           dispatch(setFormAbsensi('photoAbsen', ''));
-  //           dispatch(setFormAbsensi('isWfh', ''));
+          try {
+            //melakukan hit ke API untuk kirim data Absen
+            const response = await axios.post(
+              API_GABUNGAN + '/api/absen/input-absen',
+              formAbsensi,
+              {headers},
+            );
+            console.log(response.data.success);
+            console.log('berhasil absen');
+            console.log(uploadBerhasil);
+            setUploadBerhasil(true);
+            setIsLoading(false);
+            //saat berhasil kirim data kosongkan reducer
+            dispatch(setFormAbsensi('namaTempat', ''));
+            dispatch(setFormAbsensi('jarakMsk', ''));
+            dispatch(setFormAbsensi('noteTelatMsk', ''));
+            dispatch(setFormAbsensi('gpsLatitudeMsk', null));
+            dispatch(setFormAbsensi('gpsLongitudeMsk', null));
+            dispatch(setFormAbsensi('photoAbsen', ''));
+            dispatch(setFormAbsensi('isWfh', '0'));
 
-  //           // navigation.replace('dashboard');
-  //           try {
-  //             await AsyncStorage.setItem('sudah_absen', 'true');
-  //             console.log('berhasil menyimpan status sudah absen');
-  //           } catch (error) {
-  //             console.log('gagal menyimpan status sudah absen', error);
-  //           }
-  //         } catch (error) {
-  //           console.log(error.response);
-  //           const errorCode = error.response.status;
-  //           //saat gagal kirim data kosongkan reducer
-  //           // dispatch(setFormAbsensi('namaTempat', ''));
-  //           // dispatch(setFormAbsensi('jarakMsk', ''));
-  //           // dispatch(setFormAbsensi('noteTelatMsk', ''));
-  //           // dispatch(setFormAbsensi('gpsLatitudeMsk', ''));
-  //           // dispatch(setFormAbsensi('gpsLongitudeMsk', ''));
-  //           // dispatch(setFormAbsensi('photoAbsen', ''));
-  //           // dispatch(setFormAbsensi('isWfh', ''));
-  //           switch (errorCode) {
-  //             case 403:
-  //               console.log('project tidak tepat');
-  //               setIsLoading(false);
-  //               break;
-  //             case 404:
-  //               setIsLoading(false);
-  //               break;
-  //             case 500:
-  //               setIsLoading(false);
-  //               console.log('Kesalahan server');
-  //               break;
-  //             default:
-  //               setIsLoading(false);
-  //               console.log(error.response);
-  //               console.log('gagal absen');
-  //               break;
-  //           }
-  //         }
-  //       } else {
-  //         console.log('Data tidak ditemukan di session.');
-  //       }
-  //     } catch (error) {
-  //       console.error('Terjadi kesalahan:', error);
-  //     }
-  //   };
+            // navigation.replace('dashboard');
+            try {
+              await AsyncStorage.setItem('sudah_absen', 'true');
+              console.log('berhasil menyimpan status sudah absen');
+            } catch (error) {
+              console.log('gagal menyimpan status sudah absen', error);
+            }
+          } catch (error) {
+            console.log(error.response);
+            const errorCode = error.response.status;
+            //saat gagal kirim data kosongkan reducer
+            dispatch(setFormAbsensi('namaTempat', ''));
+            dispatch(setFormAbsensi('jarakMsk', ''));
+            dispatch(setFormAbsensi('noteTelatMsk', ''));
+            dispatch(setFormAbsensi('gpsLatitudeMsk', null));
+            dispatch(setFormAbsensi('gpsLongitudeMsk', null));
+            dispatch(setFormAbsensi('photoAbsen', ''));
+            dispatch(setFormAbsensi('isWfh', '0'));
+            switch (errorCode) {
+              case 403:
+                console.log('project tidak tepat');
+                setIsLoading(false);
+                break;
+              case 404:
+                setIsLoading(false);
+                break;
+              case 500:
+                setIsLoading(false);
+                console.log('Kesalahan server');
+                setGagalServer(true);
+                break;
+              default:
+                setIsLoading(false);
+                console.log(error.response);
+                console.log('gagal absen');
+                break;
+            }
+          }
+        } else {
+          console.log('Data tidak ditemukan di session.');
+        }
+      } catch (error) {
+        console.error('Terjadi kesalahan:', error);
+      }
+    };
 
   //kondisi telat masuk
   useEffect(() => {
@@ -192,18 +194,22 @@ const FormAbsensiOther = ({navigation}) => {
 
     try {
       checkMockLocation();
-      console.log('kirim data : ', formAbsensi);
-
-      if (terlambat && formAbsensi.noteTelatMsk === '') {
+      if (formAbsensi.noteOther === '') {
         console.log('alasan telat masuk tidak boleh kosong');
+        setInputKosong(true);
         setIsLoading(false);
       } else {
-        // await kirimDataAbsensi();
+        setInputKosong(false);
+        console.log('kirim data : ', formAbsensi);
+        await kirimDataAbsensi();
       }
     } catch (error) {
       console.error('Error in sendData:', error);
     }
   };
+    const btnCancel = () => {
+      setGagalServer(false);
+    };
 
   return (
     <View style={styles.congtainerForm}>
@@ -219,11 +225,28 @@ const FormAbsensiOther = ({navigation}) => {
       ) : (
         ''
       )}
+      {gagalServer ? (
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <AlertNotificationDanger
+            buttonAlert="Close"
+            textBodyAlert="Server Error"
+            titleAlert="Success"
+            onPress={() => btnCancel()}
+          />
+        </View>
+      ) : (
+        ''
+      )}
       <Text style={styles.textJudul}>melakukan absensi</Text>
       <CustomTextInput
         label="Lokasi Project"
         secureTextEntry={false}
-        value={dataProject.namaTempat}
+        value="Other"
         editable={false}
       />
       <CustomTextInput
@@ -241,62 +264,21 @@ const FormAbsensiOther = ({navigation}) => {
         value={formAbsensi.lokasiMsk}
         onTextChange={value => onChangeText(value, 'lokasi')}
       />
-      <CustomTextInput
-        label="Jarak"
-        editable={false}
-        secureTextEntry={false}
-        value={formAbsensi.jarakMsk}
-        onTextChange={value => onChangeText(value, 'jarak')}
-      />
+
       <CustomTextInput
         label="Keterangan Other"
         secureTextEntry={false}
-        value={formAbsensi.ketOther}
-        onTextChange={value => onChangeText(value, 'ketOther')}
+        value={formAbsensi.noteOther}
+        textColor={inputKosong ? Color.red : Color.blue}
+        style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+        onTextChange={value => onChangeText(value, 'noteOther')}
       />
-      {isWFH > 0 ? (
-        <>
-          <View style={styles.kotakPreviewKosong}>
-            <View style={styles.previewKosong}>
-              {base64ImageData === null ? (
-                <>
-                  {isLoading ? (
-                    <ActivityIndicator size="large" color={Color.black} />
-                  ) : (
-                    <>
-                      <FontAwesomeIcon icon={faCamera} size={50} />
-                      <Text>Preview</Text>
-                    </>
-                  )}
-                </>
-              ) : (
-                <TouchableOpacity
-                  style={styles.previewKosong}
-                  onPress={moveToPreview}>
-                  <Image
-                    source={{uri: base64ImageData}}
-                    style={{
-                      height: '100%',
-                      width: '100%',
-                      borderRadius: 10,
-                    }}
-                  />
-                </TouchableOpacity>
-              )}
-            </View>
-          </View>
-          <View style={styles.wrapperButton}>
-            <ButtonCamera onPress={openKamera} />
-            {/* <ButtonGalery onPress={openGalery} /> */}
-            <ButtonGalery onPress={openGalery} />
-            <ButtonAction
-              title="kirim"
-              style={{width: 148}}
-              onPress={sendData}
-            />
-          </View>
-        </>
-      ) : isLoading ? (
+      {inputKosong ? (
+        <Text style={styles.labelSalah}>Field Tidak Boleh Kosong!</Text>
+      ) : (
+        ''
+      )}
+      {isLoading ? (
         <ButtonLoading />
       ) : (
         <ButtonAction title="kirim" style={{width: 269}} onPress={sendData} />
@@ -345,5 +327,27 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  labelSalah: {
+    fontFamily: text.semiBold,
+    fontSize: 14,
+    color: Color.red,
+    textAlign: 'center',
+  },
+  fieldSalah: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.red,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
+  },
+  fieldBener: {
+    width: 275,
+    height: 50,
+    paddingHorizontal: 10,
+    borderBottomColor: Color.green,
+    borderBottomWidth: 1,
+    paddingBottom: -10,
   },
 });

@@ -28,6 +28,7 @@ import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faImage, faPen} from '@fortawesome/free-solid-svg-icons';
 import SkeletonDetailProfile from '../skeleton/SkeletonDetailProfile';
+import { AlertNotificationWarning } from '../atoms/AlertNotification';
 const DetailProfile = ({navigation, stylePP}) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.DetailProfileReducer);
