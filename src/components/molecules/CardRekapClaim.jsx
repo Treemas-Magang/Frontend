@@ -19,6 +19,7 @@ const CardRekapClaim = ({
   keterangan,
   nominal,
   image64,
+  onPress,
 }) => {
   let base64ImageData = null;
   if (image64 && image64.base64 && image64.fileSize) {
@@ -28,10 +29,6 @@ const CardRekapClaim = ({
     console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
   }
   console.log('ini base64Image : ', base64ImageData);
-
-  const moveToPreview = () => {
-    navigation.navigate('previewPhoto', {photo: base64ImageData});
-  };
 
   return (
     <View style={styles.CardRekapClaimStyle}>
@@ -55,7 +52,7 @@ const CardRekapClaim = ({
           <View style={styles.wrapImage}></View>
         ) : (
           <View style={styles.wrapImage}>
-            <TouchableOpacity onPress={moveToPreview}>
+            <TouchableOpacity onPress={onPress}>
               <FontAwesomeIcon icon={faImage} color={Color.green} size={40} />
             </TouchableOpacity>
           </View>

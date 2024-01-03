@@ -27,7 +27,7 @@ import {hitungJarak} from '../../utils/hitungJarak';
 import {checkMockLocation} from '../../utils/checkMockLocation';
 import {getDataFromSession} from '../../utils/getDataSession';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ButtonBack from '../atoms/ButtonBack';
+import ButtonHomeKiri from '../atoms/ButtonHomeKiri';
 const initialLokasiUser = {
   latitude: 0,
   longitude: 0,
@@ -224,7 +224,7 @@ const MapPreview = ({navigation}) => {
   };
   return (
     <View style={{flex: 1, position: 'relative'}}>
-      <ButtonBack styleColor={Color.green} navigation={navigation} />
+      <ButtonHomeKiri styleColor={Color.green} navigation={navigation} />
       {locationLoaded ? (
         <MapView
           showsUserLocation
@@ -244,24 +244,23 @@ const MapPreview = ({navigation}) => {
             />
           </Marker>
 
-          {projectData.latitude !== null &&
-            projectData.longitude !== null && (
-              <Marker coordinate={projectData}>
-                <Image
-                  source={require('../../assets/vector/PerusahaanVector.png')}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 50,
-                    borderWidth: 4,
-                    borderColor: Color.green,
-                  }}
-                />
-                <Text style={{textAlign: 'center'}}>
-                  {dataProject.namaTempat}
-                </Text>
-              </Marker>
-            )}
+          {projectData.latitude !== null && projectData.longitude !== null && (
+            <Marker coordinate={projectData}>
+              <Image
+                source={require('../../assets/vector/PerusahaanVector.png')}
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 50,
+                  borderWidth: 4,
+                  borderColor: Color.green,
+                }}
+              />
+              <Text style={{textAlign: 'center'}}>
+                {dataProject.namaTempat}
+              </Text>
+            </Marker>
+          )}
         </MapView>
       ) : (
         <View style={{flex: 1, justifyContent: 'center'}}>

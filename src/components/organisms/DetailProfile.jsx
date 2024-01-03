@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   View,
-  Image,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {Color} from '../../utils/color';
@@ -20,158 +21,157 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import VectorAtasKecil from '../atoms/VectorAtasKecil';
-import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faImage, faPen} from '@fortawesome/free-solid-svg-icons';
-import {AlertNotificationWarning} from '../atoms/AlertNotification';
 import {getDataFromSession} from '../../utils/getDataSession';
 import axios from 'axios';
 import {API_GABUNGAN} from '@env';
+import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faImage, faPen} from '@fortawesome/free-solid-svg-icons';
+import SkeletonDetailProfile from '../skeleton/SkeletonDetailProfile';
 const DetailProfile = ({navigation, stylePP}) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.DetailProfileReducer);
-  const [alertWarning, setAlertWarning] = useState(false);
   const [dataProfile, setDataProfile] = useState([]);
   const [dataKaryawan, setDataKaryawan] = useState(form);
-  const [tempKategoriList, setTempKategoriList] = useState([]);
-  console.log('data karyawan :', dataKaryawan)
+  console.log('data karyawan :', dataKaryawan);
   const [showEditButtons, setShowEditButtons] = React.useState(false);
-    const [kategoriList, setKategoriList] = useState([
-      {lebel: 'NIK', value: dataKaryawan?.nik, isClick: false, field: 'nik'},
-      {
-        lebel: 'Tempat Lahir',
-        value: dataKaryawan?.tempatLahir,
-        isClick: false,
-        field: 'tempatLahir',
-      },
-      {
-        lebel: 'Tanggal Lahir',
-        value: dataKaryawan?.tanggalLahir,
-        isClick: false,
-        field: 'tanggalLahir',
-      },
-      {
-        lebel: 'Jenis Kelamin',
-        value: dataKaryawan?.jenisKelamin,
-        isClick: false,
-        field: 'jenisKelamin',
-      },
-      {
-        lebel: 'Agama',
-        value: dataKaryawan?.agama,
-        isClick: false,
-        field: 'agama',
-      },
-      {
-        lebel: 'Kewarganegaraan',
-        value: dataKaryawan?.kewarganegaraan,
-        isClick: false,
-        field: 'kewarganegaraan',
-      },
-      {
-        lebel: 'Alamat KTP',
-        value: dataKaryawan?.alamatKtp,
-        isClick: false,
-        field: 'alamatKtp',
-      },
-      {
-        lebel: 'Kode Pos',
-        value: dataKaryawan?.kodePos,
-        isClick: false,
-        field: 'kodePos',
-      },
-      {
-        lebel: 'Alamat Sekarang',
-        value: dataKaryawan?.alamatSekarang,
-        isClick: false,
-        field: 'alamatSekarang',
-      },
-      {
-        lebel: 'No Hp',
-        value: dataKaryawan?.noHp,
-        isClick: false,
-        field: 'noHp',
-      },
-      {
-        lebel: 'Email',
-        value: dataKaryawan?.email,
-        isClick: false,
-        field: 'email',
-      },
-      {
-        lebel: 'No Rekening',
-        value: dataKaryawan?.noRek,
-        isClick: false,
-        field: 'noRek',
-      },
-      {
-        lebel: 'Jenjang Pendidikan',
-        value: dataKaryawan?.jenjangPendidikan,
-        isClick: false,
-        field: 'jenjangPendidikan',
-      },
-      {
-        lebel: 'Tanggal Bergabung',
-        value: dataKaryawan?.tanggalBergabung,
-        isClick: false,
-        field: 'tanggalBergabung',
-      },
-      {
-        lebel: 'Status Perkawinan',
-        value: dataKaryawan?.statusPerkawinan,
-        isClick: false,
-        field: 'statusPerkawinan',
-      },
-      {
-        lebel: 'Golongan Darah',
-        value: dataKaryawan?.golonganDarah,
-        isClick: false,
-        field: 'golonganDarah',
-      },
-      {
-        lebel: 'Kontak Darurat',
-        value: dataKaryawan?.emergencyContact,
-        isClick: false,
-        field: 'emergencyContact',
-      },
-      {
-        lebel: 'Status Darurat',
-        value: dataKaryawan?.statusEmergency,
-        isClick: false,
-        field: 'statusEmergency',
-      },
-      {
-        lebel: 'Alamat Darurat',
-        value: dataKaryawan?.alamatEmergency,
-        isClick: false,
-        field: 'alamatEmergency',
-      },
-      {
-        lebel: 'No KTP',
-        value: dataKaryawan?.nomorKtp,
-        isClick: false,
-        field: 'nomorKtp',
-      },
-      {
-        lebel: 'No NPWP',
-        value: dataKaryawan?.noNpwp,
-        isClick: false,
-        field: 'noNpwp',
-      },
-      {
-        lebel: 'Asuransi',
-        value: dataKaryawan?.asuransi,
-        isClick: false,
-        field: 'asuransi',
-      },
-      {
-        lebel: 'Kartu Keluarga',
-        value: dataKaryawan?.kk,
-        isClick: false,
-        field: 'kk',
-      },
-    ]);
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [alertWarning, setAlertWarning] = useState(false);
+  const [kategoriList, setKategoriList] = useState([
+    {lebel: 'NIK', value: dataKaryawan?.nik, isClick: false, field: 'nik'},
+    {
+      lebel: 'Tempat Lahir',
+      value: dataKaryawan?.tempatLahir,
+      isClick: false,
+      field: 'tempatLahir',
+    },
+    {
+      lebel: 'Tanggal Lahir',
+      value: dataKaryawan?.tanggalLahir,
+      isClick: false,
+      field: 'tanggalLahir',
+    },
+    {
+      lebel: 'Jenis Kelamin',
+      value: dataKaryawan?.jenisKelamin,
+      isClick: false,
+      field: 'jenisKelamin',
+    },
+    {
+      lebel: 'Agama',
+      value: dataKaryawan?.agama,
+      isClick: false,
+      field: 'agama',
+    },
+    {
+      lebel: 'Kewarganegaraan',
+      value: dataKaryawan?.kewarganegaraan,
+      isClick: false,
+      field: 'kewarganegaraan',
+    },
+    {
+      lebel: 'Alamat KTP',
+      value: dataKaryawan?.alamatKtp,
+      isClick: false,
+      field: 'alamatKtp',
+    },
+    {
+      lebel: 'Kode Pos',
+      value: dataKaryawan?.kodePos,
+      isClick: false,
+      field: 'kodePos',
+    },
+    {
+      lebel: 'Alamat Sekarang',
+      value: dataKaryawan?.alamatSekarang,
+      isClick: false,
+      field: 'alamatSekarang',
+    },
+    {
+      lebel: 'No Hp',
+      value: dataKaryawan?.noHp,
+      isClick: false,
+      field: 'noHp',
+    },
+    {
+      lebel: 'Email',
+      value: dataKaryawan?.email,
+      isClick: false,
+      field: 'email',
+    },
+    {
+      lebel: 'No Rekening',
+      value: dataKaryawan?.noRek,
+      isClick: false,
+      field: 'noRek',
+    },
+    {
+      lebel: 'Jenjang Pendidikan',
+      value: dataKaryawan?.jenjangPendidikan,
+      isClick: false,
+      field: 'jenjangPendidikan',
+    },
+    {
+      lebel: 'Tanggal Bergabung',
+      value: dataKaryawan?.tanggalBergabung,
+      isClick: false,
+      field: 'tanggalBergabung',
+    },
+    {
+      lebel: 'Status Perkawinan',
+      value: dataKaryawan?.statusPerkawinan,
+      isClick: false,
+      field: 'statusPerkawinan',
+    },
+    {
+      lebel: 'Golongan Darah',
+      value: dataKaryawan?.golonganDarah,
+      isClick: false,
+      field: 'golonganDarah',
+    },
+    {
+      lebel: 'Kontak Darurat',
+      value: dataKaryawan?.emergencyContact,
+      isClick: false,
+      field: 'emergencyContact',
+    },
+    {
+      lebel: 'Status Darurat',
+      value: dataKaryawan?.statusEmergency,
+      isClick: false,
+      field: 'statusEmergency',
+    },
+    {
+      lebel: 'Alamat Darurat',
+      value: dataKaryawan?.alamatEmergency,
+      isClick: false,
+      field: 'alamatEmergency',
+    },
+    {
+      lebel: 'No KTP',
+      value: dataKaryawan?.nomorKtp,
+      isClick: false,
+      field: 'nomorKtp',
+    },
+    {
+      lebel: 'No NPWP',
+      value: dataKaryawan?.noNpwp,
+      isClick: false,
+      field: 'noNpwp',
+    },
+    {
+      lebel: 'Asuransi',
+      value: dataKaryawan?.asuransi,
+      isClick: false,
+      field: 'asuransi',
+    },
+    {
+      lebel: 'Kartu Keluarga',
+      value: dataKaryawan?.kk,
+      isClick: false,
+      field: 'kk',
+    },
+  ]);
 
   const getDataProfileAPI = async (headers, nik) => {
     try {
@@ -180,7 +180,7 @@ const DetailProfile = ({navigation, stylePP}) => {
         {headers},
       );
       const dataAPI = response.data.data.karyawan;
-      setDataKaryawan(dataAPI)
+      setDataKaryawan(dataAPI);
       // console.log(response.data.data)
       dispatch(setFormDetailProfile('nik', dataAPI.nik));
       dispatch(setFormDetailProfile('tempatLahir', dataAPI.tempatLahir));
@@ -192,32 +192,25 @@ const DetailProfile = ({navigation, stylePP}) => {
         setFormDetailProfile('kewarganegaraan', dataAPI.kewarganegaraan),
       );
       dispatch(setFormDetailProfile('kodePos', dataAPI.kodePos));
-      dispatch(
-        setFormDetailProfile('alamatSekarang', dataAPI.alamatSekarang),
-      );
+      dispatch(setFormDetailProfile('alamatSekarang', dataAPI.alamatSekarang));
       dispatch(setFormDetailProfile('noHp', dataAPI.noHp));
       dispatch(setFormDetailProfile('nama', dataAPI.nama));
       dispatch(setFormDetailProfile('noRek', dataAPI.noRek));
       dispatch(setFormDetailProfile('email', dataAPI.email));
       dispatch(
-        setFormDetailProfile(
-          'jenjangPendidikan',
-          dataAPI.jenjangPendidikan,
-        ),
+        setFormDetailProfile('jenjangPendidikan', dataAPI.jenjangPendidikan),
       );
       dispatch(
         setFormDetailProfile('tanggalBergabung', dataAPI.tanggalBergabung),
       );
-      dispatch(setFormDetailProfile('statusPerkawinan', dataAPI.statusPerkawinan));
       dispatch(
-        setFormDetailProfile('golonganDarah', dataAPI.golonganDarah),
+        setFormDetailProfile('statusPerkawinan', dataAPI.statusPerkawinan),
       );
+      dispatch(setFormDetailProfile('golonganDarah', dataAPI.golonganDarah));
       dispatch(
         setFormDetailProfile('emergencyContact', dataAPI.emergencyContact),
       );
-      dispatch(
-        setFormDetailProfile('telpEmergency', dataAPI.telpEmergency),
-      );
+      dispatch(setFormDetailProfile('telpEmergency', dataAPI.telpEmergency));
       dispatch(
         setFormDetailProfile('statusEmergency', dataAPI.statusEmergency),
       );
@@ -228,10 +221,12 @@ const DetailProfile = ({navigation, stylePP}) => {
       dispatch(setFormDetailProfile('noNpwp', dataAPI.noNpwp));
       dispatch(setFormDetailProfile('asuransi', dataAPI.asuransi));
       dispatch(setFormDetailProfile('kk', dataAPI.kk));
+      setIsLoading(false);
     } catch (error) {
-      console.log(error.response)
+      console.log(error.response);
+      setIsLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     // console.log('ini data nik / ', dataProfile.nik);
@@ -244,7 +239,6 @@ const DetailProfile = ({navigation, stylePP}) => {
       })
       .catch(error => console.log(error));
   }, [dataProfile]);
-
 
   const onChangeText = (value, inputType) => {
     dispatch(setFormDetailProfile(inputType, value));
@@ -275,47 +269,43 @@ const DetailProfile = ({navigation, stylePP}) => {
     navigation.navigate('previewPhoto', {photo: base64ImageData});
   };
 
-const resetData = () => {
-  getDataFromSession('token')
-    .then(token => {
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      getDataProfileAPI(headers, dataProfile.nik);
-    })
-    .catch(error => console.log(error));
-}
-
-const handleButtonClick = async index => {
-  // Duplikat array kategoriList
-  const updatedKategoriList = [...kategoriList];
-
-  // Mengubah nilai isClick pada objek yang sesuai
-  updatedKategoriList[index] = {
-    ...updatedKategoriList[index],
-    isClick: !updatedKategoriList[index].isClick,
+  const resetData = () => {
+    getDataFromSession('token')
+      .then(token => {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+        getDataProfileAPI(headers, dataProfile.nik);
+      })
+      .catch(error => console.log(error));
   };
 
-  // Jika isClick true, simpan nilai awal
-  if (updatedKategoriList[index].isClick) {
-    updatedKategoriList[index].originalValue =
-      updatedKategoriList[index].value;
-  }
+  const handleButtonClick = async index => {
+    // Duplikat array kategoriList
+    const updatedKategoriList = [...kategoriList];
 
-  // Memperbarui state kategoriList
-  setKategoriList(updatedKategoriList);
+    // Mengubah nilai isClick pada objek yang sesuai
+    updatedKategoriList[index] = {
+      ...updatedKategoriList[index],
+      isClick: !updatedKategoriList[index].isClick,
+    };
 
-  // Memeriksa apakah setidaknya satu elemen memiliki isClick true
-  const shouldShowEditButtons = () => {
-    return updatedKategoriList.some(item => item.isClick);
+    // Jika isClick true, simpan nilai awal
+    if (updatedKategoriList[index].isClick) {
+      updatedKategoriList[index].originalValue =
+        updatedKategoriList[index].value;
+    }
+
+    // Memperbarui state kategoriList
+    setKategoriList(updatedKategoriList);
+
+    // Memeriksa apakah setidaknya satu elemen memiliki isClick true
+    const shouldShowEditButtons = () => {
+      return updatedKategoriList.some(item => item.isClick);
+    };
+
+    setShowEditButtons(shouldShowEditButtons());
   };
-
-  setShowEditButtons(shouldShowEditButtons());
-};
-
-
-
-
 
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
@@ -330,103 +320,110 @@ const handleButtonClick = async index => {
         }}>
         <Text style={styles.Judul}>PROFILE</Text>
       </View>
-      <View style={styles.backgroundDetailProfile}>
-        {alertWarning ? (
-          <AlertNotificationWarning
-            buttonAlert="Close"
-            textBodyAlert="Data Tidak Boleh Kosong"
-            titleAlert="Success"
-          />
-        ) : (
-          ''
-        )}
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{alignItems: 'center'}}>
-            <TouchableOpacity onPress={moveToPreview}>
-              {base64ImageData !== '' ? (
-                <Image
-                  source={{uri: base64ImageData}}
-                  style={[styles.pp, stylePP]}
-                  resizeMode="cover"
-                />
-              ) : (
-                <Image
-                  source={require('../../assets/vector/user.png')}
-                  style={[styles.pp, stylePP]}
-                  resizeMode="cover"
-                />
-              )}
-            </TouchableOpacity>
-            <Text style={styles.textName}>{dataKaryawan?.nama}</Text>
-          </View>
-          <View style={{marginBottom: 20, marginTop: 10, alignItems: 'center'}}>
-            {kategoriList.map((item, index) => (
-              <View key={index} style={{marginBottom: 10}}>
-                <CustomTextInputProfile
-                  label={item.lebel}
-                  editable={item.isClick}
-                  value={item.value}
-                  onTextChange={value => onChangeText(value, item.field)}
-                />
-                {item.lebel === 'NIK' ||
-                item.lebel === 'Jenis Kelamin' ||
-                item.lebel === 'Asuransi' ||
-                item.lebel === 'Kartu Keluarga' ||
-                item.lebel === 'Tanggal Bergabung' ? (
-                  ''
+      {alertWarning ? (
+        <AlertNotificationWarning
+          buttonAlert="Close"
+          textBodyAlert="Data Tidak Boleh Kosong"
+          titleAlert="Success"
+        />
+      ) : (
+        ''
+      )}
+      {isLoading ? (
+        <SkeletonDetailProfile />
+      ) : (
+        <View style={styles.backgroundDetailProfile}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{alignItems: 'center'}}>
+              <TouchableOpacity onPress={moveToPreview}>
+                {base64ImageData !== '' ? (
+                  <Image
+                    source={{uri: base64ImageData}}
+                    style={[styles.pp, stylePP]}
+                    resizeMode="cover"
+                  />
                 ) : (
-                  <View style={styles.wrapImage}>
-                    <TouchableOpacity onPress={() => handleButtonClick(index)}>
-                      {item.isClick ? (
-                        <FontAwesomeIcon
-                          icon={faPen}
-                          color={Color.grey}
-                          size={25}
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faPen}
-                          color={Color.green}
-                          size={25}
-                        />
-                      )}
-                    </TouchableOpacity>
-                  </View>
+                  <Image
+                    source={require('../../assets/vector/user.png')}
+                    style={[styles.pp, stylePP]}
+                    resizeMode="cover"
+                  />
                 )}
-                {item.lebel === 'Asuransi' ||
-                item.lebel === 'Kartu Keluarga' ? (
-                  <View style={styles.wrapImage}>
-                    <TouchableOpacity onPress={() => handleButtonClick(index)}>
-                      {item.isClick ? (
-                        <FontAwesomeIcon
-                          icon={faImage}
-                          color={Color.grey}
-                          size={25}
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faImage}
-                          color={Color.green}
-                          size={25}
-                        />
-                      )}
-                    </TouchableOpacity>
-                  </View>
-                ) : (
-                  ''
-                )}
-              </View>
-            ))}
-          </View>
-          {showEditButtons && (
-            <View style={{alignItems: 'center', marginBottom: 40}}>
-              <TouchableOpacity style={styles.ButtonEdit}>
-                <Text style={styles.textButton}>Update</Text>
               </TouchableOpacity>
+              <Text style={styles.textName}>{dataProfile.full_name}</Text>
             </View>
-          )}
-        </ScrollView>
-      </View>
+            <View
+              style={{marginBottom: 20, marginTop: 10, alignItems: 'center'}}>
+              {kategoriList.map((item, index) => (
+                <View key={index} style={{marginBottom: 10}}>
+                  <CustomTextInputProfile
+                    label={item.lebel}
+                    editable={item.isClick}
+                    value={item.value}
+                    onTextChange={value => onChangeText(value, item.field)}
+                  />
+                  {item.lebel === 'NIK' ||
+                  item.lebel === 'Jenis Kelamin' ||
+                  item.lebel === 'Asuransi' ||
+                  item.lebel === 'Kartu Keluarga' ||
+                  item.lebel === 'Tanggal Bergabung' ? (
+                    ''
+                  ) : (
+                    <View style={styles.wrapImage}>
+                      <TouchableOpacity
+                        onPress={() => handleButtonClick(index)}>
+                        {item.isClick ? (
+                          <FontAwesomeIcon
+                            icon={faPen}
+                            color={Color.grey}
+                            size={25}
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faPen}
+                            color={Color.green}
+                            size={25}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                  {item.lebel === 'Asuransi' ||
+                  item.lebel === 'Kartu Keluarga' ? (
+                    <View style={styles.wrapImage}>
+                      <TouchableOpacity
+                        onPress={() => handleButtonClick(index)}>
+                        {item.isClick ? (
+                          <FontAwesomeIcon
+                            icon={faImage}
+                            color={Color.grey}
+                            size={25}
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faImage}
+                            color={Color.green}
+                            size={25}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  ) : (
+                    ''
+                  )}
+                </View>
+              ))}
+            </View>
+            {showEditButtons && (
+              <View style={{alignItems: 'center', marginBottom: 40}}>
+                <TouchableOpacity style={styles.ButtonEdit}>
+                  <Text style={styles.textButton}>Update</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </ScrollView>
+        </View>
+      )}
     </View>
   );
 };

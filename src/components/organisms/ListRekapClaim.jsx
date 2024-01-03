@@ -62,6 +62,13 @@ const ListRekapClaim = ({navigation}) => {
     return formattedDate;
   };
 
+  const moveToPreview = async id => {
+    // console.log('ini id', id);
+    navigation.navigate('previewPhotoAPI', {
+      path: `/api/rekap/get-detail-claim?id=${id}`,
+    });
+  };
+
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
@@ -93,7 +100,8 @@ const ListRekapClaim = ({navigation}) => {
                     type={claim.tipeClaimEntity.namaClaim || '-'}
                     keterangan={claim.keterangan || '-'}
                     nominal={claim.nominal || '-'}
-                    image64={claim.image64}
+                    // image64={claim.image64}
+                    onPress={() => moveToPreview(claim.id)}
                   />
                 </View>
               ))

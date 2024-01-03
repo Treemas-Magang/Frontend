@@ -51,9 +51,11 @@ import {
   ScreenFormUpdateAbsensi,
   ScreenFormAbsensiOther,
   ScreenDetailProfile,
+  ScreenPreviewPhotoAPI,
 } from '../pages/index';
 import MapPreviewTracking from '../components/organisms/MapPreviewTracking';
 import ScreenCobaTimeInput from '../pages/screen/ScreenCobaTimeInput';
+import SkeletonDetailProfile from '../components/skeleton/SkeletonDetailProfile';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
@@ -272,7 +274,7 @@ const screens = [
   },
   // {
   //   name: 'coba',
-  //   component: SkeletonDetailPengumuman,
+  //   component: SkeletonDetailProfile,
   //   gestureEnabled: true,
   // },
   {
@@ -283,6 +285,11 @@ const screens = [
   {
     name: 'cobaInputTime',
     component: ScreenCobaTimeInput,
+    gestureEnabled: true,
+  },
+  {
+    name: 'previewPhotoAPI',
+    component: ScreenPreviewPhotoAPI,
     gestureEnabled: true,
   },
 ];
