@@ -59,6 +59,7 @@ const MapPreview = ({navigation}) => {
   );
   const [locationLoaded, setLocationLoaded] = useState(false);
   const [projectData, setProjectData] = useState(initialLokasiPerusahaan);
+  const [isOther, setIsOther] = useState('');
 
   useEffect(() => {
     getDataFromSession('sudah_pulang')
@@ -68,6 +69,14 @@ const MapPreview = ({navigation}) => {
       .catch(error => {
         console.log(error);
       });
+  }, []);
+
+  useEffect(() => {
+    getDataFromSession('other')
+    .then(data => {
+      setIsOther(data);
+    })
+    .catch(error => console.log('gagal ambil other dari storage : ',error))
   }, []);
 
   const getDataFromStorage = async (key, data) => {
@@ -174,7 +183,7 @@ const MapPreview = ({navigation}) => {
       //jarak user ke kantor 100 = 100 meter
       const jarakMaxMasuk = parseInt(dataProject.jrkMax);
       console.log('jarak max masuk : ', jarakMaxMasuk);
-      if (isWFH !== '1' && isAbsen !== 'false') {
+      if (isWFH !== '1' && isAbsen !== 'false' && isOther !== '1') {
         if (jarakBulat > jarakMaxMasuk) {
           Alert.alert(
             'Peringatan',

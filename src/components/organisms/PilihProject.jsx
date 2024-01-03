@@ -115,6 +115,12 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   };
   const moveToOther = async  (tujuan, other) => {
     dispatch(setIsOther('other', other));
+    try {
+      await AsyncStorage.setItem('other', other);
+      console.log('berhasil simpan other ke storage')
+    } catch (error) {
+      console.log('gagal simpan other ke storage : ', error);
+    }
     navigation.navigate(tujuan);
   };
   return (
@@ -156,7 +162,7 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
           )}
           <TouchableOpacity
             style={styles.CardPilihProject}
-            onPress={() => moveToOther('pilihAbsenProject', '1')}>
+            onPress={() => moveToOther('absensi', '1')}>
             <Text style={styles.Text}>Other</Text>
             <Text style={styles.TextDeskripsi}>
               Dipilih Jika{' '}

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {Color} from '../../utils/color';
@@ -14,6 +15,7 @@ import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
 import {API_GABUNGAN} from '@env';
 import SkeletonDetailReimburse from '../skeleton/SkeletonDetailReimburse';
+import { formatToCurrency } from '../../utils/formatToCurrency';
 
 const DetailReimburse = ({navigation}) => {
   const {id} = useRoute().params;
@@ -54,17 +56,20 @@ const DetailReimburse = ({navigation}) => {
   const formatDate = dateString => {
     // Mengasumsikan dateString dalam format 'YYYY/MM/DD'
     const date = new Date(dateString);
-    const options = {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
-    };
 
-    // Menggunakan toLocaleDateString untuk mendapatkan format tanggal yang diinginkan
-    const formattedDate = date.toLocaleDateString('id-ID', options);
+    // Mendapatkan nilai day, month, dan year
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Perlu ditambah 1 karena bulan dimulai dari 0
+    const year = date.getFullYear();
 
-    // Mengganti karakter "/" dengan "-"
-    return formattedDate.replace(/\//g, '-');
+    // Menambah "0" di depan jika nilai day atau month kurang dari 10
+    const formattedDay = day < 10 ? '0' + day : day;
+    const formattedMonth = month < 10 ? '0' + month : month;
+
+    // Membuat string tanggal dengan format 'DD-MM-YYYY'
+    const formattedDate = `${formattedDay}-${formattedMonth}-${year}`;
+
+    return formattedDate;
   };
 
   return (
@@ -95,7 +100,7 @@ const DetailReimburse = ({navigation}) => {
             <View>
               <Text style={styles.TextTitle}>Tanggal</Text>
               <Text style={styles.TextDeskripsi}>
-                {formatDate(dataDetailReimburse.tanggal) || '-'}
+                {formatDate(dataDetailReimburse.tglAbsen) || '-'}
               </Text>
             </View>
             <View>
@@ -119,25 +124,25 @@ const DetailReimburse = ({navigation}) => {
             <View>
               <Text style={styles.TextTitle}>Jam Masuk</Text>
               <Text style={styles.TextDeskripsi}>
-                {dataDetailReimburse.jamMasuk.substring(0, 5) || '-'}
+                {dataDetailReimburse.jamMsk || '-'}
               </Text>
             </View>
             <View>
               <Text style={styles.TextTitle}>Jam Keluar</Text>
               <Text style={styles.TextDeskripsi}>
-                {dataDetailReimburse.jamKeluar.substring(0, 5) || '-'}
+                {dataDetailReimburse.jamPlg || '-'}
               </Text>
             </View>
             <View>
               <Text style={styles.TextTitle}>Transport</Text>
               <Text style={styles.TextDeskripsi}>
-                {dataDetailReimburse.transport || '-'}
+                {formatToCurrency(dataDetailReimburse.transport) || '-'}
               </Text>
             </View>
             <View>
               <Text style={styles.TextTitle}>Uang Makan</Text>
               <Text style={styles.TextDeskripsi}>
-                {dataDetailReimburse.uangMakan || '-'}
+                {formatToCurrency(dataDetailReimburse.uangMakan) || '-'}
               </Text>
             </View>
           </ScrollView>
