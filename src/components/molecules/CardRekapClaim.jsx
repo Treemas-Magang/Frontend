@@ -48,7 +48,7 @@ const CardRekapClaim = ({
         </Text>
       </View>
       <View style={styles.CardDalemReimburseStyle}>
-        {image64 === null ? (
+        {image64 === false ? (
           <View style={styles.wrapImage}></View>
         ) : (
           <View style={styles.wrapImage}>

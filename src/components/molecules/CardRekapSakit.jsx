@@ -17,6 +17,7 @@ const CardRekapSakit = ({
   catatanDisetujui,
   image64,
   status,
+  onPress,
 }) => {
   let base64ImageData = null;
   if (image64 && image64.base64 && image64.fileSize) {
@@ -26,10 +27,6 @@ const CardRekapSakit = ({
     console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
   }
   console.log('ini base64Image : ', base64ImageData);
-
-  const moveToPreview = () => {
-    navigation.navigate('previewPhoto', {photo: base64ImageData});
-  };
 
   let background = styles.cardBackground;
   switch (status) {
@@ -85,13 +82,13 @@ const CardRekapSakit = ({
           <Text style={styles.deskData}>{catatanDisetujui}</Text>
         </View>
       </View>
-      {image64 === null ? (
+      {image64 === false ? (
         <View style={styles.status}>
           <Text style={styles.statusText}>{status}</Text>
         </View>
       ) : (
         <View style={styles.status}>
-          <TouchableOpacity onPress={moveToPreview}>
+          <TouchableOpacity onPress={onPress}>
             <FontAwesomeIcon icon={faImage} size={50} color={Color.white} />
           </TouchableOpacity>
           <Text style={styles.statusText}>{status}</Text>

@@ -100,7 +100,7 @@ const ListRekapClaim = ({navigation}) => {
                     type={claim.tipeClaimEntity.namaClaim || '-'}
                     keterangan={claim.keterangan || '-'}
                     nominal={claim.nominal || '-'}
-                    // image64={claim.image64}
+                    image64={claim.gambarnya}
                     onPress={() => moveToPreview(claim.id)}
                   />
                 </View>

@@ -332,6 +332,7 @@ const FormClaim = ({navigation}) => {
         value={form_claim.keterangan}
         textColor={inputKosong ? Color.red : Color.blue}
         style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+        maxLength={25}
         onTextChange={value => onChangeText(value, 'keterangan')}
       />
       <CustomTextInput
@@ -345,6 +346,7 @@ const FormClaim = ({navigation}) => {
         keyboardType={'numeric'}
         textColor={inputKosong ? Color.red : Color.blue}
         style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+        maxLength={8}
         onTextChange={value => onChangeText(value, 'nominal')}
       />
       <View

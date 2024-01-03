@@ -172,7 +172,7 @@ const FormSakit = ({navigation}) => {
             default:
               setIsLoading(false);
               console.log(error.response);
-              console.log('gagal ajukan claim');
+              console.log('gagal ajukan Sakit');
               break;
           }
         }
@@ -377,6 +377,7 @@ const FormSakit = ({navigation}) => {
                 value={form_sakit.keperluanCuti}
                 textColor={inputKosong ? Color.red : Color.blue}
                 style={inputKosong ? styles.fieldSalah : styles.fieldBener}
+                maxLength={25}
                 onTextChange={value => onChangeText(value, 'keperluanCuti')}
               />
             </View>
