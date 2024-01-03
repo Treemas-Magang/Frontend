@@ -82,7 +82,9 @@ const ScreenDashboard = ({navigation}) => {
         'sudah_absen',
         dataAPI[0].jamMsk !== null ? 'true' : 'false',
       );
-
+      if (dataAPI[0] && dataAPI[0].jamMsk === null) {
+        await AsyncStorage.removeItem('other');
+      }
       // Setelah itu, periksa apakah dataAPI[0].jamPlg tidak null
       if (dataAPI[0].jamMsk !== null && dataAPI[0].jamPlg !== null) {
         await AsyncStorage.setItem('sudah_pulang', 'true');

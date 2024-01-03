@@ -168,7 +168,7 @@ const CardPilihAbsenProject = ({navigation}) => {
                 onPress={() => moveTo('formUpdateAbsensi', '0')}
                 style={styles.CardPilihProject}>
                 <Text style={styles.Text}>ON SITE</Text>
-                <Text style={styles.TextDeskripsi}>asu</Text>
+                <Text style={styles.TextDeskripsi}>lokasi other</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.CardPilihProject}
@@ -204,7 +204,7 @@ const CardPilihAbsenProject = ({navigation}) => {
                 onPress={() => moveTo('absensi', '0')}
                 style={styles.CardPilihProject}>
                 <Text style={styles.Text}>ON SITE</Text>
-                <Text style={styles.TextDeskripsi}>asu</Text>
+                <Text style={styles.TextDeskripsi}>lokasi other</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.CardPilihProject}

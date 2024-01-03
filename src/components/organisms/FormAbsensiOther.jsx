@@ -198,7 +198,7 @@ const FormAbsensiOther = ({navigation}) => {
         console.log('alasan telat masuk tidak boleh kosong');
         setIsLoading(false);
       } else {
-        await kirimDataAbsensi();
+        // await kirimDataAbsensi();
       }
     } catch (error) {
       console.error('Error in sendData:', error);
