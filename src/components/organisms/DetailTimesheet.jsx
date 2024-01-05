@@ -53,22 +53,24 @@ const DetailTimesheet = ({navigation}) => {
       .catch(error => console.log(error));
   }, [id]);
 
-  const formatDate = dateString => {
-    // Mengasumsikan dateString dalam format 'YYYY/MM/DD'
-    const date = new Date(dateString);
+  // const formatDate = dateString => {
+  //   // Mengasumsikan dateString dalam format 'YYYY/MM/DD'
+  //   const date = new Date(dateString);
 
-    const options = {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
-    };
+  //   // Mendapatkan nilai day, month, dan year
+  //   const day = date.getDate();
+  //   const month = date.getMonth() + 1; // Perlu ditambah 1 karena bulan dimulai dari 0
+  //   const year = date.getFullYear();
 
-    // Menggunakan toLocaleDateString untuk mendapatkan format tanggal yang diinginkan
-    const formattedDate = date.toLocaleDateString('id-ID', options);
+  //   // Menambah "0" di depan jika nilai day atau month kurang dari 10
+  //   const formattedDay = day < 10 ? '0' + day : day;
+  //   const formattedMonth = month < 10 ? '0' + month : month;
 
-    // Mengganti karakter "/" dengan "-"
-    return formattedDate.replace(/\//g, '-');
-  };
+  //   // Membuat string tanggal dengan format 'DD-MM-YYYY'
+  //   const formattedDate = `${formattedDay}-${formattedMonth}-${year}`;
+
+  //   return formattedDate;
+  // };
 
   const moveTo = (tujuan, tgl) => {
     navigation.navigate(tujuan, {tgl: tgl});
@@ -102,7 +104,8 @@ const DetailTimesheet = ({navigation}) => {
                 Tanggal
               </Text>
               <Text style={{fontFamily: text.light}}>
-                {formatDate(dataDetailTimesheet.tglMsk) || '-'}
+                {/* {formatDate(dataDetailTimesheet.tglMsk) || '-'} */}
+                {dataDetailTimesheet.tglMsk || '-'}
               </Text>
             </View>
             <View>

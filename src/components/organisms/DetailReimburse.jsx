@@ -15,7 +15,7 @@ import axios from 'axios';
 import {getDataFromSession} from '../../utils/getDataSession';
 import {API_GABUNGAN} from '@env';
 import SkeletonDetailReimburse from '../skeleton/SkeletonDetailReimburse';
-import { formatToCurrency } from '../../utils/formatToCurrency';
+import {formatToCurrency} from '../../utils/formatToCurrency';
 
 const DetailReimburse = ({navigation}) => {
   const {id} = useRoute().params;
@@ -53,24 +53,24 @@ const DetailReimburse = ({navigation}) => {
       .catch(error => console.log(error));
   }, [id]);
 
-  const formatDate = dateString => {
-    // Mengasumsikan dateString dalam format 'YYYY/MM/DD'
-    const date = new Date(dateString);
+  // const formatDate = dateString => {
+  //   // Mengasumsikan dateString dalam format 'YYYY/MM/DD'
+  //   const date = new Date(dateString);
 
-    // Mendapatkan nilai day, month, dan year
-    const day = date.getDate();
-    const month = date.getMonth() + 1; // Perlu ditambah 1 karena bulan dimulai dari 0
-    const year = date.getFullYear();
+  //   // Mendapatkan nilai day, month, dan year
+  //   const day = date.getDate();
+  //   const month = date.getMonth() + 1; // Perlu ditambah 1 karena bulan dimulai dari 0
+  //   const year = date.getFullYear();
 
-    // Menambah "0" di depan jika nilai day atau month kurang dari 10
-    const formattedDay = day < 10 ? '0' + day : day;
-    const formattedMonth = month < 10 ? '0' + month : month;
+  //   // Menambah "0" di depan jika nilai day atau month kurang dari 10
+  //   const formattedDay = day < 10 ? '0' + day : day;
+  //   const formattedMonth = month < 10 ? '0' + month : month;
 
-    // Membuat string tanggal dengan format 'DD-MM-YYYY'
-    const formattedDate = `${formattedDay}-${formattedMonth}-${year}`;
+  //   // Membuat string tanggal dengan format 'DD-MM-YYYY'
+  //   const formattedDate = `${formattedDay}-${formattedMonth}-${year}`;
 
-    return formattedDate;
-  };
+  //   return formattedDate;
+  // };
 
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
@@ -87,9 +87,9 @@ const DetailReimburse = ({navigation}) => {
       </View>
       <View style={styles.backgroundCardReimburse}>
         {isLoading ? (
-          // <SkeletonDetailReimburse />
-          <Text>Loading...</Text>
+          <SkeletonDetailReimburse />
         ) : (
+          // <Text>Loading...</Text>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View>
               <Text style={styles.TextTitle}>Hari</Text>
@@ -100,7 +100,8 @@ const DetailReimburse = ({navigation}) => {
             <View>
               <Text style={styles.TextTitle}>Tanggal</Text>
               <Text style={styles.TextDeskripsi}>
-                {formatDate(dataDetailReimburse.tglAbsen) || '-'}
+                {/* {formatDate(dataDetailReimburse.tanggal) || '-'} */}
+                {dataDetailReimburse.tanggal || '-'}
               </Text>
             </View>
             <View>
@@ -116,21 +117,23 @@ const DetailReimburse = ({navigation}) => {
             <View>
               <Text style={styles.TextTitle}>Lokasi</Text>
               <Text style={{textAlign: 'justify', fontFamily: text.light}}>
-                jl. boulevard graha raya blok N1 no.21, RT.4/RW.8, Paku jaya,
-                Kec. Serpong utara, Kota Tangerang Selatan, Banten 15326,
-                Indonesia
+                {dataDetailReimburse.lokasi || '-'}
               </Text>
             </View>
             <View>
               <Text style={styles.TextTitle}>Jam Masuk</Text>
               <Text style={styles.TextDeskripsi}>
-                {dataDetailReimburse.jamMsk || '-'}
+                {dataDetailReimburse.jamMsk
+                  ? dataDetailReimburse.jamMsk.substring(0, 5)
+                  : '-'}
               </Text>
             </View>
             <View>
               <Text style={styles.TextTitle}>Jam Keluar</Text>
               <Text style={styles.TextDeskripsi}>
-                {dataDetailReimburse.jamPlg || '-'}
+                {dataDetailReimburse.jamPlg
+                  ? dataDetailReimburse.jamPlg.substring(0, 5)
+                  : '-'}
               </Text>
             </View>
             <View>
