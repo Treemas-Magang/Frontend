@@ -16,10 +16,24 @@ const CardReimburse = ({
   overtime,
   transport,
   uangMakan,
+  sakit,
+  cuti,
+  jamMsk,
   onPress,
 }) => {
+  let background = styles.cardBackground;
+  if (jamMsk !== '-') {
+    background = styles.cardHadir;
+  } else if (sakit !== null || cuti !== null) {
+    background = styles.cardCuti;
+  } else if (jamMsk === '-') {
+    background = styles.cardTidakMasuk;
+  }
   return (
-    <TouchableOpacity style={styles.CardReimburseStyle} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.CardReimburseStyle, background]}
+      // style={styles.CardReimburseStyle}
+      onPress={onPress}>
       <View
         style={{
           width: wp('80%'),
@@ -101,5 +115,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 10,
+  },
+  cardBackground: {
+    backgroundColor: Color.green,
+  },
+  cardHadir: {
+    backgroundColor: Color.green,
+  },
+  cardSakit: {
+    backgroundColor: Color.red,
+  },
+  cardTidakMasuk: {
+    backgroundColor: Color.grey,
   },
 });

@@ -117,6 +117,9 @@ const ListReimburse = ({navigation}) => {
                     overtime={reimburse.overtime}
                     transport={reimburse.transport}
                     uangMakan={reimburse.uangMakan}
+                    sakit={reimburse.flgKet || '-'}
+                    cuti={reimburse.flgKet || '-'}
+                    jamMsk={reimburse.jamMsk}
                   />
                 </View>
               ))
