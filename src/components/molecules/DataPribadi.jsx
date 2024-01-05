@@ -20,13 +20,11 @@ const DataPribadi = ({stylePP, styleDataPribadi, navigation}) => {
   } else {
     console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
   }
-  // console.log(dataProfile)
   useEffect(() => {
     try {
       getDataFromSession('dataProfilUser')
         .then(data => {
           const dataProfileStorage = JSON.parse(data);
-          // console.log('data profil : ', dataProfileStorage);
           setDataProfile(dataProfileStorage);
         })
         .catch(error => console.log(error));
@@ -34,7 +32,7 @@ const DataPribadi = ({stylePP, styleDataPribadi, navigation}) => {
       console.log(error);
     }
   }, []);
-  console.log('ayam : ',dataProfile);
+  // console.log('ayam : ',dataProfile);
   const moveTo = () => {
     navigation.navigate('detailProfile');
   };

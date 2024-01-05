@@ -32,7 +32,7 @@ import {openCamera, openGalerImg} from '../../utils/getPhoto';
 import {useRoute} from '@react-navigation/native';
 import {API_URL, API_GABUNGAN} from '@env';
 
-const FormUpdateAbsensi = ({navigation}) => {
+const FormUpdateAbsensiOther = ({navigation}) => {
   const dispatch = useDispatch();
   const {formUpdateMasuk} = useSelector(state => state.UpdateAbsenReducer);
   const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
@@ -42,8 +42,6 @@ const FormUpdateAbsensi = ({navigation}) => {
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const [isJarakTerlaluJauh, setIsJarakTerlaluJauh] = useState(false);
   const {jarakTerlaluJauh} = useRoute().params;
-
-  
 
   //cek jarak terlalu jauh
   useEffect(() => {
@@ -196,12 +194,11 @@ const FormUpdateAbsensi = ({navigation}) => {
     try {
       checkMockLocation();
       console.log('kirim data update : ', formUpdateMasuk);
-      await kirimDataAbsensi();
+    //   await kirimDataAbsensi();
     } catch (error) {
       console.error('Error in sendData:', error);
     }
   };
-
 
   return (
     <View style={styles.congtainerForm}>
@@ -226,7 +223,7 @@ const FormUpdateAbsensi = ({navigation}) => {
       <CustomTextInput
         label="Lokasi Project"
         secureTextEntry={false}
-        value={dataProject.namaTempat}
+        value='other'
         editable={false}
       />
       <CustomTextInput
@@ -243,13 +240,6 @@ const FormUpdateAbsensi = ({navigation}) => {
         editable={false}
         value={formUpdateMasuk.lokasiMsk}
         onTextChange={value => onChangeText(value, 'lokasi')}
-      />
-      <CustomTextInput
-        label="Jarak"
-        editable={false}
-        secureTextEntry={false}
-        value={formUpdateMasuk.jarakMsk}
-        onTextChange={value => onChangeText(value, 'jarak')}
       />
       {isWFH > 0 ? (
         <>
@@ -295,16 +285,14 @@ const FormUpdateAbsensi = ({navigation}) => {
         </>
       ) : isLoading ? (
         <ButtonLoading />
-      ) : isJarakTerlaluJauh ? (
-        <ButtonAction title="Jarak terlalu jauh" style={{width: 269}} />
-      ) : (
+      ) :  (
         <ButtonAction title="Update" style={{width: 269}} onPress={sendData} />
       )}
     </View>
   );
 };
 
-export default FormUpdateAbsensi;
+export default FormUpdateAbsensiOther;
 
 const styles = StyleSheet.create({
   congtainerForm: {

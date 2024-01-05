@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAbsenPulang, setUpdateAbsen, setIsWFH} from '../../redux';
 import {getDataFromSession} from '../../utils/getDataSession';
@@ -40,6 +40,7 @@ const CardPilihAbsenProject = ({navigation}) => {
 
   // State untuk menyimpan status absen (ON SITE atau WORK FROM HOME)
   const [isAbsen, setIsAbsen] = useState('');
+  const [isLoading, setIsloading] = useState(true);
 
   // Selector untuk mendapatkan data proyek dari Redux store
   const {dataProject} = useSelector(state => state.ProjectYangDipilihReducer);
@@ -66,6 +67,7 @@ const CardPilihAbsenProject = ({navigation}) => {
   // Mengambil lokasi user saat ini dan melakukan beberapa tindakan setelahnya
   useEffect(() => {
     const ambilLokasi = async () => {
+
       try {
         const locationData = await getLocation();
         console.log('Lokasi berhasil diambil:', locationData);
@@ -77,6 +79,7 @@ const CardPilihAbsenProject = ({navigation}) => {
           'AIzaSyA1tH4Nq364y6knELo5DwSWIwyvxNRF2b8',
         )
           .then(data => {
+            setIsloading(false);
             console.log('alamat : ', data);
             setAlamatUser(data);
             // Update data absen masuk
@@ -174,7 +177,11 @@ const CardPilihAbsenProject = ({navigation}) => {
            onPress={() => moveTo('formUpdateAbsensi', '1')}
            style={styles.CardPilihProject}>
            <Text style={styles.Text}>WORK FROM HOME</Text>
-           <Text style={styles.TextDeskripsi}>{alamatUser}</Text>
+           {isLoading ? (
+             <ActivityIndicator color={Color.green} size="large" />
+           ) : (
+             <Text style={styles.TextDeskripsi}>{alamatUser}</Text>
+           )}
          </TouchableOpacity>
        </>
      ) : (
@@ -191,7 +198,11 @@ const CardPilihAbsenProject = ({navigation}) => {
            onPress={() => moveTo('absensi', '1')}
            style={styles.CardPilihProject}>
            <Text style={styles.Text}>WORK FROM HOME</Text>
-           <Text style={styles.TextDeskripsi}>{alamatUser}</Text>
+           {isLoading ? (
+             <ActivityIndicator color={Color.green} size="small" />
+           ) : (
+             <Text style={styles.TextDeskripsi}>{alamatUser}</Text>
+           )}
          </TouchableOpacity>
        </>
      )}

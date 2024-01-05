@@ -21,7 +21,6 @@ const MenuUtama = ({
     getDataFromSession('dataProfilUser')
       .then(data => {
         const dataProfile = JSON.parse(data);
-        console.log('data profil menu utama : ', dataProfile);
         setIsRole(dataProfile.role);
       })
       .catch(error => console.log(error));

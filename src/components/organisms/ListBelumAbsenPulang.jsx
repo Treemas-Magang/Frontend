@@ -80,8 +80,8 @@ const ListBelumAbsenPulang = ({navigation}) => {
     return formattedDate;
   };
 
-    const moveTo = (tujuan, lokasi, tanggal) => {
-      navigation.navigate(tujuan, {lokasi: lokasi, tanggal: tanggal});
+    const moveTo = (tujuan, lokasi, tanggal, latProj, lonProj, idAbsen) => {
+      navigation.navigate(tujuan, {lokasi: lokasi, tanggal: tanggal, latProj: latProj, lonProj: lonProj, idAbsen: idAbsen});
     };
 
   return (
@@ -115,6 +115,9 @@ const ListBelumAbsenPulang = ({navigation}) => {
                       'formBelumAbsenPulang',
                       data.lokasiProject,
                       data.tglAbsen,
+                      data.latitudeProject,
+                      data.longitudeProject,
+                      data.idAbsen,
                     )
                   }
                   navigation={navigation}

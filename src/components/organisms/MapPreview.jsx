@@ -161,6 +161,7 @@ const MapPreview = ({navigation}) => {
 
     ambilLokasi();
   }, [setCurrentLocation]);
+  //hitung jarak user ke tempat project
   useEffect(() => {
     if (
       projectData.latitude &&
