@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 35,
     borderTopStartRadius: 35,
     // marginTop: -50,
-    height: hp('90%'),
+    height: hp('80%'),
     paddingTop: hp('5%'),
     paddingBottom: hp('1%'),
   },
