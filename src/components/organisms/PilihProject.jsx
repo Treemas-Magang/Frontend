@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 import {
   StyleSheet,
@@ -18,16 +19,27 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useDispatch} from 'react-redux';
-import {setIsOther, setIsWFH, setProjectYangDipilih} from '../../redux';
+import {setIsOther, setIsWFH, setProjectYangDipilih, setUpdateAbsen} from '../../redux';
 import {API_URL, API_GABUNGAN} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getAlamat } from '../../utils/getAlamat';
+import getLocation from '../../utils/getLocation';
+
+const initialLokasiUser = {
+  latitude: 0,
+  longitude: 0,
+  latitudeDelta: 0.001,
+  longitudeDelta: 0.001,
+};
 
 const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
   const dispatch = useDispatch();
   const [pilihProjects, setPilihProject] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
   const [dataProfile, setDataProfile] = useState([]);
-
+  const [isAbsen, setIsAbsen] = useState('');
+  const [currentLocation, setCurrentLocation] = useState(initialLokasiUser);
+  const [alamatUser, setAlamatUser] = useState('');
     const saveDataToStorage = async (key, data) => {
       try {
         const dataString = JSON.stringify(data);
@@ -128,8 +140,57 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
     } catch (error) {
       console.log('gagal simpan other ke storage : ', error);
     }
-    navigation.navigate(tujuan);
+    navigation.navigate(tujuan, {jarakTerlaluJauh: null});
   };
+
+    useEffect(() => {
+      getDataFromSession('sudah_absen')
+        .then(sudahAbsen => {
+          setIsAbsen(sudahAbsen);
+        })
+        .catch(error => console.log(error));
+    }, []);
+
+      useEffect(() => {
+        const ambilLokasi = async () => {
+          try {
+            const locationData = await getLocation();
+            console.log('Lokasi berhasil diambil:', locationData);
+
+            // Mendapatkan alamat dari koordinat lokasi
+            getAlamat(
+              locationData.latitude,
+              locationData.longitude,
+              'AIzaSyA1tH4Nq364y6knELo5DwSWIwyvxNRF2b8',
+            )
+              .then(data => {
+                console.log('alamat : ', data);
+                setAlamatUser(data);
+                // Update data absen masuk
+                dispatch(setUpdateAbsen('lokasiMsk', data));
+                dispatch(
+                  setUpdateAbsen('gpsLatitudeMsk', locationData.latitude),
+                );
+                dispatch(
+                  setUpdateAbsen('gpsLongitudeMsk', locationData.longitude),
+                );
+                dispatch(setUpdateAbsen('projectId', ''));
+              })
+              .catch(error => console.log(error));
+
+            // Update lokasi saat ini
+            setCurrentLocation({
+              ...currentLocation,
+              latitude: locationData.latitude,
+              longitude: locationData.longitude,
+            });
+          } catch (error) {
+            console.error('Kesalahan saat mengambil lokasi:', error);
+          }
+        };
+
+        ambilLokasi();
+      }, [dispatch, setCurrentLocation, setAlamatUser]);
   return (
     <View>
       <View style={[styles.wrappPilihProject, ukuranWrappPilihProject]}>
@@ -167,17 +228,31 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
               </View>
             ))
           )}
-          <TouchableOpacity
-            style={styles.CardPilihProject}
-            onPress={() => moveToOther('absensi', '1')}>
-            <Text style={styles.Text}>Other</Text>
-            <Text style={styles.TextDeskripsi}>
-              Dipilih Jika{' '}
-              {dataProfile.jenisKelamin === 'Laki-Laki' ? 'mas' : 'mba'}{' '}
-              {dataProfile.full_name} Berada Diluar Project Yang Telah
-              Disediakan Seperti Kunjungan atau Dinas
-            </Text>
-          </TouchableOpacity>
+          {isAbsen === 'true' ? (
+            <TouchableOpacity
+              style={styles.CardPilihProject}
+              onPress={() => moveToOther('formUpdateAbsensiOther', '1')}>
+              <Text style={styles.Text}>Other</Text>
+              <Text style={styles.TextDeskripsi}>
+                Dipilih Jika{' '}
+                {dataProfile.jenisKelamin === 'Laki-Laki' ? 'mas' : 'mba'}{' '}
+                {dataProfile.full_name} Berada Diluar Project Yang Telah
+                Disediakan Seperti Kunjungan atau Dinas
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.CardPilihProject}
+              onPress={() => moveToOther('absensi', '1')}>
+              <Text style={styles.Text}>Other</Text>
+              <Text style={styles.TextDeskripsi}>
+                Dipilih Jika{' '}
+                {dataProfile.jenisKelamin === 'Laki-Laki' ? 'mas' : 'mba'}{' '}
+                {dataProfile.full_name} Berada Diluar Project Yang Telah
+                Disediakan Seperti Kunjungan atau Dinas
+              </Text>
+            </TouchableOpacity>
+          )}
         </ScrollView>
       </View>
     </View>

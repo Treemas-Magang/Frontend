@@ -23,8 +23,11 @@ const ButtonTime = ({style, onData}) => {
 
   const handleConfirm = time => {
     hideDatePicker();
-    setSelectedTime(time.toLocaleTimeString());
-    onData(time.toLocaleTimeString());
+    let waktu = time.toLocaleTimeString();
+    let waktuBaru = waktu.replace(/\./g, ':');
+    setSelectedTime(waktuBaru);
+    console.log(waktuBaru)
+    onData(waktuBaru);
   };
 
   return (

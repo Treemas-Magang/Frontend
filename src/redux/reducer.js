@@ -660,10 +660,13 @@ const FormLupaPasswordReducer = (state = initialStateLupaPassword, action) => {
 
 const initialStateFormLupaAbsenPulang = {
   form_lupa_absen_pulang: {
-    catatanLupaPulang: '',
+    keteranganLupaPulang: '',
+    notePekerjaan: '',
+    lokasiPlg: '',
+    gpsLatitudePlg: null,
+    gpsLongitudePlg: null,
     jamPlg: '',
-    timesheet: '',
-    jarak: '',
+    jarakPlg: '',
   },
 };
 const FormLupaAbsenPulangReducer = (

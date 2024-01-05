@@ -44,7 +44,6 @@ const ScreenDashboard = ({navigation}) => {
     getDataFromSession('dataProfilUser')
       .then(data => {
         const dataProfile = JSON.parse(data);
-        // console.log('data profil menu utama : ', dataProfile);
         setIsRole(dataProfile.role);
       })
       .catch(error => console.log(error));
@@ -144,6 +143,13 @@ const ScreenDashboard = ({navigation}) => {
 
     /////////////////
   }, [dispatch]);
+
+
+  //kirim lokasi
+  useEffect(() => {
+    kirimLokasiTracking();
+  }, []);
+
 
   // useEffect(() => {
   //   // Start the background timer

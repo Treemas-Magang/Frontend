@@ -52,6 +52,7 @@ import {
   ScreenFormAbsensiOther,
   ScreenDetailProfile,
   ScreenPreviewPhotoAPI,
+  ScreenFormUpdateAbsensiOther,
 } from '../pages/index';
 import MapPreviewTracking from '../components/organisms/MapPreviewTracking';
 import ScreenCobaTimeInput from '../pages/screen/ScreenCobaTimeInput';
@@ -290,6 +291,11 @@ const screens = [
   {
     name: 'previewPhotoAPI',
     component: ScreenPreviewPhotoAPI,
+    gestureEnabled: true,
+  },
+  {
+    name: 'formUpdateAbsensiOther',
+    component: ScreenFormUpdateAbsensiOther,
     gestureEnabled: true,
   },
 ];

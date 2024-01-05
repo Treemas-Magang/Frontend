@@ -5,6 +5,7 @@ import {API_GABUNGAN} from '@env';
 import {Alert, BackHandler} from 'react-native';
 import RNRestart from 'react-native-restart';
 import Geolocation from '@react-native-community/geolocation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let lokasi = {
   accuracy: null,
@@ -39,9 +40,13 @@ export const kirimLokasiTracking = async () => {
           lokasi.latitude !== null &&
           lokasi.longitude !== null
         ) {
+          await AsyncStorage.setItem('latLokasiUser', '' + lokasi.latitude);
+          await AsyncStorage.setItem('lonLokasiUser', '' + lokasi.longitude);
+
           const headers = {
             Authorization: `Bearer ${token}`,
           };
+          //simpan ke storage
 
           // Kirim data lokasi
           const response = await axios.post(
