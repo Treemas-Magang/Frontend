@@ -71,7 +71,7 @@ const DetailTimesheet = ({navigation}) => {
   };
 
   const moveTo = (tujuan, tgl) => {
-    navigation.navigate(tujuan, {tgl: tgl});
+    navigation.navigate(tujuan, {tgl: tgl, id: id});
   };
   return (
     <View style={styles.container}>
@@ -111,7 +111,7 @@ const DetailTimesheet = ({navigation}) => {
                 Project
               </Text>
               <Text style={{fontFamily: text.light}}>
-                {dataDetailTimesheet.projectId.namaProject || '-'}
+                {dataDetailTimesheet.projectId?.namaProject || '-'}
               </Text>
             </View>
             <View>
@@ -120,7 +120,7 @@ const DetailTimesheet = ({navigation}) => {
                 Lokasi
               </Text>
               <Text style={{textAlign: 'justify', fontFamily: text.light}}>
-                {dataDetailTimesheet.projectId.lokasi || '-'}
+                {dataDetailTimesheet.projectId?.lokasi || '-'}
               </Text>
             </View>
             <View>
@@ -160,7 +160,7 @@ const DetailTimesheet = ({navigation}) => {
                 Total Jam Kerja
               </Text>
               <Text style={{fontFamily: text.light}}>
-                {dataDetailTimesheet.projectId.jamKerja}
+                {dataDetailTimesheet.projectId?.jamKerja}
               </Text>
             </View>
             <View>

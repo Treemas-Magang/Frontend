@@ -155,8 +155,8 @@ const ListTimesheet = ({navigation}) => {
                   <CardTimesheet
                     onPress={() => moveTo('detailTimesheet', data.id)}
                     navigation={navigation}
-                    lokasi={data.projectId.lokasi || '-'}
-                    penempatan={data.projectId.namaProject || '-'}
+                    lokasi={data.projectId?.lokasi || '-'}
+                    penempatan={data.projectId?.namaProject || '-'}
                     tanggal={formatDate(data.tglMsk) || '-'}
                   />
                 </View>

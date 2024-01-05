@@ -8,21 +8,80 @@ import {text} from '../../utils/text';
 import {useSelector, useDispatch} from 'react-redux';
 import {setFormTimesheet} from '../../redux';
 import {useRoute} from '@react-navigation/native';
+import { getDataFromSession } from '../../utils/getDataSession';
+import {API_GABUNGAN} from '@env';
+import axios from 'axios';
 
 const CardUpdateTimesheet = () => {
-  const {tgl} = useRoute().params;
+  const {tgl, id} = useRoute().params;
+  console.log('id :', id);
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.TimesheetReducer);
   const [inputKosong, setInputKosong] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [uploadBerhasil, setUploadBerhasil] = useState(false);
   const onChangeText = (value, inputType) => {
     dispatch(setFormTimesheet(inputType, value));
   };
 
+
+      const kirimDataUpdateTimesheet = async () => {
+        try {
+          //mengambil token untuk otorisasi
+          const token = await getDataFromSession('token');
+          if (token !== null) {
+            const headers = {
+              Authorization: `Bearer ${token}`,
+            };
+
+            try {
+              //melakukan hit ke API untuk kirim data Absen
+              const response = await axios.post(
+                API_GABUNGAN + '/api/rekap/update-timesheet?id=' + id,
+                form,
+                {headers},
+              );
+              console.log(response);
+              console.log('berhasil mengirim form update timeSheet');
+              console.log(uploadBerhasil);
+              setUploadBerhasil(true);
+              setIsLoading(false);
+              //saat berhasil kirim data kosongkan reducer
+              dispatch(setFormTimesheet('keteranganTimesheet', ''));
+            } catch (error) {
+              console.log(error.response);
+              const errorCode = error.response.status;
+              switch (errorCode) {
+                case 403:
+                  console.log('project tidak tepat');
+                  setIsLoading(false);
+                  break;
+                case 404:
+                  setIsLoading(false);
+                  break;
+                case 500:
+                  setIsLoading(false);
+                  console.log('Kesalahan server');
+                  break;
+                default:
+                  setIsLoading(false);
+                  console.log(error.response);
+                  console.log('gagal absen');
+                  break;
+              }
+            }
+          } else {
+            console.log('Data tidak ditemukan di session.');
+          }
+        } catch (error) {
+          console.error('Terjadi kesalahan:', error);
+        }
+      };
+
   const sendData = () => {
-    if (form.keterangan !== '') {
+    if (form.keteranganTimesheet !== '') {
       setInputKosong(false);
-      // await uploadData(formPulang);
+      kirimDataUpdateTimesheet();
       console.log('kirim data : ', form);
     } else {
       setInputKosong(true);
@@ -43,10 +102,10 @@ const CardUpdateTimesheet = () => {
         </Text>
         <CustomTextInput
           label="Keterangan"
-          value={form.keterangan}
+          value={form.keteranganTimesheet}
           textColor={inputKosong ? Color.red : Color.blue}
           style={inputKosong ? styles.fieldSalah : styles.fieldBener}
-          onTextChange={value => onChangeText(value, 'keterangan')}
+          onTextChange={value => onChangeText(value, 'keteranganTimesheet')}
           secureTextEntry={false}
         />
         {inputKosong ? (
