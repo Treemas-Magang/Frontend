@@ -76,7 +76,7 @@ const DetailTimesheet = ({navigation}) => {
     navigation.navigate(tujuan, {tgl: tgl});
   };
   return (
-    <View style={styles.container}>
+    <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
       <VectorAtasKecil />
@@ -114,7 +114,7 @@ const DetailTimesheet = ({navigation}) => {
                 Project
               </Text>
               <Text style={{fontFamily: text.light}}>
-                {dataDetailTimesheet.projectId.namaProject || '-'}
+                {dataDetailTimesheet.projectId?.namaProject || '-'}
               </Text>
             </View>
             <View>
@@ -123,7 +123,7 @@ const DetailTimesheet = ({navigation}) => {
                 Lokasi
               </Text>
               <Text style={{textAlign: 'justify', fontFamily: text.light}}>
-                {dataDetailTimesheet.projectId.lokasi || '-'}
+                {dataDetailTimesheet.projectId?.lokasi || '-'}
               </Text>
             </View>
             <View>
@@ -163,7 +163,7 @@ const DetailTimesheet = ({navigation}) => {
                 Total Jam Kerja
               </Text>
               <Text style={{fontFamily: text.light}}>
-                {dataDetailTimesheet.projectId.jamKerja}
+                {dataDetailTimesheet.projectId?.jamKerja}
               </Text>
             </View>
             <View>
@@ -186,16 +186,15 @@ const DetailTimesheet = ({navigation}) => {
             </View>
           </ScrollView>
         )}
-        <View style={styles.buttonUpdate}>
-          <ButtonAction
-            onPress={() =>
-              moveTo(
-                'formUpdateTimesheet',
-                formatDate(dataDetailTimesheet.tglMsk),
-              )
-            }
-            title="UPDATE"
-          />
+        <View style={{alignItems: 'center'}}>
+          <View style={styles.buttonUpdate}>
+            <ButtonAction
+              onPress={() =>
+                moveTo('formUpdateTimesheet', dataDetailTimesheet.tglMsk)
+              }
+              title="UPDATE"
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -205,10 +204,6 @@ const DetailTimesheet = ({navigation}) => {
 export default DetailTimesheet;
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Color.green,
-    flex: 1,
-  },
   Judul: {
     textAlign: 'center',
     fontFamily: text.semiBold,
@@ -219,8 +214,6 @@ const styles = StyleSheet.create({
   buttonUpdate: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: Color.white,
-    borderColor: Color.black,
     width: wp('80%'),
     minHeight: hp('10%'),
     justifyContent: 'space-evenly',
@@ -231,14 +224,23 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   content: {
+    // backgroundColor: Color.white,
+    // flex: 5,
+    // position: 'relative',
+    // alignItems: 'center',
+    // borderTopLeftRadius: 35,
+    // borderTopRightRadius: 35,
+    // paddingTop: 35,
+    // paddingHorizontal: 15,
+
     backgroundColor: Color.white,
-    flex: 5,
-    position: 'relative',
-    alignItems: 'center',
-    borderTopLeftRadius: 35,
-    borderTopRightRadius: 35,
-    paddingTop: 35,
-    paddingHorizontal: 15,
+    paddingHorizontal: 29,
+    borderTopEndRadius: 35,
+    borderTopStartRadius: 35,
+    // marginTop: -50,
+    height: hp('90%'),
+    paddingTop: hp('5%'),
+    paddingBottom: hp('1%'),
   },
   containerJudul: {
     flex: 1,

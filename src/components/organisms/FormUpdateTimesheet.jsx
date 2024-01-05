@@ -15,7 +15,7 @@ const FormUpdateTimesheet = ({navigation}) => {
     <View style={styles.BackgroundUpdateTimesheet}>
       <View style={styles.SectionAtas}>
         <ButtonBack styleColor={Color.green} navigation={navigation} />
-        <ButtonHome />
+        <ButtonHome navigation={navigation} />
         <Image
           style={styles.VectorAtasKebalik}
           source={require('../../assets/vector/VectorAtasKebalik.png')}

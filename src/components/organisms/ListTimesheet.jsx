@@ -69,15 +69,15 @@ const ListTimesheet = ({navigation}) => {
     navigation.navigate(tujuan, {id: id});
   };
 
-  const formatDate = dateString => {
-    const date = new Date(dateString);
-    const options = {weekday: 'long', day: 'numeric', month: 'long'};
+  // const formatDate = dateString => {
+  //   const date = new Date(dateString);
+  //   const options = {weekday: 'long', day: 'numeric', month: 'long'};
 
-    let formattedDate = date.toLocaleDateString('id-ID', options);
-    formattedDate = formattedDate.replace(/,/g, '');
+  //   let formattedDate = date.toLocaleDateString('id-ID', options);
+  //   formattedDate = formattedDate.replace(/,/g, '');
 
-    return formattedDate;
-  };
+  //   return formattedDate;
+  // };
 
   const [totalOvertime, setTotalOvertime] = useState(0);
   const [totalJamReguler, setTotalJamReguler] = useState(0);
@@ -155,9 +155,9 @@ const ListTimesheet = ({navigation}) => {
                   <CardTimesheet
                     onPress={() => moveTo('detailTimesheet', data.id)}
                     navigation={navigation}
-                    lokasi={data.projectId.lokasi || '-'}
-                    penempatan={data.projectId.namaProject || '-'}
-                    tanggal={formatDate(data.tglMsk) || '-'}
+                    lokasi={data.projectId?.lokasi || '-'}
+                    penempatan={data.projectId?.namaProject || '-'}
+                    tanggal={data.tglMsk || '-'}
                   />
                 </View>
               ))
