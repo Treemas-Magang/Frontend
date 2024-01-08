@@ -16,6 +16,8 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faImage} from '@fortawesome/free-solid-svg-icons';
 
 const DetailSakitApp = ({
   kategoriCuti,
@@ -32,7 +34,18 @@ const DetailSakitApp = ({
   jenisCuti,
   approve,
   reject,
+  onPress,
+  image64,
 }) => {
+  let base64ImageData = null;
+  if (image64 && image64.base64 && image64.fileSize) {
+    base64ImageData = `data:image/jpeg;base64,${image64.base64}`;
+    console.log('ini file size : ', image64.fileSize);
+  } else {
+    console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
+  }
+  console.log('ini base64Image : ', base64ImageData);
+
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
 
@@ -42,15 +55,19 @@ const DetailSakitApp = ({
   return (
     <View style={styles.background}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* <View style={{alignItems: 'center'}}>
-          <View>
-            <Image
-              source={require('../../assets/vector/user.png')}
-              style={[styles.pp, stylePP]}
-              resizeMode="contain"
-            />
-          </View>
-        </View> */}
+        {kategoriCuti === 'sakit' ? (
+          image64 === false ? (
+            <View style={styles.wrapImage}></View>
+          ) : (
+            <View style={styles.wrapImage}>
+              <TouchableOpacity onPress={onPress}>
+                <FontAwesomeIcon icon={faImage} color={Color.green} size={40} />
+              </TouchableOpacity>
+            </View>
+          )
+        ) : (
+          ''
+        )}
         <View>
           <Text style={styles.TextTitle}>NIK</Text>
           <Text style={styles.TextDeskripsi}>{nik}</Text>
@@ -179,5 +196,13 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     fontSize: 16,
     color: Color.red,
+    textTransform: 'uppercase',
+  },
+  wrapImage: {
+    position: 'absolute',
+    zIndex: 2,
+    flexDirection: 'row',
+    gap: 5,
+    right: 5,
   },
 });

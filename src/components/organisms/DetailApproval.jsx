@@ -98,53 +98,51 @@ const DetailApproval = ({navigation, stylePP}) => {
       .catch(error => console.log(error));
   }, [id, kategori]);
 
+  const uploadData = async (data, type, id_app) => {
+    setBtnLoading(true);
+    const token = await getDataFromSession('token');
 
-    const uploadData = async (data, type, id_app) => {
-      setBtnLoading(true);
-      const token = await getDataFromSession('token');
-
-      if (token !== null) {
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-        try {
-          const response = await axios.post(
-            `${API_GABUNGAN}/api/notif/post-approval?by=${type}&id=${id_app}`,
-            data,
-            {headers},
-          );
-          console.log('response upload : ', response);
-          console.log('berhasil approve');
-          console.log(uploadBerhasil);
-          setUploadBerhasil(true);
-          setIsLoading(false);
-          setBtnLoading(false);
-        } catch (error) {
-          console.log(error.response);
-          const errorCode = error.response ? error.response.code : null;
-          switch (errorCode) {
-            case 403:
-              console.log('project tidak tepat');
-              setIsLoading(false);
-              break;
-            case 404:
-              setIsLoading(false);
-              break;
-            case 500:
-              setIsLoading(false);
-              setBtnLoading(false);
-              setServerError(true);
-              console.log('Kesalahan server');
-              break;
-            default:
-              setIsLoading(false);
-              console.log('gagal absen');
-              break;
-          }
+    if (token !== null) {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      try {
+        const response = await axios.post(
+          `${API_GABUNGAN}/api/notif/post-approval?by=${type}&id=${id_app}`,
+          data,
+          {headers},
+        );
+        console.log('response upload : ', response);
+        console.log('berhasil approve');
+        console.log(uploadBerhasil);
+        setUploadBerhasil(true);
+        setIsLoading(false);
+        setBtnLoading(false);
+      } catch (error) {
+        console.log(error.response);
+        const errorCode = error.response ? error.response.code : null;
+        switch (errorCode) {
+          case 403:
+            console.log('project tidak tepat');
+            setIsLoading(false);
+            break;
+          case 404:
+            setIsLoading(false);
+            break;
+          case 500:
+            setIsLoading(false);
+            setBtnLoading(false);
+            setServerError(true);
+            console.log('Kesalahan server');
+            break;
+          default:
+            setIsLoading(false);
+            console.log('gagal absen');
+            break;
         }
       }
-    };
-
+    }
+  };
 
   const sendDataReject = async isApprove => {
     if (form.noteApp !== '') {
@@ -161,11 +159,6 @@ const DetailApproval = ({navigation, stylePP}) => {
     }
   };
 
-
-
-
-
-
   const sendDataApprove = async isApprove => {
     if (form.noteApp !== '') {
       dispatch(setFormApproval('isApprove', isApprove));
@@ -179,6 +172,13 @@ const DetailApproval = ({navigation, stylePP}) => {
     } else {
       console.log('ketrangan kosong');
     }
+  };
+
+  const moveToPreview = async id => {
+    // console.log('ini id', id);
+    navigation.navigate('previewPhotoAPI', {
+      // path: `/api/rekap/get-detail-claim?id=${id}`,
+    });
   };
 
   return (
@@ -218,6 +218,8 @@ const DetailApproval = ({navigation, stylePP}) => {
             approve={() => sendDataApprove('1')}
             reject={() => sendDataReject('0')}
             namaProject={detailApp.projectId?.namaProject || '-'}
+            image64={kategori === 'sakit' ? detailApp.gambarnya : null}
+            onPress={() => moveToPreview(detailApp.id)}
           />
         )
       ) : (
@@ -243,6 +245,7 @@ const DetailApproval = ({navigation, stylePP}) => {
             tanggalAbsen={detailApp.tglAbsen || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
             namaProject={detailApp.projectId?.namaProject}
+            isApprove1={detailApp.isApprove1}
             approve={() => sendDataApprove('1')}
             reject={() => sendDataReject('0')}
           />
@@ -414,6 +417,7 @@ const styles = StyleSheet.create({
     color: Color.blue,
     textTransform: 'uppercase',
   },
+
   TextTitle: {
     fontFamily: text.semiBoldItalic,
     color: Color.black,

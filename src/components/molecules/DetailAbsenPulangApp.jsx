@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {text} from '../../utils/text';
 import {Color} from '../../utils/color';
 import {
@@ -16,6 +16,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
+import {getDataFromSession} from '../../utils/getDataSession';
 
 const DetailAbsenPulangApp = ({
   nik,
@@ -32,19 +33,30 @@ const DetailAbsenPulangApp = ({
   notePulangCepat,
   noteOther,
   totalJamKerja,
+  isApprove1,
   approve,
   reject,
 }) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
+  const [isRole, setIsRole] = useState('');
 
   const onChangeText = (value, inputType) => {
     dispatch(setFormApproval(inputType, value));
   };
 
-  const sendData = () => {
-    console.log('kirim data : ', form);
-  };
+  // const sendData = () => {
+  //   console.log('kirim data : ', form);
+  // };
+
+  useEffect(() => {
+    getDataFromSession('dataProfilUser')
+      .then(data => {
+        const dataProfile = JSON.parse(data);
+        setIsRole(dataProfile.role);
+      })
+      .catch(error => console.log(error));
+  }, []);
 
   return (
     <View style={styles.background}>
@@ -114,19 +126,47 @@ const DetailAbsenPulangApp = ({
           />
         </View>
         <View style={{alignItems: 'center', marginBottom: 40}}>
-          <TouchableOpacity onPress={approve} style={styles.ButtonApprove}>
-            <Text
-              style={{
-                fontFamily: text.semiBold,
-                fontSize: 16,
-                color: Color.white,
-              }}>
-              APPROVE
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.ButtonReject} onPress={reject}>
-            <Text style={styles.Text}>REJECT</Text>
-          </TouchableOpacity>
+          {isRole === 'HEAD' ? (
+            isApprove1 ? (
+              <View>
+                <TouchableOpacity
+                  onPress={approve}
+                  style={styles.ButtonApprove}>
+                  <Text
+                    style={{
+                      fontFamily: text.semiBold,
+                      fontSize: 16,
+                      color: Color.white,
+                    }}>
+                    APPROVE
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.ButtonReject} onPress={reject}>
+                  <Text style={styles.Text}>REJECT</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={styles.ButtonApp2}>
+                <Text style={styles.Text}>Belum Di Acc Leader</Text>
+              </View>
+            )
+          ) : (
+            <View>
+              <TouchableOpacity onPress={approve} style={styles.ButtonApprove}>
+                <Text
+                  style={{
+                    fontFamily: text.semiBold,
+                    fontSize: 16,
+                    color: Color.white,
+                  }}>
+                  APPROVE
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.ButtonReject} onPress={reject}>
+                <Text style={styles.Text}>REJECT</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -179,5 +219,17 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     fontSize: 16,
     color: Color.red,
+    textTransform: 'uppercase',
+  },
+  ButtonApp2: {
+    backgroundColor: 'transparent',
+    borderColor: Color.red,
+    borderWidth: 2,
+    width: 269,
+    minHeight: 50,
+    borderRadius: 5,
+    marginVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

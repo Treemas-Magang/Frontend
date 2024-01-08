@@ -30,8 +30,8 @@ const FormBelumAbsenPulang = () => {
   const [latUser, setLatUser] = useState(null);
   const [lonUser, setLonUser] = useState(null);
   const [lewatmaxJarak, setLewatmaxJarak] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
-  const [btnLoading, setBtnLoading] = useState(false);
   console.log(time);
   useEffect(() => {
     dispatch(setFormLupaAbsenPulang('jamPlg', time));
@@ -100,7 +100,6 @@ const FormBelumAbsenPulang = () => {
   }, [dispatch, latProj, latUser, lonProj, lonUser]);
 
   const kirimDataLupaAbsenPulang = async () => {
-    setBtnLoading(true);
     try {
       //mengambil token untuk otorisasi
       const token = await getDataFromSession('token');
@@ -120,7 +119,7 @@ const FormBelumAbsenPulang = () => {
           console.log('berhasil mengirim form lupa absen pulang');
           console.log(uploadBerhasil);
           setUploadBerhasil(true);
-          setBtnLoading(false);
+          setIsLoading(false);
           //saat berhasil kirim data kosongkan reducer
           dispatch(setFormLupaAbsenPulang('jarakPlg', ''));
           dispatch(setFormLupaAbsenPulang('gpsLatitudePlg', null));
@@ -136,17 +135,17 @@ const FormBelumAbsenPulang = () => {
           switch (errorCode) {
             case 403:
               console.log('project tidak tepat');
-              setBtnLoading(false);
+              setIsLoading(false);
               break;
             case 404:
-              setBtnLoading(false);
+              setIsLoading(false);
               break;
             case 500:
-              setBtnLoading(false);
+              setIsLoading(false);
               console.log('Kesalahan server');
               break;
             default:
-              setBtnLoading(false);
+              setIsLoading(false);
               console.log(error.response);
               console.log('gagal absen');
               break;
@@ -157,7 +156,6 @@ const FormBelumAbsenPulang = () => {
       }
     } catch (error) {
       console.error('Terjadi kesalahan:', error);
-      setBtnLoading(false);
     }
   };
 
@@ -176,25 +174,8 @@ const FormBelumAbsenPulang = () => {
       kirimDataLupaAbsenPulang();
     }
   };
-
-  const close = async () => {
-    setUploadBerhasil(false);
-  };
-
   return (
     <View style={styles.FormBelumAbsenPulang}>
-      {uploadBerhasil ? (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <AlertNotificationSuccess
-            buttonAlert="Close"
-            textBodyAlert="Berhasil Melakukan Claim"
-            titleAlert="Success"
-            onPress={close}
-          />
-        </View>
-      ) : (
-        ''
-      )}
       <View style={styles.cardFormBelumAbsenPulang}>
         <Text style={styles.textJudul}>Absen Pulang</Text>
         <CustomTextInput
@@ -255,8 +236,6 @@ const FormBelumAbsenPulang = () => {
         <View style={styles.wrapperButton}>
           {lewatmaxJarak ? (
             <ButtonAction title="Jarak Terlalu Jauh" style={{width: 269}} />
-          ) : btnLoading ? (
-            <ButtonLoading style={{width: 269}} />
           ) : (
             <ButtonAction
               title="kirim"
