@@ -78,7 +78,7 @@ const CardReimburse = ({
           Transport
         </Text>
         <Text style={{fontFamily: text.semiBold, fontSize: 12}}>
-          {formatToCurrency(transport)}
+          {formatToCurrency(transport ? transport : 0)}
         </Text>
         <Text
           style={{
@@ -88,7 +88,7 @@ const CardReimburse = ({
           Uang Makan
         </Text>
         <Text style={{fontFamily: text.semiBold, fontSize: 12}}>
-          {formatToCurrency(uangMakan)}
+          {formatToCurrency(uangMakan ? uangMakan : 0)}
         </Text>
       </View>
     </TouchableOpacity>

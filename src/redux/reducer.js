@@ -306,8 +306,10 @@ const FormClaimReducer = (state = initialStateClaim, action) => {
 
 const initialStateDetailApproval = {
   form: {
-    noteApp: '',
-    isApprove: '',
+    noteApp1: '',
+    noteApp2: '',
+    isApprove1: '',
+    isApprove2: '',
   },
 };
 const CatatanApprovalReducer = (state = initialStateDetailApproval, action) => {

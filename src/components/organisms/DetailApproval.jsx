@@ -27,7 +27,8 @@ import DetailCutiWebApp from '../molecules/DetailCutiWebApp';
 
 const DetailApproval = ({navigation, stylePP}) => {
   const {id, kategori} = useRoute().params;
-  let kategoriBaru = kategori.replace(/-/g, ' ');
+  console.log('di detail app : ', kategori)
+  let kategoriBaru = kategori?.replace(/-/g, ' ');
   console.log(id + ' dan ' + kategori);
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
@@ -160,9 +161,6 @@ const DetailApproval = ({navigation, stylePP}) => {
       console.log('ketrangan kosong');
     }
   };
-
-
-
 
 
 
@@ -377,19 +375,6 @@ const DetailApproval = ({navigation, stylePP}) => {
       ) : (
         ''
       )}
-      {/* 
-      {kategori === 'absen-pulang'
-        ? detailApp.map((item, index) => <DetailAbsenPulangApp />)
-        : ''}
-      {kategori === 'libur'
-        ? detailApp.map((item, index) => <DetailLiburApp />)
-        : ''}
-      {kategori === 'lembur'
-        ? detailApp.map((item, index) => <DetailLemburApp />)
-        : ''}
-      {kategori === 'reimburse' || kategori === 'absen-web'
-        ? detailApp.map((item, index) => <DetailReimburseApp />)
-        : ''} */}
     </View>
   );
 };

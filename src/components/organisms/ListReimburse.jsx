@@ -40,7 +40,10 @@ const ListReimburse = ({navigation}) => {
       console.log(response.data.data);
       const dataAPI = response.data.data;
       console.log('data reimburse : ', dataAPI);
-      setReimburses(dataAPI);
+      const sortByTanggal = dataAPI.sort(
+        (a, b) => new Date(b.tanggal) - new Date(a.tanggal),
+      );
+      setReimburses(sortByTanggal);
       setIsLoading(false);
     } catch (error) {
       console.log('Tidak dapat mengambil data ', error.response);

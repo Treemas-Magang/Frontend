@@ -14,6 +14,7 @@ import Pinchable from 'react-native-pinchable';
 const ScreenPreviewPhoto = ({navigation}) => {
   const route = useRoute();
   const {photo} = route.params;
+  console.log('ini poto : ', photo)
   return (
     <View
       style={{

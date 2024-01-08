@@ -48,6 +48,7 @@ import ScreenFormAbsensiOther from './screen/ScreenFormAbsensiOther';
 import ScreenDetailProfile from './screen/ScreenDetailProfile';
 import ScreenPreviewPhotoAPI from './screen/ScreenPreviewPhotoAPI';
 import ScreenFormUpdateAbsensiOther from './screen/ScreenFormUpdateAbsensiOther';
+import ScreenCobaDownloadApk from './screen/ScreenCobaDownloadApk';
 export {
   ScreenDashboard,
   ScreenDetailPengumuman,
@@ -98,4 +99,5 @@ export {
   ScreenDetailProfile,
   ScreenPreviewPhotoAPI,
   ScreenFormUpdateAbsensiOther,
+  ScreenCobaDownloadApk,
 };

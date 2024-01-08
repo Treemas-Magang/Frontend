@@ -40,8 +40,11 @@ const ListTimesheet = ({navigation}) => {
       );
       // console.log(response.data.data);
       const dataAPI = response.data.data;
+      const sortByTanggal = dataAPI.sort(
+        (a, b) => new Date(b.tglMsk) - new Date(a.tglMsk),
+      );
       console.log('data timesheet : ', dataAPI);
-      setTimesheet(dataAPI);
+      setTimesheet(sortByTanggal);
       setIsLoading(false);
     } catch (error) {
       console.log('Tidak dapat mengambil data ', error);

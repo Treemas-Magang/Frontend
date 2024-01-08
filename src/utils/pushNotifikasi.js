@@ -110,7 +110,47 @@ export const pushNewAnnouncementNotification = async ({navigation}) => {
   }
 };
 
+const processNotificationData = async (
+  navigation,
+  data,
+  type,
+  storageKey,
+  channel,
+) => {
+  try {
+    const processedData = data.map(item => ({
+      id: item.id,
+      nama: item.nama,
+    }));
 
+    // Get previously stored data from AsyncStorage
+    const prevData = await getDataFromAsyncStorage(storageKey);
+
+    // Check if there is new data
+    const isNewData =
+      JSON.stringify(prevData) !== JSON.stringify(processedData);
+
+    if (isNewData) {
+      for (const item of processedData) {
+        const notificationId = item.id.toString();
+        pushPesanApproval(
+          navigation,
+          `New Approval ${type}`,
+          item.nama,
+          'detailApproval',
+          item.id,
+          type,
+          notificationId,
+          channel,
+        );
+      }
+
+      await storeDataToAsyncStorage(storageKey, processedData);
+    }
+  } catch (error) {
+    console.error(`Error fetching ${type} data:`, error.response);
+  }
+};
 
 export const pushNewApprovalNotification = async ({navigation}) => {
   try {
@@ -127,21 +167,23 @@ export const pushNewApprovalNotification = async ({navigation}) => {
 
       // Proses data notifikasi libur
       const liburApprovals = response.data.data.liburApprovals;
+      const liburApp = liburApprovals.filter(item => item.isLibur === '1');
 
       processNotificationData(
         navigation,
-        liburApprovals,
+        liburApp,
         'libur',
         'prevDataLibur',
-        'channel_5'
+        'channel_5',
       );
 
       // Proses data notifikasi lembur
       const lemburApprovals = response.data.data.liburApprovals;
-
+      const lemburApp = lemburApprovals.filter(item => item.isLembur === '1');
+        console.log('lembur : ', lemburApp);
       processNotificationData(
         navigation,
-        lemburApprovals,
+        lemburApp,
         'lembur',
         'prevDataLembur',
         'channel_6',
@@ -179,6 +221,24 @@ export const pushNewApprovalNotification = async ({navigation}) => {
         'prevDataReimburse',
         'channel_9',
       );
+      const cutiApprovals = response.data.data.cutiApprovals;
+      const cutiApp = cutiApprovals.filter(item => item.flgKet === 'cuti');
+      processNotificationData(
+        navigation,
+        cutiApp,
+        'cuti',
+        'prevDataCuti',
+        'channel_10',
+      );
+      const sakitApprovals = response.data.data.cutiApprovals;
+      const sakitApp = sakitApprovals.filter(item => item.flgKet === 'sakit');
+      processNotificationData(
+        navigation,
+        sakitApp,
+        'sakit',
+        'prevDataSakit',
+        'channel_11',
+      );
     } else {
       console.log('Data tidak ditemukan di session.');
     }
@@ -187,38 +247,4 @@ export const pushNewApprovalNotification = async ({navigation}) => {
   }
 };
 
-const processNotificationData = async (navigation, data, type, storageKey, channel) => {
-  try {
-    const processedData = data.map(item => ({
-      id: item.id,
-      nama: item.nama,
-    }));
 
-    // Get previously stored data from AsyncStorage
-    const prevData = await getDataFromAsyncStorage(storageKey);
-
-    // Check if there is new data
-    const isNewData =
-      JSON.stringify(prevData) !== JSON.stringify(processedData);
-
-    if (isNewData) {
-      for (const item of processedData) {
-        const notificationId = item.id.toString();
-        pushPesanApproval(
-          navigation,
-          `New Approval ${type}`,
-          item.nama,
-          'detailApproval',
-          item.id,
-          type,
-          notificationId,
-          channel,
-        );
-      }
-
-      await storeDataToAsyncStorage(storageKey, processedData);
-    }
-  } catch (error) {
-    console.error(`Error fetching ${type} data:`, error.response);
-  }
-};

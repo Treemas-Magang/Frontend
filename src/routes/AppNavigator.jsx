@@ -53,6 +53,7 @@ import {
   ScreenDetailProfile,
   ScreenPreviewPhotoAPI,
   ScreenFormUpdateAbsensiOther,
+  ScreenCobaDownloadApk,
 } from '../pages/index';
 import MapPreviewTracking from '../components/organisms/MapPreviewTracking';
 import ScreenCobaTimeInput from '../pages/screen/ScreenCobaTimeInput';
@@ -298,9 +299,14 @@ const screens = [
     component: ScreenFormUpdateAbsensiOther,
     gestureEnabled: true,
   },
+  {
+    name: 'cobaDownloadApk',
+    component: ScreenCobaDownloadApk,
+    gestureEnabled: true,
+  },
 ];
 
-const routeName = 'splash';
+const routeName = 'cobaDownloadApk';
 const Stack = createNativeStackNavigator();
 
 function App() {

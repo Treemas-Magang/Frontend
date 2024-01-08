@@ -1,78 +1,3 @@
-// /* eslint-disable prettier/prettier */
-// import React from 'react';
-// import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import {
-//   countDataWithFalseStatus,
-//   getToken,
-// } from '../../utils/buatStatusPengumumanFalse';
-// import {useDispatch} from 'react-redux';
-// import {setJumlahPengumuman} from '../../redux';
-// import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-// import {Color} from '../../utils/color';
-// import {
-//   widthPercentageToDP,
-//   widthPercentageToDP as wp,
-// } from 'react-native-responsive-screen';
-// import {faTrashCan} from '@fortawesome/free-solid-svg-icons';
-
-// const HapusChace = ({styleColor, style}) => {
-//   const dispatch = useDispatch();
-//   const clearAllData = async () => {
-//     try {
-//       // Kunci yang ingin dihapus
-//       const keysToRemove = [
-//         'announcementData',
-//         'prevData',
-//         'prevDataAbsenPulang',
-//         'prevDataCutiWeb',
-//         'prevDataLembur',
-//         'prevDataLibur',
-//         'prevDataReimburse',
-//       ];
-
-//       // Menghapus data untuk kunci tertentu
-//       await AsyncStorage.multiRemove(keysToRemove);
-
-//       console.log('Data successfully removed from AsyncStorage');
-//       getToken().then(() => {
-//         countDataWithFalseStatus().then(jumlahDataDenganStatusFalse => {
-//           dispatch(
-//             setJumlahPengumuman('pengumuman', +jumlahDataDenganStatusFalse),
-//           );
-//         });
-//       });
-//     } catch (error) {
-//       console.error('Error removing data from AsyncStorage:', error);
-//     }
-//   };
-
-//   return (
-//     <View>
-//       <TouchableOpacity
-//         onPress={clearAllData}
-//         style={[styles.ButtonTrash, style]}>
-//         <FontAwesomeIcon
-//           icon={faTrashCan}
-//           color={styleColor || Color.blue}
-//           size={widthPercentageToDP('6%')}
-//         />
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// export default HapusChace;
-
-// const styles = StyleSheet.create({
-//   ButtonTrash: {
-//     position: 'absolute',
-//     top: 20,
-//     left: 15,
-//     zIndex: 999,
-//   },
-// });
-
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import {Color} from '../../utils/color';
@@ -111,6 +36,8 @@ const HapusChace = ({navigation, style, posisiLogout}) => {
         'prevDataLembur',
         'prevDataLibur',
         'prevDataReimburse',
+        'prevDataCuti',
+        'prevDataSakit',
       ];
 
       // Menghapus data untuk kunci tertentu

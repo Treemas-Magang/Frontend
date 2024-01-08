@@ -9,14 +9,14 @@ const configureNotifications = (navigation) => {
       console.log('TOKEN:', token);
     },
     onNotification: function (notification) {
-      console.log('NOTIFICATION:', notification);
+      console.log('NOTIFICATION ppp:', notification);
 
       // Handle the notification click event
-      handleNotificationClick(navigation, notification.data.id, notification.data.screen);
+      handleNotificationClick(navigation, notification.data.id, notification.data.screen, notification.data.kategori);
     },
     onAction: function (notification) {
       console.log('ACTION:', notification.action);
-      console.log('NOTIFICATION:', notification);
+      console.log('NOTIFICATION bbb:', notification);
     },
     onRegistrationError: function (err) {
       console.error(err.message, err);
@@ -62,7 +62,7 @@ const sendNotification = (channel, title, body, id, screen) => {
 
 
 
-const handleNotificationClick = async (navigation, id, screen) => {
+const handleNotificationClick = async (navigation, id, screen, kategori) => {
   const id_pesan = id;
   console.log('ini id pesan : ', id_pesan);
     try {
@@ -102,15 +102,15 @@ const handleNotificationClick = async (navigation, id, screen) => {
   // Extract relevant data from the notification
   const screenName = screen;
   console.log(screenName)
-    moveToScreen(screenName, navigation, id);
+    moveToScreen(screenName, navigation, id, kategori);
   // Use navigation to move to the specified screen
 };
 
-const moveToScreen = (screenName, navigation, id) => {
+const moveToScreen = (screenName, navigation, id, kategori) => {
   // Implement your navigation logic here to move to the specified screen
   // You can use React Navigation or any other navigation library you're using
 
-    navigation.navigate(screenName, {id: id});
+    navigation.navigate(screenName, {id: id, kategori: kategori});
 };
 
 export {configureNotifications, createNotificationChannel, sendNotification};
