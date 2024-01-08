@@ -57,7 +57,6 @@ import {
 } from '../pages/index';
 import MapPreviewTracking from '../components/organisms/MapPreviewTracking';
 import ScreenCobaTimeInput from '../pages/screen/ScreenCobaTimeInput';
-import SkeletonDetailProfile from '../components/skeleton/SkeletonDetailProfile';
 const screens = [
   {name: 'splash', component: ScreenSplash, gestureEnabled: false},
   {name: 'login', component: ScreenLogin, gestureEnabled: false},
