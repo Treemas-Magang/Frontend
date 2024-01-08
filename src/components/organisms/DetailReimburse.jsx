@@ -112,7 +112,9 @@ const DetailReimburse = ({navigation}) => {
             </View>
             <View>
               <Text style={styles.TextTitle}>Project</Text>
-              <Text style={styles.TextDeskripsi}>PT TREEMAS SOLUSI UTAMA</Text>
+              <Text style={styles.TextDeskripsi}>
+                {dataDetailReimburse.projectId?.namaProject || '-'}
+              </Text>
             </View>
             <View>
               <Text style={styles.TextTitle}>Lokasi</Text>

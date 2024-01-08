@@ -3,18 +3,18 @@
 /* eslint-disable space-infix-ops */
 /* eslint-disable comma-dangle */
 import {StyleSheet, Text, View} from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
 import CustomTextInput from '../atoms/CustomTextInput';
 import ButtonAction from '../atoms/ButtonAction';
 import ButtonTime from '../atoms/ButtonTime';
-import { useDispatch, useSelector } from 'react-redux';
-import { setFormLupaAbsenPulang } from '../../redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {setFormLupaAbsenPulang} from '../../redux';
 import FakeTextInput from '../atoms/FakeTextInput';
-import { useRoute } from '@react-navigation/native';
-import { getDataFromSession } from '../../utils/getDataSession';
-import { hitungJarak } from '../../utils/hitungJarak';
+import {useRoute} from '@react-navigation/native';
+import {getDataFromSession} from '../../utils/getDataSession';
+import {hitungJarak} from '../../utils/hitungJarak';
 import axios from 'axios';
 import {API_URL, API_GABUNGAN} from '@env';
 
@@ -30,9 +30,9 @@ const FormBelumAbsenPulang = () => {
   const [latUser, setLatUser] = useState(null);
   const [lonUser, setLonUser] = useState(null);
   const [lewatmaxJarak, setLewatmaxJarak] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
-    console.log(time)
+  const [btnLoading, setBtnLoading] = useState(false);
+  console.log(time);
   useEffect(() => {
     dispatch(setFormLupaAbsenPulang('jamPlg', time));
     dispatch(setFormLupaAbsenPulang('lokasiPlg', lokasi));
@@ -60,26 +60,16 @@ const FormBelumAbsenPulang = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (
-      latProj &&
-      lonProj &&
-      latUser &&
-      lonUser
-    ) {
-      const distance = hitungJarak(
-        latProj,
-        lonProj,
-        latUser,
-        lonUser,
-      );
+    if (latProj && lonProj && latUser && lonUser) {
+      const distance = hitungJarak(latProj, lonProj, latUser, lonUser);
       const jarakMeter = distance;
       const jarakBulat = Math.ceil(jarakMeter);
       console.log(`Jaratara kedua titik adalah ${jarakMeter} meter.`);
       console.log(`Jarak antara kedua titik adalah ${jarakBulat} meter.`);
       dispatch(setFormLupaAbsenPulang('jarakPlg', `${jarakBulat} meter`));
-        if (jarakBulat > 100) {
-          setLewatmaxJarak(true);
-        }
+      if (jarakBulat > 100) {
+        setLewatmaxJarak(true);
+      }
       // dispatch(setAbsenPulang('jarakPlg', `${jarakBulat} meter`));
       // if (isOther === '1') {
       //   dispatch(setFormAbsensi('jarakMsk', ''));
@@ -109,65 +99,67 @@ const FormBelumAbsenPulang = () => {
     }
   }, [dispatch, latProj, latUser, lonProj, lonUser]);
 
-    const kirimDataLupaAbsenPulang = async () => {
-      try {
-        //mengambil token untuk otorisasi
-        const token = await getDataFromSession('token');
-        if (token !== null) {
-          const headers = {
-            Authorization: `Bearer ${token}`,
-          };
+  const kirimDataLupaAbsenPulang = async () => {
+    setBtnLoading(true);
+    try {
+      //mengambil token untuk otorisasi
+      const token = await getDataFromSession('token');
+      if (token !== null) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
 
-          try {
-            //melakukan hit ke API untuk kirim data Absen
-            const response = await axios.post(
-              API_GABUNGAN + '/api/absen/input-absen-belum-pulang?id=' + idAbsen,
-              form_lupa_absen_pulang,
-              {headers},
-            );
-            console.log(response);
-            console.log('berhasil mengirim form lupa absen pulang');
-            console.log(uploadBerhasil);
-            setUploadBerhasil(true);
-            setIsLoading(false);
-            //saat berhasil kirim data kosongkan reducer
-            dispatch(setFormLupaAbsenPulang('jarakPlg', ''));
-            dispatch(setFormLupaAbsenPulang('gpsLatitudePlg', null));
-            dispatch(setFormLupaAbsenPulang('gpsLongitudePlg', null));
-            dispatch(setFormLupaAbsenPulang('jamPlg', ''));
-            dispatch(setFormLupaAbsenPulang('keteranganLupaPulang', ''));
-            dispatch(setFormLupaAbsenPulang('lokasiPlg', ''));
-            dispatch(setFormLupaAbsenPulang('notePekerjaan', ''));
-            // navigation.replace('dashboard');
-          } catch (error) {
-            console.log(error.response);
-            const errorCode = error.response.status;
-            switch (errorCode) {
-              case 403:
-                console.log('project tidak tepat');
-                setIsLoading(false);
-                break;
-              case 404:
-                setIsLoading(false);
-                break;
-              case 500:
-                setIsLoading(false);
-                console.log('Kesalahan server');
-                break;
-              default:
-                setIsLoading(false);
-                console.log(error.response);
-                console.log('gagal absen');
-                break;
-            }
+        try {
+          //melakukan hit ke API untuk kirim data Absen
+          const response = await axios.post(
+            API_GABUNGAN + '/api/absen/input-absen-belum-pulang?id=' + idAbsen,
+            form_lupa_absen_pulang,
+            {headers},
+          );
+          console.log(response);
+          console.log('berhasil mengirim form lupa absen pulang');
+          console.log(uploadBerhasil);
+          setUploadBerhasil(true);
+          setBtnLoading(false);
+          //saat berhasil kirim data kosongkan reducer
+          dispatch(setFormLupaAbsenPulang('jarakPlg', ''));
+          dispatch(setFormLupaAbsenPulang('gpsLatitudePlg', null));
+          dispatch(setFormLupaAbsenPulang('gpsLongitudePlg', null));
+          dispatch(setFormLupaAbsenPulang('jamPlg', ''));
+          dispatch(setFormLupaAbsenPulang('keteranganLupaPulang', ''));
+          dispatch(setFormLupaAbsenPulang('lokasiPlg', ''));
+          dispatch(setFormLupaAbsenPulang('notePekerjaan', ''));
+          // navigation.replace('dashboard');
+        } catch (error) {
+          console.log(error.response);
+          const errorCode = error.response.status;
+          switch (errorCode) {
+            case 403:
+              console.log('project tidak tepat');
+              setBtnLoading(false);
+              break;
+            case 404:
+              setBtnLoading(false);
+              break;
+            case 500:
+              setBtnLoading(false);
+              console.log('Kesalahan server');
+              break;
+            default:
+              setBtnLoading(false);
+              console.log(error.response);
+              console.log('gagal absen');
+              break;
           }
-        } else {
-          console.log('Data tidak ditemukan di session.');
         }
-      } catch (error) {
-        console.error('Terjadi kesalahan:', error);
+      } else {
+        console.log('Data tidak ditemukan di session.');
       }
-    };
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
+      setBtnLoading(false);
+    }
+  };
 
   const onChangeText = (value, inputType) => {
     dispatch(setFormLupaAbsenPulang(inputType, value));
@@ -178,14 +170,31 @@ const FormBelumAbsenPulang = () => {
       form_lupa_absen_pulang.keteranganLupaPulang === '' ||
       form_lupa_absen_pulang.notePekerjaan === ''
     ) {
-      console.log('ada field yang kosong')
+      console.log('ada field yang kosong');
     } else {
       console.log('data yang di kirim : ', form_lupa_absen_pulang);
       kirimDataLupaAbsenPulang();
     }
   };
+
+  const close = async () => {
+    setUploadBerhasil(false);
+  };
+
   return (
     <View style={styles.FormBelumAbsenPulang}>
+      {uploadBerhasil ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <AlertNotificationSuccess
+            buttonAlert="Close"
+            textBodyAlert="Berhasil Melakukan Claim"
+            titleAlert="Success"
+            onPress={close}
+          />
+        </View>
+      ) : (
+        ''
+      )}
       <View style={styles.cardFormBelumAbsenPulang}>
         <Text style={styles.textJudul}>Absen Pulang</Text>
         <CustomTextInput
@@ -245,10 +254,9 @@ const FormBelumAbsenPulang = () => {
         />
         <View style={styles.wrapperButton}>
           {lewatmaxJarak ? (
-            <ButtonAction
-              title="Jarak Terlalu Jauh"
-              style={{width: 269}}
-            />
+            <ButtonAction title="Jarak Terlalu Jauh" style={{width: 269}} />
+          ) : btnLoading ? (
+            <ButtonLoading style={{width: 269}} />
           ) : (
             <ButtonAction
               title="kirim"
