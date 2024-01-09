@@ -38,6 +38,18 @@ const DetailApproval = ({navigation, stylePP}) => {
   const [serverError, setServerError] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
   const [inputKosong, setInputKosong] = useState(false);
+  const [isRole, setIsRole] = useState('');
+  console.log('role : ', isRole);
+
+  useEffect(() => {
+    getDataFromSession('dataProfilUser')
+      .then(data => {
+        const dataProfile = JSON.parse(data);
+        console.log('role haha : ', dataProfile);
+        setIsRole(dataProfile.role);
+      })
+      .catch(error => console.log(error));
+  }, []);
 
   const getDataDetailMember = async (headers, type, idProject) => {
     setIsLoading(true);
@@ -99,7 +111,10 @@ const DetailApproval = ({navigation, stylePP}) => {
       .catch(error => console.log(error));
   }, [id, kategori]);
 
-  const uploadData = async (data, type, id_app) => {
+  const uploadData = async (data, type, id_app, role) => {
+    const dataForm = await data
+    console.log('role dala, upload : ', role)
+    console.log('data upload : ', dataForm)
     setBtnLoading(true);
     const token = await getDataFromSession('token');
 
@@ -107,18 +122,57 @@ const DetailApproval = ({navigation, stylePP}) => {
       const headers = {
         Authorization: `Bearer ${token}`,
       };
+      // if (role === "HEAD") {
+      //   console.log('aku head')
+      //   console.log(data.noteApp2)
+      // } else {
+      //   console.log('aku lead')
+      //   console.log(data.noteApp1);
+      //   console.log(data.isApprove1);
+      // }
       try {
-        const response = await axios.post(
-          `${API_GABUNGAN}/api/notif/post-approval?by=${type}&id=${id_app}`,
-          data,
-          {headers},
-        );
-        console.log('response upload : ', response);
-        console.log('berhasil approve');
-        console.log(uploadBerhasil);
-        setUploadBerhasil(true);
-        setIsLoading(false);
-        setBtnLoading(false);
+        if (role === 'HEAD') {
+          const response = await axios.post(
+            `${API_GABUNGAN}/api/notif/post-approval?by=${type}&id=${id_app}`,
+            {
+              isApprove2 : data.isApprove2,
+              noteApp2 : data.noteApp2,
+            },
+            {headers},
+          );
+          console.log('response upload : ', response);
+          console.log('berhasil approve2');
+          console.log(uploadBerhasil);
+          setUploadBerhasil(true);
+          setIsLoading(false);
+          setBtnLoading(false);
+        } else {
+          const response = await axios.post(
+            `${API_GABUNGAN}/api/notif/post-approval?by=${type}&id=${id_app}`,
+            {
+              isApprove1: data.isApprove1,
+              noteApp1: data.noteApp1,
+            },
+            {headers},
+          );
+          console.log('response upload : ', response);
+          console.log('berhasil approve 1');
+          console.log(uploadBerhasil);
+          setUploadBerhasil(true);
+          setIsLoading(false);
+          setBtnLoading(false);
+        }
+        // const response = await axios.post(
+        //   `${API_GABUNGAN}/api/notif/post-approval?by=${type}&id=${id_app}`,
+        //   data,
+        //   {headers},
+        // );
+        // console.log('response upload : ', response);
+        // console.log('berhasil approve');
+        // console.log(uploadBerhasil);
+        // setUploadBerhasil(true);
+        // setIsLoading(false);
+        // setBtnLoading(false);
       } catch (error) {
         console.log(error.response);
         const errorCode = error.response ? error.response.code : null;
@@ -146,15 +200,26 @@ const DetailApproval = ({navigation, stylePP}) => {
   };
 
   const sendDataReject = async isApprove => {
-    if (form.noteApp !== '') {
-      dispatch(setFormApproval('isApprove', isApprove));
-      if (form.isApprove !== '') {
-        await uploadData(form, kategori, id);
-        console.log('kirim data : ', form);
+    if (form.noteApp1 !== '' || form.noteApp2 !== '') {
+      if (isRole === 'HEAD') {
+        dispatch(setFormApproval('isApprove2', isApprove));
+        if (form.isApprove2 !== '') {
+          await uploadData(form, kategori, id, isRole);
+          console.log('kirim data : ', form);
+        } else {
+          console.log('is approve kosong');
+        }
+        return;
       } else {
-        console.log('is approve kosong');
+        dispatch(setFormApproval('isApprove1', isApprove));
+        if (form.isApprove1 !== '') {
+          await uploadData(form, kategori, id, isRole);
+          console.log('kirim data : ', form);
+        } else {
+          console.log('is approve kosong');
+        }
+        return;
       }
-      return;
     } else {
       console.log('ketrangan kosong');
     }
@@ -163,15 +228,26 @@ const DetailApproval = ({navigation, stylePP}) => {
 
 
   const sendDataApprove = async isApprove => {
-    if (form.noteApp !== '') {
-      dispatch(setFormApproval('isApprove', isApprove));
-      if (form.isApprove !== '') {
-        await uploadData(form, kategori, id);
-        console.log('kirim data : ', form);
+    if (form.noteApp1 !== '' || form.noteApp2 !== '') {
+      if (isRole === 'HEAD') {
+        dispatch(setFormApproval('isApprove2', isApprove));
+        if (form.isApprove2 !== '') {
+          console.log('kirim data : ', await form);
+          await uploadData(form, kategori, id, isRole);
+        } else {
+          console.log('is approve kosong');
+        }
+        return;
       } else {
-        console.log('is approve kosong');
+        dispatch(setFormApproval('isApprove1', isApprove));
+        if (form.isApprove1 !== '') {
+          await uploadData(form, kategori, id, isRole);
+          console.log('kirim data : ', await form);
+        } else {
+          console.log('is approve kosong');
+        }
+        return;
       }
-      return;
     } else {
       console.log('ketrangan kosong');
     }
@@ -251,6 +327,7 @@ const DetailApproval = ({navigation, stylePP}) => {
             isApprove1={detailApp.isApprove1}
             approve={() => sendDataApprove('1')}
             reject={() => sendDataReject('0')}
+            isRole={isRole}
           />
         )
       ) : (
@@ -277,6 +354,8 @@ const DetailApproval = ({navigation, stylePP}) => {
             namaProject={detailApp.projectId?.namaProject || '-'}
             approve={() => sendDataApprove('1')}
             reject={() => sendDataReject('0')}
+            isApprove1={detailApp.isApprove1}
+            isRole={isRole}
           />
         )
       ) : (
@@ -305,6 +384,7 @@ const DetailApproval = ({navigation, stylePP}) => {
             namaProject={detailApp.projectId?.namaProject || '-'}
             approve={() => sendDataApprove('1')}
             reject={() => sendDataReject('0')}
+            isRole={isRole}
           />
         )
       ) : (

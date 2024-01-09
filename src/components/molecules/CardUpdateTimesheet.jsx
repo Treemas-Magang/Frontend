@@ -79,7 +79,7 @@ const CardUpdateTimesheet = () => {
       };
 
   const sendData = () => {
-    if (form.keteranganTimesheet !== '') {
+    if (form.noteTimesheet !== '') {
       setInputKosong(false);
       kirimDataUpdateTimesheet();
       console.log('kirim data : ', form);
@@ -102,10 +102,10 @@ const CardUpdateTimesheet = () => {
         </Text>
         <CustomTextInput
           label="Keterangan"
-          value={form.keteranganTimesheet}
+          value={form.noteTimesheet}
           textColor={inputKosong ? Color.red : Color.blue}
           style={inputKosong ? styles.fieldSalah : styles.fieldBener}
-          onTextChange={value => onChangeText(value, 'keteranganTimesheet')}
+          onTextChange={value => onChangeText(value, 'noteTimesheet')}
           secureTextEntry={false}
         />
         {inputKosong ? (

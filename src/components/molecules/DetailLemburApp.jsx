@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {text} from '../../utils/text';
 import {Color} from '../../utils/color';
 import {
@@ -16,6 +16,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
+import { getDataFromSession } from '../../utils/getDataSession';
 
 const DetailLemburApp = ({
   nik,
@@ -30,10 +31,11 @@ const DetailLemburApp = ({
   namaProject,
   approve,
   reject,
+  isApprove1,
+  isRole
 }) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
-
   const onChangeText = (value, inputType) => {
     dispatch(setFormApproval(inputType, value));
   };
@@ -94,19 +96,47 @@ const DetailLemburApp = ({
           />
         </View>
         <View style={{alignItems: 'center', marginBottom: 40}}>
-          <TouchableOpacity onPress={approve} style={styles.ButtonApprove}>
-            <Text
-              style={{
-                fontFamily: text.semiBold,
-                fontSize: 16,
-                color: Color.white,
-              }}>
-              APPROVE
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.ButtonReject} onPress={reject}>
-            <Text style={styles.Text}>REJECT</Text>
-          </TouchableOpacity>
+          {isRole === 'HEAD' ? (
+            isApprove1 ? (
+              <View>
+                <TouchableOpacity
+                  onPress={approve}
+                  style={styles.ButtonApprove}>
+                  <Text
+                    style={{
+                      fontFamily: text.semiBold,
+                      fontSize: 16,
+                      color: Color.white,
+                    }}>
+                    APPROVE
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.ButtonReject} onPress={reject}>
+                  <Text style={styles.Text}>REJECT</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={styles.ButtonApp2}>
+                <Text style={styles.Text}>Belum Di Acc Leader</Text>
+              </View>
+            )
+          ) : (
+            <View>
+              <TouchableOpacity onPress={approve} style={styles.ButtonApprove}>
+                <Text
+                  style={{
+                    fontFamily: text.semiBold,
+                    fontSize: 16,
+                    color: Color.white,
+                  }}>
+                  APPROVE
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.ButtonReject} onPress={reject}>
+                <Text style={styles.Text}>REJECT</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -159,5 +189,16 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     fontSize: 16,
     color: Color.red,
+  },
+  ButtonApp2: {
+    backgroundColor: 'transparent',
+    borderColor: Color.red,
+    borderWidth: 2,
+    width: 269,
+    minHeight: 50,
+    borderRadius: 5,
+    marginVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
