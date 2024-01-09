@@ -14,7 +14,7 @@ import {
 } from 'react-native-responsive-screen';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
-import {useRoute} from '@react-navigation/native';
+import {API_KEY_MAP_ALAMAT} from '@env';
 
 // State untuk inisialisasi lokasi perusahaan dan lokasi user
 const initialLokasiPerusahaan = {
@@ -76,7 +76,7 @@ const CardPilihAbsenProject = ({navigation}) => {
         getAlamat(
           locationData.latitude,
           locationData.longitude,
-          'AIzaSyA1tH4Nq364y6knELo5DwSWIwyvxNRF2b8',
+          API_KEY_MAP_ALAMAT,
         )
           .then(data => {
             setIsloading(false);

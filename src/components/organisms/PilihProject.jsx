@@ -20,10 +20,10 @@ import {
 } from 'react-native-responsive-screen';
 import {useDispatch} from 'react-redux';
 import {setIsOther, setIsWFH, setProjectYangDipilih, setUpdateAbsen} from '../../redux';
-import {API_URL, API_GABUNGAN} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAlamat } from '../../utils/getAlamat';
 import getLocation from '../../utils/getLocation';
+import {API_GABUNGAN, API_KEY_MAP_ALAMAT} from '@env';
 
 const initialLokasiUser = {
   latitude: 0,
@@ -161,7 +161,7 @@ const PilihProject = ({navigation, ukuranWrappPilihProject}) => {
             getAlamat(
               locationData.latitude,
               locationData.longitude,
-              'AIzaSyA1tH4Nq364y6knELo5DwSWIwyvxNRF2b8',
+              API_KEY_MAP_ALAMAT,
             )
               .then(data => {
                 console.log('alamat : ', data);

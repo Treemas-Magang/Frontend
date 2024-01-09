@@ -28,6 +28,7 @@ import {checkMockLocation} from '../../utils/checkMockLocation';
 import {getDataFromSession} from '../../utils/getDataSession';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ButtonHomeKiri from '../atoms/ButtonHomeKiri';
+import {API_KEY_MAP_ALAMAT} from '@env';
 const initialLokasiUser = {
   latitude: 0,
   longitude: 0,
@@ -132,7 +133,7 @@ const MapPreview = ({navigation}) => {
         getAlamat(
           locationData.latitude,
           locationData.longitude,
-          'AIzaSyA1tH4Nq364y6knELo5DwSWIwyvxNRF2b8',
+          API_KEY_MAP_ALAMAT,
         )
           .then(data => {
             console.log('alamat : ', data);

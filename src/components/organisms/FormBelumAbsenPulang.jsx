@@ -20,7 +20,7 @@ import {API_URL, API_GABUNGAN} from '@env';
 import {AlertNotificationSuccess} from '../atoms/AlertNotification';
 import ButtonLoading from '../atoms/ButtonLoading';
 
-const FormBelumAbsenPulang = () => {
+const FormBelumAbsenPulang = ({navigation}) => {
   const {lokasi, tanggal, latProj, lonProj, idAbsen} = useRoute().params;
   console.log('latProj : ', latProj);
   console.log('lonProj : ', lonProj);
