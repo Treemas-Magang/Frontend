@@ -43,9 +43,11 @@ const ListBelumAbsenPulang = ({navigation}) => {
       setAbsenBelumPulang(filteredData);
       setIsLoading(false);
       console.log('data : ', filteredData);
-      
     } catch (error) {
-      console.log('Tidak dapat mengambil data lupa absen pulang ', error.response);
+      console.log(
+        'Tidak dapat mengambil data lupa absen pulang ',
+        error.response,
+      );
       setIsLoading(false);
     }
   };
@@ -80,9 +82,15 @@ const ListBelumAbsenPulang = ({navigation}) => {
     return formattedDate;
   };
 
-    const moveTo = (tujuan, lokasi, tanggal, latProj, lonProj, idAbsen) => {
-      navigation.navigate(tujuan, {lokasi: lokasi, tanggal: tanggal, latProj: latProj, lonProj: lonProj, idAbsen: idAbsen});
-    };
+  const moveTo = (tujuan, lokasi, tanggal, latProj, lonProj, idAbsen) => {
+    navigation.navigate(tujuan, {
+      lokasi: lokasi,
+      tanggal: tanggal,
+      latProj: latProj,
+      lonProj: lonProj,
+      idAbsen: idAbsen,
+    });
+  };
 
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
@@ -95,7 +103,7 @@ const ListBelumAbsenPulang = ({navigation}) => {
           height: hp('30%'),
           justifyContent: 'center',
         }}>
-        <Text style={styles.Judul}>Belum Absen Pulang</Text>
+        <Text style={styles.Judul}>Lupa Absen Pulang</Text>
       </View>
       <View style={styles.backgroundCardBelumAbsenPulang}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -121,7 +129,7 @@ const ListBelumAbsenPulang = ({navigation}) => {
                     )
                   }
                   navigation={navigation}
-                  jam_masuk={data.jamMsk || '-'}
+                  jam_masuk={data.jamMsk.substring(0, 5) || '-'}
                   project={data.projectName || '-'}
                   note_telat={data.noteTelatMsk || '-'}
                   lokasi={data.lokasiProject || '-'}
@@ -166,7 +174,7 @@ const styles = StyleSheet.create({
   Judul: {
     textAlign: 'center',
     fontFamily: text.semiBold,
-    fontSize: 26,
+    fontSize: wp('7%'),
     color: Color.blue,
     textTransform: 'uppercase',
   },

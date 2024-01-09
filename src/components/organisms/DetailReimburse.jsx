@@ -113,7 +113,7 @@ const DetailReimburse = ({navigation}) => {
             <View>
               <Text style={styles.TextTitle}>Project</Text>
               <Text style={styles.TextDeskripsi}>
-                {dataDetailReimburse.projectId?.namaProject || '-'}
+                {dataDetailReimburse.namaProject || '-'}
               </Text>
             </View>
             <View>

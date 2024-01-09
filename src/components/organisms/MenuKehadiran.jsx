@@ -38,66 +38,76 @@ const MenuKehadiran = ({
     navigation.navigate(tujuan);
   };
 
-const renderMenu = () => {
-  const menuItems = [
-    {
-      image: require('../../assets/vector/kehadiran.png'),
-      title: 'Absensi',
-      onPress: () => moveTo(isAbsen === 'true' ? 'absensi' : 'pilihProject'),
-    },
-    // Exclude 'Member' item when isRole is 'EMPL'
-    ...(isRole !== 'EMPL'
-      ? [
-          {
-            image: require('../../assets/vector/member.png'),
-            title: 'Member',
-            onPress: () => moveTo('listMemberProject'),
-          },
-        ]
-      : []),
-    {
-      image: require('../../assets/vector/updatelistproject.png'),
-      title: 'Update List Project',
-      onPress: () => moveTo('updateListProject'),
-    },
-    {
-      image: require('../../assets/vector/listbelumpulang.png'),
-      title: 'Belum Absen Pulang',
-      onPress: () => moveTo('belumAbsenPulang'),
-    },
-    {
-      image: require('../../assets/vector/Cuti.png'),
-      title: 'Cuti',
-      onPress: () => moveTo('cekCuti'),
-    },
-    ...(isRole !== 'EMPL'
-      ? [
-          {
-            image: '',
-            title: '',
-          },
-        ]
-      : []),
-  ];
+  const renderMenu = () => {
+    const menuItems = [
+      {
+        image: require('../../assets/vector/kehadiran.png'),
+        title: 'Absensi',
+        onPress: () => moveTo(isAbsen === 'true' ? 'absensi' : 'pilihProject'),
+      },
+      // Exclude 'Member' item when isRole is 'EMPL'
+      ...(isRole !== 'EMPL'
+        ? [
+            {
+              image: require('../../assets/vector/member.png'),
+              title: 'Member',
+              onPress: () => moveTo('listMemberProject'),
+            },
+          ]
+        : []),
+      {
+        image: require('../../assets/vector/updatelistproject.png'),
+        title: 'Update List Project',
+        onPress: () => moveTo('updateListProject'),
+      },
+      {
+        image: require('../../assets/vector/listbelumpulang.png'),
+        title: 'Lupa Absen Pulang',
+        onPress: () => moveTo('belumAbsenPulang'),
+      },
+      {
+        image: require('../../assets/vector/Cuti.png'),
+        title: 'Cuti',
+        onPress: () => moveTo('cekCuti'),
+      },
+      ...(isRole !== 'EMPL'
+        ? [
+            {
+              image: '',
+              title: '',
+            },
+          ]
+        : []),
+    ];
 
-  return menuItems.map((item, index) => (
-    <IconMenu
-      key={index}
-      image={item.image}
-      title={item.title}
-      onPress={item.onPress}
-      styleImage={styleImage}
-      styleNamaMenu={styleNamaMenu}
-      box={box}
-    />
-  ));
-};
+    return menuItems.map((item, index) => (
+      <IconMenu
+        key={index}
+        image={item.image}
+        title={item.title}
+        onPress={item.onPress}
+        styleImage={styleImage}
+        styleNamaMenu={styleNamaMenu}
+        box={box}
+      />
+    ));
+  };
 
   return (
     <ScrollView contentContainerStyle={scrollViewContent}>
       <View style={[styles.wrapperIconMenu, wrapIcon]}>
-            <View style={[{flexDirection: 'row', flexWrap: 'wrap',justifyContent: 'flex-start' }, gap]}>{renderMenu()}</View>
-            <View style={{width: 70, height: 60, marginBottom: 5}} />
+        <View
+          style={[
+            {
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'flex-start',
+            },
+            gap,
+          ]}>
+          {renderMenu()}
+        </View>
+        <View style={{width: 70, height: 60, marginBottom: 5}} />
       </View>
     </ScrollView>
   );

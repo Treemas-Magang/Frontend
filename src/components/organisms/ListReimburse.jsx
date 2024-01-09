@@ -30,6 +30,7 @@ import SkeletonCardReimburse from '../skeleton/SkeletonCardReimburse';
 
 const ListReimburse = ({navigation}) => {
   const [reimburses, setReimburses] = useState([]);
+  const [itunganReimburse, setItunganReimburse] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
   const getDataReimburse = async headers => {
     try {
@@ -50,6 +51,22 @@ const ListReimburse = ({navigation}) => {
       setIsLoading(false);
     }
   };
+  const getDataItunganReimburse = async headers => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + '/api/rekap/get-itungan-reimburse',
+        {headers},
+      );
+      console.log(response.data.data);
+      const dataAPI = response.data.data;
+      console.log('data reimburse : ', dataAPI);
+      setItunganReimburse(dataAPI);
+      setIsLoading(false);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error.response);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     getDataFromSession('token')
@@ -58,6 +75,7 @@ const ListReimburse = ({navigation}) => {
           Authorization: `Bearer ${token}`,
         };
         getDataReimburse(headers);
+        getDataItunganReimburse(headers);
       })
       .catch(error => console.log(error));
   }, []);
