@@ -90,7 +90,7 @@ const SplashReducer = (state = initialStateSplash, action) => {
 };
 const initialStateTimesheet = {
   form: {
-    keteranganTimesheet: '',
+    note: '',
   },
 };
 const TimesheetReducer = (state = initialStateTimesheet, action) => {
