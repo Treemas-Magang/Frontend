@@ -17,6 +17,8 @@ import {getDataFromSession} from '../../utils/getDataSession';
 import {hitungJarak} from '../../utils/hitungJarak';
 import axios from 'axios';
 import {API_URL, API_GABUNGAN} from '@env';
+import {AlertNotificationSuccess} from '../atoms/AlertNotification';
+import ButtonLoading from '../atoms/ButtonLoading';
 
 const FormBelumAbsenPulang = () => {
   const {lokasi, tanggal, latProj, lonProj, idAbsen} = useRoute().params;
@@ -174,8 +176,33 @@ const FormBelumAbsenPulang = () => {
       kirimDataLupaAbsenPulang();
     }
   };
+  const toDashboard = () => {
+    // navigation.replace('dashboard');
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'dashboard'}],
+    });
+  };
+
   return (
     <View style={styles.FormBelumAbsenPulang}>
+      {uploadBerhasil ? (
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <AlertNotificationSuccess
+            buttonAlert="Close"
+            textBodyAlert="Berhasil Melakukan Absen"
+            titleAlert="Success"
+            onPress={toDashboard}
+          />
+        </View>
+      ) : (
+        ''
+      )}
       <View style={styles.cardFormBelumAbsenPulang}>
         <Text style={styles.textJudul}>Absen Pulang</Text>
         <CustomTextInput
@@ -236,6 +263,8 @@ const FormBelumAbsenPulang = () => {
         <View style={styles.wrapperButton}>
           {lewatmaxJarak ? (
             <ButtonAction title="Jarak Terlalu Jauh" style={{width: 269}} />
+          ) : isLoading ? (
+            <ButtonLoading style={{width: 269}} />
           ) : (
             <ButtonAction
               title="kirim"

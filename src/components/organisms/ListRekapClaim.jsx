@@ -88,6 +88,8 @@ const ListRekapClaim = ({navigation}) => {
         {isLoading ? (
           <View style={{flex: 1}}>
             <SkeletonCardRekapClaim />
+            <SkeletonCardRekapClaim />
+            <SkeletonCardRekapClaim />
           </View>
         ) : (
           <ScrollView showsVerticalScrollIndicator={false}>

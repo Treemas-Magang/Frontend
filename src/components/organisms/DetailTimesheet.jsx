@@ -163,7 +163,7 @@ const DetailTimesheet = ({navigation}) => {
                 Total Jam Kerja
               </Text>
               <Text style={{fontFamily: text.light}}>
-                {dataDetailTimesheet.projectId?.jamKerja}
+                {dataDetailTimesheet.projectId?.jamKerja || '-'}
               </Text>
             </View>
             <View>
@@ -172,7 +172,7 @@ const DetailTimesheet = ({navigation}) => {
                 Total Jam Lembur
               </Text>
               <Text style={{fontFamily: text.light}}>
-                {dataDetailTimesheet.overtime}
+                {dataDetailTimesheet.overtime || '-'}
               </Text>
             </View>
             <View>
@@ -181,7 +181,7 @@ const DetailTimesheet = ({navigation}) => {
                 Total Jam Kerja
               </Text>
               <Text style={{fontFamily: text.light}}>
-                {dataDetailTimesheet.totalJamKerja}
+                {dataDetailTimesheet.totalJamKerja || '-'}
               </Text>
             </View>
           </ScrollView>

@@ -305,7 +305,7 @@ const screens = [
   },
 ];
 
-const routeName = 'cobaDownloadApk';
+const routeName = 'splash';
 const Stack = createNativeStackNavigator();
 
 function App() {
