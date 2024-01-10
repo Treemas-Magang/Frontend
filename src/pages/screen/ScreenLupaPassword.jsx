@@ -18,13 +18,17 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useDispatch, useSelector } from 'react-redux';
-import { setFormLupaPassword } from '../../redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {setFormLupaPassword} from '../../redux';
 import axios from 'axios';
 import {API_GABUNGAN} from '@env';
+import {AlertNotificationSuccess} from '../../components/atoms/AlertNotification';
+import ButtonLoading from '../../components/atoms/ButtonLoading';
 const ScreenLupaPassword = ({navigation}) => {
   const dispatch = useDispatch();
-  const {form_lupa_password} = useSelector(state => state.FormLupaPasswordReducer);
+  const {form_lupa_password} = useSelector(
+    state => state.FormLupaPasswordReducer,
+  );
   const [appVersion, setAppVersion] = useState('');
   const [form, setForm] = useState({
     email: '',
@@ -35,6 +39,8 @@ const ScreenLupaPassword = ({navigation}) => {
   const [isServerError, setIsServerError] = useState(false);
   const [inputKosng, setInputKosong] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isBtnLoading, setBtnLoading] = useState(false);
+  const [tdkCocok, setTdkCocok] = useState(false);
 
   getDataFromSession('appVersion')
     .then(apkVersion => {
@@ -57,61 +63,152 @@ const ScreenLupaPassword = ({navigation}) => {
     });
     dispatch(setFormLupaPassword(index, value));
   };
+  // const sendData = async () => {
+  //   setBtnLoading(true);
+  //   if (form.email === '' || form.konfirmasiEmail === '') {
+  //     console.log('form tidak boleh kosong');
+  //     console.log('email : ', form.email);
+  //     console.log('konf email : ', form.konfirmasiEmail);
+  //     setInputKosong(true);
+  //     setTdkCocok(false);
+  //     setInputTidakSama(false);
+  //     setEmailTidakTerdaftar(false);
+  //   } else if (form.email !== form.konfirmasiEmail) {
+  //     console.log('konfirmasi email tidak sama dengan email');
+  //     setInputTidakSama(true);
+  //     setTdkCocok(false);
+  //     setEmailTidakTerdaftar(false);
+  //     console.log('email : ', form.email);
+  //     console.log('konf email : ', form.konfirmasiEmail);
+  //   } else {
+  //     dispatch(setFormLupaPassword('email', form_lupa_password.email));
+  //     if (form_lupa_password.email !== '') {
+  //       try {
+  //         const response = await axios.put(
+  //           `${API_GABUNGAN}/api/auth/forgot-password`,
+  //           {email: form_lupa_password.email},
+  //         );
+  //         console.log(response);
+  //         console.log('kirim data : ', form_lupa_password.email);
+  //         setIsSuccess(true); //untuk sukses upload
+  //         setBtnLoading(false);
+  //       } catch (error) {
+  //         console.log(error.response);
+  //         const codeError = error.response.status;
+  //         switch (codeError) {
+  //           case 404:
+  //             console.log('email tidak terdaftar!!');
+  //             setInputKosong(false);
+  //             setInputTidakSama(false);
+  //             setEmailTidakTerdaftar(true);
+  //             setBtnLoading(false);
+  //             break;
+  //           case 500:
+  //             setIsServerError(true);
+  //             setBtnLoading(false);
+  //             console.log('server error !');
+  //             break;
+  //           default:
+  //             setBtnLoading(false);
+  //             console.log('gagal kirim data keserver');
+  //             break;
+  //         }
+  //       }
+  //     } else {
+  //       console.log('email masih kosong');
+  //     }
+  //   }
+  // };
+
   const sendData = async () => {
-    if (form.email === '' || form.konfirmasiEmail === '') {
-      console.log('form tidak boleh kosong');
-      console.log('email : ', form.email);
-      console.log('konf email : ', form.konfirmasiEmail);
-      setInputKosong(true);
-      setInputTidakSama(false);
-      setEmailTidakTerdaftar(false);
-    } else if (form.email !== form.konfirmasiEmail) {
-      console.log('konfirmasi email tidak sama dengan email');
-      setInputTidakSama(true);
-      setEmailTidakTerdaftar(false);
-      console.log('email : ', form.email);
-      console.log('konf email : ', form.konfirmasiEmail);
-    } else {
-      dispatch(setFormLupaPassword('email', form_lupa_password.email));
-      if (form_lupa_password.email !== '') {
-        try {
+    try {
+      setBtnLoading(true);
+
+      if (form.email === '' || form.konfirmasiEmail === '') {
+        console.log('form tidak boleh kosong');
+        console.log('email : ', form.email);
+        console.log('konf email : ', form.konfirmasiEmail);
+        setInputKosong(true);
+        setTdkCocok(false);
+        setInputTidakSama(false);
+        setEmailTidakTerdaftar(false);
+      } else if (form.email !== form.konfirmasiEmail) {
+        console.log('konfirmasi email tidak sama dengan email');
+        setInputTidakSama(true);
+        setTdkCocok(false);
+        setEmailTidakTerdaftar(false);
+        console.log('email : ', form.email);
+        console.log('konf email : ', form.konfirmasiEmail);
+      } else {
+        dispatch(setFormLupaPassword('email', form_lupa_password.email));
+
+        if (form_lupa_password.email !== '') {
           const response = await axios.put(
             `${API_GABUNGAN}/api/auth/forgot-password`,
-            {email : form_lupa_password.email},
+            {email: form_lupa_password.email},
           );
+
           console.log(response);
           console.log('kirim data : ', form_lupa_password.email);
-          setIsSuccess(true); //untuk sukses upload
-        } catch (error) {
-          console.log(error.response);
-          const codeError = error.response.status;
-          switch (codeError) {
-            case 404:
-              console.log('email tidak terdaftar!!');
-              setInputKosong(false);
-              setInputTidakSama(false);
-              setEmailTidakTerdaftar(true);
-              break;
-            case 500:
-              setIsServerError(true);
-              console.log('server error !');
-              break;
-            default:
-              console.log('gagal kirim data keserver');
-              break;
-          }
+
+          setIsSuccess(true); // Set to true on successful response
         }
-      } else {
-        console.log('email masih kosong');
       }
+    } catch (error) {
+      console.log(error.response);
+      const codeError = error.response.status;
+
+      switch (codeError) {
+        case 404:
+          console.log('email tidak terdaftar!!');
+          setInputKosong(false);
+          setInputTidakSama(false);
+          setEmailTidakTerdaftar(true);
+          break;
+        case 500:
+          setIsServerError(true);
+          console.log('server error !');
+          break;
+        default:
+          console.log('gagal kirim data ke server');
+          break;
+      }
+    } finally {
+      setBtnLoading(false);
     }
   };
+
   const moveToLogin = () => {
     navigation.navigate('login');
   };
 
+  const toLogin = () => {
+    // navigation.replace('dashboard');
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'login'}],
+    });
+  };
+
   return (
     <View style={{flex: 1}}>
+      {isSuccess ? (
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <AlertNotificationSuccess
+            buttonAlert="Close"
+            textBodyAlert="Email Berhasil Terkirim"
+            titleAlert="Success"
+            onPress={toLogin}
+          />
+        </View>
+      ) : (
+        ''
+      )}
       <ScrollView
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled">
@@ -132,38 +229,48 @@ const ScreenLupaPassword = ({navigation}) => {
             label="Email"
             secureTextEntry={false}
             value={form.email}
+            textColor={inputKosng || tdkCocok ? Color.red : Color.blue}
+            style={
+              inputKosng || tdkCocok || emailTidakTerdaftar || inputTidakSama
+                ? styles.passSalah
+                : styles.passBenar
+            }
             onTextChange={value => onChangeText(value, 'email')}
           />
           <CustomTextInput
             label="Konfirmasi Email"
             secureTextEntry={false}
             value={form.konfirmasiEmail}
+            textColor={inputKosng || tdkCocok ? Color.red : Color.blue}
+            style={
+              inputKosng || tdkCocok || emailTidakTerdaftar || inputTidakSama
+                ? styles.passSalah
+                : styles.passBenar
+            }
             onTextChange={value => onChangeText(value, 'konfirmasiEmail')}
           />
           {emailTidakTerdaftar ? (
-            <Text style={styles.labelSalah}>
-              EMAIL TIDAK TERDAFTAR
-            </Text>
+            <Text style={styles.labelSalah}>EMAIL TIDAK TERDAFTAR</Text>
           ) : (
             ''
           )}
           {inputTidakSama ? (
-            <Text style={styles.labelSalah}>
-              EMAIL TIDAK SAMA
-            </Text>
+            <Text style={styles.labelSalah}>EMAIL TIDAK SAMA</Text>
           ) : (
             ''
           )}
           {inputKosng ? (
-            <Text style={styles.labelSalah}>
-              FORM TIDAK BOLEH KOSONG
-            </Text>
+            <Text style={styles.labelSalah}>FORM TIDAK BOLEH KOSONG</Text>
           ) : (
             ''
           )}
 
           <View style={{alignItems: 'center'}}>
-            <ButtonAction onPress={() => sendData()} title="kirim" />
+            {isBtnLoading ? (
+              <ButtonLoading />
+            ) : (
+              <ButtonAction onPress={() => sendData()} title="kirim" />
+            )}
           </View>
           <TouchableOpacity style={{alignItems: 'center', marginTop: 21}}>
             <Text
