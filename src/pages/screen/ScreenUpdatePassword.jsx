@@ -44,164 +44,84 @@ const ScreenUpdatePassword = ({navigation}) => {
     hapusDataNikPasswordDiStorage();
   }, []);
 
-  // const uploadData = async data => {
-  //   setBtnLoading(true);
-  //   const token = await getDataFromSession('token');
-
-  //   if (token !== null) {
-  //     const headers = {
-  //       Authorization: `Bearer ${token}`,
-  //     };
-  //     try {
-  //       const response = await axios.put(
-  //         API_GABUNGAN + '/api/auth/change-password',
-  //         data,
-  //         {headers},
-  //       );
-  //       console.log(response);
-  //       console.log('berhasil update password');
-  //       // setIsSuccess(true);
-  //       setBtnLoading(false);
-  //       navigation.reset({
-  //         index: 0,
-  //         routes: [{name: 'login'}],
-  //       });
-  //       try {
-  //         await AsyncStorage.removeItem('token');
-  //       } catch (error) {
-  //         console.log('gagal hapus storage token', error);
-  //       }
-  //     } catch (error) {
-  //       console.log(error.response);
-  //       const errorCode = error.response ? error.response.code : null;
-  //       switch (errorCode) {
-  //         case 403:
-  //           console.log('project tidak tepat');
-  //           setBtnLoading(false);
-  //           break;
-  //         case 404:
-  //           setBtnLoading(false);
-  //           break;
-  //         case 500:
-  //           setBtnLoading(false);
-  //           console.log('Kesalahan server');
-  //           break;
-  //         default:
-  //           setBtnLoading(false);
-  //           console.log('gagal absen');
-  //           break;
-  //       }
-  //     }
-  //   }
-  // };
-  // const sendData = async () => {
-  //   if (form.newPassword === '' || form.confPassword === '') {
-  //     console.log('Harap isi semua form !!');
-  //     setTdkCocok(false);
-  //     setInputKosong(true);
-  //     setPasswordKurangPanjang(false);
-  //   } else if (form.newPassword !== form.confPassword) {
-  //     console.log('Konfirmasi password tidak cocok !!!');
-  //     setTdkCocok(true);
-  //     setInputKosong(false);
-  //     setPasswordKurangPanjang(false);
-  //   } else if (form.newPassword.length < 6 && form.confPassword.length < 6) {
-  //     console.log('minimal password 6 karakter');
-  //     setTdkCocok(false);
-  //     setInputKosong(false);
-  //     setPasswordKurangPanjang(true);
-  //   } else {
-  //     setTdkCocok(false);
-  //     setInputKosong(false);
-  //     setPasswordKurangPanjang(false);
-  //     console.log('data yang dikirim : ', form);
-  //     await uploadData(form);
-  //     setBtnLoading(true);
-  //     setIsSuccess(true);
-  //     // navigation.replace('login');
-  //   }
-  // };
-  // console.log('sukses : ', isSuccess);
-
-  const sendData = async () => {
-    try {
-      if (form.newPassword === '' || form.confPassword === '') {
-        console.log('Harap isi semua form !!');
-        setTdkCocok(false);
-        setInputKosong(true);
-        setPasswordKurangPanjang(false);
-      } else if (form.newPassword !== form.confPassword) {
-        console.log('Konfirmasi password tidak cocok !!!');
-        setTdkCocok(true);
-        setInputKosong(false);
-        setPasswordKurangPanjang(false);
-      } else if (form.newPassword.length < 6 && form.confPassword.length < 6) {
-        console.log('minimal password 6 karakter');
-        setTdkCocok(false);
-        setInputKosong(false);
-        setPasswordKurangPanjang(true);
-      } else {
-        setTdkCocok(false);
-        setInputKosong(false);
-        setPasswordKurangPanjang(false);
-        console.log('data yang dikirim : ', form);
-
-        // Update setIsSuccess based on the success of the upload
-        const success = await uploadData(form);
-        if (success) {
-          setIsSuccess(true);
-          // navigation.replace('login'); // Uncomment this line if navigation is needed
-        }
-
-        setBtnLoading(false); // Set loading to false after the upload is complete
-      }
-    } catch (error) {
-      console.log('Error in sendData:', error);
-    }
-  };
-
   const uploadData = async data => {
-    try {
-      setBtnLoading(true);
-      const token = await getDataFromSession('token');
+    setBtnLoading(true);
+    const token = await getDataFromSession('token');
 
-      if (token !== null) {
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-
+    if (token !== null) {
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      try {
         const response = await axios.put(
           API_GABUNGAN + '/api/auth/change-password',
           data,
           {headers},
         );
-
         console.log(response);
         console.log('berhasil update password');
-        await AsyncStorage.removeItem('token');
-        return true; // Return true on successful upload
+        // setIsSuccess(true);
+        setBtnLoading(false);
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'login'}],
+        });
+        try {
+          await AsyncStorage.removeItem('token');
+        } catch (error) {
+          console.log('gagal hapus storage token', error);
+        }
+      } catch (error) {
+        console.log(error.response);
+        const errorCode = error.response ? error.response.code : null;
+        switch (errorCode) {
+          case 403:
+            console.log('project tidak tepat');
+            setBtnLoading(false);
+            break;
+          case 404:
+            setBtnLoading(false);
+            break;
+          case 500:
+            setBtnLoading(false);
+            console.log('Kesalahan server');
+            break;
+          default:
+            setBtnLoading(false);
+            console.log('gagal absen');
+            break;
+        }
       }
-    } catch (error) {
-      console.log('Error in uploadData:', error.response);
-      const errorCode = error.response ? error.response.code : null;
-      switch (errorCode) {
-        case 403:
-          console.log('project tidak tepat');
-          break;
-        case 404:
-          break;
-        case 500:
-          console.log('Kesalahan server');
-          break;
-        default:
-          console.log('gagal absen');
-          break;
-      }
-      return false; // Return false on failed upload
-    } finally {
-      setBtnLoading(false);
     }
   };
+  const sendData = async () => {
+    if (form.newPassword === '' || form.confPassword === '') {
+      console.log('Harap isi semua form !!');
+      setTdkCocok(false);
+      setInputKosong(true);
+      setPasswordKurangPanjang(false);
+    } else if (form.newPassword !== form.confPassword) {
+      console.log('Konfirmasi password tidak cocok !!!');
+      setTdkCocok(true);
+      setInputKosong(false);
+      setPasswordKurangPanjang(false);
+    } else if (form.newPassword.length < 6 && form.confPassword.length < 6) {
+      console.log('minimal password 6 karakter');
+      setTdkCocok(false);
+      setInputKosong(false);
+      setPasswordKurangPanjang(true);
+    } else {
+      setTdkCocok(false);
+      setInputKosong(false);
+      setPasswordKurangPanjang(false);
+      console.log('data yang dikirim : ', form);
+      await uploadData(form);
+      setBtnLoading(true);
+      setIsSuccess(true);
+      // navigation.replace('login');
+    }
+  };
+  console.log('sukses : ', isSuccess);
 
   const onChangeText = (value, inputType) => {
     dispatch(setFormUpdatePassword(inputType, value));
@@ -263,9 +183,15 @@ const ScreenUpdatePassword = ({navigation}) => {
             type="password"
             value={form.newPassword}
             onTextChange={value => onChangeText(value, 'newPassword')}
-            textColor={inputKosong || tdkCocok ? Color.red : Color.blue}
+            textColor={
+              inputKosong || tdkCocok || passwordKurangPanjang
+                ? Color.red
+                : Color.blue
+            }
             style={
-              inputKosong || tdkCocok ? styles.passSalah : styles.passBenar
+              inputKosong || tdkCocok || passwordKurangPanjang
+                ? styles.passSalah
+                : styles.passBenar
             }
             maxLength={10}
           />
@@ -274,9 +200,15 @@ const ScreenUpdatePassword = ({navigation}) => {
             type="password"
             value={form.confPassword}
             onTextChange={value => onChangeText(value, 'confPassword')}
-            textColor={inputKosong || tdkCocok ? Color.red : Color.blue}
+            textColor={
+              inputKosong || tdkCocok || passwordKurangPanjang
+                ? Color.red
+                : Color.blue
+            }
             style={
-              inputKosong || tdkCocok ? styles.passSalah : styles.passBenar
+              inputKosong || tdkCocok || passwordKurangPanjang
+                ? styles.passSalah
+                : styles.passBenar
             }
             maxLength={10}
           />

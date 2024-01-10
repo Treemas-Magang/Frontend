@@ -229,7 +229,11 @@ const ScreenLupaPassword = ({navigation}) => {
             label="Email"
             secureTextEntry={false}
             value={form.email}
-            textColor={inputKosng || tdkCocok ? Color.red : Color.blue}
+            textColor={
+              inputKosng || tdkCocok || emailTidakTerdaftar || inputTidakSama
+                ? Color.red
+                : Color.blue
+            }
             style={
               inputKosng || tdkCocok || emailTidakTerdaftar || inputTidakSama
                 ? styles.passSalah
@@ -241,7 +245,11 @@ const ScreenLupaPassword = ({navigation}) => {
             label="Konfirmasi Email"
             secureTextEntry={false}
             value={form.konfirmasiEmail}
-            textColor={inputKosng || tdkCocok ? Color.red : Color.blue}
+            textColor={
+              inputKosng || tdkCocok || emailTidakTerdaftar || inputTidakSama
+                ? Color.red
+                : Color.blue
+            }
             style={
               inputKosng || tdkCocok || emailTidakTerdaftar || inputTidakSama
                 ? styles.passSalah
