@@ -272,6 +272,7 @@ const FormAbsensiOther = ({navigation}) => {
         textColor={inputKosong ? Color.red : Color.blue}
         style={inputKosong ? styles.fieldSalah : styles.fieldBener}
         onTextChange={value => onChangeText(value, 'noteOther')}
+        maxLength={25}
       />
       {inputKosong ? (
         <Text style={styles.labelSalah}>Field Tidak Boleh Kosong!</Text>

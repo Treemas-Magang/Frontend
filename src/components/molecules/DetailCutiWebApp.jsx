@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -16,6 +16,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
+import { getDataFromSession } from '../../utils/getDataSession';
 
 const DetailCutiWebApp = ({
   nik,
@@ -30,15 +31,19 @@ const DetailCutiWebApp = ({
 }) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
-
+  const [isRole, setIsRole] = useState('');
   const onChangeText = (value, inputType) => {
     dispatch(setFormApproval(inputType, value));
   };
+  useEffect(() => {
+    getDataFromSession('dataProfilUser')
+      .then(data => {
+        const dataProfile = JSON.parse(data);
+        setIsRole(dataProfile.role);
+      })
+      .catch(error => console.log(error));
+  }, []);
 
-  const sendData = () => {
-    console.log('kirim data : ', form);
-    // You can modify this part to send data to your server or perform other actions
-  };
 
   return (
     <View style={styles.background}>

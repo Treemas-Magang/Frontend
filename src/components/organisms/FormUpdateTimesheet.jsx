@@ -22,7 +22,7 @@ const FormUpdateTimesheet = ({navigation}) => {
         />
       </View>
       <View style={styles.SectionTengah}>
-        <CardUpdateTimesheet />
+        <CardUpdateTimesheet navigation={navigation} />
       </View>
       <View style={styles.SectionBawah}>
         <Image

@@ -247,12 +247,14 @@ const FormBelumAbsenPulang = ({navigation}) => {
           secureTextEntry={false}
           value={form_lupa_absen_pulang.keteranganLupaPulang}
           onTextChange={value => onChangeText(value, 'keteranganLupaPulang')}
+          maxLength={25}
         />
         <CustomTextInput
           label="Timesheet"
           secureTextEntry={false}
           value={form_lupa_absen_pulang.notePekerjaan}
           onTextChange={value => onChangeText(value, 'notePekerjaan')}
+          maxLength={25}
         />
         <CustomTextInput
           label="Jarak"

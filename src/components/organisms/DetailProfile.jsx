@@ -28,7 +28,9 @@ import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faImage, faPen} from '@fortawesome/free-solid-svg-icons';
 import SkeletonDetailProfile from '../skeleton/SkeletonDetailProfile';
-import {AlertNotificationWarning} from '../atoms/AlertNotification';
+import {AlertNotificationDanger, AlertNotificationSuccess, AlertNotificationWarning} from '../atoms/AlertNotification';
+import ButtonRefresh from '../atoms/ButtonRefresh';
+import ButtonLoading from '../atoms/ButtonLoading';
 const DetailProfile = ({navigation, stylePP}) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.DetailProfileReducer);
@@ -37,6 +39,9 @@ const DetailProfile = ({navigation, stylePP}) => {
   console.log('data karyawan :', dataKaryawan);
   const [showEditButtons, setShowEditButtons] = React.useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
+  const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [gagalServer, setGagalServer] = useState(false);
   const [alertWarning, setAlertWarning] = useState(false);
   const [kategoriList, setKategoriList] = useState([
     {lebel: 'NIK', value: dataKaryawan?.nik, isClick: false, field: 'nik'},
@@ -181,6 +186,7 @@ const DetailProfile = ({navigation, stylePP}) => {
         {headers},
       );
       const dataAPI = response.data.data.karyawan;
+      console.log('data ini punya user : ', dataAPI)
       setDataKaryawan(dataAPI);
       // console.log(response.data.data)
       dispatch(setFormDetailProfile('nik', dataAPI.nik));
@@ -220,8 +226,6 @@ const DetailProfile = ({navigation, stylePP}) => {
       );
       dispatch(setFormDetailProfile('nomorKtp', dataAPI.nomorKtp));
       dispatch(setFormDetailProfile('noNpwp', dataAPI.noNpwp));
-      dispatch(setFormDetailProfile('asuransi', dataAPI.asuransi));
-      dispatch(setFormDetailProfile('kk', dataAPI.kk));
       setIsLoading(false);
     } catch (error) {
       console.log(error.response);
@@ -256,7 +260,7 @@ const DetailProfile = ({navigation, stylePP}) => {
       getDataFromSession('dataProfilUser')
         .then(data => {
           const dataProfileStorage = JSON.parse(data);
-          // console.log('data profil : ', dataProfileStorage);
+          console.log('data profil : ', dataProfileStorage);
           setDataProfile(dataProfileStorage);
         })
         .catch(error => console.log(error));
@@ -308,11 +312,112 @@ const DetailProfile = ({navigation, stylePP}) => {
     setShowEditButtons(shouldShowEditButtons());
   };
 
+  const updateDataProfile = async () => {
+    try {
+      //mengambil token untuk otorisasi
+      const token = await getDataFromSession('token');
+      if (token !== null) {
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        try {
+          //melakukan hit ke API untuk kirim data Absen
+          const response = await axios.put(
+            API_GABUNGAN + '/api/users/update-profile-mobile',
+            form,
+            {headers},
+          );
+          console.log(response);
+          console.log('berhasil mengirim update dataProfile');
+          console.log(uploadBerhasil);
+          setUploadBerhasil(true);
+          setBtnLoading(false);
+          //saat berhasil kirim data kosongkan reducer
+        } catch (error) {
+          console.log(error.response);
+          const errorCode = error.response.status;
+          setGagalServer(true)
+          switch (errorCode) {
+            case 403:
+              console.log('project tidak tepat');
+              setBtnLoading(false);
+              break;
+            case 404:
+              setBtnLoading(false);
+              break;
+            case 500:
+              setBtnLoading(false);
+              console.log('Kesalahan server');
+              break;
+            default:
+              setBtnLoading(false);
+              console.log(error.response);
+              console.log('gagal absen');
+              break;
+          }
+        }
+      } else {
+        console.log('Data tidak ditemukan di session.');
+      }
+    } catch (error) {
+      console.error('Terjadi kesalahan:', error);
+    }
+  };
+  
+    const toDashboard = () => {
+      // navigation.replace('dashboard');
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'dashboard'}],
+      });
+    };
+
+  const close = () => {
+    setGagalServer(false);
+    navigation.replace('dashboard');
+  };
+  
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
+      <ButtonRefresh navigation={navigation} />
       <VectorAtasKecil />
+      {gagalServer ? (
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <AlertNotificationDanger
+            buttonAlert="Close"
+            textBodyAlert="Gagal Melakukan Approve/Reject"
+            titleAlert="Failed"
+            onPress={close}
+          />
+        </View>
+      ) : (
+        ''
+      )}
+      {uploadBerhasil ? (
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <AlertNotificationSuccess
+            buttonAlert="Close"
+            textBodyAlert="Berhasil Update Timesheet"
+            titleAlert="Success"
+            onPress={toDashboard}
+          />
+        </View>
+      ) : (
+        ''
+      )}
       <View
         style={{
           width: wp('100%'),
@@ -321,15 +426,6 @@ const DetailProfile = ({navigation, stylePP}) => {
         }}>
         <Text style={styles.Judul}>PROFILE</Text>
       </View>
-      {/* {alertWarning ? (
-        <AlertNotificationWarning
-          buttonAlert="Close"
-          textBodyAlert="Data Tidak Boleh Kosong"
-          titleAlert="Success"
-        />
-      ) : (
-        ''
-      )} */}
       {isLoading ? (
         <SkeletonDetailProfile />
       ) : (
@@ -365,8 +461,13 @@ const DetailProfile = ({navigation, stylePP}) => {
                   />
                   {item.lebel === 'NIK' ||
                   item.lebel === 'Jenis Kelamin' ||
+                  item.lebel === 'Golongan Darah' ||
+                  item.lebel === 'Kewarganegaraan' ||
+                  item.lebel === 'Agama' ||
                   item.lebel === 'Asuransi' ||
                   item.lebel === 'Kartu Keluarga' ||
+                  item.lebel === 'Status Perkawinan' ||
+                  item.lebel === 'Jenjang Pendidikan' ||
                   item.lebel === 'Tanggal Bergabung' ? (
                     ''
                   ) : (
@@ -415,13 +516,18 @@ const DetailProfile = ({navigation, stylePP}) => {
                 </View>
               ))}
             </View>
-            {showEditButtons && (
-              <View style={{alignItems: 'center', marginBottom: 40}}>
-                <TouchableOpacity style={styles.ButtonEdit}>
-                  <Text style={styles.textButton}>Update</Text>
-                </TouchableOpacity>
-              </View>
-            )}
+            {showEditButtons &&
+              (btnLoading ? (
+                <ButtonLoading />
+              ) : (
+                <View style={{alignItems: 'center', marginBottom: 40}}>
+                  <TouchableOpacity
+                    style={styles.ButtonEdit}
+                    onPress={() => updateDataProfile()}>
+                    <Text style={styles.textButton}>Update</Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
           </ScrollView>
         </View>
       )}

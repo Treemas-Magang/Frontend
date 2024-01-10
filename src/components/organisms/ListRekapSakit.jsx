@@ -116,10 +116,10 @@ const ListRekapSakit = ({navigation}) => {
                   case null:
                     status = 'Menunggu';
                     break;
-                  case 1:
+                  case '1':
                     status = 'Disetujui';
                     break;
-                  case 0:
+                  case '0':
                     status = 'Ditolak';
                     break;
                   default:

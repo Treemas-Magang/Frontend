@@ -132,7 +132,7 @@ const DetailTimesheet = ({navigation}) => {
                 Keterangan
               </Text>
               <Text style={{fontFamily: text.light}}>
-                {dataDetailTimesheet.noteTimesheet || '-'}
+                {dataDetailTimesheet.note || '-'}
               </Text>
             </View>
             <View>

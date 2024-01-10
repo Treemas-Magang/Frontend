@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import DetailPengumuman from '../../components/organisms/DetailPengumuman';
 

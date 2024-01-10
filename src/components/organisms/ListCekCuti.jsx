@@ -27,6 +27,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {getTanggalSekarang} from '../../utils/getTanggalSekarang';
+import { formatTanggal } from '../../utils/formatTgl';
 const ListCekCuti = ({navigation}) => {
   const [showKalender, setShowKalender] = useState(false);
   const [cekCutis, setcekCutis] = useState(null);
@@ -40,9 +41,10 @@ const ListCekCuti = ({navigation}) => {
   }, []);
   console.log('tgl sekarang : ', tglSekarang);
   const getDataCuti = async (headers, tgl) => {
-    console.log('asu aja : ', tgl);
+    const tanggal = formatTanggal(tgl);
+    console.log('asu aja : ', tanggal);
     try {
-      let apiUrl = API_GABUNGAN + '/api/absen/cek-cuti-by?date=' + tgl; // Change this to the appropriate API endpoint
+      let apiUrl = API_GABUNGAN + '/api/absen/cek-cuti-by?date=' + tanggal; // Change this to the appropriate API endpoint
 
       const response = await axios.get(apiUrl, {
         headers,

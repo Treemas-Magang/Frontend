@@ -313,7 +313,8 @@ function App() {
   return (
     <Stack.Navigator
       screenOptions={{
-        animation: 'slide_from_right', // Atur efek slide dari kanan
+        animation: 'fade', // Atur efek slide dari kanan
+        animationDuration: 5000,
       }}
       initialRouteName={routeName}>
       {screens.map((screen, index) => (

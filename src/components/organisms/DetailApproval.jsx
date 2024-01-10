@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View} from 'react-native';
+import {Alert, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Color} from '../../utils/color';
 import {text} from '../../utils/text';
@@ -24,6 +24,7 @@ import {getDataFromSession} from '../../utils/getDataSession';
 import SkeletonDetailApproval from '../skeleton/SkeletonDetailApproval';
 import DetailAbsenWebApp from '../molecules/DetailAbsenWebApp';
 import DetailCutiWebApp from '../molecules/DetailCutiWebApp';
+import { AlertNotificationDanger, AlertNotificationSuccess } from '../atoms/AlertNotification';
 
 const DetailApproval = ({navigation, stylePP}) => {
   const {id, kategori} = useRoute().params;
@@ -35,6 +36,7 @@ const DetailApproval = ({navigation, stylePP}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [detailApp, setDetailApp] = useState([]);
   const [uploadBerhasil, setUploadBerhasil] = useState(false);
+  const [uploadGagal, setUploadGagal] = useState(false);
   const [serverError, setServerError] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
   const [inputKosong, setInputKosong] = useState(false);
@@ -111,10 +113,10 @@ const DetailApproval = ({navigation, stylePP}) => {
       .catch(error => console.log(error));
   }, [id, kategori]);
 
-  const uploadData = async (data, type, id_app, role) => {
-    const dataForm = await data
-    console.log('role dala, upload : ', role)
-    console.log('data upload : ', dataForm)
+  const uploadData = async (data, type, id_app, role, approve) => {
+    const dataForm = await data;
+    console.log('role dala, upload : ', role);
+    console.log('data upload : ', dataForm);
     setBtnLoading(true);
     const token = await getDataFromSession('token');
 
@@ -131,51 +133,73 @@ const DetailApproval = ({navigation, stylePP}) => {
       //   console.log(data.isApprove1);
       // }
       try {
-        if (role === 'HEAD') {
-          const response = await axios.post(
-            `${API_GABUNGAN}/api/notif/post-approval?by=${type}&id=${id_app}`,
-            {
-              isApprove2 : data.isApprove2,
-              noteApp2 : data.noteApp2,
-            },
-            {headers},
-          );
-          console.log('response upload : ', response);
-          console.log('berhasil approve2');
-          console.log(uploadBerhasil);
-          setUploadBerhasil(true);
-          setIsLoading(false);
-          setBtnLoading(false);
+        if (
+          type === 'libur' ||
+          type === 'lembur' ||
+          type === 'absen-web' ||
+          type === 'absen-pulang'
+        ) {
+          if (role === 'HEAD') {
+            const response = await axios.post(
+              `${API_GABUNGAN}/api/notif/post-approval?by=${type}&id=${id_app}`,
+              {
+                isApprove2: data.isApprove2,
+                noteApp2: data.noteApp2,
+                isApprove1: '',
+                noteApp1: '',
+              },
+              {headers},
+            );
+            console.log('response upload : ', response);
+            dispatch(setFormApproval('isApprove2', ''));
+            dispatch(setFormApproval('noteApp2', ''));
+            console.log('berhasil approve2');
+            console.log(uploadBerhasil);
+            setUploadBerhasil(true);
+            setIsLoading(false);
+            setBtnLoading(false);
+          } else {
+            const response = await axios.post(
+              `${API_GABUNGAN}/api/notif/post-approval?by=${type}&id=${id_app}`,
+              {
+                isApprove1: data.isApprove1,
+                noteApp1: data.noteApp1,
+                isApprove2: '',
+                noteApp2: '',
+              },
+              {headers},
+            );
+            console.log('response upload : ', response);
+            dispatch(setFormApproval('isApprove1', ''));
+            dispatch(setFormApproval('noteApp1', ''));
+            console.log('berhasil approve 1');
+            console.log(uploadBerhasil);
+            setUploadBerhasil(true);
+            setIsLoading(false);
+            setBtnLoading(false);
+          }
         } else {
           const response = await axios.post(
             `${API_GABUNGAN}/api/notif/post-approval?by=${type}&id=${id_app}`,
             {
-              isApprove1: data.isApprove1,
-              noteApp1: data.noteApp1,
+              isApprove: approve,
+              noteApp: data.noteApp,
             },
             {headers},
           );
           console.log('response upload : ', response);
-          console.log('berhasil approve 1');
+          dispatch(setFormApproval('isApprove', ''));
+          dispatch(setFormApproval('noteApp', ''));
+          console.log('berhasil approve');
           console.log(uploadBerhasil);
           setUploadBerhasil(true);
           setIsLoading(false);
           setBtnLoading(false);
         }
-        // const response = await axios.post(
-        //   `${API_GABUNGAN}/api/notif/post-approval?by=${type}&id=${id_app}`,
-        //   data,
-        //   {headers},
-        // );
-        // console.log('response upload : ', response);
-        // console.log('berhasil approve');
-        // console.log(uploadBerhasil);
-        // setUploadBerhasil(true);
-        // setIsLoading(false);
-        // setBtnLoading(false);
       } catch (error) {
         console.log(error.response);
         const errorCode = error.response ? error.response.code : null;
+        setUploadGagal(true)
         switch (errorCode) {
           case 403:
             console.log('project tidak tepat');
@@ -199,22 +223,113 @@ const DetailApproval = ({navigation, stylePP}) => {
     }
   };
 
-  const sendDataReject = async isApprove => {
-    if (form.noteApp1 !== '' || form.noteApp2 !== '') {
-      if (isRole === 'HEAD') {
-        dispatch(setFormApproval('isApprove2', isApprove));
-        if (form.isApprove2 !== '') {
-          await uploadData(form, kategori, id, isRole);
-          console.log('kirim data : ', form);
+  const alertApprove = () => {
+      dispatch(setFormApproval('isApprove2', '1'));
+      dispatch(setFormApproval('isApprove1', '1'));
+      dispatch(setFormApproval('isApprove', '1'));
+    Alert.alert(
+      'Approve',
+      'Apa anda mau melakukan approve?',
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            sendDataApprove('1');
+          },
+        },
+        {
+          text: 'Cancel',
+          onPress: () => {
+            dispatch(setFormApproval('isApprove2', ''));
+            dispatch(setFormApproval('isApprove1', ''));
+            dispatch(setFormApproval('isApprove', ''));
+            dispatch(setFormApproval('noteApp', ''));
+            dispatch(setFormApproval('noteApp1', ''));
+            dispatch(setFormApproval('noteApp2', ''));
+          },
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
+  };
+
+    const alertReject = () => {
+      dispatch(setFormApproval('isApprove2', '0'));
+      dispatch(setFormApproval('isApprove1', '0'));
+      dispatch(setFormApproval('isApprove', '0'));
+      Alert.alert(
+        'Reject',
+        'Apa anda mau melakukan Reject?',
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              sendDataReject('0');
+            },
+          },
+          {
+            text: 'Cancel',
+            onPress: () => {
+              dispatch(setFormApproval('isApprove2', ''));
+              dispatch(setFormApproval('isApprove1', ''));
+              dispatch(setFormApproval('isApprove', ''));
+              dispatch(setFormApproval('noteApp', ''));
+              dispatch(setFormApproval('noteApp1', ''));
+              dispatch(setFormApproval('noteApp2', ''));
+            },
+            style: 'cancel',
+          },
+        ],
+        {cancelable: true},
+      );
+    };
+  const sendDataApprove = async (approve) => {
+    if (form.noteApp1 !== '' || form.noteApp2 !== '' || form.noteApp !== '') {
+      if (
+        kategori === 'libur' ||
+        kategori === 'lembur' ||
+        kategori === 'absen-web' ||
+        kategori === 'absen-pulang'
+      ) {
+        if (isRole === 'HEAD') {
+          // dispatch(setFormApproval('isApprove2', '1'));
+          if (approve !== '') {
+            await uploadData(form, kategori, id, isRole, approve);
+            console.log(
+              'kirim data : ',
+              ', noteApp2 : ',
+              form.noteApp2,
+            );
+          } else {
+            console.log('is approve kosong');
+          }
+          return;
         } else {
-          console.log('is approve kosong');
+          // dispatch(setFormApproval('isApprove1', '1'));
+          if (approve !== '') {
+            await uploadData(form, kategori, id, isRole, approve);
+            console.log(
+              'kirim data : ',
+              ', noteApp1 : ',
+              form.noteApp1,
+            );
+          } else {
+            console.log('is approve kosong');
+          }
+          return;
         }
-        return;
       } else {
-        dispatch(setFormApproval('isApprove1', isApprove));
-        if (form.isApprove1 !== '') {
-          await uploadData(form, kategori, id, isRole);
-          console.log('kirim data : ', form);
+        // dispatch(setFormApproval('isApprove', '1'));
+        if (approve !== '') {
+          await uploadData(form, kategori, id, isRole, approve);
+          console.log(
+            'kirim data : ',
+            '"isApprove : "',
+            form.isApprove,
+            ', noteApp : ',
+            form.noteApp,
+          );
         } else {
           console.log('is approve kosong');
         }
@@ -227,22 +342,50 @@ const DetailApproval = ({navigation, stylePP}) => {
 
 
 
-  const sendDataApprove = async isApprove => {
-    if (form.noteApp1 !== '' || form.noteApp2 !== '') {
-      if (isRole === 'HEAD') {
-        dispatch(setFormApproval('isApprove2', isApprove));
-        if (form.isApprove2 !== '') {
-          console.log('kirim data : ', await form);
-          await uploadData(form, kategori, id, isRole);
+  const sendDataReject = async approve => {
+    if (form.noteApp1 !== '' || form.noteApp2 !== '' || form.noteApp !== '') {
+      if (
+        kategori === 'libur' ||
+        kategori === 'lembur' ||
+        kategori === 'absen-web' ||
+        kategori === 'absen-pulang'
+      ) {
+        if (isRole === 'HEAD') {
+          dispatch(setFormApproval('isApprove2', '0'));
+          if (approve !== '') {
+            await uploadData(form, kategori, id, isRole, approve);
+            console.log(
+              'kirim data : ',
+              ', noteApp2 : ',
+              form.noteApp2,
+            );
+          } else {
+            console.log('is approve kosong');
+          }
+          return;
         } else {
-          console.log('is approve kosong');
+          dispatch(setFormApproval('isApprove1', '0'));
+          if (approve !== '') {
+            await uploadData(form, kategori, id, isRole, approve);
+            console.log(
+              'kirim data : ',
+              'noteApp1 : ',
+              form.noteApp1,
+            );
+          } else {
+            console.log('is approve kosong');
+          }
+          return;
         }
-        return;
       } else {
-        dispatch(setFormApproval('isApprove1', isApprove));
-        if (form.isApprove1 !== '') {
-          await uploadData(form, kategori, id, isRole);
-          console.log('kirim data : ', await form);
+        dispatch(setFormApproval('isApprove', '0'));
+        if (approve !== '') {
+          await uploadData(form, kategori, id, isRole, approve);
+          console.log(
+            'kirim data : ',
+            'noteApp : ',
+            form.noteApp,
+          );
         } else {
           console.log('is approve kosong');
         }
@@ -253,18 +396,60 @@ const DetailApproval = ({navigation, stylePP}) => {
     }
   };
 
-  const moveToPreview = async id => {
+  const moveToPreview = async (image) => {
     // console.log('ini id', id);
-    navigation.navigate('previewPhotoAPI', {
-      // path: `/api/rekap/get-detail-claim?id=${id}`,
-    });
+     navigation.navigate('previewPhoto', {
+       photo: `data:image/jpeg;base64,${image}`,
+     });
   };
+
+    const toDashboard = () => {
+      // navigation.replace('dashboard');
+      navigation.navigate('approval');
+    };
+    const close = () => {
+      setUploadGagal(false);
+    };
 
   return (
     <View style={{backgroundColor: Color.green, flex: 1, position: 'relative'}}>
       <ButtonBack navigation={navigation} />
       <ButtonHome navigation={navigation} />
       <VectorAtasKecil />
+      {uploadBerhasil ? (
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <AlertNotificationSuccess
+            buttonAlert="Close"
+            textBodyAlert="Berhasil Melakukan Approve/Reject"
+            titleAlert="Success"
+            onPress={toDashboard}
+          />
+        </View>
+      ) : (
+        ''
+      )}
+      {uploadGagal ? (
+        <View
+          style={{
+            position: 'absolute',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <AlertNotificationDanger
+            buttonAlert="Close"
+            textBodyAlert="Gagal Melakukan Approve/Reject Coba Sekali lagi"
+            titleAlert="Failed"
+            onPress={close}
+          />
+        </View>
+      ) : (
+        ''
+      )}
       <View
         style={{
           width: wp('100%'),
@@ -281,24 +466,65 @@ const DetailApproval = ({navigation, stylePP}) => {
         ) : (
           <DetailSakitApp
             kategoriCuti={kategori}
-            nik={detailApp.nik || '-'}
-            alamat={detailApp.alamatCuti || '-'}
+            nik={
+              kategori === 'sakit'
+                ? detailApp.sakitApproval.nik || '-'
+                : detailApp.nik || '-'
+            }
+            alamat={
+              kategori === 'sakit'
+                ? detailApp.sakitApproval.alamatCuti || '-'
+                : detailApp.alamatCuti || '-'
+            }
             jenisCuti={
               kategori === 'sakit' ? '-' : detailApp.jenisCuti.cutiDesc || '-'
             }
-            jmlCuti={detailApp.jmlCuti || '-'}
-            jmlCutiBersama={detailApp.jmlCutiBersama || '-'}
-            jmlCutiKhusus={detailApp.jmlCutiKhusus || '-'}
-            keterangan={detailApp.keperluanCuti || '-'}
-            nama={detailApp.nama || '-'}
-            tglMasuk={detailApp.tglKembaliKerja || '-'}
-            tglMulai={detailApp.tglMulai || '-'}
-            tglSelesai={detailApp.tglSelesai || '-'}
-            approve={() => sendDataApprove('1')}
-            reject={() => sendDataReject('0')}
-            namaProject={detailApp.projectId?.namaProject || '-'}
-            image64={kategori === 'sakit' ? detailApp.gambarnya : null}
-            onPress={() => moveToPreview(detailApp.id)}
+            jmlCuti={
+              kategori === 'sakit'
+                ? detailApp.sakitApproval.jmlCuti || '-'
+                : detailApp.jmlCuti || '-'
+            }
+            jmlCutiBersama={
+              kategori === 'sakit'
+                ? detailApp.sakitApproval.jmlCutiBersama || '-'
+                : detailApp.jmlCutiBersama || '-'
+            }
+            jmlCutiKhusus={
+              kategori === 'sakit'
+                ? detailApp.sakitApproval.jmlCutiKhusus || '-'
+                : detailApp.jmlCutiKhusus || '-'
+            }
+            keterangan={
+              kategori === 'sakit'
+                ? detailApp.sakitApproval.keperluanCuti || '-'
+                : detailApp.keperluanCuti || '-'
+            }
+            nama={
+              kategori === 'sakit'
+                ? detailApp.sakitApproval.nama || '-'
+                : detailApp.nama || '-'
+            }
+            tglMasuk={
+              kategori === 'sakit'
+                ? detailApp.sakitApproval.tglKembaliKerja || '-'
+                : detailApp.tglKembaliKerja || '-'
+            }
+            tglMulai={
+              kategori === 'sakit'
+                ? detailApp.sakitApproval.tglMulai || '-'
+                : detailApp.tglMulai || '-'
+            }
+            tglSelesai={
+              kategori === 'sakit'
+                ? detailApp.sakitApproval.tglSelesai || '-'
+                : detailApp.tglSelesai || '-'
+            }
+            approve={() => alertApprove()}
+            reject={() => alertReject()}
+            image64={
+              kategori === 'sakit' && detailApp.image64 !== '' ? true : false
+            }
+            onPress={() => moveToPreview(detailApp.image64)}
           />
         )
       ) : (
@@ -325,8 +551,8 @@ const DetailApproval = ({navigation, stylePP}) => {
             totalJamKerja={detailApp.totalJamKerja || '-'}
             namaProject={detailApp.projectId?.namaProject}
             isApprove1={detailApp.isApprove1}
-            approve={() => sendDataApprove('1')}
-            reject={() => sendDataReject('0')}
+            approve={() => alertApprove()}
+            reject={() => alertReject()}
             isRole={isRole}
           />
         )
@@ -352,8 +578,8 @@ const DetailApproval = ({navigation, stylePP}) => {
             noteTelatMasuk={detailApp.noteTelatMsk || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
             namaProject={detailApp.projectId?.namaProject || '-'}
-            approve={() => sendDataApprove('1')}
-            reject={() => sendDataReject('0')}
+            approve={() => alertApprove()}
+            reject={() => alertReject()}
             isApprove1={detailApp.isApprove1}
             isRole={isRole}
           />
@@ -382,8 +608,8 @@ const DetailApproval = ({navigation, stylePP}) => {
             totalJamKerja={detailApp.totalJamKerja || '-'}
             keterangan={detailApp.keterangan || '-'}
             namaProject={detailApp.projectId?.namaProject || '-'}
-            approve={() => sendDataApprove('1')}
-            reject={() => sendDataReject('0')}
+            approve={() => alertApprove()}
+            reject={() => alertReject()}
             isRole={isRole}
           />
         )
@@ -409,8 +635,10 @@ const DetailApproval = ({navigation, stylePP}) => {
             noteOther={detailApp.noteOther || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
             namaProject={detailApp.projectId?.namaProject || '-'}
-            approve={() => sendDataApprove('1')}
-            reject={() => sendDataReject('0')}
+            approve={() => alertApprove()}
+            reject={() => alertReject()}
+            isApprove1={detailApp.isApprove1}
+            isRole={isRole}
           />
         )
       ) : (
@@ -437,8 +665,10 @@ const DetailApproval = ({navigation, stylePP}) => {
             noteOther={detailApp.noteOther || '-'}
             totalJamKerja={detailApp.totalJamKerja || '-'}
             namaProject={detailApp.projectId?.namaProject || '-'}
-            approve={() => sendDataApprove('1')}
-            reject={() => sendDataReject('0')}
+            approve={() => alertApprove()}
+            reject={() => alertReject()}
+            isApprove1={detailApp.isApprove1}
+            isRole={isRole}
           />
         )
       ) : (
@@ -456,8 +686,8 @@ const DetailApproval = ({navigation, stylePP}) => {
             tglKembaliKerja={detailApp.tglKembaliKerja || '-'}
             alamatCuti={detailApp.alamatCuti || '-'}
             keperluanCuti={detailApp.keperluanCuti || '-'}
-            approve={() => sendDataApprove('1')}
-            reject={() => sendDataReject('0')}
+            approve={() => alertApprove()}
+            reject={() => alertReject()}
           />
         )
       ) : (

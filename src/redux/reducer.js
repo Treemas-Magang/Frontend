@@ -90,7 +90,7 @@ const SplashReducer = (state = initialStateSplash, action) => {
 };
 const initialStateTimesheet = {
   form: {
-    note: '',
+    noteTimesheet: '',
   },
 };
 const TimesheetReducer = (state = initialStateTimesheet, action) => {
@@ -307,9 +307,11 @@ const FormClaimReducer = (state = initialStateClaim, action) => {
 const initialStateDetailApproval = {
   form: {
     noteApp1: '',
-    noteApp2: '',
     isApprove1: '',
+    noteApp2: '',
     isApprove2: '',
+    isApprove: '',
+    noteApp: '',
   },
 };
 const CatatanApprovalReducer = (state = initialStateDetailApproval, action) => {
@@ -622,8 +624,6 @@ const initialStateDetailProfile = {
     telpEmergency: '',
     nomorKtp: '',
     noNpwp: '',
-    asuransi: '',
-    kartuKeluarga: '',
   },
 };
 

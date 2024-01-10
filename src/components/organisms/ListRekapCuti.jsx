@@ -83,10 +83,10 @@ const ListRekapCuti = ({navigation}) => {
                   case null:
                     status = 'Menunggu';
                     break;
-                  case 1:
+                  case '1':
                     status = 'Disetujui';
                     break;
-                  case 0:
+                  case '0':
                     status = 'Ditolak';
                     break;
                   default:
@@ -106,7 +106,7 @@ const ListRekapCuti = ({navigation}) => {
                       jmlhCutiKhusus={cuti.jmlCutiKhusus || '-'}
                       keterangan={cuti.keperluanCuti || '-'}
                       catDisetujui={cuti.noteApp || '-'}
-                      tglDisetujui={cuti.dtmApp || '-'}
+                      tglDisetujui={cuti.dtmApp !== null ? cuti.dtmApp.split('T')[0] : '-'}
                       disetujuiOleh={cuti.usrApp || '-'}
                       status={status}
                     />

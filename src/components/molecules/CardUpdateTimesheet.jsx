@@ -36,7 +36,7 @@ const CardUpdateTimesheet = ({navigation}) => {
 
         try {
           //melakukan hit ke API untuk kirim data Absen
-          const response = await axios.post(
+          const response = await axios.put(
             API_GABUNGAN + '/api/rekap/update-timesheet?id=' + id,
             form,
             {headers},
@@ -79,7 +79,7 @@ const CardUpdateTimesheet = ({navigation}) => {
   };
 
   const sendData = () => {
-    if (form.noteTimesheet !== '') {
+    if (form.note !== '') {
       setInputKosong(false);
       kirimDataUpdateTimesheet();
       setBtnLoading(true);
@@ -134,6 +134,7 @@ const CardUpdateTimesheet = ({navigation}) => {
           style={inputKosong ? styles.fieldSalah : styles.fieldBener}
           onTextChange={value => onChangeText(value, 'noteTimesheet')}
           secureTextEntry={false}
+          maxLength={25}
         />
         {inputKosong ? (
           <View>

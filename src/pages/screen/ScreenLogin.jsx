@@ -319,13 +319,25 @@ const ScreenLogin = ({navigation}) => {
               <ButtonAction onPress={() => sendData()} title="login" />
             )}
 
-            <TouchableOpacity onPress={() => handleFingerprint()}>
-              <FontAwesomeIcon
-                icon={faFingerprint}
-                color={Color.green}
-                size={50}
-              />
-            </TouchableOpacity>
+            {formLoginFP.handsetImei === '' ||
+            formLoginFP.nama === '' ||
+            formLoginFP.password === '' ? (
+              <View>
+                <FontAwesomeIcon
+                  icon={faFingerprint}
+                  color={Color.grey}
+                  size={50}
+                />
+              </View>
+            ) : (
+              <TouchableOpacity onPress={() => handleFingerprint()}>
+                <FontAwesomeIcon
+                  icon={faFingerprint}
+                  color={Color.green}
+                  size={50}
+                />
+              </TouchableOpacity>
+            )}
           </View>
           <TouchableOpacity style={{alignItems: 'center', marginTop: 21}}>
             <Text

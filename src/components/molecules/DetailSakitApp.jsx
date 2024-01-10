@@ -37,15 +37,6 @@ const DetailSakitApp = ({
   onPress,
   image64,
 }) => {
-  let base64ImageData = null;
-  if (image64 && image64.base64 && image64.fileSize) {
-    base64ImageData = `data:image/jpeg;base64,${image64.base64}`;
-    console.log('ini file size : ', image64.fileSize);
-  } else {
-    console.log("imageData tidak ada atau tidak memiliki properti 'base64'");
-  }
-  console.log('ini base64Image : ', base64ImageData);
-
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
 

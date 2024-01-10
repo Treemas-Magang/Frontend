@@ -182,6 +182,7 @@ const FormCatatanKerjaHariini = ({navigation}) => {
         onTextChange={value => onChangeText(value, 'notePekerjaan')}
         style={inputKosong ? styles.fieldSalah : styles.fieldBener}
         secureTextEntry={false}
+        maxLength={25}
       />
       {pulangCepat ? (
         <CustomTextInput
@@ -191,6 +192,7 @@ const FormCatatanKerjaHariini = ({navigation}) => {
           onTextChange={value => onChangeText(value, 'notePlgCepat')}
           style={inputKosong ? styles.fieldSalah : styles.fieldBener}
           secureTextEntry={false}
+          maxLength={25}
         />
       ) : (
         ''

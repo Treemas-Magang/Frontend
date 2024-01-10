@@ -117,14 +117,25 @@ const DetailAbsenPulangApp = ({
           <Text style={styles.TextTitle}>Total Jam Kerja</Text>
           <Text style={styles.TextDeskripsi}>{totalJamKerja}</Text>
         </View>
-        <View style={{marginBottom: 20, marginTop: 10}}>
-          <CustomTextInputProfile
-            label="Catatan Approve"
-            value={form.noteApp}
-            multiline
-            onTextChange={value => onChangeText(value, 'noteApp')}
-          />
-        </View>
+        {isRole === 'HEAD' ? (
+          <View style={{marginBottom: 20, marginTop: 10}}>
+            <CustomTextInputProfile
+              label="Catatan Approve"
+              multiline
+              value={form.noteApp2}
+              onTextChange={value => onChangeText(value, 'noteApp2')}
+            />
+          </View>
+        ) : (
+          <View style={{marginBottom: 20, marginTop: 10}}>
+            <CustomTextInputProfile
+              label="Catatan Approve"
+              multiline
+              value={form.noteApp1}
+              onTextChange={value => onChangeText(value, 'noteApp1')}
+            />
+          </View>
+        )}
         <View style={{alignItems: 'center', marginBottom: 40}}>
           {isRole === 'HEAD' ? (
             isApprove1 ? (
@@ -150,6 +161,10 @@ const DetailAbsenPulangApp = ({
                 <Text style={styles.Text}>Belum Di Acc Leader</Text>
               </View>
             )
+          ) : isApprove1 ? (
+            <View style={styles.ButtonApp3}>
+              <Text style={styles.Text2}>Anda Sudah Melakukan Approve</Text>
+            </View>
           ) : (
             <View>
               <TouchableOpacity onPress={approve} style={styles.ButtonApprove}>
@@ -221,9 +236,26 @@ const styles = StyleSheet.create({
     color: Color.red,
     textTransform: 'uppercase',
   },
+  Text2: {
+    fontFamily: text.semiBold,
+    fontSize: 16,
+    color: Color.green,
+    textTransform: 'uppercase',
+  },
   ButtonApp2: {
     backgroundColor: 'transparent',
     borderColor: Color.red,
+    borderWidth: 2,
+    width: 269,
+    minHeight: 50,
+    borderRadius: 5,
+    marginVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  ButtonApp3: {
+    backgroundColor: 'transparent',
+    borderColor: Color.green,
     borderWidth: 2,
     width: 269,
     minHeight: 50,

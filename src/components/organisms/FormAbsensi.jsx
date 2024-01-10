@@ -314,6 +314,7 @@ const FormAbsensi = ({navigation}) => {
           secureTextEntry={false}
           value={formAbsensi.noteOther}
           onTextChange={value => onChangeText(value, 'noteOther')}
+          maxLength={25}
         />
       ) : (
         <CustomTextInput
@@ -332,6 +333,7 @@ const FormAbsensi = ({navigation}) => {
           style={inputKosong ? styles.fieldSalah : styles.fieldBener}
           textColor={inputKosong ? Color.red : Color.blue}
           onTextChange={value => onChangeText(value, 'noteTelatMsk')}
+          maxLength={25}
         />
       ) : (
         ''
