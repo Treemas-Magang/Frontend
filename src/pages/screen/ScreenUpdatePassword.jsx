@@ -31,81 +31,81 @@ const ScreenUpdatePassword = ({navigation}) => {
   const [isBtnLoading, setBtnLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-    useEffect(() => {
-      const hapusDataNikPasswordDiStorage = async () => {
-        try {
-          await AsyncStorage.removeItem('nik');
-          await AsyncStorage.removeItem('password');
-          console.log('berhasil hapus nik dan password')
+  useEffect(() => {
+    const hapusDataNikPasswordDiStorage = async () => {
+      try {
+        await AsyncStorage.removeItem('nik');
+        await AsyncStorage.removeItem('password');
+        console.log('berhasil hapus nik dan password');
       } catch (error) {
         console.log('gagal hapus storage nik, password', error);
       }
+    };
+    hapusDataNikPasswordDiStorage();
+  }, []);
+
+  const uploadData = async data => {
+    setBtnLoading(true);
+    const token = await getDataFromSession('token');
+
+    if (token !== null) {
+      const headers = {
+        Authorization: `Bearer ${token}`,
       };
-      hapusDataNikPasswordDiStorage();
-    }, []);
-
-    const uploadData = async data => {
-      setBtnLoading(true);
-      const token = await getDataFromSession('token');
-
-      if (token !== null) {
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
+      try {
+        const response = await axios.put(
+          API_GABUNGAN + '/api/auth/change-password',
+          data,
+          {headers},
+        );
+        console.log(response);
+        console.log('berhasil update password');
+        // setIsSuccess(true);
+        setBtnLoading(false);
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'login'}],
+        });
         try {
-          const response = await axios.put(
-            API_GABUNGAN + '/api/auth/change-password',
-            data,
-            {headers},
-          );
-          console.log(response);
-          console.log('berhasil update password');
-          setIsSuccess(true);
-          setBtnLoading(false);
-          navigation.reset({
-            index: 0,
-            routes: [{name: 'login'}],
-          });
-          try {
-            await AsyncStorage.removeItem('token');
-          } catch (error) {
-            console.log('gagal hapus storage token',error);
-          }
+          await AsyncStorage.removeItem('token');
         } catch (error) {
-          console.log(error.response);
-          const errorCode = error.response ? error.response.code : null;
-          switch (errorCode) {
-            case 403:
-              console.log('project tidak tepat');
-              setBtnLoading(false);
-              break;
-            case 404:
-              setBtnLoading(false);
-              break;
-            case 500:
-              setBtnLoading(false);
-              console.log('Kesalahan server');
-              break;
-            default:
-              setBtnLoading(false);
-              console.log('gagal absen');
-              break;
-          }
+          console.log('gagal hapus storage token', error);
+        }
+      } catch (error) {
+        console.log(error.response);
+        const errorCode = error.response ? error.response.code : null;
+        switch (errorCode) {
+          case 403:
+            console.log('project tidak tepat');
+            setBtnLoading(false);
+            break;
+          case 404:
+            setBtnLoading(false);
+            break;
+          case 500:
+            setBtnLoading(false);
+            console.log('Kesalahan server');
+            break;
+          default:
+            setBtnLoading(false);
+            console.log('gagal absen');
+            break;
         }
       }
-    };
+    }
+  };
   const sendData = async () => {
-    if (form.newPassword  === '' || form.confPassword === '') {
+    if (form.newPassword === '' || form.confPassword === '') {
       console.log('Harap isi semua form !!');
       setTdkCocok(false);
       setInputKosong(true);
       setPasswordKurangPanjang(false);
-    } else if (form.newPassword  !== form.confPassword) {
+    } else if (form.newPassword !== form.confPassword) {
       console.log('Konfirmasi password tidak cocok !!!');
       setTdkCocok(true);
       setInputKosong(false);
       setPasswordKurangPanjang(false);
-    } else if (form.newPassword .length < 6 && form.confPassword.length < 6) {
+    } else if (form.newPassword.length < 6 && form.confPassword.length < 6) {
       console.log('minimal password 6 karakter');
       setTdkCocok(false);
       setInputKosong(false);
@@ -117,15 +117,15 @@ const ScreenUpdatePassword = ({navigation}) => {
       console.log('data yang dikirim : ', form);
       await uploadData(form);
       setBtnLoading(true);
-      // setIsSuccess(true);
+      setIsSuccess(true);
       // navigation.replace('login');
     }
   };
+  console.log('sukses : ', isSuccess);
 
-  console.log('sukses : ', isSuccess)
-    const onChangeText = (value, inputType) => {
-      dispatch(setFormUpdatePassword(inputType, value));
-    };
+  const onChangeText = (value, inputType) => {
+    dispatch(setFormUpdatePassword(inputType, value));
+  };
   const toDashboard = () => {
     navigation.replace('dashboard');
   };
@@ -154,9 +154,9 @@ const ScreenUpdatePassword = ({navigation}) => {
           }}>
           <AlertNotificationSuccess
             buttonAlert="Ok"
-            textBodyAlert="Login Berhasil"
+            textBodyAlert="Update Berhasil"
             titleAlert="Success"
-            // onPress={toDashboard}
+            onPress={toDashboard}
           />
         </View>
       ) : (
@@ -179,13 +179,19 @@ const ScreenUpdatePassword = ({navigation}) => {
             height: hp('50%'),
           }}>
           <CustomTextInput
-            label="Password"
+            label="New Password"
             type="password"
             value={form.newPassword}
             onTextChange={value => onChangeText(value, 'newPassword')}
-            textColor={inputKosong || tdkCocok ? Color.red : Color.blue}
+            textColor={
+              inputKosong || tdkCocok || passwordKurangPanjang
+                ? Color.red
+                : Color.blue
+            }
             style={
-              inputKosong || tdkCocok ? styles.passSalah : styles.passBenar
+              inputKosong || tdkCocok || passwordKurangPanjang
+                ? styles.passSalah
+                : styles.passBenar
             }
             maxLength={10}
           />
@@ -194,9 +200,15 @@ const ScreenUpdatePassword = ({navigation}) => {
             type="password"
             value={form.confPassword}
             onTextChange={value => onChangeText(value, 'confPassword')}
-            textColor={inputKosong || tdkCocok ? Color.red : Color.blue}
+            textColor={
+              inputKosong || tdkCocok || passwordKurangPanjang
+                ? Color.red
+                : Color.blue
+            }
             style={
-              inputKosong || tdkCocok ? styles.passSalah : styles.passBenar
+              inputKosong || tdkCocok || passwordKurangPanjang
+                ? styles.passSalah
+                : styles.passBenar
             }
             maxLength={10}
           />
@@ -275,27 +287,11 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: -1,
   },
-  nikSalah: {
-    width: 275,
-    height: 50,
-    paddingHorizontal: 10,
-    borderBottomColor: Color.red,
-    borderBottomWidth: 1,
-    paddingBottom: -10,
-  },
   passSalah: {
     width: 275,
     height: 50,
     paddingHorizontal: 10,
     borderBottomColor: Color.red,
-    borderBottomWidth: 1,
-    paddingBottom: -10,
-  },
-  nikBenar: {
-    width: 275,
-    height: 50,
-    paddingHorizontal: 10,
-    borderBottomColor: Color.green,
     borderBottomWidth: 1,
     paddingBottom: -10,
   },

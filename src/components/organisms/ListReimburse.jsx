@@ -27,6 +27,7 @@ import {getDataFromSession} from '../../utils/getDataSession';
 import {API_GABUNGAN} from '@env';
 import LottieView from 'lottie-react-native';
 import SkeletonCardReimburse from '../skeleton/SkeletonCardReimburse';
+import {formatToCurrency} from '../../utils/formatToCurrency';
 
 const ListReimburse = ({navigation}) => {
   const [reimburses, setReimburses] = useState([]);
@@ -57,9 +58,9 @@ const ListReimburse = ({navigation}) => {
         API_GABUNGAN + '/api/rekap/get-itungan-reimburse',
         {headers},
       );
-      console.log(response.data.data);
+      // console.log(response.data.data);
       const dataAPI = response.data.data;
-      console.log('data reimburse : ', dataAPI);
+      console.log('data reimburse itungan : ', dataAPI);
       setItunganReimburse(dataAPI);
       setIsLoading(false);
     } catch (error) {
@@ -183,24 +184,40 @@ const ListReimburse = ({navigation}) => {
             <View style={{alignItems: 'flex-start'}}>
               <>
                 <Text style={{fontFamily: text.lightItalic}}>Reimburse </Text>
-                <Text style={styles.textValue}>Rp. 0</Text>
+                <Text style={styles.textValue}>
+                  {formatToCurrency(
+                    itunganReimburse.reimburse ? itunganReimburse.reimburse : 0,
+                  )}
+                </Text>
               </>
               <>
                 <Text style={{fontFamily: text.lightItalic}}>
                   Data + Voice{' '}
                 </Text>
-                <Text style={styles.textValue}>Rp. 150.000</Text>
+                <Text style={styles.textValue}>
+                  {formatToCurrency(
+                    itunganReimburse.dataVoice ? itunganReimburse.dataVoice : 0,
+                  )}
+                </Text>
               </>
               <>
                 <Text style={{fontFamily: text.lightItalic}}>Lain-lain </Text>
-                <Text style={styles.textValue}>Rp. 0</Text>
+                <Text style={styles.textValue}>
+                  {formatToCurrency(
+                    itunganReimburse.lainlain ? itunganReimburse.lainlain : 0,
+                  )}
+                </Text>
               </>
             </View>
             <View style={{justifyContent: 'flex-end'}}>
               <>
                 <Text style={{fontFamily: text.lightItalic}}>Total </Text>
                 <Text style={[styles.textValue, {fontSize: 16}]}>
-                  Rp. 150.000
+                  {formatToCurrency(
+                    itunganReimburse.keseluruhan
+                      ? itunganReimburse.keseluruhan
+                      : 0,
+                  )}
                 </Text>
               </>
             </View>

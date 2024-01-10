@@ -31,6 +31,7 @@ import SkeletonCardTimesheet from '../skeleton/SkeletonCardTimesheet';
 
 const ListTimesheet = ({navigation}) => {
   const [timesheet, setTimesheet] = useState([]);
+  const [itunganTimesheet, setItunganTimesheet] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Set initial loading state to true
   const getDataTimesheet = async headers => {
     try {
@@ -51,6 +52,22 @@ const ListTimesheet = ({navigation}) => {
       setIsLoading(false);
     }
   };
+  const getDataItunganTimesheet = async headers => {
+    try {
+      const response = await axios.get(
+        API_GABUNGAN + '/api/rekap/get-itungan-timesheet',
+        {headers},
+      );
+      // console.log(response.data.data);
+      const dataAPI = response.data.data;
+      console.log('data timesheet itungan : ', dataAPI);
+      setItunganTimesheet(dataAPI);
+      setIsLoading(false);
+    } catch (error) {
+      console.log('Tidak dapat mengambil data ', error.response);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     getDataFromSession('token')
@@ -59,6 +76,7 @@ const ListTimesheet = ({navigation}) => {
           Authorization: `Bearer ${token}`,
         };
         getDataTimesheet(headers);
+        getDataItunganTimesheet(headers);
       })
       .catch(error => console.log(error));
   }, []);
@@ -82,9 +100,9 @@ const ListTimesheet = ({navigation}) => {
     return formattedDate;
   };
 
-  const [totalOvertime, setTotalOvertime] = useState(0);
-  const [totalJamReguler, setTotalJamReguler] = useState(0);
-  const [totalJamKerja, setTotalJamKerja] = useState(0);
+  // const [totalOvertime, setTotalOvertime] = useState(0);
+  // const [totalJamReguler, setTotalJamReguler] = useState(0);
+  // const [totalJamKerja, setTotalJamKerja] = useState(0);
 
   // useEffect(() => {
   //   // Fungsi untuk menghitung total overtime
@@ -205,7 +223,9 @@ const ListTimesheet = ({navigation}) => {
                 <Text style={{fontFamily: text.lightItalic}}>
                   Total Jam Reguler
                 </Text>
-                <Text style={styles.textValue}>{totalJamReguler} Jam</Text>
+                <Text style={styles.textValue}>
+                  {itunganTimesheet.totalJamReguler} Jam
+                </Text>
               </>
             </View>
             <View style={{alignItems: 'center'}}>
@@ -213,14 +233,18 @@ const ListTimesheet = ({navigation}) => {
                 <Text style={{fontFamily: text.lightItalic}}>
                   Total Jam Lembur
                 </Text>
-                <Text style={styles.textValue}>{totalOvertime} Jam</Text>
+                <Text style={styles.textValue}>
+                  {itunganTimesheet.totalJamLembur} Jam
+                </Text>
               </>
             </View>
             <View style={{justifyContent: 'center'}}>
               <Text style={{fontFamily: text.boldItalic, color: Color.black}}>
                 Total Jam Kerja
               </Text>
-              <Text style={styles.textValue}>{totalJamKerja} Jam</Text>
+              <Text style={styles.textValue}>
+                {itunganTimesheet.totalJamKerja} Jam
+              </Text>
             </View>
           </View>
         </View>
