@@ -141,13 +141,13 @@ const DetailReimburse = ({navigation}) => {
             <View>
               <Text style={styles.TextTitle}>Transport</Text>
               <Text style={styles.TextDeskripsi}>
-                {formatToCurrency(dataDetailReimburse.transport) || '-'}
+                {formatToCurrency(dataDetailReimburse.transport)}
               </Text>
             </View>
             <View>
               <Text style={styles.TextTitle}>Uang Makan</Text>
               <Text style={styles.TextDeskripsi}>
-                {formatToCurrency(dataDetailReimburse.uangMakan) || '-'}
+                {formatToCurrency(dataDetailReimburse.uangMakan)}
               </Text>
             </View>
           </ScrollView>
