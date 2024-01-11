@@ -466,6 +466,7 @@ const DetailProfile = ({navigation, stylePP}) => {
                   item.lebel === 'Agama' ||
                   item.lebel === 'Asuransi' ||
                   item.lebel === 'Kartu Keluarga' ||
+                  item.lebel === 'Tanggal Lahir' ||
                   item.lebel === 'Status Perkawinan' ||
                   item.lebel === 'Jenjang Pendidikan' ||
                   item.lebel === 'Tanggal Bergabung' ? (
@@ -489,29 +490,6 @@ const DetailProfile = ({navigation, stylePP}) => {
                         )}
                       </TouchableOpacity>
                     </View>
-                  )}
-                  {item.lebel === 'Asuransi' ||
-                  item.lebel === 'Kartu Keluarga' ? (
-                    <View style={styles.wrapImage}>
-                      <TouchableOpacity
-                        onPress={() => handleButtonClick(index)}>
-                        {item.isClick ? (
-                          <FontAwesomeIcon
-                            icon={faImage}
-                            color={Color.grey}
-                            size={25}
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            icon={faImage}
-                            color={Color.green}
-                            size={25}
-                          />
-                        )}
-                      </TouchableOpacity>
-                    </View>
-                  ) : (
-                    ''
                   )}
                 </View>
               ))}

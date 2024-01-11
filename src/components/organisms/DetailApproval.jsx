@@ -199,11 +199,16 @@ const DetailApproval = ({navigation, stylePP}) => {
       } catch (error) {
         console.log(error.response);
         const errorCode = error.response ? error.response.code : null;
-        setUploadGagal(true)
+        // setUploadGagal(true);
         switch (errorCode) {
           case 403:
             console.log('project tidak tepat');
             setIsLoading(false);
+            break;
+          case 400:
+            console.log('project tidak tepat');
+            setIsLoading(false);
+            setUploadGagal(true);
             break;
           case 404:
             setIsLoading(false);
@@ -405,7 +410,7 @@ const DetailApproval = ({navigation, stylePP}) => {
 
     const toDashboard = () => {
       // navigation.replace('dashboard');
-      navigation.navigate('approval');
+      navigation.navigate('dashboard');
     };
     const close = () => {
       setUploadGagal(false);
