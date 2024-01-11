@@ -41,6 +41,7 @@ const FormCuti = ({
   styleContainerCard,
   styleInfo,
   styleTitle,
+  navigation,
 }) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.FormCutiReducer);
