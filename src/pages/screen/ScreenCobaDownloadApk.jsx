@@ -1,54 +1,26 @@
 /* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
 import {View, Button, Alert} from 'react-native';
+import axios from 'axios';
 import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob';
+import {API_GABUNGAN} from '@env';
 
 const ScreenCobaDownloadApk = () => {
-  const [apkUrl, setApkUrl] = useState(''); // State untuk menyimpan URL APK
-
+  const [apkUrl, setApkUrl] = useState('');
   const handleDownload = async () => {
-    if (!apkUrl) {
-      Alert.alert('Error', 'URL APK is not available.');
-      return;
-    }
-
     try {
-      const {config, fs} = RNFetchBlob;
-      const path = `${RNFS.DocumentDirectoryPath}/YourApp.apk`;
-
-      const res = await config({
-        fileCache: true,
-        addAndroidDownloads: {
-          useDownloadManager: true,
-          notification: true,
-          path,
-          description: 'Downloading APK',
-        },
-      }).fetch('GET', apkUrl);
-
-      console.log('Download complete:', res.path());
-      Alert.alert('Download complete!', `APK file saved to: ${res.path()}`);
+      const response = await axios.get(
+        `${API_GABUNGAN}/api/download/get-latest-version`,
+      );
+      console.log(response);
     } catch (error) {
-      console.error('Download error:', error);
-      Alert.alert('Error', 'Failed to download APK file.');
+       console.log('Tidak dapat mengambil data ', error.response);
     }
-  };
-
-  // Fungsi untuk mendapatkan URL APK dari API (asumsi menggunakan fetch)
-  const fetchApkUrlFromApi = async () => {
-    try {
-      const response = await fetch('API_ENDPOINT'); // Ganti dengan endpoint API yang benar
-      const data = await response.json();
-      setApkUrl(data.apkUrl); // Asumsi bahwa respons API berisi properti 'apkUrl'
-    } catch (error) {
-      console.error('Error fetching APK URL:', error);
-    }
-  };
+  }
 
   return (
     <View>
-      <Button title="Fetch APK URL" onPress={fetchApkUrlFromApi} />
       <Button title="Download APK" onPress={handleDownload} />
     </View>
   );

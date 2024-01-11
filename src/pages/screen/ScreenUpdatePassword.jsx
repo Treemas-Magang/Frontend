@@ -60,12 +60,8 @@ const ScreenUpdatePassword = ({navigation}) => {
         );
         console.log(response);
         console.log('berhasil update password');
-        // setIsSuccess(true);
+        setIsSuccess(true);
         setBtnLoading(false);
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'login'}],
-        });
         try {
           await AsyncStorage.removeItem('token');
         } catch (error) {
@@ -117,7 +113,7 @@ const ScreenUpdatePassword = ({navigation}) => {
       console.log('data yang dikirim : ', form);
       await uploadData(form);
       setBtnLoading(true);
-      setIsSuccess(true);
+      // setIsSuccess(true);
       // navigation.replace('login');
     }
   };
@@ -126,8 +122,11 @@ const ScreenUpdatePassword = ({navigation}) => {
   const onChangeText = (value, inputType) => {
     dispatch(setFormUpdatePassword(inputType, value));
   };
-  const toDashboard = () => {
-    navigation.replace('dashboard');
+  const toLogin = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'login'}],
+    });
   };
 
   getDataFromSession('appVersion')
@@ -156,7 +155,7 @@ const ScreenUpdatePassword = ({navigation}) => {
             buttonAlert="Ok"
             textBodyAlert="Update Berhasil"
             titleAlert="Success"
-            onPress={toDashboard}
+            onPress={toLogin}
           />
         </View>
       ) : (
