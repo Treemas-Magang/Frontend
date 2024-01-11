@@ -92,6 +92,14 @@ const ScreenDashboard = ({navigation}) => {
       }
     } catch (error) {
       console.error(error);
+      Alert.alert('Peringatan', `Token anda telah expired`, [
+        {
+          text: 'Kembali ke Login',
+          onPress: () => {
+            navigation.replace('login');
+          },
+        },
+      ]);
     }
   };
 
@@ -108,14 +116,6 @@ const ScreenDashboard = ({navigation}) => {
       dispatch(setJumlahApproval('approval', +dataAPI));
     } catch (error) {
       console.error(error);
-      Alert.alert('Peringatan', `Token anda telah expired`, [
-        {
-          text: 'Kembali ke Login',
-          onPress: () => {
-            navigation.replace('login');
-          },
-        },
-      ]);
     }
   };
 
@@ -151,54 +151,54 @@ const ScreenDashboard = ({navigation}) => {
   }, []);
 
 
-  // useEffect(() => {
-  //   // Start the background timer
-  //   if (isRole === 'EMPL') {
-  //     const timerId = BackgroundTimer.setInterval(() => {
-  //           pushNewAnnouncementNotification({navigation})
-  //             .then(() => {
-  //               console.log('Notification pushed successfully.');
-  //             })
-  //             .catch(error => {
-  //               console.error('Error pushing notification:', error);
-  //             });
-  //     }, 10000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
-  //     return () => {
-  //       BackgroundTimer.clearInterval(timerId);
-  //     };
-  //   } else {
-  //           const timerId = BackgroundTimer.setInterval(() => {
-  //             pushNewAnnouncementNotification({navigation})
-  //               .then(() => {
-  //                 console.log('Notification pushed successfully.');
-  //               })
-  //               .catch(error => {
-  //                 console.error('Error pushing notification:', error);
-  //               });
-  //             pushNewApprovalNotification({navigation})
-  //               .then(() => {
-  //                 console.log('Notification pushed successfully.');
-  //               })
-  //               .catch(error => {
-  //                 console.error('Error pushing notification:', error);
-  //               });
-  //           }, 10000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
-  //           return () => {
-  //             BackgroundTimer.clearInterval(timerId);
-  //           };
-  //   }
+  useEffect(() => {
+    // Start the background timer
+    if (isRole === 'EMPL') {
+      const timerId = BackgroundTimer.setInterval(() => {
+            pushNewAnnouncementNotification({navigation})
+              .then(() => {
+                console.log('Notification pushed successfully.');
+              })
+              .catch(error => {
+                console.error('Error pushing notification:', error);
+              });
+      }, 10000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
+      return () => {
+        BackgroundTimer.clearInterval(timerId);
+      };
+    } else {
+            const timerId = BackgroundTimer.setInterval(() => {
+              pushNewAnnouncementNotification({navigation})
+                .then(() => {
+                  console.log('Notification pushed successfully.');
+                })
+                .catch(error => {
+                  console.error('Error pushing notification:', error);
+                });
+              pushNewApprovalNotification({navigation})
+                .then(() => {
+                  console.log('Notification pushed successfully.');
+                })
+                .catch(error => {
+                  console.error('Error pushing notification:', error);
+                });
+            }, 10000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
+            return () => {
+              BackgroundTimer.clearInterval(timerId);
+            };
+    }
 
-  //   // Clean up the timer when the component unmounts
-  // }, [navigation, isRole]); // Run this effect whenever the navigation object changes
+    // Clean up the timer when the component unmounts
+  }, [navigation, isRole]); // Run this effect whenever the navigation object changes
 
-  // useEffect(() => {
-  //   const timerId = BackgroundTimer.setInterval(() => {
-  //           kirimLokasiTracking();
-  //           }, 60000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
-  //           return () => {
-  //             BackgroundTimer.clearInterval(timerId);
-  //           };
-  // }, []);
+  useEffect(() => {
+    const timerId = BackgroundTimer.setInterval(() => {
+            kirimLokasiTracking();
+            }, 60000); // Set the interval to your desired time in milliseconds (e.g., every 10 seconds)
+            return () => {
+              BackgroundTimer.clearInterval(timerId);
+            };
+  }, []);
 
   // Mendapatkan semua kunci dari AsyncStorage
 
