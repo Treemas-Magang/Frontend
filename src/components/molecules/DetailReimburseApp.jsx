@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {text} from '../../utils/text';
 import {Color} from '../../utils/color';
 import {
@@ -16,7 +16,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
 
 const DetailReimburseApp = ({
   nik,
@@ -121,6 +121,7 @@ const DetailReimburseApp = ({
               multiline
               value={form.noteApp2}
               onTextChange={value => onChangeText(value, 'noteApp2')}
+              maxLength={50}
             />
           </View>
         ) : (
@@ -130,6 +131,7 @@ const DetailReimburseApp = ({
               multiline
               value={form.noteApp1}
               onTextChange={value => onChangeText(value, 'noteApp1')}
+              maxLength={50}
             />
           </View>
         )}
@@ -238,6 +240,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Color.green,
     textTransform: 'uppercase',
+    textAlign: 'center',
   },
   ButtonApp2: {
     backgroundColor: 'transparent',

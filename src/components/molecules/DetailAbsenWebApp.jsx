@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -16,7 +16,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
 
 const DetailAbsenWebApp = ({
   nik,
@@ -42,14 +42,14 @@ const DetailAbsenWebApp = ({
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
   const [isRole, setIsRole] = useState('');
-    useEffect(() => {
-      getDataFromSession('dataProfilUser')
-        .then(data => {
-          const dataProfile = JSON.parse(data);
-          setIsRole(dataProfile.role);
-        })
-        .catch(error => console.log(error));
-    }, []);
+  useEffect(() => {
+    getDataFromSession('dataProfilUser')
+      .then(data => {
+        const dataProfile = JSON.parse(data);
+        setIsRole(dataProfile.role);
+      })
+      .catch(error => console.log(error));
+  }, []);
 
   const onChangeText = (value, inputType) => {
     dispatch(setFormApproval(inputType, value));
@@ -134,6 +134,7 @@ const DetailAbsenWebApp = ({
               multiline
               value={form.noteApp2}
               onTextChange={value => onChangeText(value, 'noteApp2')}
+              maxLength={50}
             />
           </View>
         ) : (
@@ -143,6 +144,7 @@ const DetailAbsenWebApp = ({
               multiline
               value={form.noteApp1}
               onTextChange={value => onChangeText(value, 'noteApp1')}
+              maxLength={50}
             />
           </View>
         )}
@@ -251,6 +253,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Color.green,
     textTransform: 'uppercase',
+    textAlign: 'center',
   },
   ButtonApp2: {
     backgroundColor: 'transparent',

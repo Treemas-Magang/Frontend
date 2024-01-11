@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {text} from '../../utils/text';
 import {Color} from '../../utils/color';
 import {
@@ -16,7 +16,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
 
 const DetailLemburApp = ({
   nik,
@@ -32,7 +32,7 @@ const DetailLemburApp = ({
   approve,
   reject,
   isApprove1,
-  isRole
+  isRole,
 }) => {
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
@@ -93,6 +93,7 @@ const DetailLemburApp = ({
             value={form.noteApp}
             multiline
             onTextChange={value => onChangeText(value, 'noteApp')}
+            maxLength={50}
           />
         </View>
         <View style={{alignItems: 'center', marginBottom: 40}}>

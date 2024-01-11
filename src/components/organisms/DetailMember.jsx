@@ -36,6 +36,12 @@ const DetailMember = ({navigation, stylePP}) => {
   const [alamatMsk, setAlamatMsk] = useState('');
   const [alamatPlg, setAlamatPlg] = useState('');
   const [markers, setMarkers] = useState([]);
+    const base64 = `data:image/jpeg;base64,${dataDetailMember?.absenImg}`;
+    const potoKaryawan = `data:image/jpeg;base64,${dataDetailMember?.pp}`;
+
+    const moveToPreview = () => {
+      navigation.navigate('previewPhoto', {photo: base64});
+    };
 
   useEffect(() => {
     const {absenTrackingData} = dataDetailMember;
@@ -124,7 +130,7 @@ const DetailMember = ({navigation, stylePP}) => {
         API_GABUNGAN + `/api/member/get-data-absen?nik=${nikMember}`,
         {headers},
       );
-      console.log('asu : ', response.data.data);
+      console.log('detail member : ', response.data.data);
       const dataAPI = response.data.data;
       setDataDetailMember(dataAPI);
       setIsLoading(false);
@@ -233,13 +239,30 @@ const DetailMember = ({navigation, stylePP}) => {
         <View style={styles.backgroundDetailMember}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{alignItems: 'center'}}>
-              <View>
+              {dataDetailMember.pp !== null ? (
+                <View>
+                  <Image
+                    source={{uri: potoKaryawan}}
+                    style={[styles.pp, stylePP]}
+                    resizeMode="contain"
+                  />
+                </View>
+              ) : (
+                <View>
+                  <Image
+                    source={require('../../assets/vector/user.png')}
+                    style={[styles.pp, stylePP]}
+                    resizeMode="contain"
+                  />
+                </View>
+              )}
+              {/* <View>
                 <Image
                   source={require('../../assets/vector/user.png')}
                   style={[styles.pp, stylePP]}
                   resizeMode="contain"
                 />
-              </View>
+              </View> */}
             </View>
             <View
               style={{
@@ -260,7 +283,7 @@ const DetailMember = ({navigation, stylePP}) => {
                 </TouchableOpacity>
               )}
               {isWFH ? (
-                <TouchableOpacity>
+                <TouchableOpacity onPress={moveToPreview}>
                   <FontAwesomeIcon
                     icon={faImage}
                     color={Color.green}
@@ -292,7 +315,9 @@ const DetailMember = ({navigation, stylePP}) => {
             <View>
               <Text style={styles.TextTitle}>Jam Masuk</Text>
               <Text style={styles.TextDeskripsi}>
-                {dataDetailMember.absenTrackingData?.jamMsk || '-'}
+                {dataDetailMember.absenTrackingData?.jamMsk
+                  ? dataDetailMember.absenTrackingData?.jamMsk.substring(0, 5)
+                  : '-'}
               </Text>
             </View>
             <View>
@@ -317,7 +342,10 @@ const DetailMember = ({navigation, stylePP}) => {
               <Text style={styles.TextDeskripsi}>
                 {dataDetailMember.absenTrackingData?.jamPlg === null
                   ? 'Belum Absen Keluar'
-                  : dataDetailMember.absenTrackingData?.jamPlg || '-'}
+                  : dataDetailMember.absenTrackingData?.jamPlg.substring(
+                      0,
+                      5,
+                    ) || '-'}
               </Text>
             </View>
             <View>
@@ -383,5 +411,8 @@ const styles = StyleSheet.create({
   TextDeskripsi: {
     fontFamily: text.light,
     marginVertical: 2,
+  },
+  pp: {
+    borderRadius: 200,
   },
 });

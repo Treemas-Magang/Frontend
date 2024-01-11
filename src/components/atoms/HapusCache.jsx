@@ -8,7 +8,7 @@ import {
   getToken,
 } from '../../utils/buatStatusPengumumanFalse';
 import {useDispatch} from 'react-redux';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faAnglesLeft, faBroom} from '@fortawesome/free-solid-svg-icons';
 import {setJumlahPengumuman} from '../../redux';
@@ -25,6 +25,26 @@ const HapusChace = ({navigation, style, posisiLogout}) => {
   const lebarCachce = {lebarAwal: 43, lebarAkhir: 133};
 
   const dispatch = useDispatch();
+  const handleButton = () => {
+    Alert.alert(
+      'Clear Cache',
+      'Apa anda yakin ingin Clear Cache ?',
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            clearAllData();
+          },
+        },
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
+  };
   const clearAllData = async () => {
     try {
       // Kunci yang ingin dihapus
@@ -86,7 +106,7 @@ const HapusChace = ({navigation, style, posisiLogout}) => {
             {!isOpenCache ? (
               ''
             ) : (
-              <TouchableOpacity onPress={clearAllData}>
+              <TouchableOpacity onPress={handleButton}>
                 <View
                   style={{
                     alignItems: 'center',

@@ -239,6 +239,10 @@ const FormClaim = ({navigation}) => {
   };
 
   const close = async () => {
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'dashboard'}],
+    });
     setUploadBerhasil(false);
     setShowErrorAlert(false);
   };

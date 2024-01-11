@@ -39,7 +39,6 @@ const DetailLiburApp = ({
   const dispatch = useDispatch();
   const {form} = useSelector(state => state.CatatanApprovalReducer);
 
-
   const onChangeText = (value, inputType) => {
     dispatch(setFormApproval(inputType, value));
   };
@@ -110,6 +109,7 @@ const DetailLiburApp = ({
               multiline
               value={form.noteApp2}
               onTextChange={value => onChangeText(value, 'noteApp2')}
+              maxLength={50}
             />
           </View>
         ) : (
@@ -119,6 +119,7 @@ const DetailLiburApp = ({
               multiline
               value={form.noteApp1}
               onTextChange={value => onChangeText(value, 'noteApp1')}
+              maxLength={50}
             />
           </View>
         )}
@@ -217,6 +218,7 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     fontSize: 16,
     color: Color.red,
+    textAlign: 'center',
   },
   ButtonApp2: {
     backgroundColor: 'transparent',

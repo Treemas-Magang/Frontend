@@ -319,6 +319,10 @@ const FormCuti = ({
   }, [statistik]);
 
   const close = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'dashboard'}],
+    });
     setUploadBerhasil(false);
     setBtnLoading(false);
   };

@@ -119,6 +119,7 @@ const DetailSakitApp = ({
             value={form.noteApp}
             multiline
             onTextChange={value => onChangeText(value, 'noteApp')}
+            maxLength={50}
           />
         </View>
         <View style={{alignItems: 'center', marginBottom: 40}}>
