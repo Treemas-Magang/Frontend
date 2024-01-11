@@ -99,7 +99,7 @@ const ListRekapClaim = ({navigation}) => {
                   <CardRekapClaim
                     navigation={navigation}
                     tanggal={formatDate(claim.tanggal) || '-'}
-                    type={claim.tipeClaimEntity.namaClaim || '-'}
+                    type={claim.tipeClaimEntity?.keterangan || '-'}
                     keterangan={claim.keterangan || '-'}
                     nominal={claim.nominal || '-'}
                     image64={claim.gambarnya}

@@ -253,6 +253,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Color.green,
     textTransform: 'uppercase',
+    textAlign: 'center',
   },
   ButtonApp2: {
     backgroundColor: 'transparent',

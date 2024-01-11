@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
     fontFamily: text.semiBold,
     fontSize: 16,
     color: Color.red,
+    textAlign: 'center',
   },
   ButtonApp2: {
     backgroundColor: 'transparent',

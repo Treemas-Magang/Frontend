@@ -258,6 +258,10 @@ const FormSakit = ({navigation}) => {
     navigation.navigate('previewPhoto', {photo: base64ImageData});
   };
   const close = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'dashboard'}],
+    });
     setUploadBerhasil(false);
     // setShowErrorAlert(false);
   };
