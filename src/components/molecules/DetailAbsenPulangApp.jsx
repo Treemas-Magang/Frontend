@@ -124,6 +124,7 @@ const DetailAbsenPulangApp = ({
               multiline
               value={form.noteApp2}
               onTextChange={value => onChangeText(value, 'noteApp2')}
+              maxLength={50}
             />
           </View>
         ) : (
@@ -133,6 +134,7 @@ const DetailAbsenPulangApp = ({
               multiline
               value={form.noteApp1}
               onTextChange={value => onChangeText(value, 'noteApp1')}
+              maxLength={50}
             />
           </View>
         )}

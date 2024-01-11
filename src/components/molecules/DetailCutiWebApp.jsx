@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -16,7 +16,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {setFormApproval} from '../../redux';
 import CustomTextInputProfile from '../atoms/CustomTextInpuProfile';
-import { getDataFromSession } from '../../utils/getDataSession';
+import {getDataFromSession} from '../../utils/getDataSession';
 
 const DetailCutiWebApp = ({
   nik,
@@ -43,7 +43,6 @@ const DetailCutiWebApp = ({
       })
       .catch(error => console.log(error));
   }, []);
-
 
   return (
     <View style={styles.background}>
@@ -83,6 +82,7 @@ const DetailCutiWebApp = ({
             value={form.noteApp}
             multiline
             onTextChange={value => onChangeText(value, 'noteApp')}
+            maxLength={50}
           />
         </View>
         <View style={{alignItems: 'center', marginBottom: 40}}>
