@@ -51,14 +51,14 @@ const CardMember = ({
           <Text style={styles.labelData}>Jam Masuk</Text>
           <Text style={styles.titikDua}>:</Text>
           <Text style={styles.data}>
-            {jamMsk !== null ? jamMsk : 'Belum Absen Masuk'}
+            {jamMsk !== null ? jamMsk.substring(0, 5) : 'Belum Absen Masuk'}
           </Text>
         </View>
         <View style={styles.wrapData}>
           <Text style={styles.labelData}>Jam Pulang</Text>
           <Text style={styles.titikDua}>:</Text>
           <Text style={styles.data}>
-            {jamPlg !== null ? jamPlg : 'Belum Absen Pulang'}
+            {jamPlg !== null ? jamPlg.substring(0, 5) : 'Belum Absen Pulang'}
           </Text>
         </View>
       </View>
